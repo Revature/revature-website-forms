@@ -1,0 +1,759 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Full Name -->
+    <legend class="form-label">Full Name</legend>
+    <div class="two-grid-container">
+        <fieldset class="form-fieldset">
+            <input class="form-field common-field" type="text" formControlName="firstName" placeholder="First Name">
+            <span class="b2c-error-message common-error-message"
+                *ngIf="form.get('firstName')?.invalid && form.get('firstName')?.touched">
+                First Name is required
+            </span>
+        </fieldset>
+        <fieldset class="form-fieldset">
+            <input class="form-field common-field" type="text" formControlName="lastName" placeholder="Last Name">
+            <span class="b2c-error-message common-error-message"
+                *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched">
+                Last Name is required
+            </span>
+        </fieldset>
+    </div>
+
+    <!-- Contact Information -->
+    <legend class="form-label">Contact Information</legend>
+    <div class="two-grid-container">
+        <fieldset class="form-fieldset">
+            <input class="form-field common-field" type="email" formControlName="email" placeholder="Email Address">
+            <span class="b2c-error-message common-error-message"
+                *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+                <span *ngIf="form.get('email')?.errors?.['required']">
+                    Email is required.
+                </span>
+                <span *ngIf="form.get('email')?.errors?.['invalidEmail']">
+                    Invalid email address
+                </span>
+            </span>
+        </fieldset>
+        <fieldset class="form-fieldset">
+            <input class="form-field common-field" type="tel" formControlName="phone" placeholder="Phone Number"
+                maxlength="14" minlength="13">
+            <span class="b2c-error-message common-error-message"
+                *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched">
+                <span *ngIf="form.get('phone')?.errors?.['required']">
+                    Phone is required.
+                </span>
+                <span *ngIf="form.get('phone')?.errors?.['invalidPhone']">
+                    Phone number is not valid
+                </span>
+            </span>
+        </fieldset>
+    </div>
+
+    <!-- Country -->
+    <fieldset class="one-grid-container">
+        <legend class="form-label">Country</legend>
+        <select class="form-field common-field" formControlName="country">
+            <option value="" disabled selected>Select Country</option>
+            <option value="United States">United States</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Canada">Canada</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="India">India</option>
+        </select>
+        <span class="b2c-error-message common-error-message"
+            *ngIf="form.get('country')?.invalid && form.get('country')?.touched">
+            Country is required
+        </span>
+    </fieldset>
+
+    <!-- Location Fields (Dynamic based on country selection) -->
+    <div id="locationFields" *ngIf="form.get('country')?.value">
+        <ng-container *ngIf="form.get('country')?.value === 'United States'">
+            <span class="one-grid-container">
+                <fieldset class="form-fieldset">
+                    <legend class="form-label">Location</legend>
+                    <input class="form-field location-field common-field" type="text" formControlName="city" placeholder="City">
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('city')?.invalid && form.get('city')?.touched">
+                        City is required
+                    </span>
+                </fieldset>
+            </span>
+            <div class="two-grid-container">
+                <fieldset class="form-fieldset">
+                    <select class="form-field location-field common-field" formControlName="state">
+                        <option value="" disabled selected>State</option>
+                        <option value="Alabama">AL</option>
+                        <option value="Alaska">AK</option>
+                        <option value="Arizona">AZ</option>
+                        <option value="Arkansas">AR</option>
+                        <option value="California">CA</option>
+                        <option value="Colorado">CO</option>
+                        <option value="Connecticut">CT</option>
+                        <option value="Delaware">DE</option>
+                        <option value="District of Columbia">DC</option>
+                        <option value="Florida">FL</option>
+                        <option value="Georgia">GA</option>
+                        <option value="Hawaii">HI</option>
+                        <option value="Idaho">ID</option>
+                        <option value="Illinois">IL</option>
+                        <option value="Indiana">IN</option>
+                        <option value="Iowa">IA</option>
+                        <option value="Kansas">KS</option>
+                        <option value="Kentucky">KY</option>
+                        <option value="Louisiana">LA</option>
+                        <option value="Maine">ME</option>
+                        <option value="Maryland">MD</option>
+                        <option value="Massachusetts">MA</option>
+                        <option value="Michigan">MI</option>
+                        <option value="Minnesota">MN</option>
+                        <option value="Mississippi">MS</option>
+                        <option value="Missouri">MO</option>
+                        <option value="Montana">MT</option>
+                        <option value="Nebraska">NE</option>
+                        <option value="Nevada">NV</option>
+                        <option value="New Hampshire">NH</option>
+                        <option value="New Jersey">NJ</option>
+                        <option value="New Mexico">NM</option>
+                        <option value="New York">NY</option>
+                        <option value="North Carolina">NC</option>
+                        <option value="North Dakota">ND</option>
+                        <option value="Ohio">OH</option>
+                        <option value="Oklahoma">OK</option>
+                        <option value="Oregon">OR</option>
+                        <option value="Pennsylvania">PA</option>
+                        <option value="Puerto Rico">PR</option>
+                        <option value="Rhode Island">RI</option>
+                        <option value="South Carolina">SC</option>
+                        <option value="South Dakota">SD</option>
+                        <option value="Tennessee">TN</option>
+                        <option value="Texas">TX</option>
+                        <option value="Utah">UT</option>
+                        <option value="Vermont">VT</option>
+                        <option value="Virginia">VA</option>
+                        <option value="Washington">WA</option>
+                        <option value="West Virginia">WV</option>
+                        <option value="Wisconsin">WI</option>
+                        <option value="Wyoming">WY</option>
+                    </select>
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('state')?.invalid && form.get('state')?.touched">
+                        State is required
+                    </span>
+                </fieldset>
+                <fieldset class="form-fieldset">
+                    <input class="form-field location-field common-field" type="text" formControlName="zip" placeholder="ZIP"
+                        maxlength="5">
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('zip')?.invalid && form.get('zip')?.touched">
+                        <span *ngIf="form.get('zip')?.errors?.['required']">
+                            ZIP code is required.
+                          </span>
+                          <span *ngIf="form.get('zip')?.errors?.['minlength']">
+                            ZIP code needs to be 5 digits.
+                          </span>
+                          <span *ngIf="form.get('zip')?.errors?.['pattern']">
+                            ZIP must be a number.
+                          </span>
+                    </span>
+                </fieldset>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="form.get('country')?.value === 'Mexico'">
+            <span class="one-grid-container">
+                <fieldset class="form-fieldset">
+                    <legend class="form-label">Location</legend>
+                    <input class="form-field location-field common-field" type="text" formControlName="city" placeholder="City">
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('city')?.invalid && form.get('city')?.touched">
+                        City is required
+                    </span>
+                </fieldset>
+            </span>
+            <div class="two-grid-container">
+                <fieldset class="form-fieldset">
+                    <select class="form-field location-field common-field" formControlName="state">
+                        <option value="" disabled selected>State</option>
+                        <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+                    </select>
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('state')?.invalid && form.get('state')?.touched">
+                        State is required
+                    </span>
+                </fieldset>
+                <fieldset class="form-fieldset">
+                    <input class="form-field location-field common-field" type="text" formControlName="zip" placeholder="Postal Code"
+                        maxlength="5">
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('zip')?.invalid && form.get('zip')?.touched">
+                        <span *ngIf="form.get('zip')?.errors?.['required']">
+                            Postal Code code is required.
+                          </span>
+                          <span *ngIf="form.get('zip')?.errors?.['minlength']">
+                            Postal Code code needs to be 5 digits.
+                          </span>
+                          <span *ngIf="form.get('zip')?.errors?.['pattern']">
+                            Postal Code must be a number.
+                          </span>
+                    </span>
+                </fieldset>
+            </div>
+        </ng-container>
+        
+        <ng-container *ngIf="form.get('country')?.value === 'Canada'">
+            <legend class="form-label">Location</legend>
+            <div class="two-grid-container">
+                <fieldset class="form-fieldset">
+                    <select class="form-field location-field common-field" formControlName="canadaState">
+                        <option value="" disabled selected>Province</option>
+                        <option value="Alberta">Alberta</option>
+                        <option value="British Columbia">British Columbia</option>
+                        <option value="Manitoba">Manitoba</option>
+                        <option value="New Brunswick">New Brunswick</option>
+                        <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+                        <option value="Northwest Territories">Northwest Territories</option>
+                        <option value="Nova Scotia">Nova Scotia</option>
+                        <option value="Nunavut">Nunavut</option>
+                        <option value="Ontario">Ontario</option>
+                        <option value="Prince Edward Island">Prince Edward Island</option>
+                        <option value="Quebec">Quebec</option>
+                        <option value="Saskatchewan">Saskatchewan</option>
+                        <option value="Yukon">Yukon</option>
+                    </select>
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('canadaState')?.invalid && form.get('canadaState')?.touched">
+                        Province is required
+                    </span>
+                </fieldset>
+                <fieldset class="form-fieldset">
+                    <input class="form-field location-field common-field" type="text" formControlName="canadaZip" placeholder="ZIP"
+                        maxlength="6">
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('canadaZip')?.invalid && form.get('canadaZip')?.touched">
+                        <span *ngIf="form.get('canadaZip')?.errors?.['required']">
+                            ZIP code is required.
+                        </span>
+                        <span *ngIf="form.get('canadaZip')?.errors?.['minlength']">
+                            ZIP code needs to be 6 digits.
+                        </span>
+                        <span *ngIf="form.get('canadaZip')?.errors?.['pattern']">
+                            ZIP must be a number.
+                        </span>
+                    </span>
+                </fieldset>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="form.get('country')?.value === 'United Kingdom'">
+            <legend class="form-label">Location</legend>
+            <div class="two-grid-container">
+                <fieldset class="form-fieldset">
+                    <input class="form-field location-field common-field" type="text" formControlName="city"
+                        placeholder="City/Town">
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('city')?.invalid && form.get('city')?.touched">
+                        City is required
+                    </span>
+                </fieldset>
+                <fieldset class="form-fieldset">
+                    <input class="form-field location-field common-field" type="text" formControlName="ukZip" placeholder="Zip/Postcode"
+                        maxlength="7">
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('ukZip')?.invalid && form.get('ukZip')?.touched">
+                        <span *ngIf="form.get('ukZip')?.errors?.['required']">
+                            ZIP code is required.
+                        </span>
+                        <span *ngIf="form.get('ukZip')?.errors?.['minlength']">
+                            ZIP code needs to be 7 digits.
+                        </span>
+                        <span *ngIf="form.get('ukZip')?.errors?.['pattern']">
+                            ZIP must be a number.
+                        </span>
+                    </span>
+                </fieldset>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="form.get('country')?.value === 'India'">
+            <div class="one-grid-container">
+                <fieldset class="form-fieldset">
+                    <legend class="form-label">Location</legend>
+                    <select class="form-field location-field common-field" formControlName="state">
+                        <option value="" disabled selected>State</option>
+                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Daman and Diu">Daman and Diu</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Puducherry">Puducherry</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                    </select>
+                    <span class="b2c-error-message location-error-message common-error-message"
+                        *ngIf="form.get('state')?.invalid && form.get('state')?.touched">
+                        State is required
+                    </span>
+                </fieldset>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- Current Student -->
+    <fieldset id="currentStudentRadioButtons" class="two-grid-container">
+        <legend class="form-label">Are You Currently a Student?</legend>
+        <div class="custom-radio">
+            <input type="radio" formControlName="currentStudent" value="no" id="no">
+            <label for="no">No</label>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" formControlName="currentStudent" value="yes" id="yes">
+            <label for="yes">Yes</label>
+        </div>
+        <span class="b2c-error-message"
+            *ngIf="form.get('currentStudent')?.invalid && form.get('currentStudent')?.touched">
+            Please select an option
+        </span>
+    </fieldset>
+
+    <!-- Education Fields (Dynamic based on country and current student selection) -->
+    <div id="educationFields" *ngIf="form.get('currentStudent')?.value">
+        <!-- United States -->
+        <ng-container *ngIf="form.get('country')?.value === 'United States' || form.get('country')?.value === 'Mexico'">
+            <legend class="form-label">{{ form.get('currentStudent')?.value === 'yes' ? 'Degree Expected' : 'Highest Degree Achieved' }}</legend>
+            <fieldset class="two-grid-container">
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="High School" id="highSchool">
+                    <label for="highSchool">High School{{form.value.country === 'Mexico'?"/Bachillerato":''}}</label>
+                </div>
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="Associate's Degree"
+                        id="associatesDegree">
+                    <label for="associatesDegree">Associate's Degree{{form.value.country === 'Mexico'?"/TSU":''}}</label>
+                </div>
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="Bachelor's Degree"
+                        id="bachelorsDegree">
+                    <label for="bachelorsDegree">Bachelor's Degree{{form.value.country === 'Mexico'?"/Licenciatura":''}}</label>
+                </div>
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="Master's Degree" id="mastersDegree">
+                    <label for="mastersDegree">Master's Degree{{form.value.country === 'Mexico'?"/Maestría":''}}</label>
+                </div>
+                <span class="b2c-error-message"
+                    *ngIf="form.get('levelOfEducation')?.invalid && form.get('levelOfEducation')?.touched">
+                    Please select an option
+                </span>
+            </fieldset>
+
+            <!-- Major Field -->
+            <fieldset class="one-grid-container">
+                <legend class="form-label">Major</legend>
+                <div class="autocomplete-container">
+                    <input class="form-field educationFields-field common-field" formControlName="major" type="text" placeholder="Major" 
+                    (input)="filterMajors($event)" (focus)="this.focusedControl['major'] = true" (blur)="setFocusedControl($event,'major',false)" />
+                    <div class="autocomplete-items" *ngIf="focusedControl.major">
+                        <div *ngFor="let major of filteredMajors" (mousedown)="selectAutoCompleteValue($event,'major', major)" 
+                        class="autocomplete-item">
+                            {{ major.label }}
+                        </div>
+                    </div>
+                </div>
+                <span class="b2c-error-message educationFields-error-message common-error-message"
+                    *ngIf="form.get('major')?.invalid && form.get('major')?.touched">
+                    Major is required
+                </span>
+            </fieldset>
+
+            <!-- School Field -->
+            <fieldset class="one-grid-container">
+                <legend class="form-label">School</legend>
+                <div class="autocomplete-container">
+                    <input class="form-field educationFields-field common-field" formControlName="school" type="text"
+                        placeholder="School" (input)="filterSchools($event)" placeholder="School"
+                        (focus)="this.focusedControl['school'] = true" (blur)="setFocusedControl($event,'school',false)"/>
+                    <div class="autocomplete-items" *ngIf="focusedControl.school">
+                        <div *ngFor="let school of filteredSchools" (mousedown)="selectAutoCompleteValue($event,'school',school)" class="autocomplete-item">
+                            {{ school.label }}
+                        </div>
+                    </div>
+                </div>
+                <span class="b2c-error-message educationFields-error-message common-error-message"
+                    *ngIf="form.get('school')?.invalid && form.get('school')?.touched">
+                    School is required
+                </span>
+            </fieldset>
+        </ng-container>
+
+        <!-- Canada -->
+        <ng-container *ngIf="!form.get('country')?.value || form.get('country')?.value === 'Canada'">
+            <legend class="form-label">{{ form.get('currentStudent')?.value === 'yes' ? 'Degree Expected' : 'Highest Degree Achieved' }}</legend>
+            <fieldset class="two-grid-container">
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="High School" id="highSchool">
+                    <label for="highSchool">High School</label>
+                </div>
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="Associate's Degree"
+                        id="associatesDegree">
+                    <label for="associatesDegree">Associate's Degree</label>
+                </div>
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="3-Year Bachelor's Degree"
+                        id="threeYearBachelor">
+                    <label for="threeYearBachelor">3-Year Bachelor's Degree</label>
+                </div>
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="4-Year Bachelor's Degree"
+                        id="fourYearBachelor">
+                    <label for="fourYearBachelor">4-Year Bachelor's Degree</label>
+                </div>
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="Master's Degree" id="mastersDegree">
+                    <label for="mastersDegree">Master's Degree</label>
+                </div>
+                <span class="b2c-error-message"
+                    *ngIf="form.get('levelOfEducation')?.invalid && form.get('levelOfEducation')?.touched">
+                    Please select an option
+                </span>
+            </fieldset>
+        </ng-container>
+
+        <!-- United Kingdom -->
+        <ng-container *ngIf="form.get('country')?.value === 'United Kingdom'">
+            <legend class="form-label">{{ form.get('currentStudent')?.value === 'yes' ? 'Degree Expected' : 'Highest Degree Achieved' }}</legend>
+            <fieldset class="two-grid-container">
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="High School" id="secondarySchool">
+                    <label for="secondarySchool">Secondary School</label>
+                </div>
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="Bachelor's Degree"
+                        id="bachelorsDegree">
+                    <label for="bachelorsDegree">BA/BSc</label>
+                </div>
+                <div class="custom-radio">
+                    <input type="radio" formControlName="levelOfEducation" value="Master's Degree" id="mastersDegree">
+                    <label for="mastersDegree">MA/MLitt/MSc</label>
+                </div>
+                <span class="b2c-error-message"
+                    *ngIf="form.get('levelOfEducation')?.invalid && form.get('levelOfEducation')?.touched">
+                    Please select an option
+                </span>
+            </fieldset>
+        </ng-container>
+
+        <!-- India -->
+        <ng-container *ngIf="form.get('country')?.value === 'India'">
+            <legend class="form-label">{{ form.get('currentStudent')?.value === 'yes' ? 'Degree Expected' : 'Highest Degree Achieved' }}</legend>
+            <div class="two-grid-container">
+                <fieldset class="form-fieldset">
+                    <select class="form-field educationFields-field common-field" formControlName="levelOfEducation">
+                        <option value="" disabled selected></option>
+                        <option value="Bachelor's Degree">Bachelor of Science</option>
+                        <option value="Bachelor's Degree_2">Bachelor of Engineering</option>
+                        <option value="Bachelor's Degree_3">Bachelor of Technology</option>
+                        <option value="Master's Degree">Master of Science</option>
+                        <option value="Master's Degree_2">Master of Engineering</option>
+                        <option value="Master's Degree_3">Master of Technology</option>
+                        <option value="Master's Degree_4">Master of Computer Application</option>
+                        <option value="High School">Other</option>
+                    </select>
+                    <span class="b2c-error-message educationFields-error-message common-error-message"
+                        *ngIf="form.get('levelOfEducation')?.invalid && form.get('levelOfEducation')?.touched">
+                        Degree is required
+                    </span>
+                </fieldset>
+
+                <fieldset class="form-fieldset">
+                    <select class="form-field educationFields-field common-field" formControlName="branch">
+                        <option value="" disabled selected></option>
+                        <option *ngFor="let branch of branches" [value]="branch.value">
+                            {{ branch.label }}
+                        </option>
+                    </select>
+                    <span class="b2c-error-message educationFields-error-message common-error-message"
+                        *ngIf="form.get('branch')?.invalid && form.get('branch')?.touched">
+                        Branch is required
+                    </span>
+                </fieldset>
+            </div>
+        </ng-container>
+
+        <!-- Graduation Date Fields (for current students) -->
+        <ng-container
+            *ngIf="form.get('currentStudent')?.value === 'yes' || (form.get('currentStudent')?.value && form.get('country')?.value === 'India')">
+            <legend class="form-label">{{ form.get('currentStudent')?.value === 'yes' ? 'Expected Graduation Date' :
+                'Graduation Date' }}</legend>
+            <div class="two-grid-container">
+                <fieldset class="form-fieldset">
+                    <select class="form-field educationFields-field common-field" formControlName="graduationMonth">
+                        <option value="" disabled selected>Select a month</option>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <span class="b2c-error-message educationFields-error-message common-error-message"
+                        *ngIf="form.get('graduationMonth')?.invalid && form.get('graduationMonth')?.touched">
+                        Graduation Month is required
+                    </span>
+                </fieldset>
+
+                <fieldset class="form-fieldset">
+                    <select class="form-field educationFields-field common-field" formControlName="graduationYear">
+                        <option value="" disabled selected>Select a year</option>
+                        <option *ngFor="let year of graduationYears" [value]="year">{{ year }}</option>
+                    </select>
+                    <span class="b2c-error-message educationFields-error-message common-error-message"
+                        *ngIf="form.get('graduationYear')?.invalid && form.get('graduationYear')?.touched">
+                        Graduation Year is required
+                    </span>
+                </fieldset>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- Willingness to Relocate -->
+    <fieldset class="one-grid-container">
+        <legend class="form-label">Willingness to Relocate</legend>
+        <div class="custom-radio">
+            <input type="radio" formControlName="willingToRelocate" value="Yes" id="absolutely">
+            <label for="absolutely">Absolutely!</label>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" formControlName="willingToRelocate" value="Maybe" id="considerMoving">
+            <label for="considerMoving">Would Consider Moving for the Right Role</label>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" formControlName="willingToRelocate" value="No" id="notAnOption">
+            <label for="notAnOption">Not an option</label>
+        </div>
+        <span class="b2c-error-message"
+            *ngIf="form.get('willingToRelocate')?.invalid && form.get('willingToRelocate')?.touched">
+            Please select an option
+        </span>
+    </fieldset>
+
+    <!-- Programming Experience -->
+    <fieldset class="one-grid-container">
+        <legend class="form-label">How many years of programming experience?</legend>
+        <select class="form-field common-field" formControlName="programmingExperience">
+            <option value="" disabled selected>Select an option</option>
+            <option value="No">None</option>
+            <option value="0-1 year">0-1 year</option>
+            <option value="1-3 years">1-3 years</option>
+            <option value="3-5 years">3-5 years</option>
+            <option value="5+ years">5+ years</option>
+        </select>
+        <span class="b2c-error-message common-error-message"
+            *ngIf="form.get('programmingExperience')?.invalid && form.get('programmingExperience')?.touched">
+            Please select an option
+        </span>
+    </fieldset>
+
+    <!-- Work Authorization Field -->
+    <fieldset class="two-grid-container" *ngIf="form.get('country')?.value !== 'India'">
+        <legend class="form-label">Are you legally authorized to work in the country of the position for which you are
+            applying?</legend>
+        <div class="custom-radio">
+            <input type="radio" formControlName="workAuthorization" value="no" id="notAuthorized">
+            <label for="notAuthorized">No</label>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" formControlName="workAuthorization" value="yes" id="authorized">
+            <label for="authorized">Yes</label>
+        </div>
+        <span class="b2c-error-message"
+            *ngIf="form.get('workAuthorization')?.invalid && form.get('workAuthorization')?.touched">
+            Please select an option
+        </span>
+    </fieldset>
+
+    <!-- Sponsorship Fields (Dynamic) -->
+    <ng-container *ngIf="showSponsorshipFields">
+        <fieldset class="two-grid-container">
+            <legend class="form-label">Do you currently, or will you in the future, require sponsorship to continue to work in the this country?</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="sponsorship" value="no" id="noSponsorship">
+                <label for="noSponsorship">No</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="sponsorship" value="yes" id="yesSponsorship">
+                <label for="yesSponsorship">Yes</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('sponsorship')?.invalid && form.get('sponsorship')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
+    </ng-container>
+
+    <!-- Future Sponsorship Fields (Dynamic) -->
+    <ng-container *ngIf="showFutureSponsorshipFields">
+        <fieldset class="two-grid-container">
+            <legend class="form-label">Is your work authorization employer-dependent or dependent upon a family member's current or future sponsorship with another employer?</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="futureSponsorship" value="no" id="nofutureSponsorship">
+                <label for="nofutureSponsorship">No</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="futureSponsorship" value="yes" id="yesfutureSponsorship">
+                <label for="yesfutureSponsorship">Yes</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('futureSponsorship')?.invalid && form.get('futureSponsorship')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
+    </ng-container>
+
+    <!-- India-Specific Fields -->
+    <ng-container *ngIf="form.get('country')?.value === 'India'">
+        <div class="one-grid-container">
+            <fieldset class="form-fieldset">
+                <legend class="form-label">Score in Degree (in %)</legend>
+                <input class="form-field education-field common-field" formControlName="majorGrade" type="text" maxlength="2"
+                    placeholder="Degree Score">
+                <span class="b2c-error-message education-error-message common-error-message"
+                    *ngIf="form.get('majorGrade')?.invalid && form.get('majorGrade')?.touched">
+                    <span *ngIf="form.get('majorGrade')?.errors?.['required']">
+                        Degree score is required.
+                    </span>
+                    <span *ngIf="form.get('majorGrade')?.errors?.['pattern']">
+                        Score must be a number
+                    </span>
+                </span>
+            </fieldset>
+
+            <fieldset class="form-fieldset">
+                <legend class="form-label">Score in 12th Board exam (in %)</legend>
+                <input class="form-field education-field common-field" formControlName="twelfthGrade" type="text"
+                    maxlength="2" placeholder="12th Score">
+                <span class="b2c-error-message education-error-message common-error-message"
+                    *ngIf="form.get('twelfthGrade')?.invalid && form.get('twelfthGrade')?.touched">
+                    <span *ngIf="form.get('twelfthGrade')?.errors?.['required']">
+                        12th score is required.
+                    </span>
+                    <span *ngIf="form.get('twelfthGrade')?.errors?.['pattern']">
+                        Score must be a number
+                    </span>
+                </span>
+            </fieldset>
+
+            <fieldset class="form-fieldset">
+                <legend class="form-label">Score in 10th Board exam (in %)</legend>
+                <input class="form-field education-field common-field" formControlName="tenthGrade" type="text"
+                    maxlength="2" placeholder="10th Score">
+                <span class="b2c-error-message education-error-message common-error-message"
+                    *ngIf="form.get('tenthGrade')?.invalid && form.get('tenthGrade')?.touched">
+                    <span *ngIf="form.get('tenthGrade')?.errors?.['required']">
+                        10th score is required.
+                    </span>
+                    <span *ngIf="form.get('tenthGrade')?.errors?.['pattern']">
+                        Score must be a number
+                    </span>
+                </span>
+            </fieldset>
+        </div>
+    </ng-container>
+
+    <!-- Resume Upload -->
+    <fieldset class="two-grid-container">
+        <legend class="form-label">Upload Your Resume</legend>
+        <label class="legend-container">
+            <div style="color:white; font-size:18px;">
+                <img style="width:30px; height:30px; margin-right: 10px;"
+                    src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png">Computer
+            </div>
+            <input type="file" id="ResumeUpload" (change)="onFileChange($event)" accept=".pdf, .docx, .doc, .rtf, .txt">
+        </label>
+
+        <!-- Dropbox Option -->
+        <label class="legend-container">
+            <div style="color:white; font-size:18px;" class="dropbox-button" (click)="onDropboxClick()">
+                <img style="width:30px; height:30px; margin-right: 10px;"
+                    src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/6673257bcdcad45f4881b227_dropbox_icon.png">Dropbox
+            </div>
+        </label>
+    </fieldset>
+
+    <!-- Error and Success Messages -->
+    <span class="b2c-error-message" *ngIf="fileError">{{ fileError }}</span>
+    <span class="resume-success" *ngIf="fileSuccess">{{ fileSuccess }}</span>
+
+
+    <div style="margin-top: 1rem;color: #9ca3af;">
+        * Note
+        <ul style="margin-top: 5px;font-size: 16px;color: #9ca3af;line-height: unset;">
+            <li style="font-size: 16px;color: #9ca3af;line-height: unset;">Resume file type should be one of the
+                following: .doc, .docx, .pdf, .txt, .rtf</li>
+            <li style="font-size: 16px;color: #9ca3af;line-height: unset;">Size less than 5MB</li>
+        </ul>
+    </div>
+    <!-- Privacy Consent -->
+    <div style="font-size: 16px;color:#fff">
+        <div>Your privacy is important to us</div>
+        <div style="margin-top: 0.5rem;margin-bottom: 0.5rem;">
+            Revature is committed to safeguarding your privacy. We will never sell or share your personal information.
+            Submitting this form constitutes your express written consent to receive e-mails, texts, and phone messages
+            from Revature at the phone number(s) and email address provided in this form.
+        </div>
+        <div>
+            <input type="checkbox" formControlName="dataConsent" id="dataConsent">
+            <label style="font-weight: unset;display: unset;">By selecting this checkbox, you agree to allow Revature to
+                share your contact information with our career-placement and network partners for the purpose of
+                expanding your job placement opportunities or network. This information may include your name, phone
+                number, email address, education level, and work authorization status.</label>
+        </div>
+    </div>
+
+    <!-- reCAPTCHA -->
+    <!-- <div id="recaptcha-container" class="g-recaptcha"></div>
+    <span class="b2c-error-message" *ngIf="form.get('validCaptacha')?.invalid && form.get('validCaptacha')?.touched">
+        Please complete the reCAPTCHA to proceed
+    </span> -->
+    <re-captcha (resolved)="recaptchaSuccessCallback($event)"></re-captcha>
+    <div *ngIf="form.get('validCaptacha')?.value === false" class="form-error-message">
+        Please complete the reCAPTCHA to proceed.
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="b2b-form-button" *ngIf="showSubmitButton">Submit</button>
+    <div id="loadSpinner" class="spinner" *ngIf="loading"></div>
+</form>

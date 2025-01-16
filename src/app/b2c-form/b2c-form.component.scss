@@ -1,0 +1,275 @@
+.autocomplete-container {
+    position: relative;
+    display: inline-block;
+    width: 99.4%;
+
+    input {
+        width: 100%;
+    }
+}
+
+.autocomplete-items {
+    position: absolute;
+    border-radius: 7px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    z-index: 2;
+    max-height: 300px;
+    overflow: auto;
+    padding: 10px;
+    width: 99%;
+    cursor: pointer;
+    color: #161616;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+    background-color: #eee;
+}
+
+.grecaptcha-badge {
+    position: relative !important;
+    margin-bottom: 20px !important;
+    right: auto !important;
+    bottom: 0 !important;
+}
+
+.form-label {
+    padding: 8px 0;
+}
+
+.form-field {
+    background-color: rgba(0, 0, 0, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: #fafafa;
+    height: auto !important;
+}
+
+.b2c-error-message {
+    font-size: 12px;
+    color: #F9B200;
+}
+
+
+.b2b-form-button {
+    border-radius: 36px;
+    border-radius: 36px;
+    border-color: #FF7014;
+    font-size: 16px;
+    padding: 8px 16px;
+    color: #ffffff;
+    background-color: #FF7014;
+}
+
+.two-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 25px;
+    grid-row-gap: 5px;
+    margin-bottom: 10px;
+}
+
+.one-grid-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-column-gap: 25px;
+    grid-row-gap: 5px;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .two-grid-container {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-column-gap: 20px;
+        grid-row-gap: 5px;
+        margin-bottom: 10px;
+    }
+}
+
+.custom-radio input[type="radio"] {
+    display: none;
+}
+
+.custom-radio label {
+    font-size: 18px;
+    display: inline-block;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    border-radius: 7px;
+    border: 1px solid white;
+    color: white;
+    margin-bottom: 0px;
+}
+
+.custom-radio input[type="radio"]:checked+label {
+    background-color: white;
+    color: black;
+}
+
+.file-upload-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #EBF1F4;
+    transition: background-color 0.1s ease-in-out;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    height: 40px
+}
+
+.file-upload-container input[type="file"] {
+    position: absolute;
+    visibility: hidden;
+}
+
+.file-upload-wrapper {
+    position: relative;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: transparent;
+    /* Change this to any desired background color */
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.custom-file-upload:hover {
+    background-color: #00183c;
+    /* Change this to any desired hover color */
+}
+
+.custom-file-upload svg {
+    margin-right: 8px;
+}
+
+.custom-file-upload span {
+    font-size: 16px;
+}
+
+.file-upload-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.file-upload-container:hover {
+    background-color: #D7E6EE;
+}
+
+.custom-button {
+    height: 50px;
+    width: 170px;
+    background-color: rgb(255 207 0);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.5s;
+    transition: scale 0.5s;
+    transition: color 0.3s;
+    z-index: 1;
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, .2);
+    font-size: 16px;
+    margin-top: 2.5rem;
+}
+
+option {
+    color: black
+}
+
+.custom-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255 113 21);
+    transition: left 0.3s;
+    z-index: -1;
+}
+
+.custom-button:hover::before {
+    left: 0;
+}
+
+.custom-button:hover {
+    scale: 1.1;
+    color: white;
+}
+
+.resume-success {
+    color: green;
+}
+
+.dropbox-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #007bff00;
+    /* Change this to any desired background color */
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    height: 40px;
+}
+
+.dropbox-wrapper:hover {
+    background-color: #b1b5b9;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#loadSpinner {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+}
+
+.spinner:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    border-top-color: #fff;
+    animation: spinner .6s linear infinite;
+}

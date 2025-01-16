@@ -1,0 +1,331 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Resume Upload -->
+    <div class="form-group">
+        <label class="form-label">
+            Upload Resume:<span class="required">*</span>
+        </label>
+        <label class="legend-container">
+            <input class="form-field form-file-input" type="file" (change)="handleFileUpload($event)" [disabled]="resumeUploading" accept=".pdf,.doc,.docx,.rtf,.txt">
+            <div style="color:white; font-size:18px;"><img style="width:30px; height:30px; margin-right: 10px;"
+                    src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png">{{resumeDocumentName || 'Computer'}}
+            </div>
+        </label>
+        <div *ngIf="form.get('resumeURL')?.touched && form.get('resumeURL')?.invalid" class="form-error-message">
+            Resume is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            First Name:<span class="required">*</span>
+        </label>
+        <input noWhitespace class="form-field" formControlName="firstName" placeholder="First Name" maxlength="100">
+        <div *ngIf="form.get('firstName')?.touched && form.get('firstName')?.invalid" class="form-error-message">
+            First name is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Last Name:<span class="required">*</span>
+        </label>
+        <input noWhitespace class="form-field" formControlName="lastName" placeholder="Last Name" maxlength="100">
+        <div *ngIf="form.get('lastName')?.touched && form.get('lastName')?.invalid" class="form-error-message">
+            Last name is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Person Source:<span class="required">*</span>
+        </label>
+        <select class="form-field" formControlName="personSource">
+            <option value="">Select...</option>
+            <option value="CareerBuilder (Sourced)">CareerBuilder (Sourced)</option>
+            <option value="Craigslist (Sourced)">Craigslist (Sourced)</option>
+            <option value="Dice (Applied)">Dice (Applied)</option>
+            <option value="Dice (Sourced)">Dice (Sourced)</option>
+            <option value="Indeed (Applied)">Indeed (Applied)</option>
+            <option value="Indeed (Sourced)">Indeed (Sourced)</option>
+            <option value="Internships.com (Sourced)">Internships.com (Sourced)</option>
+            <option value="LinkedIn (email-sourced)">LinkedIn (email-sourced)</option>
+            <option value="LinkedIn (Sourced)">LinkedIn (Sourced)</option>
+            <option value="LinkedIn (Response)">LinkedIn (Response)</option>
+            <option value="LinkedIn (Applied)">LinkedIn (Applied)</option>
+            <option value="Monster (Sourced)">Monster (Sourced)</option>
+            <option value="Nexxt Hiring (Sourced)">Nexxt Hiring (Sourced)</option>
+            <option value="Purple briefcase (Sourced)">Purple briefcase (Sourced)</option>
+            <option value="Referral">Referral</option>
+            <option value="Resume Book (Sourced)">Resume Book (Sourced)</option>
+            <option value="Resume library (Sourced)">Resume library (Sourced)</option>
+            <option value="Snap Recruit (Sourced)">Snap Recruit (Sourced)</option>
+            <option value="SmartRecruiters (Sourced)">SmartRecruiters (Sourced)</option>
+            <option value="Stack Overflow (Sourced)">Stack Overflow (Sourced)</option>
+            <option value="Symplicity (Sourced)">Symplicity (Sourced)</option>
+            <option value="WayUp (Sourced)">WayUp (Sourced)</option>
+            <option value="Zillion Resumes (Sourced)">Zillion Resumes (Sourced)</option>
+            <option value="Handshake (Sourced)">Handshake (Sourced)</option>
+            <option value="Other Job Boards (Sourced)">Other Job Boards (Sourced)</option>
+            <option value="College Job Posting (Sourced)">College Job Posting (Sourced)</option>
+            <option value="Handshake (Applied)">Handshake (Applied)</option>
+            <option value="Campus Event (Applied)">Campus Event (Applied)</option>
+            <option value="Campus Recruitment (Sourced)">Campus Recruitment (Sourced)</option>
+            <option value="Monster (Applied)">Monster (Applied)</option>
+            <option value="Hiretual (Applied)">Hiretual (Applied)</option>
+            <option value="Hiretual (Sourced)">Hiretual (Sourced)</option>
+            <option value="SignalHire (Sourced)">SignalHire (Sourced)</option>
+            <option value="Simplyhired (Applied)">Simplyhired (Applied)</option>
+            <option value="ZipRecruiter (Sourced)">ZipRecruiter (Sourced)</option>
+            <option value="Other">Other</option>
+        </select>
+        <div *ngIf="form.get('personSource')?.touched && form.get('personSource')?.invalid" class="form-error-message">
+            Person Source is required
+        </div>
+    </div>
+
+    <div *ngIf="showOtherLeadSource" class="form-group">
+        <label class="form-label">
+            Other Lead Source:<span class="required">*</span>
+        </label>
+        <input noWhitespace class="form-field" formControlName="otherLeadSource" placeholder="Other Lead Source" maxlength="30">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Mobile Number:<span class="required">*</span> (Country Code not required)
+        </label>
+        <input noWhitespace class="form-field" formControlName="phone" type="tel" maxlength="10" placeholder="Mobile Number">
+        <div *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid" class="form-error-message">
+            Please enter a valid phone number
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Email Address:<span class="required">*</span>
+        </label>
+        <input noWhitespace class="form-field" formControlName="email" type="email" placeholder="Email Address" maxlength="255">
+        <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="form-error-message">
+            Please enter a valid email address
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Operating Country:<span class="required">*</span>
+        </label>
+        <select class="form-field" formControlName="country">
+            <option value="">Select...</option>
+            <option value="United States">United States</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Canada">Canada</option>
+            <option value="United Kingdom">United Kingdom</option>
+        </select>
+        <div *ngIf="form.get('country')?.touched && form.get('country')?.invalid" class="form-error-message">
+            Operating Country is required
+        </div>
+    </div>
+
+    <div *ngIf="marketingPrograms.length > 0" class="form-group">
+        <label class="form-label">
+            Marketing Program:<span class="required">*</span>
+        </label>
+        <select class="form-field" formControlName="marketingProgram">
+            <option value="">Select...</option>
+            <option *ngFor="let program of marketingPrograms" [value]="program">
+                {{program}}
+            </option>
+        </select>
+        <div *ngIf="form.get('marketingProgram')?.touched && form.get('marketingProgram')?.invalid"
+            class="form-error-message">
+            Marketing Program is required
+        </div>
+    </div>
+
+    <div *ngIf="showOpportunityField" class="form-group">
+        <label class="form-label">
+            Sourced For Opportunity:<span class="required">*</span>
+        </label>
+        <input noWhitespace class="form-field" formControlName="sourcedForOpp" placeholder="Sourced For Opportunity" maxlength="18">
+        <div *ngIf="form.get('sourcedForOpp')?.touched && form.get('sourcedForOpp')?.invalid" class="form-error-message">
+            Sourced For Opportunity is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Major:<span class="required">*</span>
+        </label>
+        <div class="autocomplete-container">
+            <input class="form-field" [formControlName]="'major'" (input)="filterMajors($event)" placeholder="Major"
+                (focus)="this.focusedControl['major'] = true" (blur)="setFocusedControl($event,'major',false)" />
+            <div class="autocomplete-items" *ngIf="focusedControl.major && form.get('major')?.value?.trim()">
+                <div *ngFor="let major of filteredMajors" (mousedown)="selectAutoCompleteValue($event,'major', major)"
+                    class="autocomplete-item">
+                    {{major.label}}
+                </div>
+            </div>
+        </div>
+        <div *ngIf="form.get('major')?.touched && form.get('major')?.invalid" class="form-error-message">
+            Major is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Graduation Date:<span class="required">*</span>
+        </label>
+        <input class="form-field" formControlName="graduationDate" type="date">
+        <div *ngIf="form.get('graduationDate')?.touched && form.get('graduationDate')?.invalid" class="form-error-message">
+            Graduation Date is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Work Authorization:<span class="required">*</span>
+        </label>
+        <select class="form-field" formControlName="workAuthorization">
+            <option value="">Select...</option>
+            <option value="U.S. Citizen">U.S. Citizen</option>
+            <option value="Green Card">Green Card</option>
+            <option value="Canadian Citizen">Canadian Citizen</option>
+            <option value="Mexican citizen">Mexican citizen</option>
+            <option value="Permanent Resident">Permanent Resident</option>
+            <option value="Canadian Permanent Resident">Canadian Permanent Resident</option>
+            <option value="EAD">EAD</option>
+            <option value="H1B">H1B</option>
+            <option value="OPT">OPT</option>
+            <option value="CPT">CPT</option>
+            <option value="F1">F1</option>
+            <option value="L1">L1</option>
+            <option value="H4">H4</option>
+            <option value="TN">TN</option>
+            <option value="DACA">DACA</option>
+            <option value="Asylee">Asylee</option>
+            <option value="Other">Other</option>
+            <option value="Yes">Yes</option>
+        </select>
+        <div *ngIf="form.get('workAuthorization')?.touched && form.get('workAuthorization')?.invalid"
+            class="form-error-message">
+            Work Authorization is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            School:<span class="required">*</span>
+        </label>
+        <div class="autocomplete-container">
+            <input class="form-field" [formControlName]="'school'" (input)="filterSchools($event)" placeholder="School"
+                (focus)="this.focusedControl['school'] = true" (blur)="setFocusedControl($event,'school',false)" />
+            <div class="autocomplete-items" *ngIf="focusedControl.school && form.get('school')?.value?.trim()">
+                <div *ngFor="let school of filteredSchools"
+                    (mousedown)="selectAutoCompleteValue($event,'school',school)" class="autocomplete-item">
+                    {{school.label}}
+                </div>
+            </div>
+        </div>
+        <div *ngIf="form.get('school')?.touched && form.get('school')?.invalid" class="form-error-message">
+            School is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Education Level:<span class="required">*</span>
+        </label>
+        <select class="form-field" formControlName="levelOfEducation">
+            <option value="">Select...</option>
+            <option value="Bachelor's Degree">Bachelor's Degree</option>
+            <option value="Master's Degree">Master's Degree</option>
+            <option value="Associate's Degree">Associate's Degree</option>
+            <option value="High School">High School</option>
+        </select>
+        <div *ngIf="form.get('levelOfEducation')?.touched && form.get('levelOfEducation')?.invalid" class="form-error-message">
+            Education Level is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Sourced By:
+        </label>
+        <select class="form-field" formControlName="sourcedBy">
+            <option value="">Select...</option>
+            <option value="Bianca Robles">Bianca Robles</option>
+            <option value="Christopher Gaugh">Christopher Gaugh</option>
+            <option value="Edward Hulse">Edward Hulse</option>
+            <option value="Erik Schultz">Erik Schultz</option>
+            <option value="Joanna Hendrick">Joanna Hendrick</option>
+            <option value="Page Thall-Donovan">Page Thall-Donovan</option>
+            <option value="Rachna Tyagi">Rachna Tyagi</option>
+            <option value="Rebecca James">Rebecca James</option>
+            <option value="Shaun Rogers">Shaun Rogers</option>
+            <option value="Syed Aasif">Syed Aasif</option>
+            <option value="Tom Hodge">Tom Hodge</option>
+            <option value="Sanjeev Sudhan">Sanjeev Sudhan</option>
+            <option value="Vendor">Vendor</option>
+        </select>
+        <div *ngIf="form.get('sourcedBy')?.touched && form.get('sourcedBy')?.invalid" class="form-error-message">
+            Sourced By is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            State:<span class="required">*</span>
+        </label>
+        <select class="form-field" formControlName="state">
+            <option value="">Select...</option>
+            <option *ngFor="let state of states" [value]="state">{{state}}</option>
+        </select>
+        <div *ngIf="form.get('state')?.touched && form.get('state')?.invalid" class="form-error-message">
+            State is required
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">
+            Recruiter:
+        </label>
+        <select class="form-field" formControlName="recruitedBy">
+            <option value="">Select...</option>
+            <option value="0053g000000l6HwAAI">Christopher Gaugh</option>
+            <option value="0050P0000085FVGQA2">Edward Hulse</option>
+            <option value="0050P0000085FOcQAM">Erik Schultz</option>
+            <option value="0050d000006p8vMAAQ">Joanna Hendrick</option>
+            <option value="0050d000006J3vRAAS">Page Thall-Donovan</option>
+            <option value="0050P0000085FQYQA2">Rachna Tyagi</option>
+            <option value="0053g000000lP0QAAU">Shaun Rogers</option>
+            <option value="0050P0000085FVLQA2">Tom Hodge</option>
+            <option value="0053g000000lP0aAAE">Bianca Robles</option>
+            <option value="005VS000000WmcbYAC">Sanjeev Sudhan</option>
+            <option value="0050P0000085FO6QAM">Naveen Kumar</option>
+            <option value="005VS000002DJDNYA4">Delivery Recruiter</option>
+            <option value="005VS000000Q4xdYAC">Vendor</option>
+        </select>
+    </div>
+    
+    <div id="veteranRadioButtons" class="form-group">
+        <label class="form-label">Veteran:</label>
+        <span class="two-grid-container">
+            <div class="custom-radio">
+                <input type="radio" formControlName="veteran" value="false" id="no">
+                <label for="no">No</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="veteran" value="true" id="yes">
+                <label for="yes">Yes</label>
+            </div>
+        </span>
+    </div>
+
+    <!-- <re-captcha (resolved)="recaptchaSuccessCallback($event)" *ngIf="showCaptcha"></re-captcha>
+    <div *ngIf="form.get('validCaptacha')?.value === false" class="form-error-message">
+        Please complete the reCAPTCHA to proceed.
+    </div> -->
+    <button type="submit" [disabled]="resumeUploading" class="sourcing-form-button">
+        {{resumeUploading ? 'Uploading...' : 'Submit'}}
+    </button>
+</form>
