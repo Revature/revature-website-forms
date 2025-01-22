@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ENV_VAR, MAJORS, US_SCHOOLS, MEXICO_STATE_VALUES, MEXICO_SCHOOLS } from '../common/form-contants';
-import { firstValueFrom } from 'rxjs';
 
 declare const Dropbox: any;
 
@@ -60,10 +59,6 @@ export class B2cFormComponent {
     private http: HttpClient
   ) {
     this.initForm();
-  }
-
-  ngOnInit(): void {
-    this.calculateGraduationYears();
     this.initDropbox();
   }
 
@@ -248,8 +243,8 @@ export class B2cFormComponent {
       this.form.get('state')?.setValidators([Validators.required]);
       this.form.get('canadaState')?.clearValidators();
     } else if (country === 'Canada') {
-      this.form.get('city')?.setValidators([Validators.required]);
       this.form.get('canadaState')?.setValidators([Validators.required]);
+      this.form.get('city')?.clearValidators();
       this.form.get('state')?.clearValidators();
     } else if (country === 'United Kingdom') {
       this.form.get('city')?.setValidators([Validators.required]);
@@ -296,6 +291,8 @@ export class B2cFormComponent {
     this.handleCurrentStudentChange(this.form.value.currentStudent);
   }
   private handleCurrentStudentChange(currentStudent: string): void {
+    this.calculateGraduationYears(currentStudent);
+
     this.form.get('levelOfEducation')?.setValue('');
     this.form.get('graduationMonth')?.setValue('');
     this.form.get('graduationYear')?.setValue('');
@@ -443,9 +440,9 @@ export class B2cFormComponent {
     }
   }
 
-  private calculateGraduationYears(): void {
-    const currentYear = new Date().getFullYear();
-    const years = 5;
+  private calculateGraduationYears(currentStudent: string): void {
+    const currentYear = currentStudent == "yes" ? new Date().getFullYear() : new Date().getFullYear() - 2;
+    const years = currentStudent == "yes" ? 5 : 3;
     this.graduationYears = Array.from({ length: years }, (_, i) => currentYear + i);
   }
 
@@ -512,11 +509,13 @@ export class B2cFormComponent {
       this.fileError = 'File size is too large.';
       return;
     }
-
+    const extension = file.link.split("/").pop().split("#")[0].split("?")[0];
+    let url = file.link.replace("dl=0", "dl=1");
+    url = url?.trim();
     this.form.patchValue({
       computer_data: null,
-      dropbox: file.link,
-      Resumedropbox: file.link
+      dropbox: url,
+      Resumedropbox: extension
     });
 
     this.fileSuccess = 'Resume ready to upload';
@@ -527,26 +526,26 @@ export class B2cFormComponent {
   }
 
   async onSubmit(): Promise<void> {
-    // if (this.form.invalid) {
-    //   this.form.markAllAsTouched();
-    //   if (!this.form.get('computer_data')?.value && !this.form.get('dropbox')?.value) {
-    //     this.fileError = 'Please upload a resume.';
-    //   }
-    //   if (!this.form.get('validCaptacha')?.value) {
-    //     this.form.get('validCaptacha')?.setValue(false);
-    //   }
-    //   return;
-    // }
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      if (!this.form.get('computer_data')?.value && !this.form.get('dropbox')?.value) {
+        this.fileError = 'Please upload a resume.';
+      }
+      if (!this.form.get('validCaptacha')?.value) {
+        this.form.get('validCaptacha')?.setValue(false);
+      }
+      return;
+    }
 
     if (!this.form.get('computer_data')?.value && !this.form.get('dropbox')?.value) {
       this.fileError = 'Please upload a resume.';
       return;
     }
 
-    // if (!this.form.get('validCaptacha')?.value) {
-    //   this.form.get('validCaptacha')?.setValue(false);
-    //   return;
-    // }
+    if (!this.form.get('validCaptacha')?.value) {
+      this.form.get('validCaptacha')?.setValue(false);
+      return;
+    }
 
     this.loading = true;
     this.showSubmitButton = false;
@@ -576,17 +575,8 @@ export class B2cFormComponent {
         throw new Error('Resume upload failed');
       }
     } else if (formData.dropbox) {
-      const response = await this.uploadDropboxFile(formData);
-      if (response.success) {
-        this.form.patchValue({ resumeURL: response.link });
-        const formDataObject = this.prepareFormData();
-        await this.submitForm(formDataObject);
-      } else {
-        this.fileError = 'There was an error uploading your file. Please try again.';
-        this.loading = false;
-        this.showSubmitButton = true;
-        throw new Error('Resume upload failed');
-      }
+      const formDataObject = this.prepareFormData();
+      await this.submitForm(formDataObject);
     } else {
       this.fileError = "Please upload a resume.";
       this.loading = false;
@@ -610,7 +600,7 @@ export class B2cFormComponent {
       }
     }
 
-    if (["United Kingdom", "Canada", "United States"].includes(formDataObject.country)) {
+    if (["United Kingdom", "Canada", "United States", "Mexico"].includes(formDataObject.country)) {
       formDataObject.workAuthorization = formDataObject.workAuthorization === "yes" &&
         formDataObject.sponsorship === "no" &&
         formDataObject.futureSponsorship === "no"
@@ -718,23 +708,6 @@ export class B2cFormComponent {
       person: `${formData.firstName} ${formData.lastName}`,
       filename: formData.computer_data,
       file: formData.computer_data_result,
-    };
-    return this.http.post(ENV_VAR.RESUME_API_ENDPOINT, payload).toPromise();
-  }
-
-  async uploadDropboxFile(formData: any): Promise<any> {
-
-    const extension = formData.dropbox.split("/").pop().split("#")[0].split("?")[0];
-    let url = formData.dropbox.replace("dl=0", "dl=1");
-    url = url?.trim();
-    let response = await fetch(url, {mode: 'no-cors'});
-    const fileContent = await response.text();
-    const base64 = btoa(fileContent);
-    const payload = {
-      key: "245583662863Rk863369",
-      person: `${formData.firstName} ${formData.lastName}`,
-      filename: extension,
-      file: base64,
     };
     return this.http.post(ENV_VAR.RESUME_API_ENDPOINT, payload).toPromise();
   }

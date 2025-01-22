@@ -529,6 +529,25 @@ export const MEXICO_STATE_VALUES = [
   "Zacatecas"
 ];
 
+export const WORK_AUTH_VALUES = ["U.S. Citizen",
+  "Green Card",
+  "Canadian Citizen",
+  "Mexican citizen",
+  "Permanent Resident",
+  "Canadian Permanent Resident",
+  "EAD",
+  "H1B",
+  "OPT",
+  "CPT",
+  "F1",
+  "L1",
+  "H4",
+  "TN",
+  "DACA",
+  "Asylee",
+  "Other",
+  "Yes"]
+
 const isStaging = window.location.hostname.includes("webflow.io");
 
 export const ENV_VAR = isStaging

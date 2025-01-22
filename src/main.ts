@@ -5,6 +5,7 @@ import { sourcingFormModule } from './app/sourcing-form.module';
 import { environment } from './environments/environment';
 import { recruitmentFormModule } from './app/recruitment-form.module';
 import { b2cFormModule } from './app/b2c-form.module';
+import { b2bFormModule } from './app/b2b-form.module';
 
 const formName = environment.formName;
 
@@ -20,6 +21,11 @@ if (formName == 'sourcing') {
     .catch(err => console.error(err));
 } else if (formName == 'b2c') {
   platformBrowserDynamic().bootstrapModule(b2cFormModule, {
+    ngZoneEventCoalescing: true
+  })
+    .catch(err => console.error(err));
+} else if (formName == 'b2b') {
+  platformBrowserDynamic().bootstrapModule(b2bFormModule, {
     ngZoneEventCoalescing: true
   })
     .catch(err => console.error(err));

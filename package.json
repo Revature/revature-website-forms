@@ -7,6 +7,7 @@
     "build-sourcing": "ng build --configuration=sourcing && node ./sourcing-form.js",
     "build-recruitment": "ng build --configuration=recruitment && node ./recruitment-form.js",
     "build-b2c": "ng build --configuration=b2c && node ./b2c-form.js",
+    "build-b2b": "ng build --configuration=b2b && node ./b2b-form.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

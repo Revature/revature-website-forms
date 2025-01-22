@@ -744,10 +744,6 @@
     </div>
 
     <!-- reCAPTCHA -->
-    <!-- <div id="recaptcha-container" class="g-recaptcha"></div>
-    <span class="b2c-error-message" *ngIf="form.get('validCaptacha')?.invalid && form.get('validCaptacha')?.touched">
-        Please complete the reCAPTCHA to proceed
-    </span> -->
     <re-captcha (resolved)="recaptchaSuccessCallback($event)"></re-captcha>
     <div *ngIf="form.get('validCaptacha')?.value === false" class="form-error-message">
         Please complete the reCAPTCHA to proceed.

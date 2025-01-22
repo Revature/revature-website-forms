@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CANADA_SCHOOLS, CANADA_STATE_VALUES, ENV_VAR, MAJORS, MEXICO_SCHOOLS, MEXICO_STATE_VALUES, US_MARKETING_VALUES, US_SCHOOLS, US_STATE_VALUES } from '../common/form-contants';
+import { CANADA_SCHOOLS, CANADA_STATE_VALUES, ENV_VAR, MAJORS, MEXICO_SCHOOLS, MEXICO_STATE_VALUES, US_MARKETING_VALUES, US_SCHOOLS, US_STATE_VALUES, WORK_AUTH_VALUES } from '../common/form-contants';
 
 @Component({
   selector: 'app-sourcing-form',
@@ -27,6 +27,7 @@ export class SourcingFormComponent {
       value: ''
     }
   }
+  workAuthorizationValues: any[] = WORK_AUTH_VALUES;
   schools = US_SCHOOLS;
   marketingPrograms: string[] = [];
   states: string[] = [];
@@ -140,6 +141,8 @@ export class SourcingFormComponent {
     });
 
     if (!country) {
+      this.workAuthorizationValues = WORK_AUTH_VALUES;
+      this.showIndiaFields = false;
       this.marketingPrograms = [];
       this.states = [];
       return;
@@ -147,29 +150,38 @@ export class SourcingFormComponent {
 
     switch (country) {
       case 'United States':
+        this.workAuthorizationValues = ["U.S. Citizen", "Green Card", "Permanent Resident", "EAD", "H1B", "OPT", "CPT", "F1", "L1", "H4", "TN", "DACA", "Other", "Yes"];
         this.showIndiaFields = false;
         this.marketingPrograms = US_MARKETING_VALUES;
         this.states = US_STATE_VALUES;
         this.schools = US_SCHOOLS;
         break;
       case 'Mexico':
+        this.workAuthorizationValues = ["Mexican citizen", "Permanent Resident", "Asylee", "Other", "Yes"];
         this.showIndiaFields = false;
         this.marketingPrograms = ['SPC_Mexico_HTD'];
         this.states = MEXICO_STATE_VALUES;
         this.schools = MEXICO_SCHOOLS;
         break;
       case 'Canada':
+        this.workAuthorizationValues = ["Canadian Citizen", "Canadian Permanent Resident", "Other", "Yes"];
         this.showIndiaFields = false;
         this.marketingPrograms = ['Canada', 'SPC_Experienced_Hire', 'SPC_ProdSupCAD'];
         this.states = CANADA_STATE_VALUES;
         this.schools = CANADA_SCHOOLS;
         break;
       case 'India':
+        this.workAuthorizationValues = WORK_AUTH_VALUES;
         this.showIndiaFields = true;
         this.marketingPrograms = ['India'];
         this.states = US_STATE_VALUES;
         this.schools = US_SCHOOLS;
         break;
+      default:
+        this.workAuthorizationValues = WORK_AUTH_VALUES;
+        this.showIndiaFields = false;
+        this.states = [];
+        this.marketingPrograms = [];
     }
 
     if (this.showIndiaFields) {

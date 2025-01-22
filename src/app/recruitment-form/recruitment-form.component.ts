@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CANADA_SCHOOLS, CANADA_STATE_VALUES, ENV_VAR, MAJORS, MEXICO_SCHOOLS, MEXICO_STATE_VALUES, US_SCHOOLS, US_STATE_VALUES } from '../common/form-contants';
+import { CANADA_SCHOOLS, CANADA_STATE_VALUES, ENV_VAR, MAJORS, MEXICO_SCHOOLS, MEXICO_STATE_VALUES, US_SCHOOLS, US_STATE_VALUES, WORK_AUTH_VALUES } from '../common/form-contants';
 
 @Component({
   selector: 'app-recruitment-form',
@@ -26,6 +26,7 @@ export class RecruitmentFormComponent {
       value: ''
     }
   }
+  workAuthorizationValues: any[] = WORK_AUTH_VALUES;
   schools = US_SCHOOLS;
   marketingPrograms: string[] = [];
   states: string[] = [];
@@ -130,6 +131,7 @@ export class RecruitmentFormComponent {
     });
 
     if (!country) {
+      this.workAuthorizationValues = WORK_AUTH_VALUES;
       this.marketingPrograms = [];
       this.states = [];
       return;
@@ -137,25 +139,31 @@ export class RecruitmentFormComponent {
 
     switch (country) {
       case 'United States':
+        this.workAuthorizationValues = ["U.S. Citizen", "Green Card", "Permanent Resident", "EAD", "H1B", "OPT", "CPT", "F1", "L1", "H4", "TN", "DACA", "Other", "Yes"];
         this.marketingPrograms = ['SPC_Experienced_Hire', 'General-Entry Level'];
         this.states = US_STATE_VALUES;
         this.schools = US_SCHOOLS;
         break;
       case 'Mexico':
+        this.workAuthorizationValues = ["Mexican citizen", "Permanent Resident", "Asylee", "Other", "Yes"];
         this.marketingPrograms = ['SPC_Mexico_HTD'];
         this.states = MEXICO_STATE_VALUES;
         this.schools = MEXICO_SCHOOLS;
         break;
       case 'Canada':
+        this.workAuthorizationValues = ["Canadian Citizen", "Canadian Permanent Resident", "Other", "Yes"];
         this.marketingPrograms = ['SPC_Experienced_Hire', 'Canada'];
         this.states = CANADA_STATE_VALUES;
         this.schools = CANADA_SCHOOLS;
         break;
       case 'United Kingdom':
+        this.workAuthorizationValues = ["U.S. Citizen", "Green Card", "Canadian Citizen", "Mexican citizen", "Permanent Resident", "Canadian Permanent Resident", "EAD", "H1B", "OPT", "CPT", "F1", "L1", "H4", "TN", "DACA", "Asylee", "Other", "Yes"];
         this.marketingPrograms = ['Experienced Hire', 'United Kingdom'];
         this.states = US_STATE_VALUES;
         this.schools = US_SCHOOLS;
         break;
+      default:
+        this.workAuthorizationValues = WORK_AUTH_VALUES;
     }
     this.filterSchools(null);
   }

@@ -187,24 +187,7 @@
         </label>
         <select class="form-field" formControlName="workAuthorization">
             <option value="">Select...</option>
-            <option value="U.S. Citizen">U.S. Citizen</option>
-            <option value="Green Card">Green Card</option>
-            <option value="Canadian Citizen">Canadian Citizen</option>
-            <option value="Mexican citizen">Mexican citizen</option>
-            <option value="Permanent Resident">Permanent Resident</option>
-            <option value="Canadian Permanent Resident">Canadian Permanent Resident</option>
-            <option value="EAD">EAD</option>
-            <option value="H1B">H1B</option>
-            <option value="OPT">OPT</option>
-            <option value="CPT">CPT</option>
-            <option value="F1">F1</option>
-            <option value="L1">L1</option>
-            <option value="H4">H4</option>
-            <option value="TN">TN</option>
-            <option value="DACA">DACA</option>
-            <option value="Asylee">Asylee</option>
-            <option value="Other">Other</option>
-            <option value="Yes">Yes</option>
+            <option *ngFor="let workAuth of workAuthorizationValues" [value]="workAuth">{{workAuth}}</option>
         </select>
         <div *ngIf="form.get('workAuthorization')?.touched && form.get('workAuthorization')?.invalid"
             class="form-error-message">
