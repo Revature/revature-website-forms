@@ -1,0 +1,1552 @@
+<style>
+    .grecaptcha-badge {
+        position: relative !important;
+        margin-bottom: 20px !important;
+        right: auto !important;
+        bottom: 0 !important;
+    }
+
+    .form-label {
+        padding: 8px 0;
+    }
+
+    .form-field {
+        background-color: rgba(0, 0, 0, 0.10);
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        padding: 12px 24px;
+        border-radius: 8px;
+        color: #fafafa;
+        height: auto !important;
+    }
+
+    .b2c-error-message {
+        font-size: 12px;
+        color: #F9B200;
+    }
+
+
+    .b2b-form-button {
+        border-radius: 36px;
+        border-radius: 36px;
+        border-color: #FF7014;
+        font-size: 16px;
+        padding: 8px 16px;
+        color: #ffffff;
+        background-color: #FF7014;
+    }
+
+    .two-grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 25px;
+        grid-row-gap: 5px;
+        margin-bottom: 10px;
+    }
+
+    .one-grid-container {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-column-gap: 25px;
+        grid-row-gap: 5px;
+        margin-bottom: 10px;
+    }
+
+    @media screen and (max-width: 600px) {
+        .two-grid-container {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            grid-column-gap: 20px;
+            grid-row-gap: 5px;
+            margin-bottom: 10px;
+        }
+    }
+
+    .custom-radio input[type="radio"] {
+        display: none;
+    }
+
+    .custom-radio label {
+        font-size: 18px;
+        display: inline-block;
+        width: 100%;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        cursor: pointer;
+        border-radius: 7px;
+        border: 1px solid white;
+        color: white;
+        margin-bottom: 0px;
+    }
+
+    .custom-radio input[type="radio"]:checked+label {
+        background-color: white;
+        color: black;
+    }
+
+    .file-upload-container {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        background-color: #EBF1F4;
+        transition: background-color 0.1s ease-in-out;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        height: 40px
+    }
+
+    .file-upload-container input[type="file"] {
+        position: absolute;
+        visibility: hidden;
+    }
+
+    .file-upload-wrapper {
+        position: relative;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    .custom-file-upload {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: transparent;
+        /* Change this to any desired background color */
+        color: white;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom-file-upload:hover {
+        background-color: #00183c;
+        /* Change this to any desired hover color */
+    }
+
+    .custom-file-upload svg {
+        margin-right: 8px;
+    }
+
+    .custom-file-upload span {
+        font-size: 16px;
+    }
+
+    .file-upload-label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .file-upload-container:hover {
+        background-color: #D7E6EE;
+    }
+
+    .custom-button {
+        height: 50px;
+        width: 170px;
+        background-color: rgb(255 207 0);
+        border: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: background-color 0.5s;
+        transition: scale 0.5s;
+        transition: color 0.3s;
+        z-index: 1;
+        border-radius: 50px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px 1px rgba(0, 0, 0, .2);
+        font-size: 16px;
+        margin-top: 2.5rem;
+    }
+
+    option {
+        color: black
+    }
+
+    .custom-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(255 113 21);
+        transition: left 0.3s;
+        z-index: -1;
+    }
+
+    .custom-button:hover::before {
+        left: 0;
+    }
+
+    .custom-button:hover {
+        scale: 1.1;
+        color: white;
+    }
+
+    .autocomplete-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+
+        input {
+            width: 100%;
+        }
+    }
+
+    .autocomplete-items {
+        position: absolute;
+        border-radius: 7px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        background: #fff;
+        z-index: 2;
+        max-height: 300px;
+        overflow: auto;
+        width: 100%;
+    }
+
+    .autocomplete-item {
+        padding: 10px;
+        cursor: pointer;
+        color: #161616;
+    }
+
+    .autocomplete-item:hover,
+    .autocomplete-item.active {
+        background-color: #eee;
+    }
+
+    .resume-success {
+        color: green;
+    }
+
+    .dropbox-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: #007bff00;
+        /* Change this to any desired background color */
+        color: rgb(0, 0, 0);
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        height: 40px;
+    }
+
+    .dropbox-wrapper:hover {
+        background-color: #b1b5b9;
+    }
+
+    @keyframes spinner {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    #loadSpinner {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        margin-top: 10px;
+    }
+
+    .spinner:before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: -10px;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        border-top-color: #fff;
+        animation: spinner .6s linear infinite;
+    }
+</style>
+
+<form id="myForm">
+    <legend class="form-label">Full Name</legend>
+    <div class="two-grid-container">
+        <fieldset class="form-fieldset">
+            <input class="form-field common-field" type="text" name="firstName" placeholder="First Name">
+            <span class="b2c-error-message common-error-message" style="visibility: hidden;">-</span>
+        </fieldset>
+        <fieldset class="form-fieldset">
+            <input class="form-field common-field" type="text" name="lastName" placeholder="Last Name">
+            <span class="b2c-error-message common-error-message" style="visibility: hidden;">-</span>
+        </fieldset>
+    </div>
+    <legend class="form-label">Contact Information</legend>
+    <div class="two-grid-container">
+        <fieldset class="form-fieldset">
+            <input class="form-field common-field" type="email" name="email" placeholder="Email Address">
+            <span class="b2c-error-message common-error-message" id="email-error-message"
+                style="visibility: hidden;">-</span>
+        </fieldset>
+        <fieldset class="form-fieldset">
+            <input class="form-field common-field" type="tel" name="phone" placeholder="Phone Number" maxlength="14"
+                minlength="13">
+            <span class="b2c-error-message common-error-message" id="phone-error-message"
+                style="visibility: hidden;">-</span>
+        </fieldset>
+    </div>
+
+    <fieldset class="one-grid-container">
+        <legend class="form-label">Country</legend>
+        <select class="form-field common-field" name="country" id="Country">
+            <option value="" disabled selected>Select Country</option>
+            <option value="United States">United States</option>
+            <option value="Canada">Canada</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="India">India</option>
+        </select>
+        <span class="b2c-error-message common-error-message" style="visibility: hidden;">-</span>
+    </fieldset>
+
+    <div id="locationFields">
+        <!-- Location fields will be dynamically added here based on country selection -->
+    </div>
+    <fieldset id="currentStudentRadioButtons" class="two-grid-container">
+        <legend class="form-label">Are You Currently a Student?</legend>
+        <div class="custom-radio">
+            <input type="radio" name="currentStudent" value="no" id="no">
+            <label for="no">No</label>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" name="currentStudent" value="yes" id="yes">
+            <label for="yes">Yes</label>
+        </div>
+        <span class="b2c-error-message" id="currentStudent-error-message" style="visibility: hidden;">-</span>
+    </fieldset>
+
+    <div id="educationFields">
+        <!-- Education fields will be dynamically added here based on country selection -->
+    </div>
+    <fieldset class="one-grid-container">
+        <legend class="form-label">Willingness to Relocate</legend>
+        <div class="custom-radio">
+            <input type="radio" name="willingToRelocate" value="Yes" id="absolutely">
+            <label for="absolutely">Absolutely!</label>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" name="willingToRelocate" value="Maybe" id="considerMoving">
+            <label for="considerMoving">Would Consider Moving for the Right Role</label>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" name="willingToRelocate" value="No" id="notAnOption">
+            <label for="notAnOption">Not an option</label>
+        </div>
+        <span class="b2c-error-message" id="willingToRelocate-error-message" style="visibility: hidden;">-</span>
+    </fieldset>
+
+    <fieldset class="one-grid-container">
+        <legend class="form-label">How many years of programming experience?</legend>
+        <select class="form-field common-field" name="programmingExperience" id="Experience">
+            <option value="" disabled selected>Select an option</option>
+            <option value="No">None</option>
+            <option value="0-1 year">0-1 year</option>
+            <option value="1-3 years">1-3 years</option>
+            <option value="3-5 years">3-5 years</option>
+            <option value="5+ years">5+ years</option>
+        </select>
+        <span class="b2c-error-message common-error-message" style="visibility: hidden;">-</span>
+    </fieldset>
+
+    <fieldset class="two-grid-container" id="authorizationField">
+        <legend class="form-label">Are you legally authorized to work in the U.S.?</legend>
+        <div class="custom-radio">
+            <input type="radio" name="workAuthorization" value="no" id="notAuthorized">
+            <label for="notAuthorized">No</label>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" name="workAuthorization" value="yes" id="authorized">
+            <label for="authorized">Yes</label>
+        </div>
+        <span class="b2c-error-message" id="workAuthorization-error-message" style="visibility: hidden;">-</span>
+    </fieldset>
+    <div id="educationScoreField"></div>
+    <div id="sponsorshipField"></div>
+    <div id="futureSponsorshipField"></div>
+    <div id="futureFamilySponsorship"></div>
+
+    <fieldset class="two-grid-container">
+        <legend class="form-label">Upload Your Resume</legend>
+        <!-- File Upload Option -->
+        <label class="legend-container">
+            <div style="color:white; font-size:18px;"><img style="width:30px; height:30px; margin-right: 10px;"
+                    src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png">Computer
+            </div>
+            <input type="hidden" name="computer_data" id="computer_data">
+            <input type="hidden" name="computer_data_result" id="computer_data_result">
+            <input type="hidden" name="resumeURL" id="resumeURL">
+            <input type="hidden" name="FileBase64" id="FileBase64">
+            <input type="hidden" name="FileExt" id="FileExt">
+
+            <input type="file" id="ResumeUpload" name="ResumeUpload" accept=".pdf, .docx, .doc, .rtf, .txt">
+
+
+        </label>
+        <label class="legend-container">
+
+            <label style="color:white; font-size:18px;" class="dropbox-button" id="dropboxButton">
+                <div style="color:white; font-size:18px;"><img style="width:30px; height:30px; margin-right: 10px;"
+                        src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/6673257bcdcad45f4881b227_dropbox_icon.png">Dropbox
+                </div>
+            </label>
+            <input type="hidden" name="dropbox" id="dropbox_auth_name" value="">
+            <input type="hidden" name="Resumedropbox" id="Resumedropbox" value="">
+        </label>
+    </fieldset>
+    <span class="b2c-error-message" id="fileError"></span>
+    <span class="resume-success" id="fileSuccess"></span>
+    <div style="margin-top: 1rem;color: #9ca3af;">
+        * Note
+        <ul style="margin-top: 5px;font-size: 16px;color: #9ca3af;line-height: unset;">
+            <li style="font-size: 16px;color: #9ca3af;line-height: unset;">Resume file type should be one of the
+                following: .doc, .docx, .pdf, .txt, .rtf</li>
+            <li style="font-size: 16px;color: #9ca3af;line-height: unset;">Size less than 5MB</li>
+        </ul>
+    </div>
+    <div style="font-size: 16px;color:#fff">
+        <div>
+            Your privacy is important to us
+        </div>
+        <div style="margin-top: 0.5rem;margin-bottom: 0.5rem;">
+            Revature is committed to safeguarding your privacy. We will
+            never sell or share your personal information. Submitting this
+            form constitutes your express written consent to receive
+            e-mails, texts, and phone messages from Revature at the phone
+            number(s) and email address provided in this form.
+        </div>
+        <div>
+            <input type="checkbox" id="dataConsent" name="dataConsent" />
+            <label style="font-weight: unset;display: unset;">By selecting this checkbox, you agree to allow Revature to
+                share
+                your contact information with our career-placement
+                and network partners for the purpose of expanding your job placement opportunities or network.
+                This information may include your name, phone number, email address, education level, and work
+                authorization
+                status.</label>
+        </div>
+    </div>
+    <div id="recaptcha-container" class="g-recaptcha"></div>
+    <span class="b2c-error-message" id="recaptchaError" style="visibility: hidden;">-</span>
+    <button type="submit" class="b2b-form-button" id="b2b-form-button">Submit</button>
+    <div id="loadSpinner"></div>
+</form>
+
+
+<script src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/666f2f8f7d2ddcf0bbc3caa0_Form%20Constants.txt"
+    type="text/javascript" rel="nofollow"></script>
+<script
+    src="https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/670fa399290d3bb28e121a0f_EnvironmentVariables.txt"
+    type="text/javascript" rel="nofollow"></script>
+<script src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="lcc592yiomt2omy"
+    rel="nofollow"></script>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('myForm');
+
+        const resumeUpload = document.getElementById('ResumeUpload');
+        const fileError = document.getElementById('fileError');
+
+        //Common Field Error Validation
+        const fields = document.querySelectorAll('.common-field');
+        const errorMessages = document.querySelectorAll('.common-error-message');
+        const phoneField = document.querySelector('input[name="phone"]');
+        const emailField = document.querySelector('input[name="email"]');
+
+        const validateEmail = (email) => {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        };
+        const validatePhone = (phone) => {
+            const phoneRegExp = /^\d{10}$/;
+            const cleaned = phone.replace(/\D/g, '');
+            return cleaned[0] !== '1' && phoneRegExp.test(cleaned);
+        };
+        const formatPhoneNumber = (phone) => {
+            phone = phone.replace(/\D/g, "");
+            if (phone.length === 10) {
+                return phone.replace(/^(\d{3})(\d{3})(\d{4})$/, "($1) $2-$3");
+            } else if (phone.length > 6) {
+                return phone.replace(/^(\d{3})(\d{3})(\d*)$/, "($1) $2-$3");
+            } else if (phone.length > 3) {
+                return phone.replace(/^(\d{3})(\d*)$/, "($1) $2");
+            } else if (phone.length > 0) {
+                return "(" + phone;
+            }
+            return phone;
+        };
+
+        emailField.addEventListener('input', function (e) {
+            const emailInput = e.target;
+            const email = emailInput.value;
+            const errorMessage = document.getElementById('email-error-message');
+
+            if (!validateEmail(email)) {
+                errorMessage.textContent = 'Invalid email address';
+                errorMessage.style.visibility = 'visible';
+                emailInput.setCustomValidity('Invalid email address');
+            } else {
+                errorMessage.textContent = '-';
+                errorMessage.style.visibility = 'hidden';
+                emailInput.setCustomValidity('');
+            }
+        });
+        phoneField.addEventListener('input', function (e) {
+            const onlyNumbers = e.target.value.replace(/\D/g, "");
+            if (onlyNumbers.length <= 10) {
+                phoneField.value = formatPhoneNumber(onlyNumbers);
+            }
+            const phoneInput = event.target;
+            const phone = phoneInput.value;
+            const errorMessage = document.getElementById('phone-error-message');
+
+            // Format the phone number as the user types
+            phoneInput.value = formatPhoneNumber(phone);
+
+            if (!validatePhone(phone)) {
+                errorMessage.textContent = 'Phone number is not valid';
+                errorMessage.style.visibility = 'visible';
+                phoneInput.setCustomValidity('Phone number is not valid');
+            } else {
+                errorMessage.textContent = '-';
+                errorMessage.style.visibility = 'hidden';
+                phoneInput.setCustomValidity('');
+            }
+        });
+        fields.forEach((field, index) => {
+            field.addEventListener('blur', function () {
+                if (!field.value?.trim()) {
+                    errorMessages[index].textContent = (field.placeholder || field.id) + " is required";
+                    errorMessages[index].style.visibility = 'visible';
+                } else if (errorMessages[index].textContent == ((field.placeholder || field.id) + " is required")) {
+                    errorMessages[index].textContent = "-";
+                    errorMessages[index].style.visibility = 'hidden';
+                }
+            });
+        });
+
+        //Dropbox Implementation
+        let dropboxReady = false;
+
+        document.getElementById('dropboxjs').addEventListener('load', function () {
+            dropboxReady = true;
+        });
+
+        document.getElementById('dropboxButton').addEventListener('click', function () {
+            if (dropboxReady) {
+                return;
+            }
+
+            Dropbox.choose({
+                success: function (files) {
+                    handleDropboxFileChange(files[0]);
+                },
+                linkType: "preview",
+                multiselect: false,
+                extensions: [".doc", ".docx", ".pdf", ".txt", ".rtf"]
+            });
+        });
+
+        resumeUpload.addEventListener('change', function (event) {
+            handleFileChange(event);
+        });
+
+        // Function to handle country selection and display location fields
+        const countrySelect = form.querySelector('select[name="country"]');
+
+        countrySelect.addEventListener('change', function () {
+            insertLocationFormFields(countrySelect.value);
+            insertEducationFormFields(form);
+            insertSponsorshipFormFields(countrySelect.value);
+        });
+
+        // Function to handle Current Student selection and display fields
+        const currentStudentSelect = document.getElementById("currentStudentRadioButtons");
+
+        currentStudentSelect.addEventListener("change", function (event) {
+            insertEducationFormFields(form);
+        });
+
+        // Function to handle form submission
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            radioButtonsValidation(document.querySelectorAll('input[name="currentStudent"]'), document.getElementById('currentStudent-error-message'));
+            radioButtonsValidation(document.querySelectorAll('input[name="willingToRelocate"]'), document.getElementById('willingToRelocate-error-message'));
+            radioButtonsValidation(document.querySelectorAll('input[name="workAuthorization"]'), document.getElementById('workAuthorization-error-message'));
+            radioButtonsValidation(document.querySelectorAll('input[name="levelOfEducation"][type="radio"]'), document.getElementById('levelOfEducation-error-message'));
+            radioButtonsValidation(document.querySelectorAll('input[name="workAuthorization"][type="radio"]'), document.getElementById('workAuthorization-error-message'));
+            radioButtonsValidation(document.querySelectorAll('input[name="sponsorship"][type="radio"]'), document.getElementById('sponsorship-error-message'));
+            radioButtonsValidation(document.querySelectorAll('input[name="futureSponsorship"][type="radio"]'), document.getElementById('futureSponsorship-error-message'));
+            radioButtonsValidation(document.querySelectorAll('input[name="futureFamilySponsorship"][type="radio"]'), document.getElementById('futureFamilySponsorship-error-message'));
+            radioButtonsValidation(document.querySelectorAll('input[name="caSponsorship"][type="radio"]'), document.getElementById('caSponsorship-error-message'));
+
+
+            const _fields = document.querySelectorAll('.common-field');
+            const _errorMessages = document.querySelectorAll('.common-error-message');
+            _fields?.forEach((field, index) => {
+                if (!field.value?.trim()) {
+                    _errorMessages[index].textContent = (field.placeholder || field.id) + " is required";
+                    _errorMessages[index].style.visibility = 'visible';
+                } else if (_errorMessages[index].textContent == ((field.placeholder || field.id) + " is required")) {
+                    _errorMessages[index].textContent = "-";
+                    _errorMessages[index].style.visibility = 'hidden';
+                }
+            });
+
+            let isFormValid = true
+            const b2bErrorMessages = document.querySelectorAll('.b2c-error-message');
+            b2bErrorMessages.forEach(error => {
+                if (error.textContent && error.textContent != "-") {
+                    isFormValid = false
+                    console.error(error.textContent)
+                }
+            })
+            const computerData = document.getElementById('computer_data').value;
+            const dropboxData = document.getElementById('dropbox_auth_name').value;
+            if (!(computerData || dropboxData)) {
+                document.getElementById('fileError').textContent = "Please upload a resume.";
+                showSubmitButton()
+            }
+            const recaptchaResponse = grecaptcha.getResponse();
+            const recaptchaError = document.getElementById('recaptchaError');
+            if (recaptchaResponse === "") {
+                isFormValid = false;
+                recaptchaError.textContent = "Please complete the reCAPTCHA to proceed.";
+                recaptchaError.style.visibility = 'visible';
+            }
+            if (isFormValid) {
+                document.getElementById('b2b-form-button').style.display = 'none';
+                document.getElementById('loadSpinner').classList.add('spinner');
+                uploadResume();
+            }
+        });
+    });
+
+    function recaptchaSuccessCallback() {
+        const recaptchaError = document.getElementById('recaptchaError');
+        recaptchaError.textContent = "-";
+        recaptchaError.style.visibility = 'hidden';
+    }
+
+    function submitForm(formDataObject) {
+        if (formDataObject.country === "Canada") {
+            formDataObject.zip = formDataObject.canadaZip;
+            formDataObject.state = formDataObject.canadaState;
+        } else if (formDataObject.country === "United Kingdom") {
+            formDataObject.zip = formDataObject.ukZip;
+        } else if (formDataObject.country == "India") {
+            if (formDataObject.levelOfEducation.includes("Bachelor's Degree")) {
+                formDataObject.levelOfEducation = "Bachelor's Degree";
+            } else if (formDataObject.levelOfEducation.includes("Master's Degree")) {
+                formDataObject.levelOfEducation = "Master's Degree";
+            }
+        }
+
+        if (formDataObject.country === "United States") {
+            formDataObject.workAuthorization = formDataObject.workAuthorization === "yes" &&
+                formDataObject.sponsorship === "no" &&
+                formDataObject.futureSponsorship === "no" &&
+                formDataObject.futureFamilySponsorship === "no"
+                ? "Yes"
+                : "No"
+        } else if (["United Kingdom", "Canada"].includes(formDataObject.country)) {
+            formDataObject.workAuthorization = formDataObject.workAuthorization === "yes" && formDataObject.caSponsorship === "no" ? "Yes" : "No";
+        }
+        const queryParams = getQueryParams();
+        const standardizedQuery = standardizeQueryParams(queryParams);
+        // Make POST request to the API endpoint
+        const apiObject = {
+            url: window?.location?.href.split('#')[0] || "",
+            ApplicationDevice__c: window.innerWidth < 640 ? "Mobile" : "Desktop",
+            irClickId: standardizedQuery?.irclickid || "",
+            searchEngine: standardizedQuery?.searchengine || "",
+            searchString: standardizedQuery?.srstring || "",
+            payPerClickKeyword: standardizedQuery?.keyword || "",
+            gCLID: standardizedQuery?.gclid || "",
+            uTMTerm: standardizedQuery?.utm_term || "",
+            uTMCampaign: standardizedQuery.utm_campaign || "",
+            uTMContent: standardizedQuery.utm_content || "",
+            uTMMedium: standardizedQuery.utm_medium || "",
+            uTMSource: standardizedQuery.utm_source || "",
+            uTMSchoolID: standardizedQuery.utm_schoolid || "",
+            referrerURL: document.referrer || "Direct",
+            uTMReferrerName: standardizedQuery.utm_referrername || "",
+            campaignvalue: standardizedQuery.campaignvalue || "",
+            appcastClickID: '',
+            sourcedBy: standardizedQuery.sourcedby || "",
+            referredByEmail: standardizedQuery.referredByEmail || "",
+            referredBy : standardizedQuery.ra || "",
+            referredByUser: standardizedQuery.ru || "",
+            dropbox: '',
+            veteran: (window?.location?.href.split('#')[0] || "").includes("veteran"),
+            Resumedropbox: '',
+            ...formDataObject,
+            leadDate: new Date().toISOString(),
+            phone: formDataObject.phone.replace(/\D/g, ""),
+            FileBase64: '',
+            FileExt: '',
+            ResumeUpload: '',
+            computer_data: '',
+            computer_data_result: '',
+            graduationDate: formDataObject.graduationMonth ? `${formDataObject.graduationYear}-${formDataObject.graduationMonth}-01` : "",
+            dataConsent: formDataObject.dataConsent == "on",
+            leadType: "Revature"
+        }
+        delete apiObject["computer_data"];
+        delete apiObject["computer_data_result"];
+        delete apiObject["g-recaptcha-response"];
+
+        const apiUrl = ENV_VAR.B2C_FORM_API_ENDPOINT;
+        const queryString = Object.keys(apiObject)
+            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(apiObject[key]))
+            .join('&');
+        const apiUrlWithParams = apiUrl + '?' + queryString;
+
+        fetch(apiUrlWithParams, {
+            method: 'GET',
+            mode: 'no-cors'
+        }).then(response => {
+            if (response.ok) {
+                console.log('Form data submitted successfully');
+            } else {
+                console.error('Error submitting form data');
+            }
+            window.location.href = `/thank-you-for-submission?name=${btoa(apiObject?.firstName)}`;
+        }).catch(error => {
+            console.error('Error submitting form data:', error);
+            alert('Error submitting form data, Please try again.');
+            showSubmitButton()
+        });
+    }
+
+    function handleDropboxFileChange(file) {
+        const fileError = document.getElementById('fileError');
+        const fileSuccess = document.getElementById('fileSuccess');
+        fileError.textContent = '';
+        fileSuccess.textContent = '';
+        if (file.bytes > 5242880) {
+            fileError.textContent = "File size is too large.";
+        } else {
+            document.getElementById('computer_data').value = null;
+            document.getElementById('dropbox_auth_name').value = file.link;
+            document.getElementById('Resumedropbox').value = file.link;
+            document.getElementById('fileError').textContent = '';
+            fileSuccess.textContent = 'Resume ready to upload';
+        }
+    }
+
+    function handleFileChange(e) {
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        if (!file) {
+            return;
+        }
+        fileError.textContent = '';
+        reader.onloadend = function (e) {
+            const result = e.target.result;
+            const rawData = result.split("base64,")[1];
+            const allowedExtensions = ["pdf", "doc", "docx", "rtf", "txt"];
+            const fileExtension = file.name.split(".").pop();
+            const fileError = document.getElementById('fileError');
+            const fileSuccess = document.getElementById('fileSuccess');
+            fileError.textContent = '';
+            fileSuccess.textContent = '';
+            if (!allowedExtensions.includes(fileExtension)) {
+                fileError.textContent = "Invalid file type.";
+            } else if (file.size > 5242880) {
+                fileError.textContent = "File size is too large.";
+            } else {
+                document.getElementById('computer_data').value = file.name;
+                document.getElementById('computer_data_result').value = rawData;
+                document.getElementById('FileBase64').value = rawData;
+                document.getElementById('FileExt').value = file.type;
+                document.getElementById('dropbox_auth_name').value = null;
+                fileSuccess.textContent = 'Resume ready to upload';
+            }
+        };
+
+        reader.readAsDataURL(file);
+    };
+
+    function uploadResume() {
+        // Collect form data
+        const formData = new FormData(document.getElementById('myForm'));
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = typeof value != 'object' && !Array.isArray(value) && value !== null ? value?.trim() : value;
+        });
+        if (formDataObject.computer_data) {
+            fetch(ENV_VAR.RESUME_API_ENDPOINT,
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        key: "245583662863Rk863369",
+                        person: `${formDataObject.firstName} ${formDataObject.lastName}`,
+                        filename: formDataObject.computer_data,
+                        file: formDataObject.computer_data_result,
+                    }),
+                },
+            ).then((response) => response.json()).then((data) => {
+                if (data.success) {
+                    document.getElementById('resumeURL').value = data.link;
+                    formDataObject.resumeURL = data.link;
+                    submitForm(formDataObject);
+                } else {
+                    document.getElementById('fileError').textContent = 'There was an error uploading your file. Please try again.';
+                    showSubmitButton()
+                }
+            }).catch((error) => {
+                document.getElementById('fileError').textContent = 'There was an error uploading your file. Please try again.';
+                showSubmitButton()
+            });
+        } else if (formDataObject.dropbox) {
+            const extension = formDataObject.dropbox.split("/").pop().split("#")[0].split("?")[0];
+            let url = formDataObject.dropbox.replace("dl=0", "dl=1");
+            url = url?.trim();
+            const base64 = btoa(url);
+            fetch(ENV_VAR.RESUME_API_ENDPOINT,
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        key: "245583662863Rk863369",
+                        person: `${formDataObject.firstName} ${formDataObject.lastName}`,
+                        filename: extension,
+                        file: base64,
+                    }),
+                }).then((response) => response.json()).then((data) => {
+                    if (data.success) {
+                        document.getElementById('resumeURL').value = data.link;
+                        formDataObject.resumeURL = data.link;
+                        submitForm(formDataObject);
+                    } else {
+                        document.getElementById('fileError').textContent = 'There was an error uploading your file. Please try again.';
+                        showSubmitButton()
+                    }
+                })
+                .catch((error) => {
+                    document.getElementById('fileError').textContent = 'There was an error uploading your file. Please try again.';
+                    showSubmitButton()
+                });
+        } else {
+            document.getElementById('fileError').textContent = "Please upload a resume.";
+            showSubmitButton()
+        }
+    }
+
+    function showSubmitButton() {
+        document.getElementById('b2b-form-button').style.display = 'block';
+        document.getElementById('loadSpinner').classList.remove('spinner');
+    }
+
+    function insertLocationFormFields(selectedCountry) {
+        const locationFieldsContainer = document.getElementById('locationFields');
+        const validationDataObject = { input: '', maxLength: 0, pattern: '', maxLengthValidationMessage: '', patternValidationMessage: '' };
+        locationFieldsContainer.innerHTML = '';
+
+        // Add location fields based on selected country
+        if (selectedCountry === 'United States') {
+            locationFieldsContainer.innerHTML = `
+                    <span class="one-grid-container">
+                        <fieldset class="form-fieldset">
+                            <legend class="form-label">Location</legend>
+                            <input class="form-field location-field common-field" type="text" name="city" placeholder="City">
+                            <span class="b2c-error-message location-error-message common-error-message" id="city-error-message" style="visibility: hidden;">-</span>
+                        </fieldset>   
+					</span>
+                    <div class="two-grid-container">
+                        <fieldset class="form-fieldset">
+                            <select name="state" class="form-field location-field common-field" id="State">
+                                <option value="" disabled selected>State</option>
+                                <option value="Alabama">AL</option>
+                                <option value="Alaska">AK</option>
+                                <option value="Arizona">AZ</option>
+                                <option value="Arkansas">AR</option>
+                                <option value="California">CA</option>
+                                <option value="Colorado">CO</option>
+                                <option value="Connecticut">CT</option>
+                                <option value="Delaware">DE</option>
+                                <option value="District of Columbia">DC</option>
+                                <option value="Florida">FL</option>
+                                <option value="Georgia">GA</option>
+                                <option value="Hawaii">HI</option>
+                                <option value="Idaho">ID</option>
+                                <option value="Illinois">IL</option>
+                                <option value="Indiana">IN</option>
+                                <option value="Iowa">IA</option>
+                                <option value="Kansas">KS</option>
+                                <option value="Kentucky">KY</option>
+                                <option value="Louisiana">LA</option>
+                                <option value="Maine">ME</option>
+                                <option value="Maryland">MD</option>
+                                <option value="Massachusetts">MA</option>
+                                <option value="Michigan">MI</option>
+                                <option value="Minnesota">MN</option>
+                                <option value="Mississippi">MS</option>
+                                <option value="Missouri">MO</option>
+                                <option value="Montana">MT</option>
+                                <option value="Nebraska">NE</option>
+                                <option value="Nevada">NV</option>
+                                <option value="New Hampshire">NH</option>
+                                <option value="New Jersey">NJ</option>
+                                <option value="New Mexico">NM</option>
+                                <option value="New York">NY</option>
+                                <option value="North Carolina">NC</option>
+                                <option value="North Dakota">ND</option>
+                                <option value="Ohio">OH</option>
+                                <option value="Oklahoma">OK</option>
+                                <option value="Oregon">OR</option>
+                                <option value="Pennsylvania">PA</option>
+                                <option value="Puerto Rico">PR</option>
+                                <option value="Rhode Island">RI</option>
+                                <option value="South Carolina">SC</option>
+                                <option value="South Dakota">SD</option>
+                                <option value="Tennessee">TN</option>
+                                <option value="Texas">TX</option>
+                                <option value="Utah">UT</option>
+                                <option value="Vermont">VT</option>
+                                <option value="Virginia">VA</option>
+                                <option value="Washington">WA</option>
+                                <option value="West Virginia">WV</option>
+                                <option value="Wisconsin">WI</option>
+                                <option value="Wyoming">WY</option>
+                            </select>
+                            <span class="b2c-error-message location-error-message common-error-message" id="state-error-message" style="visibility: hidden;">-</span>
+                        </fieldset>
+                        <fieldset class="form-fieldset">
+                            <input class="form-field location-field common-field" type="text" name="zip" placeholder="ZIP" maxLength="5">
+                            <span class="b2c-error-message location-error-message common-error-message" id="zip-error-message" style="visibility: hidden;">-</span>
+                        </fieldset>
+                    </div>
+                    `;
+            validationDataObject.input = 'input[name="zip"]';
+            validationDataObject.maxLength = 5;
+            validationDataObject.pattern = /^[0-9]+$/;
+            validationDataObject.maxLengthValidationMessage = 'ZIP code needs to be 5 digits';
+            validationDataObject.patternValidationMessage = 'ZIP must be a number';
+        } else if (selectedCountry === 'Canada') {
+            locationFieldsContainer.innerHTML = `
+                    <legend class="form-label">Location</legend>
+                    <div class="two-grid-container">
+                        <fieldset class="form-fieldset">
+                            <select name="canadaState" class="form-field location-field common-field" id="Province">
+                                    <option value="" disabled selected>Province</option>
+                                    <option value="Alberta">Alberta</option>
+                                    <option value="British Columbia">British Columbia</option>
+                                    <option value="Manitoba">Manitoba</option>
+                                    <option value="New Brunswick">New Brunswick</option>
+                                    <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+                                    <option value="Northwest Territories">Northwest Territories</option>
+                                    <option value="Nova Scotia">Nova Scotia</option>
+                                    <option value="Nunavut">Nunavut</option>
+                                    <option value="Ontario">Ontario</option>
+                                    <option value="Prince Edward Island">Prince Edward Island</option>
+                                    <option value="Quebec">Quebec</option>
+                                    <option value="Saskatchewan">Saskatchewan</option>
+                                    <option value="Yukon">Yukon</option>
+                            </select>
+                            <span class="b2c-error-message location-error-message common-error-message" style="visibility: hidden;">-</span>
+                        </fieldset>
+                        <fieldset class="form-fieldset">
+                            <input class="form-field location-field common-field" type="text" name="canadaZip" placeholder="ZIP" maxLength="6">
+                            <span class="b2c-error-message location-error-message common-error-message" style="visibility: hidden;">-</span>
+                        </fieldset>
+                    </div>
+                    `;
+            validationDataObject.input = 'input[name="canadaZip"]';
+            validationDataObject.maxLength = 6;
+            validationDataObject.pattern = /^[a-zA-Z0-9]+$/;
+            validationDataObject.maxLengthValidationMessage = 'ZIP code needs to be 6 digits';
+            validationDataObject.patternValidationMessage = 'Invalid zip code';
+        } else if (selectedCountry === 'United Kingdom') {
+            locationFieldsContainer.innerHTML = `
+                    <legend class="form-label">Location</legend>
+                    <div class="two-grid-container">
+                        <fieldset class="form-fieldset">
+                            <input type="text" name="city" placeholder="City/Town" class="form-field location-field common-field">
+                            <span class="b2c-error-message location-error-message common-error-message" style="visibility: hidden;">-</span>
+                        </fieldset>
+                        <fieldset class="form-fieldset">
+                            <input type="text" name="ukZip" placeholder="Zip/Postcode" maxLength="7" class="form-field location-field common-field">
+                            <span class="b2c-error-message location-error-message common-error-message" style="visibility: hidden;">-</span>
+                        </fieldset>
+                    </div>
+                    `;
+            validationDataObject.input = 'input[name="ukZip"]';
+            validationDataObject.maxLength = 7;
+            validationDataObject.pattern = /^[a-zA-Z0-9]+$/;
+            validationDataObject.maxLengthValidationMessage = 'ZIP code needs to be 7 digits';
+            validationDataObject.patternValidationMessage = 'Invalid zip code';
+        } else if (selectedCountry === 'India') {
+            locationFieldsContainer.innerHTML = `
+                    <div class="one-grid-container">
+                        <fieldset class="form-fieldset">
+                            <legend class="form-label">Location</legend>
+                            <select name="state" class="form-field location-field common-field" id="State">
+                                <option value="" disabled selected>State</option>
+                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Daman and Diu">Daman and Diu</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Lakshadweep">Lakshadweep</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Puducherry">Puducherry</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Uttarakhand">Uttarakhand</option>
+                                <option value="West Bengal">West Bengal</option>
+                            </select>
+                            <span class="b2c-error-message location-error-message common-error-message" style="visibility: hidden;">-</span>
+                        </fieldset>
+                    </div>
+                    `;
+        }
+        if (validationDataObject.input) {
+            const zipInput = document.querySelector(validationDataObject.input);
+            const errorMessage = zipInput.nextElementSibling;
+
+            zipInput.addEventListener('input', function () {
+                const zipValue = zipInput.value;
+                if (!(validationDataObject.pattern).test(zipValue)) {
+                    errorMessage.textContent = validationDataObject.patternValidationMessage;
+                    errorMessage.style.visibility = 'visible';
+                } else if (zipValue.length !== validationDataObject.maxLength) {
+                    errorMessage.textContent = validationDataObject.maxLengthValidationMessage;
+                    errorMessage.style.visibility = 'visible';
+                } else {
+                    errorMessage.textContent = "-";
+                    errorMessage.style.visibility = 'hidden';
+                }
+            });
+        }
+        const locationField = document.querySelectorAll('.location-field');
+        const errorMessages = document.querySelectorAll('.location-error-message');
+        locationField.forEach((field, index) => {
+            field.addEventListener('blur', function () {
+                if (!field.value?.trim()) {
+                    errorMessages[index].textContent = (field.placeholder || field.id) + " is required";
+                    errorMessages[index].style.visibility = 'visible';
+                } else if (errorMessages[index].textContent == ((field.placeholder || field.id) + " is required")) {
+                    errorMessages[index].textContent = "-";
+                    errorMessages[index].style.visibility = 'hidden';
+                }
+            });
+        });
+    }
+
+    function insertEducationFormFields(form) {
+        const formData = new FormData(form);
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+        const educationFieldsContainer = document.getElementById('educationFields');
+        var degreeText = "Highest Degree Achieved";
+        var dateText = "Graduation Date";
+        if (formDataObject.currentStudent == "yes") {
+            degreeText = "Degree Expected";
+            dateText = "Expected Graduation Date";
+        }
+        var innerHTML = ``;
+        if (formDataObject.currentStudent) {
+            if ((!formDataObject.country || formDataObject.country == "Canada")) {
+                innerHTML = `
+                    <legend class="form-label">${degreeText}</legend>
+                    <fieldset class="two-grid-container">
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="High School" id="highSchool">
+                            <label for="highSchool">High School</label>
+                        </div>
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="Associate's Degree" id="associatesDegree">
+                            <label for="associatesDegree">Associate's Degree</label>
+                        </div>
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="3-Year Bachelor's Degree" id="threeYearBachelor">
+                            <label for="threeYearBachelor">3-Year Bachelor's Degree</label>
+                        </div>
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="4-Year Bachelor's Degree" id="fourYearBachelor">
+                            <label for="fourYearBachelor">4-Year Bachelor's Degree</label>
+                        </div>
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="Master's Degree" id="mastersDegree">
+                            <label for="mastersDegree">Master's Degree</label>
+                        </div>
+                        <span class="b2c-error-message" id="levelOfEducation-error-message" style="visibility: hidden;">-</span>
+                    </fieldset>
+                        `;
+            } else if (formDataObject.country == "United States") {
+                innerHTML = `
+                    <legend class="form-label">${degreeText}</legend>
+                    <fieldset class="two-grid-container">
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="High School" id="highSchool">
+                            <label for="highSchool">High School</label>
+                        </div>
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="Associate's Degree" id="associatesDegree">
+                            <label for="associatesDegree">Associate's Degree</label>
+                        </div>
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="Bachelor's Degree" id="bachelorsDegree">
+                            <label for="bachelorsDegree">Bachelor's Degree</label>
+                        </div>
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="Master's Degree" id="mastersDegree">
+                            <label for="mastersDegree">Master's Degree</label>
+                        </div>
+                        <span class="b2c-error-message" id="levelOfEducation-error-message" style="visibility: hidden;">-</span>
+                    </fieldset>
+                    <fieldset class="one-grid-container">
+                        <legend class="form-label">Major</legend>
+                        <div class="autocomplete-container">
+                            <input class="form-field educationFields-field common-field" name="major" type="text" id="major-autocomplete-input" placeholder="Major" />
+                            <input style="display:none" name="majorID" type="text" id="majorID-input" />
+                            <div id="major-autocomplete-list" class="autocomplete-items"></div>
+                        </div>
+                        <span class="b2c-error-message educationFields-error-message common-error-message" style="visibility: hidden;">-</span>
+                    </fieldset>
+                    <fieldset class="one-grid-container">
+                        <legend class="form-label">School</legend>
+                        <div class="autocomplete-container">
+                            <input class="form-field educationFields-field common-field" name="school" type="text" id="school-autocomplete-input" placeholder="School" />
+                            <input style="display:none" name="schoolID" type="text" id="schoolID-input" />
+                            <div id="school-autocomplete-list" class="autocomplete-items"></div>
+                        </div>
+                        <span class="b2c-error-message educationFields-error-message common-error-message" style="visibility: hidden;">-</span>
+                    </fieldset>
+                    `;
+            } else if (formDataObject.country == "United Kingdom") {
+                innerHTML = `
+                    <legend class="form-label">${degreeText}</legend>
+                    <fieldset class="two-grid-container">
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="High School" id="secondarySchool">
+                            <label for="secondarySchool">Secondary School</label>
+                        </div>
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="Bachelor's Degree" id="bachelorsDegree">
+                            <label for="bachelorsDegree">BA/BSc</label>
+                        </div>
+                        <div class="custom-radio">
+                            <input type="radio" name="levelOfEducation" value="Master's Degree" id="mastersDegree">
+                            <label for="mastersDegree">MA/MLitt/MSc</label>
+                        </div>
+                        <span class="b2c-error-message" id="levelOfEducation-error-message" style="visibility: hidden;">-</span>
+                    </fieldset>
+                    `;
+            } else if (formDataObject.country == "India") {
+                innerHTML = `
+                <legend class="form-label">${degreeText}</legend>
+                <div class="two-grid-container">
+                    <fieldset class="form-fieldset">
+                        <select name="levelOfEducation" class="form-field educationFields-field common-field" id="Level Of Education">
+                            <option value="" disabled selected></option>
+                            <option value="Bachelor's Degree">Bachelor of Science</option>
+                            <option value="Bachelor's Degree_2">Bachelor of Engineering</option>
+                            <option value="Bachelor's Degree_3">Bachelor of Technology</option>
+                            <option value="Master's Degree">Master of Science</option>
+                            <option value="Master's Degree_2">Master of Engineering</option>
+                            <option value="Master's Degree_3">Master of Technology</option>
+                            <option value="Master's Degree_4">Master of Computer Application</option>
+                            <option value="High School">Other</option>
+                        </select>
+                        <span class="b2c-error-message educationFields-error-message common-error-message" style="visibility: hidden;">-</span>
+                    </fieldset>
+                    <fieldset class="form-fieldset">
+                        <select name="branch" class="form-field educationFields-field common-field" id="Branch">
+                            <option value="" disabled selected></option>
+                            <option value="a0A0d00000cwoOcEAI">Computer Science and Engineering</option>
+                            <option value="a0A3g000000sYkcEAE">Electronics and Communication Engineering</option>
+                            <option value="a0A0P00001ZJyDgUAL">Circuital</option>
+                            <option value="a0A0P00001ZJyDjUAL">Information Technology</option>
+                            <option value="a0A0P00001ZJyDHUA1">Civil Engineering</option>
+                            <option value="a0A0P00001ZJyDqUAL">Mechanical Engineering</option>
+                            <option value="a0A0P00001ZJyCLUA1">Unlisted</option>
+                        </select>
+                        <input style="display:none" name="major" type="text" id="major-for-branch" />
+                        <input style="display:none" name="majorID" type="text" id="majorID-for-branch" />
+                        <span class="b2c-error-message educationFields-error-message common-error-message" style="visibility: hidden;">-</span>
+                    </fieldset>
+                </div>
+                `;
+            }
+        }
+        if (formDataObject.currentStudent == "yes" || (formDataObject.currentStudent && formDataObject.country == "India")) {
+            const currentYear = formDataObject.currentStudent == "yes" ? new Date().getFullYear() : new Date().getFullYear() - 2;
+            const years = formDataObject.currentStudent == "yes" ? 5 : 3;
+            const graduationYears = Array.from({ length: years }, (_, i) => currentYear + i);
+
+            innerHTML = innerHTML + `
+                    <legend class="form-label">${dateText}</legend>
+                    <div class="two-grid-container">
+                        <fieldset class="form-fieldset">
+                            <select name="graduationMonth" class="form-field educationFields-field common-field" id="Graduation Month">
+                                <option value="" disabled selected>Select a month</option>
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                            <span class="b2c-error-message educationFields-error-message common-error-message" style="visibility: hidden;">-</span>
+                        </fieldset>
+                        <fieldset class="form-fieldset">
+                            <select name="graduationYear" class="form-field educationFields-field common-field" id="Graduation Year">
+                                <option value="" disabled selected>Select a year</option>`;
+                                graduationYears.forEach(year => {
+                                    innerHTML += `<option value="${year}">${year}</option>`;
+                                });
+                                innerHTML += `
+                            </select>
+                            <span class="b2c-error-message educationFields-error-message common-error-message" style="visibility: hidden;">-</span>
+                        </fieldset>
+                    </div>`;
+        }
+        educationFieldsContainer.innerHTML = innerHTML;
+        const educationField = document.querySelectorAll('.educationFields-field');
+        const errorMessages = document.querySelectorAll('.educationFields-error-message');
+        educationField.forEach((field, index) => {
+            field.addEventListener('blur', function () {
+                setTimeout(() => {
+                    if (field.name === 'school') {
+                        const schoolField = document.querySelector('input[name="schoolID"]');
+                        const schoolValueObj = SCHOOLS.find(el => el.value === schoolField.value)
+                        if(field.value !== schoolValueObj?.label || !schoolField.value){
+                            field.value = '';
+                            schoolField.value = '';
+                        }
+                    } else if (field.name === 'major') {
+                        const majorField = document.querySelector('input[name="majorID"]');
+                        const majorValueObj = MAJORS.find(el => el.value === majorField.value)
+                        if(field.value !== majorValueObj?.label || !majorField.value){
+                            field.value = '';
+                            majorField.value = '';
+                        }
+                    }
+                    if (!field.value?.trim()) {
+                        errorMessages[index].textContent = (field.placeholder || field.id) + " is required";
+                        errorMessages[index].style.visibility = 'visible';
+                    } else if (errorMessages[index].textContent == ((field.placeholder || field.id) + " is required")) {
+                        errorMessages[index].textContent = "-";
+                        errorMessages[index].style.visibility = 'hidden';
+                    }
+                }, 100)
+            });
+        });
+        if (formDataObject.country == "United States") {
+            setAutoComplete(document.getElementById('major-autocomplete-input'), document.getElementById('major-autocomplete-list'), document.getElementById('majorID-input'), MAJORS)
+            setAutoComplete(document.getElementById('school-autocomplete-input'), document.getElementById('school-autocomplete-list'), document.getElementById('schoolID-input'), SCHOOLS)
+        }
+        if (formDataObject.country == "India") {
+            const branch = document.getElementById('Branch');
+            const majorInput = document.getElementById('major-for-branch');
+            const majorIDInput = document.getElementById('majorID-for-branch');
+
+            branch?.addEventListener('change', function () {
+                const selectedOption = branch.options[branch.selectedIndex];
+                majorInput.value = selectedOption.text;
+                majorIDInput.value = selectedOption.value;
+            });
+        }
+    }
+
+    function radioButtonsValidation(radioButtons, errorMessage) {
+        if (radioButtons && errorMessage) {
+            let isSelected = false;
+            radioButtons.forEach(radio => {
+                if (radio.checked) {
+                    isSelected = true;
+                }
+            });
+
+            if (!isSelected) {
+                errorMessage.textContent = "Please select an option.";
+                errorMessage.style.visibility = 'visible';
+            } else {
+                errorMessage.textContent = "-";
+                errorMessage.style.visibility = 'hidden';
+            }
+        }
+    }
+
+    function setAutoComplete(input, list, Id_input, items) {
+        items.sort((a, b) => {
+            if (a.label < b.label) {
+                return -1;
+            }
+            if (a.label > b.label) {
+                return 1;
+            }
+            return 0;
+        });
+        if (input && list) {
+            const updateAutocomplete = () => {
+                const value = input.value.toLowerCase();
+                list.innerHTML = ''; // Clear the list
+
+                if (true) {
+                    const filteredItems = items
+                        .filter(item => item.label.toLowerCase().includes(value))
+                        .sort((a, b) => {
+                            const aLower = a.label.toLowerCase();
+                            const bLower = b.label.toLowerCase();
+                            return aLower.indexOf(value) - bLower.indexOf(value);
+                        });
+
+                    filteredItems.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'autocomplete-item';
+                        div.textContent = item.label;
+                        div.addEventListener('click', () => {
+                            input.value = item.label;
+                            Id_input ? Id_input.value = item.value : '';
+                            list.innerHTML = ''; // Clear the list
+                        });
+                        list.appendChild(div);
+                    });
+                }
+            }
+
+            input.addEventListener('input', updateAutocomplete);
+            input.addEventListener('focus', updateAutocomplete);
+
+            document.addEventListener('click', (e) => {
+                if (!list.contains(e.target) && e.target !== input) {
+                    list.innerHTML = ''; // Close the list
+                }
+            });
+        }
+    }
+
+    function insertSponsorshipFormFields(country) {
+        const authorizationFieldContainer = document.getElementById('authorizationField');
+        const educationScoreFieldContainer = document.getElementById('educationScoreField');
+        const sponsorshipField = document.getElementById('sponsorshipField');
+        const futureSponsorshipField = document.getElementById('futureSponsorshipField');
+        const futureFamilySponsorship = document.getElementById('futureFamilySponsorship');
+        sponsorshipField.innerHTML = '';
+        futureSponsorshipField.innerHTML = '';
+        futureFamilySponsorship.innerHTML = '';
+        authorizationFieldContainer.innerHTML = '';
+        educationScoreFieldContainer.innerHTML = '';
+        if (country == "India") {
+            educationScoreFieldContainer.innerHTML = `
+            <div class="one-grid-container">
+                <fieldset class="form-fieldset">
+                    <legend class="form-label">Score in Degree (in %)</legend>
+                    <input class="form-field education-field common-field" type="text" maxlength="2" placeholder="Degree Score" name="majorGrade">
+                    <span class="b2c-error-message education-error-message common-error-message" id="degreeScore-error-message" style="visibility: hidden;">-</span>
+                </fieldset>
+
+                <fieldset class="form-fieldset">
+                    <legend class="form-label">Score in 12th Board exam (in %)</legend>
+                    <input class="form-field education-field common-field" name="12thGrade" type="text" maxlength="2" placeholder="12th Score" id="12thGrade">
+                    <span class="b2c-error-message education-error-message common-error-message" id="12thGrade-error-message" style="visibility: hidden;">-</span>
+                </fieldset>
+
+                <fieldset class="form-fieldset">
+                    <legend class="form-label">Score in 10th Board exam (in %)</legend>
+                    <input class="form-field education-field common-field" name="10thGrade" type="text" maxlength="2" placeholder="10th Score" id="10thGrade">
+                    <span class="b2c-error-message education-error-message common-error-message" id="10thGrade-error-message" style="visibility: hidden;">-</span>
+                </fieldset>
+            </div`;
+            const educationField = document.querySelectorAll('.education-field');
+            const errorMessages = document.querySelectorAll('.education-error-message');
+            educationField.forEach((field, index) => {
+                field.addEventListener('blur', function () {
+                    if (!field.value?.trim()) {
+                        errorMessages[index].textContent = (field.placeholder || field.id) + " is required";
+                        errorMessages[index].style.visibility = 'visible';
+                    } else if (errorMessages[index].textContent == ((field.placeholder || field.id) + " is required")) {
+                        errorMessages[index].textContent = "-";
+                        errorMessages[index].style.visibility = 'hidden';
+                    }
+                });
+                field.addEventListener('input', function () {
+                    const fieldValue = field.value?.trim();
+                    if (!/^[0-9]+$/.test(fieldValue)) {
+                        errorMessages[index].textContent = "Score must be a number";
+                        errorMessages[index].style.visibility = 'visible';
+                    } else {
+                        errorMessages[index].textContent = "-";
+                        errorMessages[index].style.visibility = 'hidden';
+                    }
+                });
+            });
+        } else {
+            authorizationFieldContainer.innerHTML = `
+                <legend class="form-label">Are you legally authorized to work in the ${country}?</legend>
+                <div class="custom-radio">
+                    <input type="radio" name="workAuthorization" value="no" id="notAuthorized">
+                    <label for="notAuthorized">No</label>
+                </div>
+                <div class="custom-radio">
+                    <input type="radio" name="workAuthorization" value="yes" id="authorized">
+                    <label for="authorized">Yes</label>
+                </div>
+                <span class="b2c-error-message" id="workAuthorization-error-message" style="visibility: hidden;">-</span>`;
+            const workAuthorizationRadios = document.querySelectorAll('input[name="workAuthorization"]');
+            workAuthorizationRadios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    const workAuthorization = Array.from(workAuthorizationRadios).find(radioValue => radioValue.checked)?.value;
+                    sponsorshipField.innerHTML = '';
+                    futureSponsorshipField.innerHTML = '';
+                    futureFamilySponsorship.innerHTML = '';
+
+                    if (workAuthorization == 'yes') {
+                        if (country == "United States") {
+                            sponsorshipField.innerHTML = `
+                                <fieldset class="two-grid-container">
+                                    <legend class="form-label">Will you now, or in the future, require sponsorship (e.g., F-1, E-1, H-1B, EB visas, etc.)?</legend>
+                                    <div class="custom-radio">
+                                        <input type="radio" name="sponsorship" value="no" id="noSponsorship">
+                                        <label for="noSponsorship">No</label>
+                                    </div>
+                                    <div class="custom-radio">
+                                        <input type="radio" name="sponsorship" value="yes" id="yesSponsorship">
+                                        <label for="yesSponsorship">Yes</label>
+                                    </div>
+                                    <span class="b2c-error-message" id="sponsorship-error-message" style="visibility: hidden;">-</span>
+                                </fieldset>`;
+                            const sponsorshipRadios = document.querySelectorAll('input[name="sponsorship"]');
+                            sponsorshipRadios.forEach(sponsorshipRadio => {
+                                sponsorshipRadio.addEventListener('change', function () {
+                                    const sponsorship = Array.from(sponsorshipRadios).find(radioValue => radioValue.checked)?.value;
+                                    futureSponsorshipField.innerHTML = '';
+                                    futureFamilySponsorship.innerHTML = '';
+                                    if (sponsorship == 'no') {
+                                        futureSponsorshipField.innerHTML = `
+                                        <fieldset class="two-grid-container">
+                                            <legend class="form-label">Is your work authorization employer-dependent (e.g., E-1, H-1B, H-2B, etc.)?</legend>
+                                            <div class="custom-radio">
+                                                <input type="radio" name="futureSponsorship" value="no" id="nofutureSponsorship">
+                                                <label for="nofutureSponsorship">No</label>
+                                            </div>
+                                            <div class="custom-radio">
+                                                <input type="radio" name="futureSponsorship" value="yes" id="yesfutureSponsorship">
+                                                <label for="yesfutureSponsorship">Yes</label>
+                                            </div>
+                                            <span class="b2c-error-message" id="futureSponsorship-error-message" style="visibility: hidden;">-</span>
+                                        </fieldset>`;
+                                        const futureSponsorshipRadios = document.querySelectorAll('input[name="futureSponsorship"]');
+                                        futureSponsorshipRadios.forEach(futureSponsorshipRadio => {
+                                            futureSponsorshipRadio.addEventListener('change', function () {
+                                                const futureSponsorship = Array.from(futureSponsorshipRadios).find(radioValue => radioValue.checked)?.value;
+                                                futureFamilySponsorship.innerHTML = "";
+                                                if (futureSponsorship == 'no') {
+                                                    futureFamilySponsorship.innerHTML = `
+                                                    <fieldset class="two-grid-container">
+                                                        <legend class="form-label">Is your work authorization dependent upon a family member's current or future sponsorship with another employer (e.g., F-2, M-2, J-2, L-2, H-4, etc.)?</legend>
+                                                        <div class="custom-radio">
+                                                            <input type="radio" name="futureFamilySponsorship" value="no" id="nofutureFamilySponsorship">
+                                                            <label for="nofutureFamilySponsorship">No</label>
+                                                        </div>
+                                                        <div class="custom-radio">
+                                                            <input type="radio" name="futureFamilySponsorship" value="yes" id="yesfutureFamilySponsorship">
+                                                            <label for="yesfutureFamilySponsorship">Yes</label>
+                                                        </div>
+                                                        <span class="b2c-error-message" id="futureFamilySponsorship-error-message" style="visibility: hidden;">-</span>
+                                                    </fieldset>`;
+                                                }
+                                            })
+                                        })
+                                    }
+                                })
+                            })
+                        } else if (country == "Canada" || country == "United Kingdom") {
+                            sponsorshipField.innerHTML = `
+                                <fieldset class="two-grid-container">
+                                    <legend class="form-label">Will you now, or in the future, require sponsorship?</legend>
+                                    <div class="custom-radio">
+                                        <input type="radio" name="caSponsorship" value="no" id="noCaSponsorship">
+                                        <label for="noCaSponsorship">No</label>
+                                    </div>
+                                    <div class="custom-radio">
+                                        <input type="radio" name="caSponsorship" value="yes" id="yesCaSponsorship">
+                                        <label for="yesCaSponsorship">Yes</label>
+                                    </div>
+                                    <span class="b2c-error-message" id="caSponsorship-error-message" style="visibility: hidden;">-</span>
+                                </fieldset>`;
+                        }
+                    }
+                });
+            });
+        }
+    }
+
+    function getQueryParams() {
+        const queryParamsString = window.location.search;
+        const queryParams = new URLSearchParams(queryParamsString);
+        return queryParams;
+    }
+
+    function standardizeQueryParams(queryParams) {
+        const standardizedQueryParams = {};
+
+        queryParams.forEach((value, key) => {
+            if (key === 'slug') {
+                return;
+            }
+            const lowercasedKey = key.toLowerCase();
+            standardizedQueryParams[lowercasedKey] = lowercasedKey.includes('utm') ? value.toLowerCase() : value;
+        });
+
+        return standardizedQueryParams;
+    }
+
+</script>

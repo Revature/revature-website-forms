@@ -1,0 +1,233 @@
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('myForm');
+        const fields = document.querySelectorAll('.b2b-form-field');
+        const errorMessages = document.querySelectorAll('.b2b-error-message');
+        const phoneField = document.querySelector('input[name="phone"]');
+        const emailField = document.querySelector('input[name="email"]');
+
+        const CONSUMER_EMAIL_TLDS = [
+            "@gmail.",
+            "@yahoo.",
+            "@hotmail.",
+            "@live.",
+            "@aol.",
+            "@outlook.",
+            "@att.",
+            "@comcast.",
+            "@earthlink.",
+            "@googlemail.",
+            "@mac.",
+            "@mail.",
+            "@me.",
+            "@msn.",
+            "@verizon.",
+            "@t-online.",
+            "@freenet.",
+            "@1&1.",
+            "@icloud.",
+            "@gmx."
+        ];
+        const phoneRegExp = /^\d{6,14}$/;
+        const isBusinessEmail = (email) => {
+            return !CONSUMER_EMAIL_TLDS.some(tld => email.includes(tld));
+        };
+        const validateEmail = (email) => {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        };
+        const validatePhone = (phone) => {
+            const cleaned = phone.replace(/\D/g, '');
+            return phoneRegExp.test(cleaned);
+        };
+        const formatPhoneNumber = (phone) => {
+            phone = phone.replace(/\D/g, "");
+            // if (phone.length === 10) {
+            //     return phone.replace(/^(\d{3})(\d{3})(\d{4})$/, "($1) $2-$3");
+            // } else if (phone.length > 6) {
+            //     return phone.replace(/^(\d{3})(\d{3})(\d*)$/, "($1) $2-$3");
+            // } else if (phone.length > 3) {
+            //     return phone.replace(/^(\d{3})(\d*)$/, "($1) $2");
+            // } else if (phone.length > 0) {
+            //     return "(" + phone;
+            // }
+            return phone;
+        };
+        emailField.addEventListener('input', function (e) {
+            const emailInput = e.target;
+            const email = emailInput.value;
+            const errorMessage = document.getElementById('email-error-message');
+
+            if (!validateEmail(email)) {
+                errorMessage.textContent = 'Invalid email address';
+                errorMessage.style.visibility = 'visible';
+                emailInput.setCustomValidity('Invalid email address');
+            } else if (!isBusinessEmail(email)) {
+                errorMessage.textContent = 'Please enter a business email';
+                errorMessage.style.visibility = 'visible';
+                emailInput.setCustomValidity('Please enter a business email');
+            } else {
+                errorMessage.style.visibility = 'hidden';
+                emailInput.setCustomValidity('');
+            }
+        });
+        phoneField.addEventListener('input', function (e) {
+            const onlyNumbers = e.target.value.replace(/\D/g, "");
+            if (onlyNumbers.length <= 10) {
+                phoneField.value = formatPhoneNumber(onlyNumbers);
+            }
+            const phoneInput = event.target;
+            const phone = phoneInput.value;
+            const errorMessage = document.getElementById('phone-error-message');
+
+            // Format the phone number as the user types
+            phoneInput.value = formatPhoneNumber(phone);
+
+            if (!validatePhone(phone) && phone.trim()) {
+                errorMessage.textContent = 'Phone number is not valid';
+                errorMessage.style.visibility = 'visible';
+                phoneInput.setCustomValidity('Phone number is not valid');
+            } else {
+                errorMessage.style.visibility = 'hidden';
+                phoneInput.setCustomValidity('');
+            }
+        });
+
+        fields.forEach((field, index) => {
+            field.addEventListener('blur', function () {
+                if (!field.value.trim() && field.name != "phone") {
+                    errorMessages[index].textContent = field.placeholder + " is required";
+                    errorMessages[index].style.visibility = 'visible';
+                } else if (errorMessages[index].textContent == (field.placeholder + " is required")) {
+                    errorMessages[index].textContent = "-";
+                    errorMessages[index].style.visibility = 'hidden';
+                }
+            });
+        });
+
+
+        // Function to handle form submission
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission  
+
+            let valid = true;
+
+            fields.forEach((field, index) => {
+                if (!field.value.trim() && field.name != "phone") {
+                    errorMessages[index].textContent = field.placeholder + " is required";
+                    errorMessages[index].style.visibility = 'visible';
+                    valid = false;
+                } else {
+                    errorMessages[index].textContent = "-";
+                    errorMessages[index].style.visibility = 'hidden';
+                }
+            });
+
+            const recaptchaResponse = grecaptcha.getResponse();
+            const recaptchaError = document.getElementById('recaptchaError');
+            if (valid && recaptchaResponse === "") {
+                valid = false;
+                recaptchaError.textContent = "Please complete the reCAPTCHA to proceed.";
+                recaptchaError.style.visibility = 'visible';
+            } else {
+                recaptchaError.textContent = "-";
+                recaptchaError.style.visibility = 'hidden';
+            }
+            if (valid) {
+                document.getElementById('form-button').style.display = 'none';
+                document.getElementById('loadSpinner').classList.add('spinner');
+                // Collect form data
+                const formData = new FormData(form);
+                const formDataObject = {};
+                formData.forEach((value, key) => {
+                    formDataObject[key] = value.trim();
+                });
+                const queryParams = getQueryParams();
+                const standardizedQuery = standardizeQueryParams(queryParams);
+                // Make POST request to the API endpoint
+                const apiObject = {
+                    url: window?.location?.href.split('#')[0] || "",
+                    ApplicationDevice__c: window.innerWidth < 640 ? "Mobile" : "Desktop",
+                    irClickId: standardizedQuery?.irclickid || "",
+                    searchEngine: standardizedQuery?.searchengine || "",
+                    searchString: standardizedQuery?.srstring || "",
+                    payPerClickKeyword: standardizedQuery?.keyword || "",
+                    gCLID: standardizedQuery?.gclid || "",
+                    uTMTerm: standardizedQuery?.utm_term || "",
+                    uTMCampaign: standardizedQuery.utm_campaign || "",
+                    uTMContent: standardizedQuery.utm_content || "",
+                    uTMMedium: standardizedQuery.utm_medium || "",
+                    uTMSource: standardizedQuery.utm_source || "",
+                    uTMSchoolID: standardizedQuery.utm_schoolid || "",
+                    referrerURL: document.referrer || "Direct",
+                    uTMReferrerName: standardizedQuery.utm_referrername || "",
+                    campaignvalue: standardizedQuery.campaignvalue || "",
+                    appcastClickID: '',
+                    sourcedBy: standardizedQuery.sourcedby || "",
+                    referredByEmail: standardizedQuery.referredByEmail || "",
+                    referredBy : standardizedQuery.ra || "",
+                    referredByUser: standardizedQuery.ru || "",
+                    url: window?.location?.href.split('#')[0],
+                    leadDate: new Date().toISOString(),
+                    ...formDataObject,
+                    leadType: "Business"
+                }
+
+                delete apiObject["g-recaptcha-response"];
+                const apiUrl = ENV_VAR.B2B_FORM_API_ENDPOINT;
+                const queryString = Object.keys(apiObject)
+                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(apiObject[key]))
+                    .join('&');
+                const apiUrlWithParams = apiUrl + '?' + queryString;
+
+                fetch(apiUrlWithParams,
+                    {
+                        method: 'GET',
+                        mode: 'no-cors'
+                    }
+                ).then(response => {
+                    if (response.ok) {
+                        console.log('Form data submitted successfully');
+                    } else {
+                        console.error('Error submitting form data');
+                    }
+                    window.location.href = `/thank-you?name=${btoa(apiObject?.firstName)}`;
+                }).catch(error => {
+                    console.error('Error submitting form data:', error);
+                    alert('Error submitting form data, Please try again.');
+                    showSubmitButton();
+                });
+            }
+        });
+    });
+
+    function showSubmitButton() {
+        document.getElementById('form-button').style.display = 'block';
+        document.getElementById('loadSpinner').classList.remove('spinner');
+    }
+
+    function recaptchaSuccessCallback() {
+        const recaptchaError = document.getElementById('recaptchaError');
+        recaptchaError.textContent = "-";
+        recaptchaError.style.visibility = 'hidden';
+    }
+
+    function getQueryParams() {
+        const queryParamsString = window.location.search;
+        const queryParams = new URLSearchParams(queryParamsString);
+        return queryParams;
+    }
+
+    function standardizeQueryParams(queryParams) {
+        const standardizedQueryParams = {};
+
+        queryParams.forEach((value, key) => {
+            if (key === 'slug') {
+                return;
+            }
+            const lowercasedKey = key.toLowerCase();
+            standardizedQueryParams[lowercasedKey] = lowercasedKey.includes('utm') ? value.toLowerCase() : value;
+        });
+
+        return standardizedQueryParams;
+    }

@@ -1,0 +1,191 @@
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.1/owl.carousel.min.js"></script>
+<script>
+  jQuery(document).ready(function ($) {
+    console.log("Ready")
+    $(window).load(function () {
+      if ($('form')) {
+        $('form').get(0).reset();
+        //clear form data on page load
+      }
+      // Getting person source values from url parameter
+      $('#00N0d0000031Q43').on('keypress', function (e) {
+        if (e.which == 32) {
+
+          return false;
+        }
+      });
+      $('#00N3g000000YxE9').autotab({
+        format: 'number',
+        target: '#00N3g000000YxEF'
+      });
+      $('#00N3g000000YxEB').autotab({
+        format: 'number',
+        target: '#00N3g000000YxED'
+      });
+
+    });
+
+
+    $('#recruitSubmitBtn').on('mouseover', function () {
+
+      $(this).find('input[type="submit"]').css('color', '#f26925');
+    });
+    $('#recruitSubmitBtn').on('mouseout', function () {
+      $(this).find('input[type="submit"]').css('color', '#fff');
+    });
+
+    function validateEmail(email) {
+      var re = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(edu))(:[0-9]{1,5})?$/i;
+      return re.test(email);
+    }
+
+    function validate() {
+      var eresult = $("#result");
+      var email = $("#00N0d0000031Q43").val();
+      eresult.text("");
+
+      if (validateEmail(email)) {
+        $('#emailWarn').show();
+      } else {
+        $('#emailWarn').hide();
+      }
+      return false;
+    }
+
+    $("#00N0d0000031Q43").bind("change", validate);
+
+    $('#recruitSubmitBtn').on("click", function (e) {
+      console.log("submit")
+      e.preventDefault();
+      var fileStatus = false;
+      var status = true;
+      $('#submit').attr('disabled', 'disabled');
+      var requiredElements = $('input,select,textarea').filter('[required]:visible');
+      $.each(requiredElements, function () {
+        if ($(this).val().trim() == "") {
+          $(this).closest('.form-group').addClass('has-error');
+          $(this).next('.help-block').show();
+          status = false;
+          /* if($(this).attr('type')=='file'){
+            $(this).nextAll('.help-block').show();
+          } */
+        } else {
+          if ($(this).attr('type') == 'email') {
+            var regex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+            var email = $(this).val();
+            var domain = email.split('@')[1];
+            if (!regex.test($(this).val())) {
+              $(this).closest('.form-group').addClass('has-error');
+              $(this).next('.help-block').show();
+              status = false;
+            } else {
+              $(this).closest('.form-group').removeClass('has-error');
+              $(this).next('.help-block').hide();
+            }
+          } else {
+            $(this).closest('.form-group').removeClass('has-error');
+            $(this).next('.help-block').hide();
+            if ($(this).attr('type') == 'file') {
+              $(this).nextAll('.help-block').hide();
+            }
+          }
+
+        }
+      });
+
+      if ($('#00N3g000000YxE0').is(':checked')) {
+        $('#consentHelp').hide();
+      }
+      else {
+        $('#consentHelp').show();
+
+      }
+      if (status) {
+
+
+
+        $("#requestForm").submit();
+      }
+    });
+
+
+
+    $('#revature-online-btn').on("click", function () {
+      var usersid = $(this).attr("id");
+    });
+    $('.revpro-sub-nav').sticky({
+      topSpacing: 0,
+      zIndex: 150,
+      wrapperClassName: 'rev-pro-sticky-wrapper'
+    });
+    var aChildren = $('.revpro-sub-nav li').children();
+    var aArray = [];
+    for (var i = 0; i < aChildren.length; i++) {
+      var aChild = aChildren[i];
+      var ahref = $(aChild).attr('href');
+      aArray.push(ahref);
+    }
+    $('.qq').on('click', function () {
+      var h4 = $(this).children('h4');
+      var img = $(this).children('img');
+      //not current section - close all sections
+      if (h4.hasClass('cod-active')) {
+        $('.qq img.active').attr('src', 'https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/6736133fb95dab2a32ea4e93_dsar_faq-actdown-arrow.svg').removeClass('active');
+        img.attr('src', 'https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/6736137e19ada4ff000b6fc6_dsar_faq-actup-arrow.svg');
+        $('.faq li.active').slideToggle('fast', 'linear').toggleClass('active');
+        $('.faq h4').not('.cod-active').addClass('cod-active');
+      }
+      //current title - close current section
+      else {
+        img.attr('src', 'https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/6736133fb95dab2a32ea4e93_dsar_faq-actdown-arrow.svg');
+        h4.removeClass('cod-active');
+        $('.qq img.active').toggleClass('active');
+      }
+      h4.toggleClass('cod-active');
+      img.toggleClass('active');
+      $(this).next('li').slideToggle('fast', 'linear').toggleClass('active');
+    });
+    $('.q').on('click', function () {
+      var h4 = $(this).children('h4');
+      var img = $(this).children('img');
+      //not current section - close all sections
+      if (h4.hasClass('cod-active')) {
+        $('.q img.active').attr('src', 'https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/6736133fb95dab2a32ea4e93_dsar_faq-actdown-arrow.svg').removeClass('active');
+        img.attr('src', 'https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/6736137e19ada4ff000b6fc6_dsar_faq-actup-arrow.svg');
+        $('.faq li.active').slideToggle('fast', 'linear').toggleClass('active');
+        $('.faq h4').not('.cod-active').addClass('cod-active');
+      }
+      //current title - close current section
+      else {
+        img.attr('src', 'https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/6736133fb95dab2a32ea4e93_dsar_faq-actdown-arrow.svg');
+        h4.removeClass('cod-active');
+        $('.q img.active').toggleClass('active');
+      }
+      h4.toggleClass('cod-active');
+      img.toggleClass('active');
+      $(this).next('li').slideToggle('fast', 'linear').toggleClass('active');
+    });
+    $('.rev-pro-blog').on('click', function () {
+      var img = $(this).children('.rev-benefit-icon');
+      var content = $(this).children('.rev-benefit-content');
+      var arrow = $(this).find('.arrow img');
+      //not current section - close all sections
+      if (!$(this).hasClass('active')) {
+        $('.arrow img.active').attr('src', 'https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/67360b6c231a297cf0111ddc_dsar_faq-down-arrow.svg').removeClass('active');
+        arrow.attr('src', 'https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/67360b6c231a297cf0111ddc_dsar_faq-down-arrow.svg');
+        $('.active>.rev-benefit-icon').slideToggle();
+        $('.active>.rev-benefit-content').slideToggle();
+        $('#revPro>.active').toggleClass('active');
+      }
+      //current section
+      else {
+        arrow.attr('src', 'https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/67360b6c231a297cf0111ddc_dsar_faq-down-arrow.svg');
+      }
+      img.slideToggle();
+      content.slideToggle();
+      $(this).toggleClass('active');
+      arrow.toggleClass('active');
+    });
+  });
+</script>
