@@ -44949,7 +44949,7 @@ var WORK_AUTH_VALUES = [
   "Other",
   "Yes"
 ];
-var isStaging = window.location.hostname.includes("webflow.io");
+var isStaging = window.location.hostname.includes("webflow.io") || window.location.hostname.includes("localhost");
 var ENV_VAR = isStaging ? {
   FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/3b5603b0-22d1-4884-90ea-f2f4cad233cb/webflowleadtrigger",
   RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
@@ -50396,8 +50396,8 @@ var B2bFormComponent = class _B2bFormComponent {
     this.http = http;
     this.initForm();
   }
-  pdfUrl = "https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/678a6b768337cea5bdc9f7a3_Revature%20State%20of%20IT%20Skills%20Survey%20Report.pdf";
-  pdfName = "Survey_report_2025";
+  pdfUrl = "";
+  pdfName = "Revature_file";
   downloadBtnId = "survey_download";
   form;
   loading = false;
@@ -50524,6 +50524,8 @@ var B2bFormComponent = class _B2bFormComponent {
         }
         if (this.pdfUrl) {
           yield this.downloadPdf(this.pdfUrl, this.pdfName);
+        } else {
+          console.error("PDF URL not provided");
         }
         this.navigateToThankYouPage(formDataObject.firstName);
       } catch (error) {
@@ -50582,7 +50584,7 @@ var B2bFormComponent = class _B2bFormComponent {
   static \u0275fac = function B2bFormComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _B2bFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _B2bFormComponent, selectors: [["app-b2b-form"]], inputs: { pdfUrl: "pdfUrl", pdfName: "pdfName", downloadBtnId: "downloadBtnId" }, decls: 30, vars: 16, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], [1, "one-grid-container"], ["noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], ["noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _B2bFormComponent, selectors: [["app-b2b-form"]], inputs: { pdfUrl: [0, "pdfurl", "pdfUrl"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"] }, decls: 30, vars: 16, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], [1, "one-grid-container"], ["noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], ["noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function B2bFormComponent_Template_form_ngSubmit_0_listener() {

@@ -9,9 +9,9 @@ import { ENV_VAR } from '../common/form-contants';
   styleUrl: './b2b-form.component.scss'
 })
 export class B2bFormComponent {
-  @Input() public pdfUrl: string = 'https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/678a6b768337cea5bdc9f7a3_Revature%20State%20of%20IT%20Skills%20Survey%20Report.pdf';
-  @Input() public pdfName: string = 'Survey_report_2025';
-  @Input() public downloadBtnId: string = 'survey_download';
+  @Input('pdfurl') public pdfUrl: string = '';
+  @Input('pdfname') public pdfName: string = 'Revature_file';
+  @Input('downloadbtnid') public downloadBtnId: string = 'survey_download';
 
   form: FormGroup;
   loading = false;
@@ -169,6 +169,8 @@ export class B2bFormComponent {
       }
       if(this.pdfUrl){
         await this.downloadPdf(this.pdfUrl, this.pdfName);
+      } else {
+        console.error('PDF URL not provided');
       }
       this.navigateToThankYouPage(formDataObject.firstName);
     } catch (error) {
