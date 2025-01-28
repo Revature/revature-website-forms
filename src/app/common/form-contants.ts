@@ -598,10 +598,6 @@ export const MEXICO_SCHOOLS: any[] = [
     label: "University of Sonora (Mexico)"
   },
   {
-    value: "001VS00000Jnv77YAB",
-    label: "Unlisted Domestic"
-  },
-  {
     value: "001VS00000GDjVkYAL",
     label: "Veracruz University (Mexico)"
   },
@@ -616,6 +612,10 @@ export const MEXICO_SCHOOLS: any[] = [
   {
     value: "001VS00000GDjV8YAL",
     label: "Zapopan Higher Technological Institute (Mexico)"
+  },
+  {
+    value: "001VS00000Jnv77YAB",
+    label: "Unlisted Domestic"
   }
 ]
 

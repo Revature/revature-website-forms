@@ -44411,12 +44411,44 @@ var US_SCHOOLS = [{ value: "0010P00001yusCXQAY", label: "Ilisagvik College" }, {
 var CANADA_SCHOOLS = [{ value: "0010P00001yusCbQAI", label: "Sheridan College (Canada)" }, { value: "0010P00001yusLAQAY", label: "Queen\u2019s University (Canada)" }, { value: "0010P00001yusN4QAI", label: "University Of Calgary (Canada)" }, { value: "0010P00001yusO5QAI", label: "Dalhousie University (Canada)" }, { value: "0010P00001yusOOQAY", label: "University Of Guelph (Canada)" }, { value: "0010P00001yusY6QAI", label: "University Of British Columbia (Canada)" }, { value: "0010P00001yusoHQAQ", label: "University Of Ottawa (Canada)" }, { value: "0010P00001yustZQAQ", label: "University Of Waterloo (Canada)" }, { value: "0010P00001yusvaQAA", label: "Seneca College (Canada)" }, { value: "0010P00001yusyyQAA", label: "University Of Montreal (Canada)" }, { value: "0010P00001yut0gQAA", label: "McGill University (Canada)" }, { value: "0010P00001yut56QAA", label: "University Of Toronto (Canada)" }, { value: "0010P00001yutCuQAI", label: "York University (Canada)" }, { value: "0010P00001yutLtQAI", label: "University Of New Brunswick (Canada)" }, { value: "0010P00001yutgeQAA", label: "University Of Windsor (Canada)" }, { value: "0010P00001yutgoQAA", label: "Mcmaster University (Canada)" }, { value: "0010P00001yuthxQAA", label: "Lambton College (Canada)" }, { value: "0010P00001yutnUQAQ", label: "Durham College (Canada)" }, { value: "0010P00001yutwnQAA", label: "University Of Prince Edward Island (Canada)" }, { value: "0010P00001yutx5QAA", label: "University Of Western Ontario (Canada)" }, { value: "0010P00001yuuR1QAI", label: "University Of Victoria (Canada)" }, { value: "0010P00001yuuwgQAA", label: "Ryerson University (Canada)" }, { value: "0010d00001NyDfzAAF", label: "University of Alberta (Canada)" }, { value: "0013g000009aD2jAAE", label: "Wilfrid Laurier University (Canada)" }, { value: "0013g000009agEKAAY", label: "George Brown College (Canada)" }, { value: "0013g000009azv6AAA", label: "Carleton University (Canada)" }, { value: "0013g00000ASWzkAAH", label: "University of Quebec (Canada)" }, { value: "0013g00000Ve3LmAAJ", label: "Simon Fraser University (Canada)" }, { value: "0013g00000aOVlFAAW", label: "Conestoga College Institute of Technology" }, { value: "0013g00000aOXUjAAO", label: "Athabasca University" }, { value: "0013g00000aObF6AAK", label: "University of Ontario Institute of Technology" }, { value: "0013g00000aOe5RAAS", label: "Algoma College" }, { value: "0013g00000aOrR9AAK", label: "Mohawk College" }, { value: "0013g00000aOyPMAA0", label: "Algoma University" }, { value: "0013g00000aPPXQAA4", label: "University of Regina" }, { value: "0013g00000claw5AAA", label: "Brock University" }, { value: "0013g00000cldGcAAI", label: "Laurentian University" }, { value: "0013g00000cmHkFAAU", label: "Centennial College (Canada)" }, { value: "0013g00000cmHlcAAE", label: "Ontario Tech University (Canada)" }, { value: "0013g00000cmHmVAAU", label: "University of Lethbridge (Canada)" }, { value: "0013g00000cmHnuAAE", label: "University of Winnipeg (Canada)" }, { value: "0013g00000cmHoJAAU", label: "Algonquin College (Canada)" }, { value: "0013g00000hAkNTAA0", label: "Other - Not Listed" }, { value: "0016g00002eZWB4AAO", label: "University of Newfoundland" }, { value: "0016g00002hKMiUAAW", label: "Kwantlen Polytechnic University" }, { value: "001VS000002qJTeYAM", label: "Laval University" }, { value: "0013g00000hAg1LAAS", label: "Not Listed" }];
 var MEXICO_SCHOOLS = [
   {
+    value: "001VS00000KE52lYAD",
+    label: "Aeronautical University of Queretaro (Mexico)"
+  },
+  {
     value: "001VS00000GDjUUYA1",
     label: "Aguascalientes Institute of Technology (Mexico)"
   },
   {
+    value: "001VS00000KE52mYAD",
+    label: "Altamira Technological University (Mexico)"
+  },
+  {
+    value: "001VS00000KEFDNYA5",
+    label: "Anahuac University (Mexico)"
+  },
+  {
+    value: "001VS00000KEFDOYA5",
+    label: "Anahuac University Mexico North (Mexico)"
+  },
+  {
+    value: "001VS00000KEEveYAH",
+    label: "Anahuac University Queretaro (Mexico)"
+  },
+  {
     value: "001VS00000GDjUPYA1",
     label: "Antonio Narro Agrarian Autonomous University (Mexico)"
+  },
+  {
+    value: "001VS00000KEEvfYAH",
+    label: "Arkansas State University, Queretaro Campus (Mexico)"
+  },
+  {
+    value: "001VS00000KEDoIYAX",
+    label: "Autonomous Metropolitan University Azcapotzalco (Mexico)"
+  },
+  {
+    value: "001VS00000KEDoJYAX",
+    label: "Autonomous Technology Institute of Mexico (Mexico)"
   },
   {
     value: "001VS00000GDjVBYA1",
@@ -44459,6 +44491,10 @@ var MEXICO_SCHOOLS = [
     label: "Autonomous University of Durango (Mexico)"
   },
   {
+    value: "001VS00000KEF3lYAH",
+    label: "Autonomous University of Guadalajara (Mexico)"
+  },
+  {
     value: "001VS00000GDjVLYA1",
     label: "Autonomous University of Guerrero (Mexico)"
   },
@@ -44473,6 +44509,10 @@ var MEXICO_SCHOOLS = [
   {
     value: "001VS00000GDjVNYA1",
     label: "Autonomous University of Nuevo Leon (Mexico)"
+  },
+  {
+    value: "001VS00000KEF3mYAH",
+    label: "Autonomous University of Queretaro (Mexico)"
   },
   {
     value: "001VS00000GDjVPYA1",
@@ -44519,6 +44559,10 @@ var MEXICO_SCHOOLS = [
     label: "Autonomous University of Zacatecas (Mexico)"
   },
   {
+    value: "001VS00000KEFGbYAP",
+    label: "Benemerita Autonomous University of Puebla (Mexico)"
+  },
+  {
     value: "001VS00000GDjVAYA1",
     label: "Benito Juarez Autonomous University of Oaxaca (Mexico)"
   },
@@ -44535,12 +44579,20 @@ var MEXICO_SCHOOLS = [
     label: "Chetumal Technological Institute (ITCH) (Mexico)"
   },
   {
+    value: "001VS00000KECDuYAP",
+    label: "Cuauhtemoc University (Mexico)"
+  },
+  {
     value: "001VS00000GDjUcYAL",
     label: "Durango Institute of Technology (Mexico)"
   },
   {
     value: "001VS00000GDjUxYAL",
     label: "El Llano Technological Institute (ITLLANO) (Mexico)"
+  },
+  {
+    value: "001VS00000KECDvYAP",
+    label: "Fidel Velazquez Technological University (Mexico)"
   },
   {
     value: "001VS00000GDjULYA1",
@@ -44563,12 +44615,56 @@ var MEXICO_SCHOOLS = [
     label: "Higher Technological Institute of Ciudad Constituci\xF3n (ITSCC) (Mexico)"
   },
   {
+    value: "001VS00000KECiZYAX",
+    label: "Ibero-American University Puebla (Mexico)"
+  },
+  {
+    value: "001VS00000KECiaYAH",
+    label: "Ibero-American University, Mexico City (Mexico)"
+  },
+  {
+    value: "001VS00000KEAbxYAH",
+    label: "Institute of Technology and Higher Studies of Monterrey (Mexico)"
+  },
+  {
+    value: "001VS00000KEAbyYAH",
+    label: "Insurgentes University (Mexico)"
+  },
+  {
+    value: "001VS00000KE94kYAD",
+    label: "Jalisco Higher Technological Institute (Mexico)"
+  },
+  {
     value: "001VS00000GDjVhYAL",
     label: "Juarez Autonomous University of Tabasco (Mexico)"
   },
   {
     value: "001VS00000GDjViYAL",
     label: "Juarez University of the State of Durango (Mexico)"
+  },
+  {
+    value: "001VS00000KE94lYAD",
+    label: "La Laguna Technological Institute (Mexico)"
+  },
+  {
+    value: "001VS00000KEFIDYA5",
+    label: "La Piedad Technological Institute (Mexico)"
+  },
+  {
+    value: "001VS00000KEFIEYA5",
+    label: "La Salle Bajio University (Mexico)"
+  },
+  {
+    value: "001VS00000KE7O0YAL",
+    label: "La Salle Northwest University (Mexico)"
+  },
+  {
+    value: "001VS00000KE7O1YAL",
+    label: "Laguna Durango Technological University (Mexico)"
+  },
+  {
+    value: "001VS00000KEFJpYAP",
+    label: "Lerdo Higher Technological Institute (Mexico)"
   },
   {
     value: "001VS00000GDjV9YAL",
@@ -44579,16 +44675,56 @@ var MEXICO_SCHOOLS = [
     label: "Metropolitan Autonomous University (Mexico)"
   },
   {
+    value: "001VS00000KEFJqYAP",
+    label: "Metropolitan Technological University (Mexico)"
+  },
+  {
+    value: "001VS00000KEAs4YAH",
+    label: "Mexico State University, Toluca de Lerdo (Mexico)"
+  },
+  {
     value: "001VS00000GDjVjYAL",
     label: "Michoacan University of San Nicolas de Hidalgo (Mexico)"
+  },
+  {
+    value: "001VS00000KEFLRYA5",
+    label: "Minatitlan Technological Institute (Mexico)"
   },
   {
     value: "001VS00000GDjV1YAL",
     label: "Minatitl\xE1n Institute of Technology (ITM) (Mexico)"
   },
   {
+    value: "001VS00000KEFLSYA5",
+    label: "Monterrey Institute of Technology - Mexico City Campus (Mexico)"
+  },
+  {
+    value: "001VS00000KEE4QYAX",
+    label: "Monterrey Institute of Technology - Monterrey Campus (Mexico)"
+  },
+  {
+    value: "001VS00000KEE4RYAX",
+    label: "Monterrey Institute of Technology - Queretaro (Mexico)"
+  },
+  {
+    value: "001VS00000KEBD2YAP",
+    label: "Monterrey Institute of Technology, Cuernavaca Campus (Mexico)"
+  },
+  {
+    value: "001VS00000KEBD3YAP",
+    label: "Monterrey Institute of Technology, Sonora Norte Campus (Mexico)"
+  },
+  {
+    value: "001VS00000KEFN3YAP",
+    label: "Morelia Technological Institute (Mexico)"
+  },
+  {
     value: "001VS00000GDjUSYA1",
     label: "National Autonomous University of Mexico"
+  },
+  {
+    value: "001VS00000KEFN4YAP",
+    label: "National Institute of Mexico, Colima Campus (Mexico)"
   },
   {
     value: "001VS00000GDjUMYA1",
@@ -44599,12 +44735,76 @@ var MEXICO_SCHOOLS = [
     label: "National Polytechnic Institute (Mexico)"
   },
   {
+    value: "001VS00000KEDpuYAH",
+    label: "National Polytechnic Institute Engineering (Mexico)"
+  },
+  {
     value: "001VS00000GDjUOYA1",
     label: "National Technological Institute of Mexico"
   },
   {
+    value: "001VS00000KEDpvYAH",
+    label: "National Technological Institute of Mexico, San Juan del R\xEDo Campus (Mexico)"
+  },
+  {
+    value: "001VS00000KEBg6YAH",
+    label: "National Technological Institute of Mexico, San Marcos Engineer Campus (Mexico)"
+  },
+  {
     value: "001VS00000GDjURYA1",
     label: "Open and Distance University of Mexico"
+  },
+  {
+    value: "001VS00000KEBg7YAH",
+    label: "Piedras Negras, Coahuila Technological Institute (Mexico)"
+  },
+  {
+    value: "001VS00000KECDwYAP",
+    label: "Polytechnic University of Chiapas (Mexico)"
+  },
+  {
+    value: "001VS00000KECDxYAP",
+    label: "Polytechnic University of Durango (Mexico)"
+  },
+  {
+    value: "001VS00000KEEnaYAH",
+    label: "Polytechnic University of Metropolitan Hidalgo (Mexico)"
+  },
+  {
+    value: "001VS00000KEEnbYAH",
+    label: "Polytechnic University of Morelos State (Mexico)"
+  },
+  {
+    value: "001VS00000KEDwMYAX",
+    label: "Polytechnic University of Pachuca (Mexico)"
+  },
+  {
+    value: "001VS00000KEDwNYAX",
+    label: "Polytechnic University of Queretaro (Mexico)"
+  },
+  {
+    value: "001VS00000KEDd0YAH",
+    label: "Polytechnic University of Quintana Roo (Mexico)"
+  },
+  {
+    value: "001VS00000KEDd1YAH",
+    label: "Polytechnic University of Sinaloa (Mexico)"
+  },
+  {
+    value: "001VS00000KEBHrYAP",
+    label: "Polytechnic University of Tapachula (Mexico)"
+  },
+  {
+    value: "001VS00000KEBHsYAP",
+    label: "Polytechnic University of the State of Guerrero (Mexico)"
+  },
+  {
+    value: "001VS00000KE8BuYAL",
+    label: "Polytechnic University of the Valley of Mexico (Mexico)"
+  },
+  {
+    value: "001VS00000KE8BvYAL",
+    label: "Polytechnic University of Victoria (Mexico)"
   },
   {
     value: "001VS00000GDjVlYAL",
@@ -44615,12 +44815,36 @@ var MEXICO_SCHOOLS = [
     label: "Poza Rica Higher Technological Institute (ITSPR) (Mexico)"
   },
   {
+    value: "001VS00000KE9O8YAL",
+    label: "Private University of the State of Mexico (Mexico)"
+  },
+  {
+    value: "001VS00000KE9O9YAL",
+    label: "Professional Interdisciplinary Engineering School (Mexico)"
+  },
+  {
     value: "001VS00000GDjUkYAL",
     label: "Puebla Institute of Technology (ITO) (Mexico)"
   },
   {
+    value: "001VS00000KEESeYAP",
+    label: "Puebla Technological Institute (Mexico)"
+  },
+  {
+    value: "001VS00000KEESfYAP",
+    label: "Puebla Technological University (Mexico)"
+  },
+  {
     value: "001VS00000GDjV4YAL",
     label: "Puerto Penasco Higher Technological Institute (ITSPP) (Mexico)"
+  },
+  {
+    value: "001VS00000KE3NfYAL",
+    label: "Sabes University (Mexico)"
+  },
+  {
+    value: "001VS00000KE3NgYAL",
+    label: "San Luis Potos\xED Polytechnic University (Mexico)"
   },
   {
     value: "001VS00000GDjUnYAL",
@@ -44639,12 +44863,12 @@ var MEXICO_SCHOOLS = [
     label: "Technological Institute of Arteaga Pavilion (Mexico)"
   },
   {
-    value: "001VS00000GDjUYYA1",
-    label: "Technological Institute of Chihuahua II (Mexico)"
-  },
-  {
     value: "001VS00000GDjUXYA1",
     label: "Technological Institute of Chihuahua (Mexico)"
+  },
+  {
+    value: "001VS00000GDjUYYA1",
+    label: "Technological Institute of Chihuahua II (Mexico)"
   },
   {
     value: "001VS00000GDjUZYA1",
@@ -44673,6 +44897,10 @@ var MEXICO_SCHOOLS = [
   {
     value: "001VS00000GDjUgYAL",
     label: "Technological Institute of Mexicali (Mexico)"
+  },
+  {
+    value: "001VS00000KEFOfYAP",
+    label: "Technological Institute of Mexico, Tapachula Campus (Mexico)"
   },
   {
     value: "001VS00000GDjUhYAL",
@@ -44723,8 +44951,20 @@ var MEXICO_SCHOOLS = [
     label: "Technological Institute of Zacatepec (Mexico)"
   },
   {
+    value: "001VS00000KEFOgYAP",
+    label: "Technological University of Northern Coahuila (Mexico)"
+  },
+  {
     value: "001VS00000GDjUpYAL",
     label: "Tijuana Institute of Technology (ITT) (Mexico)"
+  },
+  {
+    value: "001VS00000KEAvHYAX",
+    label: "Tijuana Technological Institute (Mexico)"
+  },
+  {
+    value: "001VS00000KEAvIYAX",
+    label: "Toluca Technological Institute (Mexico)"
   },
   {
     value: "001VS00000GDjVcYAL",
@@ -44737,6 +44977,18 @@ var MEXICO_SCHOOLS = [
   {
     value: "001VS00000GDjVeYAL",
     label: "University of Guanajuato (Mexico)"
+  },
+  {
+    value: "001VS00000KEFQIYA5",
+    label: "University of Matamoros (Mexico)"
+  },
+  {
+    value: "001VS00000KEEfYYAX",
+    label: "University of Monterrey (Mexico)"
+  },
+  {
+    value: "001VS00000KEEfZYAX",
+    label: "University of Morelia (Mexico)"
   },
   {
     value: "001VS00000GDjVfYAL",
@@ -50374,31 +50626,101 @@ function B2bFormComponent_span_26_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function B2bFormComponent_button_28_Template(rf, ctx) {
+function B2bFormComponent_ng_container_27_span_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "button", 14);
-    \u0275\u0275text(1, "Download now");
+    \u0275\u0275elementStart(0, "span");
+    \u0275\u0275text(1, "Phone is required.");
+    \u0275\u0275elementEnd();
+  }
+}
+function B2bFormComponent_ng_container_27_span_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span");
+    \u0275\u0275text(1, "Phone number is not valid.");
+    \u0275\u0275elementEnd();
+  }
+}
+function B2bFormComponent_ng_container_27_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275elementStart(1, "fieldset", 2);
+    \u0275\u0275element(2, "input", 14);
+    \u0275\u0275elementStart(3, "span", 4);
+    \u0275\u0275template(4, B2bFormComponent_ng_container_27_span_4_Template, 2, 0, "span", 10)(5, B2bFormComponent_ng_container_27_span_5_Template, 2, 0, "span", 10);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(6, "fieldset", 2);
+    \u0275\u0275element(7, "textarea", 15);
+    \u0275\u0275elementStart(8, "span", 4);
+    \u0275\u0275text(9, " Your Message is required ");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    let tmp_1_0;
+    let tmp_2_0;
+    let tmp_3_0;
+    let tmp_4_0;
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(3);
+    \u0275\u0275classProp("visible", ((tmp_1_0 = ctx_r0.form.get("phone")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("phone")) == null ? null : tmp_1_0.touched));
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", (tmp_2_0 = ctx_r0.form.get("phone")) == null ? null : tmp_2_0.errors == null ? null : tmp_2_0.errors["required"]);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("phone")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["invalidPhone"]);
+    \u0275\u0275advance(3);
+    \u0275\u0275classProp("visible", ((tmp_4_0 = ctx_r0.form.get("yourMessage")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx_r0.form.get("yourMessage")) == null ? null : tmp_4_0.touched));
+  }
+}
+function B2bFormComponent_ng_container_28_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r2 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275elementStart(1, "re-captcha", 16);
+    \u0275\u0275listener("resolved", function B2bFormComponent_ng_container_28_Template_re_captcha_resolved_1_listener($event) {
+      \u0275\u0275restoreView(_r2);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.recaptchaSuccessCallback($event));
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(2, "div", 4);
+    \u0275\u0275text(3, " Please complete the reCAPTCHA to proceed. ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    let tmp_1_0;
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(2);
+    \u0275\u0275classProp("visible", ((tmp_1_0 = ctx_r0.form.get("validCaptacha")) == null ? null : tmp_1_0.value) === false);
+  }
+}
+function B2bFormComponent_button_30_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "button", 17);
+    \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r0 = \u0275\u0275nextContext();
     \u0275\u0275property("id", ctx_r0.downloadBtnId);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ctx_r0.isExtendedForm ? "Let's Talk" : "Download now", " ");
   }
 }
-function B2bFormComponent_div_29_Template(rf, ctx) {
+function B2bFormComponent_div_31_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "div", 15);
+    \u0275\u0275element(0, "div", 18);
   }
 }
 var B2bFormComponent = class _B2bFormComponent {
   constructor(fb, http) {
     this.fb = fb;
     this.http = http;
-    this.initForm();
   }
   pdfUrl = "";
   pdfName = "Revature_file";
   downloadBtnId = "survey_download";
+  isExtendedForm = false;
   form;
   loading = false;
   showSubmitButton = true;
@@ -50424,6 +50746,9 @@ var B2bFormComponent = class _B2bFormComponent {
     "@icloud.",
     "@gmx."
   ];
+  ngOnInit() {
+    this.initForm();
+  }
   initForm() {
     this.form = this.fb.group({
       firstName: ["", Validators.required],
@@ -50431,10 +50756,15 @@ var B2bFormComponent = class _B2bFormComponent {
       jobTitle: ["", Validators.required],
       companyName: ["", Validators.required],
       email: ["", [Validators.required, this.validateEmail.bind(this), this.businessEmailValidator.bind(this)]],
-      // phone: ['', [this.phoneValidator]],
-      // yourMessage: ['', Validators.required],
       validCaptacha: [""]
     });
+    if (this.isExtendedForm) {
+      this.form.addControl("phone", this.fb.control("", [this.phoneValidator]));
+      this.form.addControl("yourMessage", this.fb.control("", Validators.required));
+      this.form.get("phone")?.valueChanges.subscribe((value) => {
+        this.formatPhoneNumber(value);
+      });
+    }
   }
   validateEmail(control) {
     if (control.value === null || control.value === "" || this.businessEmailValidator(control)) {
@@ -50452,6 +50782,9 @@ var B2bFormComponent = class _B2bFormComponent {
   }
   phoneValidator(control) {
     const phone = control.value?.replace(/\D/g, "");
+    if (!phone) {
+      return null;
+    }
     const phoneRegExp = /^\d{6,14}$/;
     return phoneRegExp.test(phone) ? null : { invalidPhone: true };
   }
@@ -50469,7 +50802,18 @@ var B2bFormComponent = class _B2bFormComponent {
     return __async(this, null, function* () {
       if (this.form.invalid) {
         this.form.markAllAsTouched();
+        if (this.isExtendedForm) {
+          if (!this.form.get("validCaptacha")?.value) {
+            this.form.get("validCaptacha")?.setValue(false);
+          }
+        }
         return;
+      }
+      if (this.isExtendedForm) {
+        if (!this.form.get("validCaptacha")?.value) {
+          this.form.get("validCaptacha")?.setValue(false);
+          return;
+        }
       }
       this.loading = true;
       this.showSubmitButton = false;
@@ -50524,7 +50868,7 @@ var B2bFormComponent = class _B2bFormComponent {
         }
         if (this.pdfUrl) {
           yield this.downloadPdf(this.pdfUrl, this.pdfName);
-        } else {
+        } else if (!this.isExtendedForm) {
           console.error("PDF URL not provided");
         }
         this.navigateToThankYouPage(formDataObject.firstName);
@@ -50561,7 +50905,7 @@ var B2bFormComponent = class _B2bFormComponent {
     });
   }
   navigateToThankYouPage(firstName) {
-    window.location.href = `/thank-you-for-downloading?name=${btoa(firstName)}`;
+    window.location.href = `/thank-you${this.isExtendedForm ? "" : "-for-downloading"}?name=${btoa(firstName)}`;
   }
   getQueryParams() {
     const queryParams = new URLSearchParams(window.location.search);
@@ -50584,7 +50928,7 @@ var B2bFormComponent = class _B2bFormComponent {
   static \u0275fac = function B2bFormComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _B2bFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _B2bFormComponent, selectors: [["app-b2b-form"]], inputs: { pdfUrl: [0, "pdfurl", "pdfUrl"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"] }, decls: 30, vars: 16, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], [1, "one-grid-container"], ["noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], ["noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _B2bFormComponent, selectors: [["app-b2b-form"]], inputs: { pdfUrl: [0, "pdfurl", "pdfUrl"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExtendedForm: [0, "isextendedform", "isExtendedForm"] }, decls: 32, vars: 18, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], [1, "one-grid-container"], ["noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], ["noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "4", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function B2bFormComponent_Template_form_ngSubmit_0_listener() {
@@ -50614,11 +50958,14 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275element(22, "input", 9);
       \u0275\u0275elementStart(23, "span", 4);
       \u0275\u0275template(24, B2bFormComponent_span_24_Template, 2, 0, "span", 10)(25, B2bFormComponent_span_25_Template, 2, 0, "span", 10)(26, B2bFormComponent_span_26_Template, 2, 0, "span", 10);
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(27, "div", 11);
-      \u0275\u0275template(28, B2bFormComponent_button_28_Template, 2, 1, "button", 12);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275template(27, B2bFormComponent_ng_container_27_Template, 10, 6, "ng-container", 10);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(29, B2bFormComponent_div_29_Template, 1, 0, "div", 13);
+      \u0275\u0275template(28, B2bFormComponent_ng_container_28_Template, 4, 2, "ng-container", 10);
+      \u0275\u0275elementStart(29, "div", 11);
+      \u0275\u0275template(30, B2bFormComponent_button_30_Template, 2, 2, "button", 12);
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(31, B2bFormComponent_div_31_Template, 1, 0, "div", 13);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -50647,12 +50994,16 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275property("ngIf", (tmp_7_0 = ctx.form.get("email")) == null ? null : tmp_7_0.errors == null ? null : tmp_7_0.errors["invalidEmail"]);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", (tmp_8_0 = ctx.form.get("email")) == null ? null : tmp_8_0.errors == null ? null : tmp_8_0.errors["businessEmail"]);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.isExtendedForm);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.isExtendedForm);
       \u0275\u0275advance(2);
       \u0275\u0275property("ngIf", ctx.showSubmitButton);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.loading);
     }
-  }, dependencies: [NgIf, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, NoWhitespaceDirective], styles: ['\n\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\n.b2b-form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n}\n.b2b-error-message[_ngcontent-%COMP%] {\n  color: #F9B200;\n  padding: 4px;\n  text-align: left;\n  line-height: 14px;\n  display: block;\n  margin-bottom: 8px;\n  visibility: hidden;\n}\n.b2b-error-message.visible[_ngcontent-%COMP%] {\n  visibility: visible;\n}\n.form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n  border-color: #FF7014;\n  justify-self: center;\n}\n.form-button-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n}\n.b2b-form-field[_ngcontent-%COMP%]::placeholder {\n  color: #ffffff;\n  opacity: 0.4;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n@media screen and (max-width: 900px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  cursor: pointer;\n  background-color: #EBF1F4;\n  border-radius: 10px;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: #00183C;\n  color: #fff;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n  margin-left: 0;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}'] });
+  }, dependencies: [NgIf, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, MinLengthValidator, MaxLengthValidator, FormGroupDirective, FormControlName, RecaptchaComponent, NoWhitespaceDirective], styles: ['\n\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\n.b2b-form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n}\n.b2b-error-message[_ngcontent-%COMP%] {\n  color: #F9B200;\n  padding: 4px;\n  text-align: left;\n  line-height: 14px;\n  display: block;\n  margin-bottom: 8px;\n  visibility: hidden;\n}\n.b2b-error-message.visible[_ngcontent-%COMP%] {\n  visibility: visible;\n}\n.form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n  border-color: #FF7014;\n  justify-self: center;\n}\n.form-button-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n}\n.b2b-form-field[_ngcontent-%COMP%]::placeholder {\n  color: #ffffff;\n  opacity: 0.4;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n@media screen and (max-width: 900px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  cursor: pointer;\n  background-color: #EBF1F4;\n  border-radius: 10px;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: #00183C;\n  color: #fff;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n  margin-left: 0;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(B2bFormComponent, { className: "B2bFormComponent", filePath: "src\\app\\b2b-form\\b2b-form.component.ts", lineNumber: 11 });

@@ -12,6 +12,7 @@ export class B2bFormComponent {
   @Input('pdfurl') public pdfUrl: string = '';
   @Input('pdfname') public pdfName: string = 'Revature_file';
   @Input('downloadbtnid') public downloadBtnId: string = 'survey_download';
+  @Input('isextendedform') public isExtendedForm: boolean = false;
 
   form: FormGroup;
   loading = false;
@@ -43,7 +44,9 @@ export class B2bFormComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.initForm();
   }
 
@@ -54,14 +57,18 @@ export class B2bFormComponent {
       jobTitle: ['', Validators.required],
       companyName: ['', Validators.required],
       email: ['', [Validators.required, this.validateEmail.bind(this), this.businessEmailValidator.bind(this)]],
-      // phone: ['', [this.phoneValidator]],
-      // yourMessage: ['', Validators.required],
       validCaptacha: ['']
     });
 
-    // this.form.get('phone')?.valueChanges.subscribe((value) => {
-    //   this.formatPhoneNumber(value);
-    // });
+    if (this.isExtendedForm) {
+      this.form.addControl('phone', this.fb.control('', [this.phoneValidator]));
+      this.form.addControl('yourMessage', this.fb.control('', Validators.required));
+
+      this.form.get('phone')?.valueChanges.subscribe((value) => {
+        this.formatPhoneNumber(value);
+      });
+    }
+
   }
 
   private validateEmail(control: any): { [key: string]: boolean } | null {
@@ -83,6 +90,9 @@ export class B2bFormComponent {
 
   phoneValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const phone = control.value?.replace(/\D/g, '');
+    if(!phone){
+      return null;
+    }
     const phoneRegExp = /^\d{6,14}$/;
     return phoneRegExp.test(phone) ? null : { invalidPhone: true };
   }
@@ -102,17 +112,20 @@ export class B2bFormComponent {
 
   async onSubmit(): Promise<void> {
     if (this.form.invalid) {
-      this.form.markAllAsTouched(); 
-      // if (!this.form.get('validCaptacha')?.value) {
-      //   this.form.get('validCaptacha')?.setValue(false);
-      // }
+      this.form.markAllAsTouched();
+      if (this.isExtendedForm) {
+        if (!this.form.get('validCaptacha')?.value) {
+          this.form.get('validCaptacha')?.setValue(false);
+        }
+      }
       return;
     }
-
-    // if (!this.form.get('validCaptacha')?.value) {
-    //   this.form.get('validCaptacha')?.setValue(false);
-    //   return;
-    // }
+    if (this.isExtendedForm) {
+      if (!this.form.get('validCaptacha')?.value) {
+        this.form.get('validCaptacha')?.setValue(false);
+        return;
+      }
+    }
 
     this.loading = true;
     this.showSubmitButton = false;
@@ -167,9 +180,9 @@ export class B2bFormComponent {
       } else {
         console.error('Error submitting form data');
       }
-      if(this.pdfUrl){
+      if (this.pdfUrl) {
         await this.downloadPdf(this.pdfUrl, this.pdfName);
-      } else {
+      } else if (!this.isExtendedForm){
         console.error('PDF URL not provided');
       }
       this.navigateToThankYouPage(formDataObject.firstName);
@@ -182,6 +195,7 @@ export class B2bFormComponent {
       this.showSubmitButton = true;
     }
   }
+  
   async downloadPdf(pdfUrl: string, pdfName: string): Promise<void> {
     try {
       const response = await fetch(pdfUrl);
@@ -207,7 +221,7 @@ export class B2bFormComponent {
   }
 
   navigateToThankYouPage(firstName: string): void {
-    window.location.href = `/thank-you-for-downloading?name=${btoa(firstName)}`;
+    window.location.href = `/thank-you${this.isExtendedForm?'':'-for-downloading'}?name=${btoa(firstName)}`;
   }
 
   getQueryParams(): any {
