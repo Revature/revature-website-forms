@@ -100,7 +100,7 @@ export class B2cFormComponent {
       willingToRelocate: ['', [Validators.required]],
 
       // Programming Experience
-      programmingExperience: [''],
+      programmingExperience: ['', [Validators.required]],
 
       // Work Authorization
       workAuthorization: ['', [Validators.required]],

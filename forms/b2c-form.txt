@@ -49496,7 +49496,7 @@ function B2cFormComponent_span_65_Template(rf, ctx) {
 function B2cFormComponent_span_82_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 58);
-    \u0275\u0275text(1, " Please select an option ");
+    \u0275\u0275text(1, " Experience is required ");
     \u0275\u0275elementEnd();
   }
 }
@@ -49847,7 +49847,7 @@ var B2cFormComponent = class _B2cFormComponent {
       // Willingness to Relocate
       willingToRelocate: ["", [Validators.required]],
       // Programming Experience
-      programmingExperience: [""],
+      programmingExperience: ["", [Validators.required]],
       // Work Authorization
       workAuthorization: ["", [Validators.required]],
       sponsorship: [""],
@@ -50697,12 +50697,14 @@ function B2bFormComponent_ng_container_28_Template(rf, ctx) {
 function B2bFormComponent_button_30_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "button", 17);
-    \u0275\u0275text(1, "Download now");
+    \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r0 = \u0275\u0275nextContext();
     \u0275\u0275property("id", ctx_r0.downloadBtnId);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ctx_r0.isExtendedForm ? "Let's Talk" : "Download now", " ");
   }
 }
 function B2bFormComponent_div_31_Template(rf, ctx) {
@@ -50714,12 +50716,11 @@ var B2bFormComponent = class _B2bFormComponent {
   constructor(fb, http) {
     this.fb = fb;
     this.http = http;
-    this.initForm();
   }
   pdfUrl = "";
   pdfName = "Revature_file";
   downloadBtnId = "survey_download";
-  isExtendedForm = true;
+  isExtendedForm = false;
   form;
   loading = false;
   showSubmitButton = true;
@@ -50745,6 +50746,9 @@ var B2bFormComponent = class _B2bFormComponent {
     "@icloud.",
     "@gmx."
   ];
+  ngOnInit() {
+    this.initForm();
+  }
   initForm() {
     this.form = this.fb.group({
       firstName: ["", Validators.required],
@@ -50864,7 +50868,7 @@ var B2bFormComponent = class _B2bFormComponent {
         }
         if (this.pdfUrl) {
           yield this.downloadPdf(this.pdfUrl, this.pdfName);
-        } else {
+        } else if (!this.isExtendedForm) {
           console.error("PDF URL not provided");
         }
         this.navigateToThankYouPage(formDataObject.firstName);
@@ -50901,7 +50905,7 @@ var B2bFormComponent = class _B2bFormComponent {
     });
   }
   navigateToThankYouPage(firstName) {
-    window.location.href = `/thank-you-for-downloading?name=${btoa(firstName)}`;
+    window.location.href = `/thank-you${this.isExtendedForm ? "" : "-for-downloading"}?name=${btoa(firstName)}`;
   }
   getQueryParams() {
     const queryParams = new URLSearchParams(window.location.search);
@@ -50959,7 +50963,7 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275elementEnd();
       \u0275\u0275template(28, B2bFormComponent_ng_container_28_Template, 4, 2, "ng-container", 10);
       \u0275\u0275elementStart(29, "div", 11);
-      \u0275\u0275template(30, B2bFormComponent_button_30_Template, 2, 1, "button", 12);
+      \u0275\u0275template(30, B2bFormComponent_button_30_Template, 2, 2, "button", 12);
       \u0275\u0275elementEnd();
       \u0275\u0275template(31, B2bFormComponent_div_31_Template, 1, 0, "div", 13);
       \u0275\u0275elementEnd();
