@@ -645,7 +645,6 @@ export class B2cFormComponent {
       computer_data: '',
       computer_data_result: '',
       graduationDate: formDataObject.graduationMonth ? `${formDataObject.graduationYear}-${formDataObject.graduationMonth}-01` : "",
-      dataConsent: formDataObject.dataConsent == "on",
       leadType: "Revature"
     };
     delete formDataObject["computer_data"];

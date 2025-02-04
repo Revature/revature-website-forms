@@ -4,6 +4,10 @@
     right: auto !important;
 }
 
+textarea {
+    resize: none;
+}
+
 .b2b-form-field {
     background-color: rgba(0, 0, 0, 0.10);
     border: 1px solid rgba(255, 255, 255, 0.13);
@@ -24,7 +28,7 @@
 
 .b2b-error-message.visible {
     visibility: visible;
-  }
+}
 
 .form-button {
     border-radius: 36px;
@@ -36,7 +40,7 @@
     justify-self: center;
 }
 
-.form-button-wrapper{
+.form-button-wrapper {
     display: flex;
     justify-content: center;
 }
