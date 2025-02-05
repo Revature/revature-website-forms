@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ENV_VAR } from '../common/form-contants';
 
@@ -8,7 +8,7 @@ import { ENV_VAR } from '../common/form-contants';
   templateUrl: './b2b-form.component.html',
   styleUrl: './b2b-form.component.scss'
 })
-export class B2bFormComponent {
+export class B2bFormComponent implements AfterViewInit {
   @Input('pdfurl') public pdfUrl: string = '';
   @Input('pdfname') public pdfName: string = 'Revature_file';
   @Input('downloadbtnid') public downloadBtnId: string = 'survey_download';
@@ -44,7 +44,7 @@ export class B2bFormComponent {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -90,7 +90,7 @@ export class B2bFormComponent {
 
   phoneValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const phone = control.value?.replace(/\D/g, '');
-    if(!phone){
+    if (!phone) {
       return null;
     }
     const phoneRegExp = /^\d{6,14}$/;
@@ -182,7 +182,7 @@ export class B2bFormComponent {
       }
       if (this.pdfUrl) {
         await this.downloadPdf(this.pdfUrl, this.pdfName);
-      } else if (!this.isExtendedForm){
+      } else if (!this.isExtendedForm) {
         console.error('PDF URL not provided');
       }
       this.navigateToThankYouPage(formDataObject.firstName);
@@ -195,7 +195,7 @@ export class B2bFormComponent {
       this.showSubmitButton = true;
     }
   }
-  
+
   async downloadPdf(pdfUrl: string, pdfName: string): Promise<void> {
     try {
       const response = await fetch(pdfUrl);
@@ -221,7 +221,7 @@ export class B2bFormComponent {
   }
 
   navigateToThankYouPage(firstName: string): void {
-    window.location.href = `/thank-you${this.isExtendedForm?'':'-for-downloading'}?name=${btoa(firstName)}`;
+    window.location.href = `/thank-you${this.isExtendedForm ? '' : '-for-downloading'}?name=${btoa(firstName)}`;
   }
 
   getQueryParams(): any {
@@ -247,4 +247,34 @@ export class B2bFormComponent {
       .join('&');
   }
 
+  @HostListener('window:resize')
+  onResize() {
+    this.isExtendedForm ? this.resizeCaptcha() : '';
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      if (typeof grecaptcha !== 'undefined' && this.isExtendedForm) {
+        grecaptcha.ready(() => {
+          this.resizeCaptcha();
+        });
+      }
+    }, 500);
+  }
+
+  private resizeCaptcha(): void {
+    const reCaptchaElement = document.getElementsByTagName('re-captcha')[0];
+
+    const captchaElem = reCaptchaElement?.getElementsByTagName('div')[0] as HTMLElement;
+    if (!captchaElem) return;
+
+    const captchaWidth = captchaElem?.offsetWidth;
+    const parentWidth = reCaptchaElement?.parentElement?.offsetWidth;
+
+    if (captchaWidth && parentWidth) {
+      const scale = parentWidth / captchaWidth;
+      captchaElem.style.transform = `scale(${scale < 1 ? scale : 1})`;
+      captchaElem.style.transformOrigin = '0 0';
+    }
+  }
 }
