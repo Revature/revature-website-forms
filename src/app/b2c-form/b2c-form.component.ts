@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, HostListener, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ENV_VAR, MAJORS, US_SCHOOLS, MEXICO_STATE_VALUES, MEXICO_SCHOOLS } from '../common/form-contants';
 
@@ -11,7 +11,7 @@ declare const Dropbox: any;
   styleUrl: './b2c-form.component.scss'
 })
 
-export class B2cFormComponent {
+export class B2cFormComponent implements AfterViewInit {
   form: FormGroup;
 
   graduationYears: number[] = [];
@@ -709,5 +709,43 @@ export class B2cFormComponent {
       file: formData.computer_data_result,
     };
     return this.http.post(ENV_VAR.RESUME_API_ENDPOINT, payload).toPromise();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.resizeCaptcha();
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      if (typeof grecaptcha !== 'undefined') {
+        grecaptcha.ready(() => {
+          this.resizeCaptcha();
+        });
+      }
+    }, 500);
+  }
+
+  onRecaptchaLoad() {
+    console.log('reCAPTCHA loaded');
+    this.resizeCaptcha();
+  }
+
+  private resizeCaptcha(): void {
+    console.log('reCAPTCHA resize');
+
+    const reCaptchaElement = document.getElementsByTagName('re-captcha')[0];
+
+    const captchaElem = reCaptchaElement?.getElementsByTagName('div')[0] as HTMLElement;
+    if (!captchaElem) return;
+
+    const captchaWidth = captchaElem?.offsetWidth;
+    const parentWidth = reCaptchaElement?.parentElement?.offsetWidth;
+
+    if (captchaWidth && parentWidth) {
+      const scale = parentWidth / captchaWidth;
+      captchaElem.style.transform = `scale(${scale < 1 ? scale : 1})`;
+      captchaElem.style.transformOrigin = '0 0';
+    }
   }
 }
