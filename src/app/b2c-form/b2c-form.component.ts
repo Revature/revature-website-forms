@@ -726,14 +726,7 @@ export class B2cFormComponent implements AfterViewInit {
     }, 500);
   }
 
-  onRecaptchaLoad() {
-    console.log('reCAPTCHA loaded');
-    this.resizeCaptcha();
-  }
-
   private resizeCaptcha(): void {
-    console.log('reCAPTCHA resize');
-
     const reCaptchaElement = document.getElementsByTagName('re-captcha')[0];
 
     const captchaElem = reCaptchaElement?.getElementsByTagName('div')[0] as HTMLElement;
