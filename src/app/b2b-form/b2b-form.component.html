@@ -1,14 +1,14 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="two-grid-container">
         <fieldset class="form-fieldset">
-            <input noWhitespace class="b2b-form-field" type="text" formControlName="firstName" placeholder="First Name">
+            <input maxlength="40" noWhitespace class="b2b-form-field" type="text" formControlName="firstName" placeholder="First Name">
             <span class="b2b-error-message"
                 [class.visible]="form.get('firstName')?.invalid && form.get('firstName')?.touched">
                 First Name is required
             </span>
         </fieldset>
         <fieldset class="form-fieldset">
-            <input noWhitespace class="b2b-form-field" type="text" formControlName="lastName" placeholder="Last Name">
+            <input maxlength="80" noWhitespace class="b2b-form-field" type="text" formControlName="lastName" placeholder="Last Name">
             <span class="b2b-error-message"
                 [class.visible]="form.get('lastName')?.invalid && form.get('lastName')?.touched">
                 Last Name is required
@@ -18,7 +18,7 @@
 
     <div class="one-grid-container">
         <fieldset class="form-fieldset">
-            <input noWhitespace class="b2b-form-field" type="text" formControlName="jobTitle" placeholder="Job Title">
+            <input maxlength="100" noWhitespace class="b2b-form-field" type="text" formControlName="jobTitle" placeholder="Job Title">
             <span class="b2b-error-message"
                 [class.visible]="form.get('jobTitle')?.invalid && form.get('jobTitle')?.touched">
                 Job Title is required
@@ -28,7 +28,7 @@
 
     <div class="one-grid-container">
         <fieldset class="form-fieldset">
-            <input noWhitespace class="b2b-form-field" type="text" formControlName="companyName"
+            <input maxlength="100" noWhitespace class="b2b-form-field" type="text" formControlName="companyName"
                 placeholder="Company Name">
             <span class="b2b-error-message"
                 [class.visible]="form.get('companyName')?.invalid && form.get('companyName')?.touched">
@@ -39,7 +39,7 @@
 
     <div class="one-grid-container">
         <fieldset class="form-fieldset">
-            <input noWhitespace class="b2b-form-field" type="email" formControlName="email"
+            <input maxlength="80" noWhitespace class="b2b-form-field" type="email" formControlName="email"
                 placeholder="Business Email">
             <span class="b2b-error-message" [class.visible]="form.get('email')?.invalid && form.get('email')?.touched">
                 <span *ngIf="form.get('email')?.errors?.['required']">Email is required.</span>

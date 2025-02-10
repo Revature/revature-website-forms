@@ -3,14 +3,14 @@
     <legend class="form-label">Full Name</legend>
     <div class="two-grid-container">
         <fieldset class="form-fieldset">
-            <input class="form-field common-field" type="text" formControlName="firstName" placeholder="First Name">
+            <input maxlength="40" class="form-field common-field" type="text" formControlName="firstName" placeholder="First Name">
             <span class="b2c-error-message common-error-message"
                 *ngIf="form.get('firstName')?.invalid && form.get('firstName')?.touched">
                 First Name is required
             </span>
         </fieldset>
         <fieldset class="form-fieldset">
-            <input class="form-field common-field" type="text" formControlName="lastName" placeholder="Last Name">
+            <input maxlength="80" class="form-field common-field" type="text" formControlName="lastName" placeholder="Last Name">
             <span class="b2c-error-message common-error-message"
                 *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched">
                 Last Name is required
@@ -22,7 +22,7 @@
     <legend class="form-label">Contact Information</legend>
     <div class="two-grid-container">
         <fieldset class="form-fieldset">
-            <input class="form-field common-field" type="email" formControlName="email" placeholder="Email Address">
+            <input maxlength="80" class="form-field common-field" type="email" formControlName="email" placeholder="Email Address">
             <span class="b2c-error-message common-error-message"
                 *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
                 <span *ngIf="form.get('email')?.errors?.['required']">
@@ -34,8 +34,10 @@
             </span>
         </fieldset>
         <fieldset class="form-fieldset">
-            <input class="form-field common-field" type="tel" formControlName="phone" placeholder="Phone Number"
-                maxlength="14" minlength="13">
+            <input class="form-field common-field" type="tel" formControlName="phone" 
+                [placeholder]="form.get('country')?.value === 'United Kingdom' ? '+44 - Phone Number' : 
+                             (form.get('country')?.value === 'Mexico' ? '+52 - Phone Number' : 'Phone Number')"
+                [attr.maxLength]="phoneMaxLength" [attr.minLength]="(form.get('country')?.value === 'United States') ? 13 : 8">
             <span class="b2c-error-message common-error-message"
                 *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched">
                 <span *ngIf="form.get('phone')?.errors?.['required']">
@@ -71,7 +73,7 @@
             <span class="one-grid-container">
                 <fieldset class="form-fieldset">
                     <legend class="form-label">Location</legend>
-                    <input class="form-field location-field common-field" type="text" formControlName="city" placeholder="City">
+                    <input maxlength="40" class="form-field location-field common-field" type="text" formControlName="city" placeholder="City">
                     <span class="b2c-error-message location-error-message common-error-message"
                         *ngIf="form.get('city')?.invalid && form.get('city')?.touched">
                         City is required
@@ -163,7 +165,7 @@
             <span class="one-grid-container">
                 <fieldset class="form-fieldset">
                     <legend class="form-label">Location</legend>
-                    <input class="form-field location-field common-field" type="text" formControlName="city" placeholder="City">
+                    <input maxlength="40" class="form-field location-field common-field" type="text" formControlName="city" placeholder="City">
                     <span class="b2c-error-message location-error-message common-error-message"
                         *ngIf="form.get('city')?.invalid && form.get('city')?.touched">
                         City is required
@@ -248,7 +250,7 @@
             <legend class="form-label">Location</legend>
             <div class="two-grid-container">
                 <fieldset class="form-fieldset">
-                    <input class="form-field location-field common-field" type="text" formControlName="city"
+                    <input maxlength="40" class="form-field location-field common-field" type="text" formControlName="city"
                         placeholder="City/Town">
                     <span class="b2c-error-message location-error-message common-error-message"
                         *ngIf="form.get('city')?.invalid && form.get('city')?.touched">

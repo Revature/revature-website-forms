@@ -61,7 +61,7 @@ export class SourcingFormComponent {
       personSource: ['', Validators.required],
       otherLeadSource: [''],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, this.validateEmail]],
       country: ['', Validators.required],
       marketingProgram: ['', Validators.required],
       sourcedForOpp: [''],
@@ -285,6 +285,15 @@ export class SourcingFormComponent {
     };
     this.initForm();
   }
+
+  private validateEmail(control: any): { [key: string]: boolean } | null {
+    if (control.value === null || control.value === '') {
+      return null;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]+$/;
+
+    return emailPattern.test(control.value) ? null : { invalidEmail: true };
+  };
 
   async handleFileUpload(event: any) {
     const file = event.target.files[0];

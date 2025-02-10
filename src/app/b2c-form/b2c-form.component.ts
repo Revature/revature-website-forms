@@ -69,8 +69,8 @@ export class B2cFormComponent implements AfterViewInit {
       lastName: ['', [Validators.required]],
 
       // Contact Information
-      email: ['', [Validators.required, this.validateEmail]], // Validators.pattern('^[^\s@]+@[^\s@]+\.[^\s@]+$')
-      phone: ['', [Validators.required, this.validatePhone]],
+      email: ['', [Validators.required, this.validateEmail]],
+      phone: ['', [Validators.required, this.validatePhone.bind(this)]],
 
       // Country
       country: ['', [Validators.required]],
@@ -134,6 +134,7 @@ export class B2cFormComponent implements AfterViewInit {
 
     // Dynamic Validations Based on Country Selection
     this.form.get('country')?.valueChanges.subscribe((country) => {
+      if (this.form.value.country || (!this.form.value.country && country != "United States")) this.form.get('phone')?.setValue('', { emitEvent: false })
       this.handleCountryChange(country);
     });
 
@@ -169,14 +170,47 @@ export class B2cFormComponent implements AfterViewInit {
   }
 
   private validatePhone(control: any): { [key: string]: boolean } | null {
-    if (control.value === null || control.value === '') {
+    if (!control.value) {
       return null;
     }
-    const phone = control.value.replace(/\D/g, '');
-    const phoneRegExp = /^\d{10}$/;
+    const country = this.form ? this.form.get('country')?.value : null;
+    const value = control.value;
 
-    if (phone[0] === '1' || !phoneRegExp.test(phone)) {
-      return { invalidPhone: true };
+    if (!country || country === 'United States') {
+      const digits = value.replace(/\D/g, '');
+      const phoneRegExp = /^\d{10}$/;
+      if (digits[0] === '1' || !phoneRegExp.test(digits)) {
+        return { invalidPhone: true };
+      }
+    } else if (country === 'Mexico') {
+      if (!value.startsWith('+52')) {
+        return { invalidPhone: true };
+      }
+      const remaining = value.slice(4);
+      if (!/^\d*$/.test(remaining) || remaining.length < 7) {
+        return { invalidPhone: true };
+      }
+      if (value.length > 15) {
+        return { invalidPhone: true };
+      }
+    } else if (country === 'United Kingdom') {
+      if (!value.startsWith('+44')) {
+        return { invalidPhone: true };
+      }
+      const remaining = value.slice(4);
+      if (!/^\d*$/.test(remaining) || remaining.length < 7) {
+        return { invalidPhone: true };
+      }
+      if (value.length > 15) {
+        return { invalidPhone: true };
+      }
+    } else if (country === 'India' || country === 'Canada') {
+      if (!/^\d*$/.test(value) || value.length < 7) {
+        return { invalidPhone: true };
+      }
+      if (value.length > 10) {
+        return { invalidPhone: true };
+      }
     }
     return null;
   }
@@ -185,7 +219,7 @@ export class B2cFormComponent implements AfterViewInit {
     if (control.value === null || control.value === '') {
       return null;
     }
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]+$/;
 
     return emailPattern.test(control.value) ? null : { invalidEmail: true };
   };
@@ -193,20 +227,43 @@ export class B2cFormComponent implements AfterViewInit {
   private formatPhoneNumber(phone: string): void {
     const phoneControl = this.form.get('phone');
     if (!phoneControl) return;
+    const country = this.form.get('country')?.value;
 
-    let formattedPhone = phone.replace(/\D/g, '');
-
-    if (formattedPhone.length === 10) {
-      formattedPhone = formattedPhone.replace(/^(\d{3})(\d{3})(\d{4})$/, "($1) $2-$3");
-    } else if (formattedPhone.length > 6) {
-      formattedPhone = formattedPhone.replace(/^(\d{3})(\d{3})(\d*)$/, "($1) $2-$3");
-    } else if (formattedPhone.length > 3) {
-      formattedPhone = formattedPhone.replace(/^(\d{3})(\d*)$/, "($1) $2");
-    } else if (formattedPhone.length > 0) {
-      formattedPhone = "(" + formattedPhone;
+    if (!country || country === 'United States') {
+      let formattedPhone = phone.replace(/\D/g, '');
+      if (formattedPhone.length === 10) {
+        formattedPhone = formattedPhone.replace(/^(\d{3})(\d{3})(\d{4})$/, "($1) $2-$3");
+      } else if (formattedPhone.length > 6) {
+        formattedPhone = formattedPhone.replace(/^(\d{3})(\d{3})(\d*)$/, "($1) $2-$3");
+      } else if (formattedPhone.length > 3) {
+        formattedPhone = formattedPhone.replace(/^(\d{3})(\d*)$/, "($1) $2");
+      } else if (formattedPhone.length > 0) {
+        formattedPhone = "(" + formattedPhone;
+      }
+      phoneControl.setValue(formattedPhone, { emitEvent: false });
+    } else if (country === 'Mexico') {
+      let value = phone.replace(/\D/g, '');
+      if (!value.startsWith('+52 ')) {
+        value = '+52 ' + value.replace(/^\+?52/, '');
+      }
+      phoneControl.setValue(value, { emitEvent: false });
+    } else if (country === 'United Kingdom') {
+      let value = phone.replace(/\D/g, '');
+      if (!value.startsWith('+44 ')) {
+        value = '+44 ' + value.replace(/^\+?44/, '');
+      }
+      phoneControl.setValue(value, { emitEvent: false });
+    } else {
+      phoneControl.setValue(phone.replace(/\D/g, ''), { emitEvent: false });
     }
+  }
 
-    phoneControl.setValue(formattedPhone, { emitEvent: false });
+  get phoneMaxLength(): number {
+    const country = this.form.get('country')?.value;
+    if (country === 'Mexico' || country === 'United Kingdom') return 15;
+    if (country === 'United States') return 14;
+    if (country === 'India' || country === 'Canada') return 10;
+    return 14;
   }
 
   private handleCountryChange(country: string): void {
@@ -480,7 +537,7 @@ export class B2cFormComponent implements AfterViewInit {
         computer_data_result: rawData,
         FileBase64: rawData,
         FileExt: file.type,
-        dropbox: null
+        dropbox: ''
       });
 
       this.fileSuccess = 'Resume ready to upload';
@@ -513,7 +570,7 @@ export class B2cFormComponent implements AfterViewInit {
     let url = file.link.replace("dl=0", "dl=1");
     url = url?.trim();
     this.form.patchValue({
-      computer_data: null,
+      computer_data: '',
       dropbox: url,
       Resumedropbox: extension
     });
@@ -638,7 +695,9 @@ export class B2cFormComponent implements AfterViewInit {
       Resumedropbox: '',
       ...formDataObject,
       leadDate: new Date().toISOString(),
-      phone: formDataObject.phone.replace(/\D/g, ""),
+      phone: ["Mexico", "United Kingdom"].includes(formDataObject.country)
+        ? "+" + formDataObject.phone.replace(/\D/g, "")
+        : formDataObject.phone.replace(/\D/g, ""),
       FileBase64: '',
       FileExt: '',
       ResumeUpload: '',

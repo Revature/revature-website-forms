@@ -75,7 +75,7 @@ export class B2bFormComponent implements AfterViewInit {
     if (control.value === null || control.value === '' || this.businessEmailValidator(control)) {
       return null;
     }
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]+$/;
 
     return emailPattern.test(control.value) ? null : { invalidEmail: true };
   };
