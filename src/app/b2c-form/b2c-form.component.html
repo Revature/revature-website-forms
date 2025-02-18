@@ -680,14 +680,14 @@
 
             <fieldset class="form-fieldset">
                 <legend class="form-label">Score in 10th Board exam (in %)</legend>
-                <input class="form-field education-field common-field" formControlName="tenthGrade" type="text"
+                <input class="form-field education-field common-field" formControlName="10thGrade" type="text"
                     maxlength="2" placeholder="10th Score">
                 <span class="b2c-error-message education-error-message common-error-message"
-                    *ngIf="form.get('tenthGrade')?.invalid && form.get('tenthGrade')?.touched">
-                    <span *ngIf="form.get('tenthGrade')?.errors?.['required']">
+                    *ngIf="form.get('10thGrade')?.invalid && form.get('10thGrade')?.touched">
+                    <span *ngIf="form.get('10thGrade')?.errors?.['required']">
                         10th score is required.
                     </span>
-                    <span *ngIf="form.get('tenthGrade')?.errors?.['pattern']">
+                    <span *ngIf="form.get('10thGrade')?.errors?.['pattern']">
                         Score must be a number
                     </span>
                 </span>
