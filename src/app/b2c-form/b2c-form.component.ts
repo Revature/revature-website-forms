@@ -124,8 +124,8 @@ export class B2cFormComponent implements AfterViewInit {
 
       // India-Specific Fields
       majorGrade: ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in Degree (in %)
-      twelfthGrade: ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in 12th Board exam (in %)
-      tenthGrade: ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in 10th Board exam (in %)
+      '12thGrade': ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in 12th Board exam (in %)
+      '10thGrade': ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in 10th Board exam (in %)
     });
 
     this.form.get('phone')?.valueChanges.subscribe((value) => {
@@ -324,23 +324,23 @@ export class B2cFormComponent implements AfterViewInit {
     this.form.get('workAuthorization')?.setValue('')
     if (country === 'India') {
       this.form.get('majorGrade')?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
-      this.form.get('twelfthGrade')?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
-      this.form.get('tenthGrade')?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
+      this.form.get('12thGrade')?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
+      this.form.get('10thGrade')?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
       this.form.get('workAuthorization')?.clearValidators()
     } else {
       this.form.get('workAuthorization')?.setValidators([Validators.required])
       this.form.get('majorGrade')?.clearValidators()
-      this.form.get('twelfthGrade')?.clearValidators()
-      this.form.get('tenthGrade')?.clearValidators()
+      this.form.get('12thGrade')?.clearValidators()
+      this.form.get('10thGrade')?.clearValidators()
       this.form.get('majorGrade')?.setValue('')
-      this.form.get('twelfthGrade')?.setValue('')
-      this.form.get('tenthGrade')?.setValue('')
+      this.form.get('12thGrade')?.setValue('')
+      this.form.get('10thGrade')?.setValue('')
     }
 
     this.form.get('workAuthorization')?.updateValueAndValidity({ emitEvent: false })
     this.form.get('majorGrade')?.updateValueAndValidity({ emitEvent: false })
-    this.form.get('twelfthGrade')?.updateValueAndValidity({ emitEvent: false })
-    this.form.get('tenthGrade')?.updateValueAndValidity({ emitEvent: false })
+    this.form.get('12thGrade')?.updateValueAndValidity({ emitEvent: false })
+    this.form.get('10thGrade')?.updateValueAndValidity({ emitEvent: false })
 
     this.schools = this.form.value.country === 'Mexico' ? MEXICO_SCHOOLS : US_SCHOOLS;
     this.filterMajors(null);
@@ -537,6 +537,7 @@ export class B2cFormComponent implements AfterViewInit {
         computer_data_result: rawData,
         FileBase64: rawData,
         FileExt: file.type,
+        Resumedropbox: '',
         dropbox: ''
       });
 
