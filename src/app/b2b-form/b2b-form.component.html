@@ -1,14 +1,16 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="two-grid-container">
         <fieldset class="form-fieldset">
-            <input maxlength="40" noWhitespace class="b2b-form-field" type="text" formControlName="firstName" placeholder="First Name">
+            <input maxlength="40" noWhitespace class="b2b-form-field" type="text" formControlName="firstName"
+                placeholder="First Name">
             <span class="b2b-error-message"
                 [class.visible]="form.get('firstName')?.invalid && form.get('firstName')?.touched">
                 First Name is required
             </span>
         </fieldset>
         <fieldset class="form-fieldset">
-            <input maxlength="80" noWhitespace class="b2b-form-field" type="text" formControlName="lastName" placeholder="Last Name">
+            <input maxlength="80" noWhitespace class="b2b-form-field" type="text" formControlName="lastName"
+                placeholder="Last Name">
             <span class="b2b-error-message"
                 [class.visible]="form.get('lastName')?.invalid && form.get('lastName')?.touched">
                 Last Name is required
@@ -18,7 +20,8 @@
 
     <div class="one-grid-container">
         <fieldset class="form-fieldset">
-            <input maxlength="100" noWhitespace class="b2b-form-field" type="text" formControlName="jobTitle" placeholder="Job Title">
+            <input maxlength="100" noWhitespace class="b2b-form-field" type="text" formControlName="jobTitle"
+                placeholder="Job Title">
             <span class="b2b-error-message"
                 [class.visible]="form.get('jobTitle')?.invalid && form.get('jobTitle')?.touched">
                 Job Title is required
@@ -47,26 +50,23 @@
                 <span *ngIf="form.get('email')?.errors?.['businessEmail']">Please enter a business email.</span>
             </span>
         </fieldset>
-        <ng-container *ngIf="isExtendedForm">
-            <fieldset class="form-fieldset">
-                <input noWhitespace class="b2b-form-field" type="tel" formControlName="phone"
-                    placeholder="Business Phone" maxlength="14" minlength="6">
-                <span class="b2b-error-message"
-                    [class.visible]="form.get('phone')?.invalid && form.get('phone')?.touched">
-                    <span *ngIf="form.get('phone')?.errors?.['required']">Phone is required.</span>
-                    <span *ngIf="form.get('phone')?.errors?.['invalidPhone']">Phone number is not
-                        valid.</span>
-                </span>
-            </fieldset>
-            <fieldset class="form-fieldset">
-                <textarea noWhitespace class="b2b-form-field b2b-form-textarea" formControlName="yourMessage"
-                    placeholder="Your Message" rows="4" maxlength="500"></textarea>
-                <span class="b2b-error-message"
-                    [class.visible]="form.get('yourMessage')?.invalid && form.get('yourMessage')?.touched">
-                    Your Message is required
-                </span>
-            </fieldset>
-        </ng-container>
+        <fieldset class="form-fieldset" *ngIf="isExtendedForm">
+            <input noWhitespace class="b2b-form-field" type="tel" formControlName="phone" placeholder="Business Phone"
+                maxlength="14" minlength="6">
+            <span class="b2b-error-message" [class.visible]="form.get('phone')?.invalid && form.get('phone')?.touched">
+                <span *ngIf="form.get('phone')?.errors?.['required']">Phone is required.</span>
+                <span *ngIf="form.get('phone')?.errors?.['invalidPhone']">Phone number is not
+                    valid.</span>
+            </span>
+        </fieldset>
+        <fieldset class="form-fieldset">
+            <textarea noWhitespace class="b2b-form-field b2b-form-textarea" formControlName="yourMessage"
+                placeholder="Your Message" rows="4" maxlength="500"></textarea>
+            <span class="b2b-error-message"
+                [class.visible]="form.get('yourMessage')?.invalid && form.get('yourMessage')?.touched">
+                Your Message is required
+            </span>
+        </fieldset>
     </div>
 
     <!-- reCAPTCHA -->
@@ -80,7 +80,7 @@
     <!-- Submit Button -->
     <div class="form-button-wrapper">
         <button type="submit" class="form-button" *ngIf="showSubmitButton" [id]="downloadBtnId">
-            {{isExtendedForm?"Let's Talk":"Download now"}}
+            {{downloadMessage}}
         </button>
     </div>
     <div *ngIf="loading" id="loadSpinner" class="spinner"></div>

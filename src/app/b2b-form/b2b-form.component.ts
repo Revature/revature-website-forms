@@ -13,6 +13,7 @@ export class B2bFormComponent implements AfterViewInit {
   @Input('pdfname') public pdfName: string = 'Revature_file';
   @Input('downloadbtnid') public downloadBtnId: string = 'survey_download';
   @Input('isextendedform') public isExtendedForm: boolean = false;
+  @Input('downloadmessage') public downloadMessage: string = "Let's Talk";
 
   form: FormGroup;
   loading = false;
@@ -57,12 +58,12 @@ export class B2bFormComponent implements AfterViewInit {
       jobTitle: ['', Validators.required],
       companyName: ['', Validators.required],
       email: ['', [Validators.required, this.validateEmail.bind(this), this.businessEmailValidator.bind(this)]],
+      yourMessage: ['', Validators.required],
       validCaptacha: ['']
     });
 
     if (this.isExtendedForm) {
       this.form.addControl('phone', this.fb.control('', [this.phoneValidator]));
-      this.form.addControl('yourMessage', this.fb.control('', Validators.required));
 
       this.form.get('phone')?.valueChanges.subscribe((value) => {
         this.formatPhoneNumber(value);
