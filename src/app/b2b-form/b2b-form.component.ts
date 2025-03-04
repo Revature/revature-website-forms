@@ -9,10 +9,12 @@ import { ENV_VAR } from '../common/form-contants';
   styleUrl: './b2b-form.component.scss'
 })
 export class B2bFormComponent implements AfterViewInit {
-  @Input('pdfurl') public pdfUrl: string = '';
+  @Input('actionurl') public actionUrl: string = '';
   @Input('pdfname') public pdfName: string = 'Revature_file';
   @Input('downloadbtnid') public downloadBtnId: string = 'survey_download';
+  @Input('isexternalurl') public isExternalURL: boolean = false;
   @Input('isextendedform') public isExtendedForm: boolean = false;
+  @Input('showyourmessage') public showYourMessage: boolean = false;
   @Input('downloadmessage') public downloadMessage: string = "Let's Talk";
 
   form: FormGroup;
@@ -58,7 +60,6 @@ export class B2bFormComponent implements AfterViewInit {
       jobTitle: ['', Validators.required],
       companyName: ['', Validators.required],
       email: ['', [Validators.required, this.validateEmail.bind(this), this.businessEmailValidator.bind(this)]],
-      yourMessage: ['', Validators.required],
       validCaptacha: ['']
     });
 
@@ -68,6 +69,10 @@ export class B2bFormComponent implements AfterViewInit {
       this.form.get('phone')?.valueChanges.subscribe((value) => {
         this.formatPhoneNumber(value);
       });
+    }
+
+    if (this.showYourMessage) {
+      this.form.addControl('yourMessage', this.fb.control('', Validators.required));
     }
 
   }
@@ -181,10 +186,13 @@ export class B2bFormComponent implements AfterViewInit {
       } else {
         console.error('Error submitting form data');
       }
-      if (this.pdfUrl) {
-        await this.downloadPdf(this.pdfUrl, this.pdfName);
+      if (this.actionUrl && !this.isExternalURL) {
+        await this.downloadPdf(this.actionUrl, this.pdfName);
+      } else if (this.actionUrl && this.isExternalURL) {
+        window.open(this.actionUrl, '_self');
+        return;
       } else if (!this.isExtendedForm) {
-        console.error('PDF URL not provided');
+        console.error('Action URL not provided');
       }
       this.navigateToThankYouPage(formDataObject.firstName);
     } catch (error) {
@@ -197,9 +205,9 @@ export class B2bFormComponent implements AfterViewInit {
     }
   }
 
-  async downloadPdf(pdfUrl: string, pdfName: string): Promise<void> {
+  async downloadPdf(actionUrl: string, pdfName: string): Promise<void> {
     try {
-      const response = await fetch(pdfUrl);
+      const response = await fetch(actionUrl);
       if (!response.ok) {
         throw new Error(`Failed to fetch PDF: ${response.statusText}`);
       }
