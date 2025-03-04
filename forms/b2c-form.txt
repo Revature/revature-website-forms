@@ -49936,7 +49936,7 @@ var B2cFormComponent = class _B2cFormComponent {
         return { invalidPhone: true };
       }
       const remaining = value.slice(4);
-      if (!/^\d*$/.test(remaining) || remaining.length < 7) {
+      if (!/^\d*$/.test(remaining) || remaining.length < 8) {
         return { invalidPhone: true };
       }
       if (value.length > 15) {
@@ -49947,14 +49947,14 @@ var B2cFormComponent = class _B2cFormComponent {
         return { invalidPhone: true };
       }
       const remaining = value.slice(4);
-      if (!/^\d*$/.test(remaining) || remaining.length < 7) {
+      if (!/^\d*$/.test(remaining) || remaining.length < 8) {
         return { invalidPhone: true };
       }
       if (value.length > 15) {
         return { invalidPhone: true };
       }
     } else if (country === "India" || country === "Canada") {
-      if (!/^\d*$/.test(value) || value.length < 7) {
+      if (!/^\d*$/.test(value) || value.length < 8) {
         return { invalidPhone: true };
       }
       if (value.length > 10) {
