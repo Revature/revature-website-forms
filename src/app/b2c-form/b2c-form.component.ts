@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ENV_VAR, MAJORS, US_SCHOOLS, MEXICO_STATE_VALUES, MEXICO_SCHOOLS } from '../common/form-contants';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { SharedService } from '../common/shared.service';
 
 declare const Dropbox: any;
 
@@ -54,9 +56,48 @@ export class B2cFormComponent implements AfterViewInit {
     { value: "a0A0P00001ZJyCLUA1", label: "Unlisted" }
   ]
 
+  certificationTopicsList = [
+    'Cloud Computing',
+    'Security & Cybersecurity',
+    'Project Management',
+    'Data & Analytics',
+    'AI & Machine Learning',
+    'Programming & Software Development',
+    'Network & Infrastructure',
+    'DevOps & Site Reliability Engineering (SRE)',
+    'Database Management',
+    'IT Service Management',
+    'Automation Testing',
+    'Others'
+  ]
+
+  disabilityTypesList = [
+    { value: "Blindness", label: "Blindness" },
+    { value: "Low vision", label: "Low vision" },
+    { value: "Hearing impairment", label: "Hearing impairment" },
+    { value: "Locomotor disability", label: "Locomotor disability" },
+    { value: "Dwarfism", label: "Dwarfism" },
+    { value: "Intellectual disability", label: "Intellectual disability" },
+    { value: "Mental illness", label: "Mental illness" },
+    { value: "Speech and language disability", label: "Speech and language disability" },
+    { value: "Multiple disabilities", label: "Multiple disabilities" },
+    { value: "Cerebral palsy", label: "Cerebral palsy" },
+    { value: "Others", label: "Others" }
+  ]
+
+  certificationDropdownSettings: IDropdownSettings = {
+    singleSelection: false,
+    selectAllText: 'Select All',
+    unSelectAllText: 'Unselect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true,
+    searchPlaceholderText: 'Search topics...'
+  };
+
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private sharedService: SharedService
   ) {
     this.initForm();
     this.initDropbox();
@@ -126,6 +167,17 @@ export class B2cFormComponent implements AfterViewInit {
       majorGrade: ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in Degree (in %)
       '12thGrade': ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in 12th Board exam (in %)
       '10thGrade': ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in 10th Board exam (in %)
+
+      // New India Hiring Fields
+      hasCertifications: [''],
+      certificationTopics: [[]],
+      certificationDetails: [''],
+      hasInternships: [''],
+      internships: this.fb.array([]),
+      disability: [''],
+      disabilityType: [''],
+      disabilityTypeOthers: [''],
+      gender: [''],
     });
 
     this.form.get('phone')?.valueChanges.subscribe((value) => {
@@ -155,6 +207,23 @@ export class B2cFormComponent implements AfterViewInit {
     // Add dynamic validators for future sponsorship fields
     this.form.get('sponsorship')?.valueChanges.subscribe((value) => {
       this.handleSponsorshipChange(value);
+    });
+
+    // Add handlers for certification and internship fields
+    this.form.get('hasCertifications')?.valueChanges.subscribe((value) => {
+      this.handleCertificationsChange(value);
+    });
+
+    this.form.get('hasInternships')?.valueChanges.subscribe((value) => {
+      this.handleInternshipsChange(value);
+    });
+
+    this.form.get('disability')?.valueChanges.subscribe((value) => {
+      this.handleDisabilityChange(value);
+    });
+
+    this.form.get('disabilityType')?.valueChanges.subscribe((value) => {
+      this.handleDisabilityTypeChange(value);
     });
   }
 
@@ -327,20 +396,41 @@ export class B2cFormComponent implements AfterViewInit {
       this.form.get('12thGrade')?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
       this.form.get('10thGrade')?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
       this.form.get('workAuthorization')?.clearValidators()
+
+      this.form.get('hasCertifications')?.setValidators([Validators.required]);
+      this.form.get('hasInternships')?.setValidators([Validators.required]);
+      this.form.get('disability')?.setValidators([Validators.required]);
+      this.form.get('gender')?.setValidators([Validators.required]);
     } else {
       this.form.get('workAuthorization')?.setValidators([Validators.required])
       this.form.get('majorGrade')?.clearValidators()
       this.form.get('12thGrade')?.clearValidators()
       this.form.get('10thGrade')?.clearValidators()
+      
+      this.form.get('hasCertifications')?.clearValidators();
+      this.form.get('hasInternships')?.clearValidators();
+      this.form.get('disability')?.clearValidators();
+      this.form.get('gender')?.clearValidators();
+
       this.form.get('majorGrade')?.setValue('')
       this.form.get('12thGrade')?.setValue('')
       this.form.get('10thGrade')?.setValue('')
+
+      this.form.get('hasCertifications')?.setValue('');
+      this.form.get('hasInternships')?.setValue('');
+      this.form.get('disability')?.setValue('');
+      this.form.get('gender')?.setValue('');
     }
 
     this.form.get('workAuthorization')?.updateValueAndValidity({ emitEvent: false })
     this.form.get('majorGrade')?.updateValueAndValidity({ emitEvent: false })
     this.form.get('12thGrade')?.updateValueAndValidity({ emitEvent: false })
     this.form.get('10thGrade')?.updateValueAndValidity({ emitEvent: false })
+    
+    this.form.get('hasCertifications')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('hasInternships')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('disability')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('gender')?.updateValueAndValidity({ emitEvent: false });
 
     this.schools = this.form.value.country === 'Mexico' ? MEXICO_SCHOOLS : US_SCHOOLS;
     this.filterMajors(null);
@@ -584,6 +674,10 @@ export class B2cFormComponent implements AfterViewInit {
   }
 
   async onSubmit(): Promise<void> {
+    if (this.sharedService.hasSuspiciousContent(this.form.value)) {
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       if (!this.form.get('computer_data')?.value && !this.form.get('dropbox')?.value) {
@@ -656,6 +750,16 @@ export class B2cFormComponent implements AfterViewInit {
       } else if (formDataObject.levelOfEducation.includes("Master's Degree")) {
         formDataObject.levelOfEducation = "Master's Degree";
       }
+
+      // Format certification topics as a string
+      if (formDataObject.certificationTopics) {
+        formDataObject.certificationTopics = formDataObject.certificationTopics.length ? JSON.stringify(formDataObject.certificationTopics) : '';
+      }
+
+      // Format internships as a string
+      if (formDataObject.internships) {
+        formDataObject.internships = formDataObject.internships.length ? JSON.stringify(formDataObject.internships) : '';
+      }
     }
 
     if (["United Kingdom", "Canada", "United States", "Mexico"].includes(formDataObject.country)) {
@@ -665,6 +769,12 @@ export class B2cFormComponent implements AfterViewInit {
         ? "Yes"
         : "No";
     }
+
+    if (formDataObject.disabilityType === 'Others' && formDataObject.disabilityTypeOthers) {
+      formDataObject.disabilityType = `Others - ${formDataObject.disabilityTypeOthers}`;
+    }
+    
+    delete formDataObject.disabilityTypeOthers;
 
     const queryParams = this.getQueryParams();
     const standardizedQuery = this.standardizeQueryParams(queryParams);
@@ -800,5 +910,78 @@ export class B2cFormComponent implements AfterViewInit {
       captchaElem.style.transform = `scale(${scale < 1 ? scale : 1})`;
       captchaElem.style.transformOrigin = '0 0';
     }
+  }
+
+  private handleCertificationsChange(value: string): void {
+    if (value === 'yes') {
+      this.form.get('certificationTopics')?.setValidators([Validators.required]);
+      this.form.get('certificationDetails')?.setValidators([Validators.required]);
+    } else {
+      this.form.get('certificationTopics')?.clearValidators();
+      this.form.get('certificationDetails')?.clearValidators();
+      this.form.get('certificationTopics')?.setValue([]);
+      this.form.get('certificationDetails')?.setValue('');
+    }
+    this.form.get('certificationTopics')?.updateValueAndValidity();
+    this.form.get('certificationDetails')?.updateValueAndValidity();
+  }
+
+  private handleInternshipsChange(value: string): void {
+    const internshipsArray = this.form.get('internships') as FormArray;
+
+    if (value === 'yes') {
+      if (internshipsArray.length === 0) {
+        this.addInternship();
+      }
+    } else {
+      while (internshipsArray.length > 0) {
+        internshipsArray.removeAt(0);
+      }
+    }
+  }
+
+  private handleDisabilityChange(value: string): void {
+    if (value === 'yes') {
+      this.form.get('disabilityType')?.enable();
+    } else {  
+      this.form.get('disabilityType')?.disable();
+      this.form.get('disabilityType')?.setValue('');
+    }
+  }
+
+  private handleDisabilityTypeChange(value: string): void {
+    if (value === 'Others') {
+      this.form.get('disabilityTypeOthers')?.setValidators([Validators.required]);
+    } else {
+      this.form.get('disabilityTypeOthers')?.clearValidators();
+      this.form.get('disabilityTypeOthers')?.setValue('');
+    }
+    this.form.get('disabilityTypeOthers')?.updateValueAndValidity();
+  }
+
+  addInternship(): void {
+    const internshipsArray = this.form.get('internships') as FormArray;
+
+    // Limit to maximum 4 internships
+    if (internshipsArray.length < 4) {
+      const internshipGroup = this.fb.group({
+        organization: ['', Validators.required],
+        duration: ['', [Validators.required, Validators.pattern('^(?!0+$)\\d+$')]],
+        location: ['', Validators.required],
+        technology: ['', Validators.required],
+        role: ['', Validators.required]
+      });
+
+      internshipsArray.push(internshipGroup);
+    }
+  }
+
+  removeInternship(index: number): void {
+    const internshipsArray = this.form.get('internships') as FormArray;
+    internshipsArray.removeAt(index);
+  }
+
+  get internshipsControls() {
+    return (this.form.get('internships') as FormArray).controls;
   }
 }

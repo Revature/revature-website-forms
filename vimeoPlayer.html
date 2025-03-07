@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vimeo Player Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #vimeo-player {
+            width: 100%;
+            aspect-ratio: 16/9;
+        }
+        .controls {
+            margin-top: 15px;
+        }
+        button {
+            padding: 8px 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vimeo Player Example</h1>
+    
+    <div id="vimeo-container">
+    </div>
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    
+    <script>
+        const videoId = '1062962111';
+        const vimeoContainer = document.getElementById('vimeo-container');
+        const player = new Vimeo.Player(vimeoContainer, {
+            id: videoId,
+            loop: false,
+            controls: true,
+            responsive: true,
+            width: '100%',
+            dnt: false,
+            byline: false,
+            portrait: false,
+            title: false,  
+            share: false,
+            logo: false  
+        });
+
+        // Log when the video is ready
+        player.on('loaded', function() {
+            console.log('Video loaded successfully');
+            player.element.style.width = '100%';
+        });
+
+        // Handle errors
+        player.on('error', function(error) {
+            console.error('An error occurred with the Vimeo player:', error);
+        });
+    </script>
+</body>
+</html>

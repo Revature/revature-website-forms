@@ -478,7 +478,7 @@
             <div class="two-grid-container">
                 <fieldset class="form-fieldset">
                     <select class="form-field educationFields-field common-field" formControlName="levelOfEducation">
-                        <option value="" disabled selected></option>
+                        <option value="" disabled selected>Select an option</option>
                         <option value="Bachelor's Degree">Bachelor of Science</option>
                         <option value="Bachelor's Degree_2">Bachelor of Engineering</option>
                         <option value="Bachelor's Degree_3">Bachelor of Technology</option>
@@ -496,7 +496,7 @@
 
                 <fieldset class="form-fieldset">
                     <select class="form-field educationFields-field common-field" formControlName="branch">
-                        <option value="" disabled selected></option>
+                        <option value="" disabled selected>Select an option</option>
                         <option *ngFor="let branch of branches" [value]="branch.value">
                             {{ branch.label }}
                         </option>
@@ -693,6 +693,215 @@
                 </span>
             </fieldset>
         </div>
+        
+        <!-- Certifications Section -->
+        <fieldset class="two-grid-container">
+            <legend class="form-label">Have you completed any certifications?</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="hasCertifications" value="no" id="noCertifications">
+                <label for="noCertifications">No</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="hasCertifications" value="yes" id="yesCertifications">
+                <label for="yesCertifications">Yes</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('hasCertifications')?.invalid && form.get('hasCertifications')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
+
+        <ng-container *ngIf="form.get('hasCertifications')?.value === 'yes'">
+            <fieldset class="one-grid-container rev-multi-select">
+                <legend class="form-label">If yes, please select the relevant topic(s):</legend>
+                <ng-multiselect-dropdown
+                    [placeholder]="'Select topic(s)'"
+                    [settings]="certificationDropdownSettings"
+                    [data]="certificationTopicsList"
+                    formControlName="certificationTopics">
+                </ng-multiselect-dropdown>
+                <span class="b2c-error-message common-error-message"
+                    *ngIf="form.get('certificationTopics')?.invalid && form.get('certificationTopics')?.touched">
+                    Please select at least one topic
+                </span>
+            </fieldset>
+
+            <fieldset class="one-grid-container">
+                <legend class="form-label">Please specify the certification:</legend>
+                <textarea class="form-field common-field" formControlName="certificationDetails" rows="3" 
+                    placeholder="Enter certification details"></textarea>
+                <span class="b2c-error-message common-error-message"
+                    *ngIf="form.get('certificationDetails')?.invalid && form.get('certificationDetails')?.touched">
+                    Certification details are required
+                </span>
+            </fieldset>
+        </ng-container>
+
+        <!-- Internships Section -->
+        <fieldset class="two-grid-container">
+            <legend class="form-label">Have you completed any internships?</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="hasInternships" value="no" id="noInternships">
+                <label for="noInternships">No</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="hasInternships" value="yes" id="yesInternships">
+                <label for="yesInternships">Yes</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('hasInternships')?.invalid && form.get('hasInternships')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
+
+        <!-- Internship Details (conditional) -->
+        <ng-container *ngIf="form.get('hasInternships')?.value === 'yes'">
+            <legend class="form-label">If yes, please provide details about your internship(s):</legend>
+            
+            <div formArrayName="internships">
+                <div *ngFor="let internship of internshipsControls; let i = index" style="margin-bottom: 20px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.13); border-radius: 8px;" [formGroupName]="i">
+                    <div class="one-grid-container">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <legend class="form-label">Internship {{i+1}}</legend>
+                            <button type="button" (click)="removeInternship(i)" 
+                                style="background: none; border: none; color: #F9B200; cursor: pointer;" 
+                                *ngIf="internshipsControls.length > 1">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="two-grid-container">
+                        <fieldset class="form-fieldset">
+                            <legend class="form-label">Organization</legend>
+                            <input noWhitespace class="form-field common-field" type="text" formControlName="organization" 
+                             maxlength="40" placeholder="Organization name">
+                            <span class="b2c-error-message common-error-message"
+                                *ngIf="internship.get('organization')?.invalid && internship.get('organization')?.touched">
+                                Organization is required
+                            </span>
+                        </fieldset>
+                        
+                        <fieldset class="form-fieldset">
+                            <legend class="form-label">Duration (months)</legend>
+                            <input noWhitespace class="form-field common-field" type="text" formControlName="duration" 
+                                maxlength="3" placeholder="Number of months">
+                            <span class="b2c-error-message common-error-message"
+                                *ngIf="internship.get('duration')?.invalid && internship.get('duration')?.touched">
+                                <span *ngIf="internship.get('duration')?.errors?.['required']">
+                                    Duration is required
+                                </span>
+                                <span *ngIf="internship.get('duration')?.errors?.['pattern']">
+                                    Duration must be a valid number
+                                </span>
+                            </span>
+                        </fieldset>
+                    </div>
+                    
+                    <div class="two-grid-container">
+                        <fieldset class="form-fieldset">
+                            <legend class="form-label">Location</legend>
+                            <input noWhitespace class="form-field common-field" type="text" formControlName="location" 
+                                maxlength="40" placeholder="Location">
+                            <span class="b2c-error-message common-error-message"
+                                *ngIf="internship.get('location')?.invalid && internship.get('location')?.touched">
+                                Location is required
+                            </span>
+                        </fieldset>
+                        
+                        <fieldset class="form-fieldset">
+                            <legend class="form-label">Technology</legend>
+                            <input noWhitespace class="form-field common-field" type="text" formControlName="technology" 
+                            maxlength="40" placeholder="Technology">
+                            <span class="b2c-error-message common-error-message"
+                                *ngIf="internship.get('technology')?.invalid && internship.get('technology')?.touched">
+                                Technology is required
+                            </span>
+                        </fieldset>
+                    </div>
+
+                    <div class="one-grid-container">
+                        <fieldset class="form-fieldset">
+                            <legend class="form-label">Role</legend>
+                            <input noWhitespace class="form-field common-field" type="text" formControlName="role" 
+                            maxlength="40" placeholder="Role">
+                            <span class="b2c-error-message common-error-message"
+                                *ngIf="internship.get('role')?.invalid && internship.get('role')?.touched">
+                                Role is required
+                            </span>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            
+            <div *ngIf="internshipsControls.length < 4" class="one-grid-container">
+                <button type="button" (click)="addInternship()" class="add-internship-form-button">
+                    Add Another Internship
+                </button>
+            </div>
+        </ng-container>
+
+        <!-- Disability Section -->
+        <fieldset class="one-grid-container">
+            <legend class="form-label">Do you identify as a person with a disability?</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="disability" value="no" id="noDisability">
+                <label for="noDisability">No</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="disability" value="yes" id="yesDisability">
+                <label for="yesDisability">Yes</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="disability" value="prefer not to say" id="preferNotToSayDisability">
+                <label for="preferNotToSayDisability">Prefer not to say</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('disability')?.invalid && form.get('disability')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
+
+        <!-- Disability Type (conditional) -->
+        <ng-container *ngIf="form.get('disability')?.value === 'yes'">
+            <fieldset class="one-grid-container">
+                <legend class="form-label">If yes, and you feel comfortable sharing, please specify the nature of your disability (optional):</legend>
+                <select class="form-field common-field" formControlName="disabilityType">
+                    <option value="" disabled selected>Select disability type</option>
+                    <option *ngFor="let type of disabilityTypesList" [value]="type.value">{{ type.label }}</option>
+                </select>
+            </fieldset>
+            
+            <fieldset class="one-grid-container" *ngIf="form.get('disabilityType')?.value === 'Others'">
+                <legend class="form-label">Please specify your disability:</legend>
+                <input noWhitespace type="text" class="form-field common-field" formControlName="disabilityTypeOthers" placeholder="Please describe your disability">
+                <span class="b2c-error-message common-error-message"
+                    *ngIf="form.get('disabilityTypeOthers')?.invalid && form.get('disabilityTypeOthers')?.touched">
+                    Please provide details about your disability
+                </span>
+            </fieldset>
+        </ng-container>
+
+        <!-- Gender Section -->
+        <fieldset class="one-grid-container">
+            <legend class="form-label">Please specify your gender:</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="gender" value="Female" id="femaleGender">
+                <label for="femaleGender">Female</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="gender" value="Male" id="maleGender">
+                <label for="maleGender">Male</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="gender" value="Prefer Not to answer" id="preferNotToSayGender">
+                <label for="preferNotToSayGender">Prefer not to answer</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('gender')?.invalid && form.get('gender')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
     </ng-container>
 
     <!-- Resume Upload -->

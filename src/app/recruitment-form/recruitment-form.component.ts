@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CANADA_SCHOOLS, CANADA_STATE_VALUES, ENV_VAR, MAJORS, MEXICO_SCHOOLS, MEXICO_STATE_VALUES, US_SCHOOLS, US_STATE_VALUES, WORK_AUTH_VALUES } from '../common/form-contants';
+import { SharedService } from '../common/shared.service';
 
 @Component({
   selector: 'app-recruitment-form',
@@ -38,7 +39,8 @@ export class RecruitmentFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private sharedService: SharedService
   ) {
     this.initForm();
   }
@@ -318,14 +320,10 @@ export class RecruitmentFormComponent {
   }
 
   async onSubmit() {
-    const recaptchaResponse = this.form.controls['validCaptacha'];
-    if (this.hasSuspiciousContent(this.form.value)) {
+    if (this.sharedService.hasSuspiciousContent(this.form.value)) {
       return;
     }
-    if (this.form.invalid) { //|| !recaptchaResponse.value
-      // if (!recaptchaResponse.value) {
-      //   recaptchaResponse.setValue(false);
-      // }
+    if (this.form.invalid) {
       if (this.form.invalid) {
         Object.keys(this.form.controls).forEach(key => {
           const control = this.form.get(key);
@@ -367,23 +365,5 @@ export class RecruitmentFormComponent {
         this.showCaptcha = true;
       }, 200)
     }
-  }
-
-  hasSuspiciousContent(formValues: Record<string, any>): boolean {
-    const combinedValues = Object.values(formValues).join(' ').toLowerCase();
-
-    const suspiciousKeywords = [
-      '<script', '</script', '<iframe', '<object', 'embed', 'onclick', 'onerror', 'onload', "<>", "</>",
-      'onmouseover', 'drop table', 'select *', 'insert into', '--', '/*', '*/', 'iframe', 'script'
-    ];
-
-    const hasSuspiciousKeyword = suspiciousKeywords.some(keyword => combinedValues.includes(keyword));
-
-    if (hasSuspiciousKeyword) {
-      alert('Warning: Suspicious content detected in the form. Verify your input');
-      return true;
-    }
-
-    return false;
   }
 }

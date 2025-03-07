@@ -9,6 +9,7 @@ import { RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings } from 'ng-recap
 import { SharedModule } from './common/shared.module';
 import { B2cFormComponent } from './b2c-form/b2c-form.component';
 import { ENV_VAR } from './common/form-contants';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [],
@@ -17,7 +18,8 @@ import { ENV_VAR } from './common/form-contants';
     AppRoutingModule,
     ReactiveFormsModule,
     RecaptchaModule,
-    SharedModule
+    SharedModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [provideHttpClient(),
   {

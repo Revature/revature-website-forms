@@ -274,3 +274,100 @@ option {
     border-top-color: #fff;
     animation: spinner .6s linear infinite;
 }
+
+.rev-multi-select {
+    ::ng-deep .multiselect-dropdown {
+        background-color: rgba(0, 0, 0, 0.10) !important;
+        border: 1px solid rgba(255, 255, 255, 0.13) !important;
+        border-radius: 8px !important;
+        font-family: inherit !important;
+        width: 100% !important;
+    }
+
+    ::ng-deep .multiselect-dropdown .dropdown-btn {
+        background-color: transparent !important;
+        border: none !important;
+        color: #fafafa !important;
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+    }
+
+    ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-down {
+        border-top: 5px solid #fafafa !important;
+    }
+
+    ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-up {
+        border-bottom: 5px solid #fafafa !important;
+    }
+
+    ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item-container {
+        padding-bottom: 4px !important;
+    }
+
+    ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item {
+        background: white !important;
+        border: 1px solid white !important;
+        color: black !important;
+        max-width: none !important;
+        padding: 2px 8px !important;
+        border-radius: 0.5rem !important;
+    }
+
+    ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item a {
+        color: black !important;
+    }
+
+    /* Light theme dropdown list */
+    ::ng-deep .dropdown-list {
+        background: white !important;
+        border: 1px solid #ccc !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1) !important;
+        margin-top: 0px !important;
+        
+        .no-filtered-data h5 {
+            font-size: 16px !important;
+            color: black !important;
+        }
+    }
+
+    ::ng-deep .dropdown-list .filter-textbox input {
+        background-color: white !important;
+        border: 1px solid #ccc !important;
+        color: #333 !important;
+        border-radius: 4px !important;
+        padding: 5px 0px 5px 20px !important;
+    }
+
+    ::ng-deep .dropdown-list .filter-textbox input::placeholder {
+        color: #999 !important;
+    }
+
+    ::ng-deep .dropdown-list ul li {
+        color: #333 !important;
+        padding: 8px 12px !important;
+    }
+
+    ::ng-deep .dropdown-list ul li:hover {
+        background-color: rgba(175, 173, 173, 0.1) !important;
+    }
+
+    ::ng-deep .dropdown-list .item1:hover,
+    ::ng-deep .dropdown-list .item1.selected {
+        background-color: rgba(175, 173, 173, 0.1) !important;
+    }
+
+    ::ng-deep .dropdown-list .item1.selected {
+        background-color: rgba(175, 173, 173, 0.2) !important;
+        color: #333 !important;
+    }
+
+    ::ng-deep .multiselect-item-checkbox input[type=checkbox]:checked+div:before {
+        background: #011635 !important;
+        border: 2px solid #011635 !important;
+    }
+
+    ::ng-deep .multiselect-item-checkbox input[type=checkbox]+div:before {
+        border: 2px solid #ccc !important;
+    }
+}

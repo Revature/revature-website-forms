@@ -12,6 +12,7 @@ import { SharedModule } from './common/shared.module';
 import { ENV_VAR } from './common/form-contants';
 import { B2cFormComponent } from './b2c-form/b2c-form.component';
 import { B2bFormComponent } from './b2b-form/b2b-form.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { B2bFormComponent } from './b2b-form/b2b-form.component';
     AppRoutingModule,
     ReactiveFormsModule,
     RecaptchaModule,
-    SharedModule
+    SharedModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [provideHttpClient(),
   {
