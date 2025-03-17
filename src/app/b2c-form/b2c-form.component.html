@@ -728,7 +728,7 @@
 
             <fieldset class="one-grid-container">
                 <legend class="form-label">Please specify the certification:</legend>
-                <textarea class="form-field common-field" formControlName="certificationDetails" rows="3" 
+                <textarea noWhitespace class="form-field common-field" formControlName="certificationDetails" rows="3" 
                     placeholder="Enter certification details"></textarea>
                 <span class="b2c-error-message common-error-message"
                     *ngIf="form.get('certificationDetails')?.invalid && form.get('certificationDetails')?.touched">

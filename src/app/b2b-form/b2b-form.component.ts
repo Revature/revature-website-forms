@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, HostListener, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ENV_VAR } from '../common/form-contants';
+import { SharedService } from '../common/shared.service';
 
 @Component({
   selector: 'app-b2b-form',
@@ -46,7 +47,8 @@ export class B2bFormComponent implements AfterViewInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
@@ -117,6 +119,10 @@ export class B2bFormComponent implements AfterViewInit {
   }
 
   async onSubmit(): Promise<void> {
+    if (this.sharedService.hasSuspiciousContent(this.form.value)) {
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       if (this.isExtendedForm) {
