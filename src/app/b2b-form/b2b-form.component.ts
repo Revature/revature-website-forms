@@ -11,6 +11,7 @@ import { SharedService } from '../common/shared.service';
 })
 export class B2bFormComponent implements AfterViewInit {
   @Input('actionurl') public actionUrl: string = '';
+  @Input('thankyouextensionurl') public thankyouExtensionUrl: string = '';
   @Input('pdfname') public pdfName: string = 'Revature_file';
   @Input('downloadbtnid') public downloadBtnId: string = 'survey_download';
   @Input('isexternalurl') public isExternalURL: boolean = false;
@@ -236,7 +237,7 @@ export class B2bFormComponent implements AfterViewInit {
   }
 
   navigateToThankYouPage(firstName: string): void {
-    window.location.href = `/thank-you${this.isExtendedForm ? '' : '-for-downloading'}?name=${btoa(firstName)}`;
+    window.location.href = `/thank-you${this.thankyouExtensionUrl}?name=${btoa(firstName)}`;
   }
 
   getQueryParams(): any {

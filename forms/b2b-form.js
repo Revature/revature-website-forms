@@ -52118,6 +52118,7 @@ var B2bFormComponent = class _B2bFormComponent {
     this.sharedService = sharedService;
   }
   actionUrl = "";
+  thankyouExtensionUrl = "";
   pdfName = "Revature_file";
   downloadBtnId = "survey_download";
   isExternalURL = false;
@@ -52316,7 +52317,7 @@ var B2bFormComponent = class _B2bFormComponent {
     });
   }
   navigateToThankYouPage(firstName) {
-    window.location.href = `/thank-you${this.isExtendedForm ? "" : "-for-downloading"}?name=${btoa(firstName)}`;
+    window.location.href = `/thank-you${this.thankyouExtensionUrl}?name=${btoa(firstName)}`;
   }
   getQueryParams() {
     const queryParams = new URLSearchParams(window.location.search);
@@ -52370,7 +52371,7 @@ var B2bFormComponent = class _B2bFormComponent {
         return ctx.onResize();
       }, false, \u0275\u0275resolveWindow);
     }
-  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"] }, decls: 33, vars: 19, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], [1, "one-grid-container"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "4", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
+  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"] }, decls: 33, vars: 19, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], [1, "one-grid-container"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "4", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function B2bFormComponent_Template_form_ngSubmit_0_listener() {
