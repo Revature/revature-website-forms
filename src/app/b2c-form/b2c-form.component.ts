@@ -85,13 +85,40 @@ export class B2cFormComponent implements AfterViewInit {
     { value: "Others", label: "Others" }
   ]
 
-  certificationDropdownSettings: IDropdownSettings = {
+  languagesList = [
+    "English",
+    "Spanish",
+    "Mandarin Chinese",
+    "Hindi",
+    "Japanese",
+    "French",
+    "Arabic",
+    "Portuguese",
+    "Bengali",
+    "Russian",
+    "German",
+    "Korean",
+    "Italian",
+    "Vietnamese",
+    "Dutch",
+    "Polish",
+    "Turkish",
+    "Hebrew",
+    "Urdu",
+    "Tagalog",
+    "Farsi (Persian)",
+    "Thai",
+    "Greek",
+    "Others"
+  ]
+
+  multiselectDropdownSettings: IDropdownSettings = {
     singleSelection: false,
     selectAllText: 'Select All',
     unSelectAllText: 'Unselect All',
     itemsShowLimit: 3,
     allowSearchFilter: true,
-    searchPlaceholderText: 'Search topics...'
+    searchPlaceholderText: 'Search...'
   };
 
   constructor(
@@ -178,6 +205,8 @@ export class B2cFormComponent implements AfterViewInit {
       disabilityType: [''],
       disabilityTypeOthers: [''],
       gender: [''],
+      language: [[]],
+      languageOthers: [''],
     });
 
     this.form.get('phone')?.valueChanges.subscribe((value) => {
@@ -224,6 +253,10 @@ export class B2cFormComponent implements AfterViewInit {
 
     this.form.get('disabilityType')?.valueChanges.subscribe((value) => {
       this.handleDisabilityTypeChange(value);
+    });
+
+    this.form.get('language')?.valueChanges.subscribe((value) => {
+      this.handleLanguageChange(value);
     });
   }
 
@@ -406,7 +439,7 @@ export class B2cFormComponent implements AfterViewInit {
       this.form.get('majorGrade')?.clearValidators()
       this.form.get('12thGrade')?.clearValidators()
       this.form.get('10thGrade')?.clearValidators()
-      
+
       this.form.get('hasCertifications')?.clearValidators();
       this.form.get('hasInternships')?.clearValidators();
       this.form.get('disability')?.clearValidators();
@@ -426,7 +459,7 @@ export class B2cFormComponent implements AfterViewInit {
     this.form.get('majorGrade')?.updateValueAndValidity({ emitEvent: false })
     this.form.get('12thGrade')?.updateValueAndValidity({ emitEvent: false })
     this.form.get('10thGrade')?.updateValueAndValidity({ emitEvent: false })
-    
+
     this.form.get('hasCertifications')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('hasInternships')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('disability')?.updateValueAndValidity({ emitEvent: false });
@@ -773,8 +806,17 @@ export class B2cFormComponent implements AfterViewInit {
     if (formDataObject.disabilityType === 'Others' && formDataObject.disabilityTypeOthers) {
       formDataObject.disabilityType = `Others - ${formDataObject.disabilityTypeOthers}`;
     }
-    
+
     delete formDataObject.disabilityTypeOthers;
+
+    if (formDataObject.language.includes('Others')) {
+      const othersIndex = formDataObject.language.indexOf('Others');
+      if (formDataObject.languageOthers) {
+        formDataObject.language[othersIndex] = `Others - ${formDataObject.languageOthers}`;
+      }
+    }
+
+    delete formDataObject.languageOthers;
 
     const queryParams = this.getQueryParams();
     const standardizedQuery = this.standardizeQueryParams(queryParams);
@@ -943,7 +985,7 @@ export class B2cFormComponent implements AfterViewInit {
   private handleDisabilityChange(value: string): void {
     if (value === 'yes') {
       this.form.get('disabilityType')?.enable();
-    } else {  
+    } else {
       this.form.get('disabilityType')?.disable();
       this.form.get('disabilityType')?.setValue('');
     }
@@ -957,6 +999,16 @@ export class B2cFormComponent implements AfterViewInit {
       this.form.get('disabilityTypeOthers')?.setValue('');
     }
     this.form.get('disabilityTypeOthers')?.updateValueAndValidity();
+  }
+
+  private handleLanguageChange(value: string): void {
+    if (value.includes('Others')) {
+      this.form.get('languageOthers')?.setValidators([Validators.required]);
+    } else {
+      this.form.get('languageOthers')?.clearValidators();
+      this.form.get('languageOthers')?.setValue('');
+    }
+    this.form.get('languageOthers')?.updateValueAndValidity();
   }
 
   addInternship(): void {

@@ -716,7 +716,7 @@
                 <legend class="form-label">If yes, please select the relevant topic(s):</legend>
                 <ng-multiselect-dropdown
                     [placeholder]="'Select topic(s)'"
-                    [settings]="certificationDropdownSettings"
+                    [settings]="multiselectDropdownSettings"
                     [data]="certificationTopicsList"
                     formControlName="certificationTopics">
                 </ng-multiselect-dropdown>
@@ -903,6 +903,29 @@
             </span>
         </fieldset>
     </ng-container>
+
+    <fieldset class="one-grid-container rev-multi-select">
+        <legend class="form-label">What language(s) do you speak fluently?</legend>
+        <ng-multiselect-dropdown
+            [placeholder]="'Select language(s)'"
+            [settings]="multiselectDropdownSettings"
+            [data]="languagesList"
+            formControlName="language">
+        </ng-multiselect-dropdown>
+        <span class="b2c-error-message common-error-message"
+            *ngIf="form.get('certificationTopics')?.invalid && form.get('certificationTopics')?.touched">
+            Please select at least one topic
+        </span>
+    </fieldset>
+
+    <fieldset class="one-grid-container" *ngIf="form.get('language')?.value.includes('Others')">
+        <legend class="form-label">Please specify your language:</legend>
+        <input noWhitespace type="text" class="form-field common-field" formControlName="languageOthers" placeholder="Please describe your language">
+        <span class="b2c-error-message common-error-message"
+            *ngIf="form.get('languageOthers')?.invalid && form.get('languageOthers')?.touched">
+            Please provide details about your language
+        </span>
+    </fieldset>
 
     <!-- Resume Upload -->
     <fieldset class="two-grid-container">
