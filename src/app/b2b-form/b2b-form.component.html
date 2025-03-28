@@ -18,7 +18,7 @@
         </fieldset>
     </div>
 
-    <div class="one-grid-container">
+    <div [ngClass]="isHorizontalForm ? 'two-grid-container' : 'one-grid-container'">
         <fieldset class="form-fieldset">
             <input maxlength="100" noWhitespace class="b2b-form-field" type="text" formControlName="jobTitle"
                 placeholder="Job Title">
@@ -27,9 +27,6 @@
                 Job Title is required
             </span>
         </fieldset>
-    </div>
-
-    <div class="one-grid-container">
         <fieldset class="form-fieldset">
             <input maxlength="100" noWhitespace class="b2b-form-field" type="text" formControlName="companyName"
                 placeholder="Company Name">
@@ -40,7 +37,7 @@
         </fieldset>
     </div>
 
-    <div class="one-grid-container">
+    <div [ngClass]="isHorizontalForm && isExtendedForm ? 'two-grid-container' : 'one-grid-container'">
         <fieldset class="form-fieldset">
             <input maxlength="80" noWhitespace class="b2b-form-field" type="email" formControlName="email"
                 placeholder="Business Email">
@@ -59,6 +56,9 @@
                     valid.</span>
             </span>
         </fieldset>
+    </div>
+
+    <div class="one-grid-container">
         <fieldset class="form-fieldset" *ngIf="showYourMessage">
             <textarea noWhitespace class="b2b-form-field b2b-form-textarea" formControlName="yourMessage"
                 placeholder="Your Message" rows="4" maxlength="500"></textarea>

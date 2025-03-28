@@ -121,6 +121,16 @@ export class B2cFormComponent implements AfterViewInit {
     searchPlaceholderText: 'Search...'
   };
 
+  multiselectDropdownSettingsWithoutSelectAll: IDropdownSettings = {
+    singleSelection: false,
+    selectAllText: 'Select All',
+    unSelectAllText: 'Unselect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true,
+    searchPlaceholderText: 'Search...',
+    enableCheckAll: false,
+  };
+
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
