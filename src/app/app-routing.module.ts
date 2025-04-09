@@ -5,12 +5,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { RecruitmentFormComponent } from './recruitment-form/recruitment-form.component';
 import { B2cFormComponent } from './b2c-form/b2c-form.component';
 import { B2bFormComponent } from './b2b-form/b2b-form.component';
+import { DsarFormComponent } from './dsar-form/dsar-form.component';
 
 const routes: Routes = [
   {path:'sourcing-form', component: SourcingFormComponent},
   {path:'recruitment-form', component: RecruitmentFormComponent},
   {path:'b2c-form', component: B2cFormComponent},
-  {path:'b2b-form', component: B2bFormComponent}
+  {path:'b2b-form', component: B2bFormComponent},
+  {path:'dsar-form', component: DsarFormComponent}
 ];
 
 @NgModule({

@@ -52546,104 +52546,104 @@ var B2bFormComponent = class _B2bFormComponent {
 })();
 
 // src/app/dsar-form/dsar-form.component.ts
-function DsarFormComponent_span_22_Template(rf, ctx) {
+function DsarFormComponent_span_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter Legal first name. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_span_29_Template(rf, ctx) {
+function DsarFormComponent_span_15_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter Legal last name. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_span_37_Template(rf, ctx) {
+function DsarFormComponent_span_23_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter other name. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_span_54_Template(rf, ctx) {
+function DsarFormComponent_span_40_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter state. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_option_68_Template(rf, ctx) {
+function DsarFormComponent_option_54_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 26);
+    \u0275\u0275elementStart(0, "option", 22);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const country_r1 = ctx.$implicit;
-    \u0275\u0275property("value", country_r1.value);
+    \u0275\u0275property("value", country_r1);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", country_r1.label, " ");
+    \u0275\u0275textInterpolate1(" ", country_r1, " ");
   }
 }
-function DsarFormComponent_span_69_Template(rf, ctx) {
+function DsarFormComponent_span_55_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please select a Country. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_span_77_Template(rf, ctx) {
+function DsarFormComponent_span_63_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter a valid email address. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_span_84_Template(rf, ctx) {
+function DsarFormComponent_span_70_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter a valid Phone Number. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_option_92_Template(rf, ctx) {
+function DsarFormComponent_option_80_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 26);
+    \u0275\u0275elementStart(0, "option", 22);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const relationship_r2 = ctx.$implicit;
-    \u0275\u0275property("value", relationship_r2.value);
+    \u0275\u0275property("value", relationship_r2);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", relationship_r2.label, " ");
+    \u0275\u0275textInterpolate1(" ", relationship_r2, " ");
   }
 }
-function DsarFormComponent_span_93_Template(rf, ctx) {
+function DsarFormComponent_span_81_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please Select Relationship With Revature. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_div_94_span_7_Template(rf, ctx) {
+function DsarFormComponent_div_82_span_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter specify name. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_div_94_Template(rf, ctx) {
+function DsarFormComponent_div_82_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 13)(1, "fieldset", 6)(2, "legend", 66);
+    \u0275\u0275elementStart(0, "div", 9)(1, "fieldset", 2)(2, "legend", 64);
     \u0275\u0275text(3, " Please specify");
-    \u0275\u0275elementStart(4, "span", 8);
+    \u0275\u0275elementStart(4, "span", 4);
     \u0275\u0275text(5, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(6, "textarea", 67);
-    \u0275\u0275template(7, DsarFormComponent_div_94_span_7_Template, 2, 0, "span", 10);
+    \u0275\u0275element(6, "textarea", 65);
+    \u0275\u0275template(7, DsarFormComponent_div_82_span_7_Template, 2, 0, "span", 6);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -52653,91 +52653,91 @@ function DsarFormComponent_div_94_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r2.form.get("relationshipWithRevatureOther")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r2.form.get("relationshipWithRevatureOther")) == null ? null : tmp_1_0.touched));
   }
 }
-function DsarFormComponent_span_110_Template(rf, ctx) {
+function DsarFormComponent_span_98_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_p_111_Template(rf, ctx) {
+function DsarFormComponent_div_99_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "p");
+    \u0275\u0275elementStart(0, "div", 41);
     \u0275\u0275text(1, " If you stated Yes, please identify your information below: ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_section_112_span_8_Template(rf, ctx) {
+function DsarFormComponent_section_100_span_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter first name. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_section_112_span_15_Template(rf, ctx) {
+function DsarFormComponent_section_100_span_15_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter last name. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_section_112_span_32_Template(rf, ctx) {
+function DsarFormComponent_section_100_span_32_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter state. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_section_112_option_46_Template(rf, ctx) {
+function DsarFormComponent_section_100_option_46_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 26);
+    \u0275\u0275elementStart(0, "option", 22);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const country_r4 = ctx.$implicit;
-    \u0275\u0275property("value", country_r4.value);
+    \u0275\u0275property("value", country_r4);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", country_r4.label, " ");
+    \u0275\u0275textInterpolate1(" ", country_r4, " ");
   }
 }
-function DsarFormComponent_section_112_span_47_Template(rf, ctx) {
+function DsarFormComponent_section_100_span_47_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please select a Country. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_section_112_span_55_Template(rf, ctx) {
+function DsarFormComponent_section_100_span_55_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter Email Address. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_section_112_span_62_Template(rf, ctx) {
+function DsarFormComponent_section_100_span_62_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter Phone Number. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_section_112_option_68_Template(rf, ctx) {
+function DsarFormComponent_section_100_option_70_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 26);
+    \u0275\u0275elementStart(0, "option", 22);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const relationship_r5 = ctx.$implicit;
-    \u0275\u0275property("value", relationship_r5.value);
+    \u0275\u0275property("value", relationship_r5);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", relationship_r5.label, " ");
+    \u0275\u0275textInterpolate1(" ", relationship_r5, " ");
   }
 }
-function DsarFormComponent_section_112_div_69_span_5_Template(rf, ctx) {
+function DsarFormComponent_section_100_div_71_span_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -52747,13 +52747,13 @@ function DsarFormComponent_section_112_div_69_span_5_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", ctx_r2.relationshipDetailsHelpText, " ");
   }
 }
-function DsarFormComponent_section_112_div_69_Template(rf, ctx) {
+function DsarFormComponent_section_100_div_71_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 13)(1, "fieldset", 6)(2, "legend", 88);
+    \u0275\u0275elementStart(0, "div", 9)(1, "fieldset", 2)(2, "legend", 86);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
-    \u0275\u0275element(4, "textarea", 89);
-    \u0275\u0275template(5, DsarFormComponent_section_112_div_69_span_5_Template, 2, 1, "span", 10);
+    \u0275\u0275element(4, "textarea", 87);
+    \u0275\u0275template(5, DsarFormComponent_section_100_div_71_span_5_Template, 2, 1, "span", 6);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -52765,82 +52765,84 @@ function DsarFormComponent_section_112_div_69_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r2.form.get("relationshipToDataSubjectDetails")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r2.form.get("relationshipToDataSubjectDetails")) == null ? null : tmp_3_0.touched));
   }
 }
-function DsarFormComponent_section_112_Template(rf, ctx) {
+function DsarFormComponent_section_100_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "section", 3)(1, "div", 5)(2, "fieldset", 6)(3, "legend", 68);
+    \u0275\u0275elementStart(0, "section", 39)(1, "div", 1)(2, "fieldset", 2)(3, "legend", 66);
     \u0275\u0275text(4, " First Name");
-    \u0275\u0275elementStart(5, "span", 8);
+    \u0275\u0275elementStart(5, "span", 4);
     \u0275\u0275text(6, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(7, "input", 69);
-    \u0275\u0275template(8, DsarFormComponent_section_112_span_8_Template, 2, 0, "span", 10);
+    \u0275\u0275element(7, "input", 67);
+    \u0275\u0275template(8, DsarFormComponent_section_100_span_8_Template, 2, 0, "span", 6);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "fieldset", 6)(10, "legend", 70);
+    \u0275\u0275elementStart(9, "fieldset", 2)(10, "legend", 68);
     \u0275\u0275text(11, " Last Name");
-    \u0275\u0275elementStart(12, "span", 8);
+    \u0275\u0275elementStart(12, "span", 4);
     \u0275\u0275text(13, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(14, "input", 71);
-    \u0275\u0275template(15, DsarFormComponent_section_112_span_15_Template, 2, 0, "span", 10);
+    \u0275\u0275element(14, "input", 69);
+    \u0275\u0275template(15, DsarFormComponent_section_100_span_15_Template, 2, 0, "span", 6);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(16, "div", 13)(17, "fieldset", 6)(18, "legend", 72);
+    \u0275\u0275elementStart(16, "div", 9)(17, "fieldset", 2)(18, "legend", 70);
     \u0275\u0275text(19, " Current Street Address ");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(20, "input", 73);
+    \u0275\u0275element(20, "input", 71);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(21, "div", 5)(22, "fieldset", 6)(23, "legend", 74);
+    \u0275\u0275elementStart(21, "div", 1)(22, "fieldset", 2)(23, "legend", 72);
     \u0275\u0275text(24, "Current City");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(25, "input", 75);
+    \u0275\u0275element(25, "input", 73);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "fieldset", 6)(27, "legend", 76);
+    \u0275\u0275elementStart(26, "fieldset", 2)(27, "legend", 74);
     \u0275\u0275text(28, " Current State");
-    \u0275\u0275elementStart(29, "span", 8);
+    \u0275\u0275elementStart(29, "span", 4);
     \u0275\u0275text(30, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(31, "input", 77);
-    \u0275\u0275template(32, DsarFormComponent_section_112_span_32_Template, 2, 0, "span", 10);
+    \u0275\u0275element(31, "input", 75);
+    \u0275\u0275template(32, DsarFormComponent_section_100_span_32_Template, 2, 0, "span", 6);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(33, "div", 5)(34, "fieldset", 6)(35, "legend", 78);
+    \u0275\u0275elementStart(33, "div", 1)(34, "fieldset", 2)(35, "legend", 76);
     \u0275\u0275text(36, "Post Code");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(37, "input", 79);
+    \u0275\u0275element(37, "input", 77);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(38, "fieldset", 6)(39, "legend", 80);
+    \u0275\u0275elementStart(38, "fieldset", 2)(39, "legend", 78);
     \u0275\u0275text(40, " Country");
-    \u0275\u0275elementStart(41, "span", 8);
+    \u0275\u0275elementStart(41, "span", 4);
     \u0275\u0275text(42, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(43, "select", 81)(44, "option", 26);
+    \u0275\u0275elementStart(43, "select", 79)(44, "option", 22);
     \u0275\u0275text(45, "--None--");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(46, DsarFormComponent_section_112_option_46_Template, 2, 2, "option", 27);
+    \u0275\u0275template(46, DsarFormComponent_section_100_option_46_Template, 2, 2, "option", 23);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(47, DsarFormComponent_section_112_span_47_Template, 2, 0, "span", 10);
+    \u0275\u0275template(47, DsarFormComponent_section_100_span_47_Template, 2, 0, "span", 6);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(48, "div", 5)(49, "fieldset", 6)(50, "legend", 82);
+    \u0275\u0275elementStart(48, "div", 1)(49, "fieldset", 2)(50, "legend", 80);
     \u0275\u0275text(51, " Email Address");
-    \u0275\u0275elementStart(52, "span", 8);
+    \u0275\u0275elementStart(52, "span", 4);
     \u0275\u0275text(53, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(54, "input", 83);
-    \u0275\u0275template(55, DsarFormComponent_section_112_span_55_Template, 2, 0, "span", 10);
+    \u0275\u0275element(54, "input", 81);
+    \u0275\u0275template(55, DsarFormComponent_section_100_span_55_Template, 2, 0, "span", 6);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(56, "fieldset", 6)(57, "legend", 84);
+    \u0275\u0275elementStart(56, "fieldset", 2)(57, "legend", 82);
     \u0275\u0275text(58, " Phone Number");
-    \u0275\u0275elementStart(59, "span", 8);
+    \u0275\u0275elementStart(59, "span", 4);
     \u0275\u0275text(60, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(61, "input", 85);
-    \u0275\u0275template(62, DsarFormComponent_section_112_span_62_Template, 2, 0, "span", 10);
+    \u0275\u0275element(61, "input", 83);
+    \u0275\u0275template(62, DsarFormComponent_section_100_span_62_Template, 2, 0, "span", 6);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(63, "div", 13)(64, "fieldset", 6)(65, "legend", 86);
+    \u0275\u0275elementStart(63, "div", 9)(64, "fieldset", 2)(65, "legend", 84);
     \u0275\u0275text(66, " Relationship to Data Subject (Person whose data you are contacting us about) ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(67, "select", 87);
-    \u0275\u0275template(68, DsarFormComponent_section_112_option_68_Template, 2, 2, "option", 27);
+    \u0275\u0275elementStart(67, "select", 85)(68, "option", 22);
+    \u0275\u0275text(69, "--None--");
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(70, DsarFormComponent_section_100_option_70_Template, 2, 2, "option", 23);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275template(69, DsarFormComponent_section_112_div_69_Template, 6, 2, "div", 34);
+    \u0275\u0275template(71, DsarFormComponent_section_100_div_71_Template, 6, 2, "div", 30);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -52868,70 +52870,72 @@ function DsarFormComponent_section_112_Template(rf, ctx) {
     \u0275\u0275advance(7);
     \u0275\u0275property("ngIf", ((tmp_8_0 = ctx_r2.form.get("onBehalfPhone")) == null ? null : tmp_8_0.invalid) && ((tmp_8_0 = ctx_r2.form.get("onBehalfPhone")) == null ? null : tmp_8_0.touched));
     \u0275\u0275advance(6);
+    \u0275\u0275property("value", "");
+    \u0275\u0275advance(2);
     \u0275\u0275property("ngForOf", ctx_r2.relationshipToDataSubject);
     \u0275\u0275advance();
     \u0275\u0275property("ngIf", ctx_r2.showRelationshipDetails);
   }
 }
-function DsarFormComponent_option_123_Template(rf, ctx) {
+function DsarFormComponent_option_113_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 26);
+    \u0275\u0275elementStart(0, "option", 22);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const type_r6 = ctx.$implicit;
-    \u0275\u0275property("value", type_r6.value);
+    \u0275\u0275property("value", type_r6);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", type_r6.label, " ");
+    \u0275\u0275textInterpolate1(" ", type_r6, " ");
   }
 }
-function DsarFormComponent_span_124_Template(rf, ctx) {
+function DsarFormComponent_span_114_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter Type of request. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_span_163_Template(rf, ctx) {
+function DsarFormComponent_span_153_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter full name. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_span_170_Template(rf, ctx) {
+function DsarFormComponent_span_160_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please enter date. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_span_179_Template(rf, ctx) {
+function DsarFormComponent_span_169_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please select Consent Checkbox. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_span_182_Template(rf, ctx) {
+function DsarFormComponent_span_172_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275elementStart(0, "span", 63);
     \u0275\u0275text(1, " Please complete the reCAPTCHA. ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_button_184_Template(rf, ctx) {
+function DsarFormComponent_button_174_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "button", 90);
+    \u0275\u0275elementStart(0, "button", 88);
     \u0275\u0275text(1, " Submit ");
     \u0275\u0275elementEnd();
   }
 }
-function DsarFormComponent_div_185_Template(rf, ctx) {
+function DsarFormComponent_div_175_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 91);
-    \u0275\u0275element(1, "div", 92);
+    \u0275\u0275elementStart(0, "div", 89);
+    \u0275\u0275element(1, "div", 90);
     \u0275\u0275elementStart(2, "span");
     \u0275\u0275text(3, "Submitting...");
     \u0275\u0275elementEnd()();
@@ -52948,33 +52952,31 @@ var DsarFormComponent = class _DsarFormComponent {
   loading = false;
   showSubmitButton = true;
   countries = [
-    { value: "United States", label: "United States" },
-    { value: "Canada", label: "Canada" },
-    { value: "United Kingdom", label: "United Kingdom" },
-    { value: "India", label: "India" },
-    { value: "Other", label: "Other" }
+    "United States",
+    "Mexico",
+    "Canada",
+    "United Kingdom",
+    "India",
+    "Other"
   ];
   relationshipWithRevature = [
-    { value: "", label: "--None--" },
-    { value: "Associate or Software Engineer", label: "Associate or Software Engineer" },
-    { value: "Subscriber or On Mailing List", label: "Subscriber or On Mailing List" },
-    { value: "Other", label: "Other" }
+    "Associate or Software Engineer",
+    "Subscriber or On Mailing List",
+    "Other"
   ];
   relationshipToDataSubject = [
-    { value: "", label: "--None--" },
-    { value: "Attorney", label: "Attorney" },
-    { value: "Third-Party Service", label: "Third-Party Service" },
-    { value: "Other", label: "Other" }
+    "Attorney",
+    "Third-Party Service",
+    "Other"
   ];
   requestTypes = [
-    { value: "", label: "--None--" },
-    { value: "Consent withdrawal", label: "Consent withdrawal" },
-    { value: "Access request", label: "Access request" },
-    { value: "Rectification of personal data", label: "Rectification of personal data" },
-    { value: "Erasure of personal data", label: "Erasure of personal data" },
-    { value: "Restriction of processing of personal data", label: "Restriction of processing of personal data" },
-    { value: "Personal data portability request", label: "Personal data portability request" },
-    { value: "Objection to the processing of personal data", label: "Objection to the processing of personal data" }
+    "Consent withdrawal",
+    "Access request",
+    "Rectification of personal data",
+    "Erasure of personal data",
+    "Restriction of processing of personal data",
+    "Personal data portability request",
+    "Objection to the processing of personal data"
   ];
   showOtherRelationshipField = false;
   showBehalfFields = false;
@@ -53280,214 +53282,203 @@ var DsarFormComponent = class _DsarFormComponent {
         return ctx.onResize();
       }, false, \u0275\u0275resolveWindow);
     }
-  }, decls: 186, vars: 26, consts: [["id", "pre-text"], [1, "dsar-title"], ["novalidate", "", 3, "ngSubmit", "formGroup"], [1, "form-section"], [1, "form-label"], [1, "two-grid-container"], [1, "form-fieldset"], ["for", "legalFirstName", 1, "form-label"], [1, "required"], ["type", "text", "id", "legalFirstName", "formControlName", "legalFirstName", 1, "form-field"], ["class", "b2c-error-message", 4, "ngIf"], ["for", "legalLastName", 1, "form-label"], ["type", "text", "id", "legalLastName", "formControlName", "legalLastName", 1, "form-field"], [1, "one-grid-container"], ["for", "otherNames", 1, "form-label"], ["type", "text", "id", "otherNames", "formControlName", "otherNames", 1, "form-field"], ["for", "streetAddress", 1, "form-label"], ["type", "text", "id", "streetAddress", "formControlName", "streetAddress", 1, "form-field"], ["for", "city", 1, "form-label"], ["type", "text", "id", "city", "formControlName", "city", 1, "form-field"], ["for", "state", 1, "form-label"], ["type", "text", "id", "state", "formControlName", "state", 1, "form-field"], ["for", "postCode", 1, "form-label"], ["type", "text", "id", "postCode", "formControlName", "postCode", 1, "form-field"], ["for", "country", 1, "form-label"], ["id", "country", "formControlName", "country", 1, "form-field"], [3, "value"], [3, "value", 4, "ngFor", "ngForOf"], ["for", "email", 1, "form-label"], ["type", "email", "id", "email", "formControlName", "email", 1, "form-field"], ["for", "phone", 1, "form-label"], ["type", "tel", "id", "phone", "formControlName", "phone", 1, "form-field"], ["for", "relationshipWithRevature", 1, "form-label"], ["id", "relationshipWithRevature", "formControlName", "relationshipWithRevature", 1, "form-field"], ["class", "one-grid-container", 4, "ngIf"], [1, "custom-radio"], ["type", "radio", "formControlName", "isRequestingOnBehalf", "id", "isRequestingOnBehalf", 3, "value"], ["for", "isRequestingOnBehalf"], ["type", "radio", "formControlName", "isRequestingOnBehalf", "id", "notRequestingOnBehalf", 3, "value"], ["for", "notRequestingOnBehalf"], [4, "ngIf"], ["class", "form-section", 4, "ngIf"], ["for", "requestType", 1, "form-label"], [1, "type-reqset"], ["id", "requestType", "formControlName", "requestType", 1, "form-field"], ["for", "requestDetails", 1, "form-label"], ["id", "requestDetails", "formControlName", "requestDetails", "rows", "5", 1, "form-field"], ["for", "requestReason", 1, "form-label"], ["id", "requestReason", "formControlName", "requestReason", "rows", "5", 1, "form-field"], [1, "custom-checkbox"], ["type", "checkbox", "id", "declaration1", "checked", "", "disabled", ""], ["for", "declaration1"], ["type", "checkbox", "id", "declaration2", "checked", "", "disabled", ""], ["for", "declaration2"], ["for", "fullName", 1, "form-label"], ["type", "text", "id", "fullName", "formControlName", "fullName", 1, "form-field"], ["for", "date", 1, "form-label"], ["type", "date", "id", "date", "formControlName", "date", 1, "form-field"], ["type", "checkbox", "id", "iConsent", "formControlName", "iConsent"], ["for", "iConsent"], [1, "recaptcha-container"], ["formControlName", "validCaptacha", 3, "resolved"], [1, "submit-container"], ["type", "submit", "class", "b2b-form-button", 4, "ngIf"], ["class", "loading-indicator", 4, "ngIf"], [1, "b2c-error-message"], ["for", "relationshipWithRevatureOther", 1, "form-label"], ["id", "relationshipWithRevatureOther", "formControlName", "relationshipWithRevatureOther", "rows", "3", 1, "form-field"], ["for", "onBehalfFirstName", 1, "form-label"], ["type", "text", "id", "onBehalfFirstName", "formControlName", "onBehalfFirstName", 1, "form-field"], ["for", "onBehalfLastName", 1, "form-label"], ["type", "text", "id", "onBehalfLastName", "formControlName", "onBehalfLastName", 1, "form-field"], ["for", "onBehalfStreetAddress", 1, "form-label"], ["type", "text", "id", "onBehalfStreetAddress", "formControlName", "onBehalfStreetAddress", 1, "form-field"], ["for", "onBehalfCity", 1, "form-label"], ["type", "text", "id", "onBehalfCity", "formControlName", "onBehalfCity", 1, "form-field"], ["for", "onBehalfState", 1, "form-label"], ["type", "text", "id", "onBehalfState", "formControlName", "onBehalfState", 1, "form-field"], ["for", "onBehalfPostCode", 1, "form-label"], ["type", "text", "id", "onBehalfPostCode", "formControlName", "onBehalfPostCode", 1, "form-field"], ["for", "onBehalfCountry", 1, "form-label"], ["id", "onBehalfCountry", "formControlName", "onBehalfCountry", 1, "form-field"], ["for", "onBehalfEmail", 1, "form-label"], ["type", "email", "id", "onBehalfEmail", "formControlName", "onBehalfEmail", 1, "form-field"], ["for", "onBehalfPhone", 1, "form-label"], ["type", "tel", "id", "onBehalfPhone", "formControlName", "onBehalfPhone", 1, "form-field"], ["for", "relationshipToDataSubject", 1, "form-label"], ["id", "relationshipToDataSubject", "formControlName", "relationshipToDataSubject", 1, "form-field"], ["for", "relationshipToDataSubjectDetails", 1, "form-label"], ["id", "relationshipToDataSubjectDetails", "formControlName", "relationshipToDataSubjectDetails", "rows", "3", 1, "form-field"], ["type", "submit", 1, "b2b-form-button"], [1, "loading-indicator"], [1, "spinner"]], template: function DsarFormComponent_Template(rf, ctx) {
+  }, decls: 176, vars: 28, consts: [["novalidate", "", 3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["for", "legalFirstName", 1, "form-label"], [1, "required"], ["type", "text", "id", "legalFirstName", "formControlName", "legalFirstName", "placeholder", "Legal First Name", 1, "form-field"], ["class", "b2c-error-message", 4, "ngIf"], ["for", "legalLastName", 1, "form-label"], ["type", "text", "id", "legalLastName", "formControlName", "legalLastName", "placeholder", "Legal Last Name", 1, "form-field"], [1, "one-grid-container"], ["for", "otherNames", 1, "form-label"], ["type", "text", "id", "otherNames", "formControlName", "otherNames", "placeholder", "Other Names", 1, "form-field"], ["for", "streetAddress", 1, "form-label"], ["type", "text", "id", "streetAddress", "formControlName", "streetAddress", "placeholder", "Street Address", 1, "form-field"], ["for", "city", 1, "form-label"], ["type", "text", "id", "city", "formControlName", "city", "placeholder", "City", 1, "form-field"], ["for", "state", 1, "form-label"], ["type", "text", "id", "state", "formControlName", "state", "placeholder", "State", 1, "form-field"], ["for", "postCode", 1, "form-label"], ["type", "text", "id", "postCode", "formControlName", "postCode", "placeholder", "Post Code", 1, "form-field"], ["for", "country", 1, "form-label"], ["id", "country", "formControlName", "country", 1, "form-field"], [3, "value"], [3, "value", 4, "ngFor", "ngForOf"], ["for", "email", 1, "form-label"], ["type", "email", "id", "email", "formControlName", "email", "placeholder", "Email Address", 1, "form-field"], ["for", "phone", 1, "form-label"], ["type", "tel", "id", "phone", "formControlName", "phone", "placeholder", "Phone Number", 1, "form-field"], ["for", "relationshipWithRevature", 1, "form-label"], ["id", "relationshipWithRevature", "formControlName", "relationshipWithRevature", 1, "form-field"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-label"], [1, "custom-radio"], ["type", "radio", "formControlName", "isRequestingOnBehalf", "id", "isRequestingOnBehalf", 3, "value"], ["for", "isRequestingOnBehalf"], ["type", "radio", "formControlName", "isRequestingOnBehalf", "id", "notRequestingOnBehalf", 3, "value"], ["for", "notRequestingOnBehalf"], ["class", "form-content", 4, "ngIf"], ["class", "form-section", 4, "ngIf"], [1, "form-section"], ["for", "requestType", 1, "form-label"], [1, "form-content"], ["id", "requestType", "formControlName", "requestType", 1, "form-field"], ["for", "requestDetails", 1, "form-label"], ["id", "requestDetails", "formControlName", "requestDetails", "rows", "5", 1, "form-field"], ["for", "requestReason", 1, "form-label"], ["id", "requestReason", "formControlName", "requestReason", "rows", "5", 1, "form-field"], [1, "custom-checkbox"], ["type", "checkbox", "id", "declaration1", "checked", "", "disabled", ""], ["for", "declaration1"], ["type", "checkbox", "id", "declaration2", "checked", "", "disabled", ""], ["for", "declaration2"], ["for", "fullName", 1, "form-label"], ["type", "text", "id", "fullName", "formControlName", "fullName", "placeholder", "Full Name", 1, "form-field"], ["for", "date", 1, "form-label"], ["type", "date", "id", "date", "formControlName", "date", 1, "form-field"], ["type", "checkbox", "id", "iConsent", "formControlName", "iConsent"], ["for", "iConsent", 1, "form-label"], [1, "recaptcha-container"], ["formControlName", "validCaptacha", 3, "resolved"], [1, "submit-container"], ["type", "submit", "class", "b2b-form-button", 4, "ngIf"], ["class", "loading-indicator", 4, "ngIf"], [1, "b2c-error-message"], ["for", "relationshipWithRevatureOther", 1, "form-label"], ["id", "relationshipWithRevatureOther", "formControlName", "relationshipWithRevatureOther", "rows", "3", 1, "form-field"], ["for", "onBehalfFirstName", 1, "form-label"], ["type", "text", "id", "onBehalfFirstName", "formControlName", "onBehalfFirstName", "placeholder", "First Name", 1, "form-field"], ["for", "onBehalfLastName", 1, "form-label"], ["type", "text", "id", "onBehalfLastName", "formControlName", "onBehalfLastName", "placeholder", "Last Name", 1, "form-field"], ["for", "onBehalfStreetAddress", 1, "form-label"], ["type", "text", "id", "onBehalfStreetAddress", "formControlName", "onBehalfStreetAddress", "placeholder", "Street Address", 1, "form-field"], ["for", "onBehalfCity", 1, "form-label"], ["type", "text", "id", "onBehalfCity", "formControlName", "onBehalfCity", "placeholder", "City", 1, "form-field"], ["for", "onBehalfState", 1, "form-label"], ["type", "text", "id", "onBehalfState", "formControlName", "onBehalfState", "placeholder", "State", 1, "form-field"], ["for", "onBehalfPostCode", 1, "form-label"], ["type", "text", "id", "onBehalfPostCode", "formControlName", "onBehalfPostCode", "placeholder", "Post Code", 1, "form-field"], ["for", "onBehalfCountry", 1, "form-label"], ["id", "onBehalfCountry", "formControlName", "onBehalfCountry", 1, "form-field"], ["for", "onBehalfEmail", 1, "form-label"], ["type", "email", "id", "onBehalfEmail", "formControlName", "onBehalfEmail", "placeholder", "Email Address", 1, "form-field"], ["for", "onBehalfPhone", 1, "form-label"], ["type", "tel", "id", "onBehalfPhone", "formControlName", "onBehalfPhone", "placeholder", "Phone Number", 1, "form-field"], ["for", "relationshipToDataSubject", 1, "form-label"], ["id", "relationshipToDataSubject", "formControlName", "relationshipToDataSubject", 1, "form-field"], ["for", "relationshipToDataSubjectDetails", 1, "form-label"], ["id", "relationshipToDataSubjectDetails", "formControlName", "relationshipToDataSubjectDetails", "rows", "3", 1, "form-field"], ["type", "submit", 1, "b2b-form-button"], [1, "loading-indicator"], [1, "spinner"]], template: function DsarFormComponent_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275elementStart(0, "div")(1, "section", 0)(2, "div")(3, "h2", 1);
-      \u0275\u0275text(4, "Data Subject Access Request");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(5, "p");
-      \u0275\u0275text(6, " Under applicable data privacy laws, you may have the right to request access to and receive, rectify and erase personal data Revature may hold about you, as well as opt-out of the sale of such personal data, opt-out of sharing of such personal data for cross-context behavioral advertising purposes, restrict the processing of such personal data, object to the processing of such data and withdraw consent where you have provided us with your consent for the processing of such personal data. ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(7, "p");
-      \u0275\u0275text(8, "Please use the below form to request to exercise such rights.");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(9, "p");
-      \u0275\u0275text(10, " If you need additional instruction or have questions, please see FAQ below the form for further details. ");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(11, "form", 2);
-      \u0275\u0275listener("ngSubmit", function DsarFormComponent_Template_form_ngSubmit_11_listener() {
+      \u0275\u0275elementStart(0, "form", 0);
+      \u0275\u0275listener("ngSubmit", function DsarFormComponent_Template_form_ngSubmit_0_listener() {
         return ctx.onSubmit();
       });
-      \u0275\u0275elementStart(12, "section", 3)(13, "legend", 4);
-      \u0275\u0275text(14, 'Requester ("Data Subject") Details:');
+      \u0275\u0275elementStart(1, "div", 1)(2, "fieldset", 2)(3, "legend", 3);
+      \u0275\u0275text(4, " Legal First Name");
+      \u0275\u0275elementStart(5, "span", 4);
+      \u0275\u0275text(6, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(7, "input", 5);
+      \u0275\u0275template(8, DsarFormComponent_span_8_Template, 2, 0, "span", 6);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(15, "div", 5)(16, "fieldset", 6)(17, "legend", 7);
-      \u0275\u0275text(18, " Legal First Name");
-      \u0275\u0275elementStart(19, "span", 8);
-      \u0275\u0275text(20, "*");
+      \u0275\u0275elementStart(9, "fieldset", 2)(10, "legend", 7);
+      \u0275\u0275text(11, " Legal Last Name");
+      \u0275\u0275elementStart(12, "span", 4);
+      \u0275\u0275text(13, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275element(21, "input", 9);
-      \u0275\u0275template(22, DsarFormComponent_span_22_Template, 2, 0, "span", 10);
+      \u0275\u0275element(14, "input", 8);
+      \u0275\u0275template(15, DsarFormComponent_span_15_Template, 2, 0, "span", 6);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(16, "div", 9)(17, "fieldset", 2)(18, "legend", 10);
+      \u0275\u0275text(19, " Former, Preferred, and/or Other Names Used at Revature");
+      \u0275\u0275elementStart(20, "span", 4);
+      \u0275\u0275text(21, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(22, "input", 11);
+      \u0275\u0275template(23, DsarFormComponent_span_23_Template, 2, 0, "span", 6);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(24, "div", 9)(25, "fieldset", 2)(26, "legend", 12);
+      \u0275\u0275text(27, " Current Street Address ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(23, "fieldset", 6)(24, "legend", 11);
-      \u0275\u0275text(25, " Legal Last Name");
-      \u0275\u0275elementStart(26, "span", 8);
-      \u0275\u0275text(27, "*");
+      \u0275\u0275element(28, "input", 13);
       \u0275\u0275elementEnd()();
-      \u0275\u0275element(28, "input", 12);
-      \u0275\u0275template(29, DsarFormComponent_span_29_Template, 2, 0, "span", 10);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(30, "div", 13)(31, "fieldset", 6)(32, "legend", 14);
-      \u0275\u0275text(33, " Former, Preferred, and/or Other Names Used at Revature");
-      \u0275\u0275elementStart(34, "span", 8);
-      \u0275\u0275text(35, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275element(36, "input", 15);
-      \u0275\u0275template(37, DsarFormComponent_span_37_Template, 2, 0, "span", 10);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(38, "div", 13)(39, "fieldset", 6)(40, "legend", 16);
-      \u0275\u0275text(41, " Current Street Address ");
+      \u0275\u0275elementStart(29, "div", 1)(30, "fieldset", 2)(31, "legend", 14);
+      \u0275\u0275text(32, "Current City");
       \u0275\u0275elementEnd();
-      \u0275\u0275element(42, "input", 17);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(43, "div", 5)(44, "fieldset", 6)(45, "legend", 18);
-      \u0275\u0275text(46, "Current City");
+      \u0275\u0275element(33, "input", 15);
       \u0275\u0275elementEnd();
-      \u0275\u0275element(47, "input", 19);
+      \u0275\u0275elementStart(34, "fieldset", 2)(35, "legend", 16);
+      \u0275\u0275text(36, " Current State");
+      \u0275\u0275elementStart(37, "span", 4);
+      \u0275\u0275text(38, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(39, "input", 17);
+      \u0275\u0275template(40, DsarFormComponent_span_40_Template, 2, 0, "span", 6);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(41, "div", 1)(42, "fieldset", 2)(43, "legend", 18);
+      \u0275\u0275text(44, "Post Code");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(48, "fieldset", 6)(49, "legend", 20);
-      \u0275\u0275text(50, " Current State");
-      \u0275\u0275elementStart(51, "span", 8);
-      \u0275\u0275text(52, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275element(53, "input", 21);
-      \u0275\u0275template(54, DsarFormComponent_span_54_Template, 2, 0, "span", 10);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(55, "div", 5)(56, "fieldset", 6)(57, "legend", 22);
-      \u0275\u0275text(58, "Post Code");
+      \u0275\u0275element(45, "input", 19);
       \u0275\u0275elementEnd();
-      \u0275\u0275element(59, "input", 23);
+      \u0275\u0275elementStart(46, "fieldset", 2)(47, "legend", 20);
+      \u0275\u0275text(48, " Country");
+      \u0275\u0275elementStart(49, "span", 4);
+      \u0275\u0275text(50, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(51, "select", 21)(52, "option", 22);
+      \u0275\u0275text(53, "--None--");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(60, "fieldset", 6)(61, "legend", 24);
-      \u0275\u0275text(62, " Country");
-      \u0275\u0275elementStart(63, "span", 8);
-      \u0275\u0275text(64, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(65, "select", 25)(66, "option", 26);
-      \u0275\u0275text(67, "--None--");
+      \u0275\u0275template(54, DsarFormComponent_option_54_Template, 2, 2, "option", 23);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(68, DsarFormComponent_option_68_Template, 2, 2, "option", 27);
+      \u0275\u0275template(55, DsarFormComponent_span_55_Template, 2, 0, "span", 6);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(56, "div", 1)(57, "fieldset", 2)(58, "legend", 24);
+      \u0275\u0275text(59, " Email Address");
+      \u0275\u0275elementStart(60, "span", 4);
+      \u0275\u0275text(61, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(62, "input", 25);
+      \u0275\u0275template(63, DsarFormComponent_span_63_Template, 2, 0, "span", 6);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(69, DsarFormComponent_span_69_Template, 2, 0, "span", 10);
+      \u0275\u0275elementStart(64, "fieldset", 2)(65, "legend", 26);
+      \u0275\u0275text(66, " Phone Number");
+      \u0275\u0275elementStart(67, "span", 4);
+      \u0275\u0275text(68, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(70, "div", 5)(71, "fieldset", 6)(72, "legend", 28);
-      \u0275\u0275text(73, " Email Address");
-      \u0275\u0275elementStart(74, "span", 8);
-      \u0275\u0275text(75, "*");
+      \u0275\u0275element(69, "input", 27);
+      \u0275\u0275template(70, DsarFormComponent_span_70_Template, 2, 0, "span", 6);
       \u0275\u0275elementEnd()();
-      \u0275\u0275element(76, "input", 29);
-      \u0275\u0275template(77, DsarFormComponent_span_77_Template, 2, 0, "span", 10);
+      \u0275\u0275elementStart(71, "div", 9)(72, "fieldset", 2)(73, "legend", 28);
+      \u0275\u0275text(74, " Relationship With Revature");
+      \u0275\u0275elementStart(75, "span", 4);
+      \u0275\u0275text(76, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(77, "select", 29)(78, "option", 22);
+      \u0275\u0275text(79, "--None--");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(78, "fieldset", 6)(79, "legend", 30);
-      \u0275\u0275text(80, " Phone Number");
-      \u0275\u0275elementStart(81, "span", 8);
-      \u0275\u0275text(82, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275element(83, "input", 31);
-      \u0275\u0275template(84, DsarFormComponent_span_84_Template, 2, 0, "span", 10);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(85, "div", 13)(86, "fieldset", 6)(87, "legend", 32);
-      \u0275\u0275text(88, " Relationship With Revature");
-      \u0275\u0275elementStart(89, "span", 8);
-      \u0275\u0275text(90, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(91, "select", 33);
-      \u0275\u0275template(92, DsarFormComponent_option_92_Template, 2, 2, "option", 27);
+      \u0275\u0275template(80, DsarFormComponent_option_80_Template, 2, 2, "option", 23);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(93, DsarFormComponent_span_93_Template, 2, 0, "span", 10);
+      \u0275\u0275template(81, DsarFormComponent_span_81_Template, 2, 0, "span", 6);
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(94, DsarFormComponent_div_94_Template, 8, 1, "div", 34);
-      \u0275\u0275elementStart(95, "div", 13)(96, "fieldset", 6)(97, "legend", 4);
-      \u0275\u0275text(98, " Are you making a request on BEHALF of another individual?");
-      \u0275\u0275elementStart(99, "span", 8);
-      \u0275\u0275text(100, "*");
+      \u0275\u0275template(82, DsarFormComponent_div_82_Template, 8, 1, "div", 30);
+      \u0275\u0275elementStart(83, "div", 9)(84, "fieldset", 2)(85, "legend", 31);
+      \u0275\u0275text(86, " Are you making a request on BEHALF of another individual?");
+      \u0275\u0275elementStart(87, "span", 4);
+      \u0275\u0275text(88, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(101, "div", 5)(102, "div", 35);
-      \u0275\u0275element(103, "input", 36);
-      \u0275\u0275elementStart(104, "label", 37);
-      \u0275\u0275text(105, "Yes");
+      \u0275\u0275elementStart(89, "div", 1)(90, "div", 32);
+      \u0275\u0275element(91, "input", 33);
+      \u0275\u0275elementStart(92, "label", 34);
+      \u0275\u0275text(93, "Yes");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(106, "div", 35);
-      \u0275\u0275element(107, "input", 38);
-      \u0275\u0275elementStart(108, "label", 39);
-      \u0275\u0275text(109, "No");
+      \u0275\u0275elementStart(94, "div", 32);
+      \u0275\u0275element(95, "input", 35);
+      \u0275\u0275elementStart(96, "label", 36);
+      \u0275\u0275text(97, "No");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275template(110, DsarFormComponent_span_110_Template, 2, 0, "span", 10)(111, DsarFormComponent_p_111_Template, 2, 0, "p", 40);
+      \u0275\u0275template(98, DsarFormComponent_span_98_Template, 2, 0, "span", 6)(99, DsarFormComponent_div_99_Template, 2, 0, "div", 37);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275template(100, DsarFormComponent_section_100_Template, 72, 11, "section", 38);
+      \u0275\u0275elementStart(101, "section", 39)(102, "div", 9)(103, "fieldset", 2)(104, "legend", 40);
+      \u0275\u0275text(105, " Type of Request");
+      \u0275\u0275elementStart(106, "span", 4);
+      \u0275\u0275text(107, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(108, "div", 41);
+      \u0275\u0275text(109, "PLEASE SELECT TYPE OF REQUEST YOU ARE MAKING");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(110, "select", 42)(111, "option", 22);
+      \u0275\u0275text(112, "--None--");
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(113, DsarFormComponent_option_113_Template, 2, 2, "option", 23);
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(114, DsarFormComponent_span_114_Template, 2, 0, "span", 6);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(115, "div", 9)(116, "fieldset", 2)(117, "legend", 43);
+      \u0275\u0275text(118, " Request Details (Please describe the personal data you are contacting us about) ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(119, "div", 41);
+      \u0275\u0275text(120, " To help us process your request quickly and efficiently, please provide as much detail as possible (e.g., copies of emails between <date> and <date>). If we do not receive sufficient information to locate the data you require, we may be unable to comply with your request. ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(121, "textarea", 44);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(122, "div", 9)(123, "fieldset", 2)(124, "legend", 45);
+      \u0275\u0275text(125, " Request Reason/Justification: ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(126, "div", 41);
+      \u0275\u0275text(127, " Please provide additional details relating to your request (e.g., the reason for withdrawing consent, requesting erasure of personal data, or objecting to processing of personal data), as applicable. ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(128, "textarea", 46);
       \u0275\u0275elementEnd()()();
-      \u0275\u0275template(112, DsarFormComponent_section_112_Template, 70, 10, "section", 41);
-      \u0275\u0275elementStart(113, "section", 3)(114, "div", 13)(115, "fieldset", 6)(116, "legend", 42);
-      \u0275\u0275text(117, " Type of Request");
-      \u0275\u0275elementStart(118, "span", 8);
-      \u0275\u0275text(119, "*");
+      \u0275\u0275elementStart(129, "section", 39)(130, "div", 9)(131, "fieldset", 2)(132, "legend", 31);
+      \u0275\u0275text(133, "DECLARATION");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(134, "div", 41);
+      \u0275\u0275text(135, " I confirm that I have read and understand the terms of this subject access request form and certify that information given in this request to Revature LLC, and its related affiliate entities, (Revature) is true. I understand that it is necessary for Revature to confirm my identity as the data subject and it may be necessary to obtain more detailed information in order to locate the correct personal data. ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(136, "div", 47);
+      \u0275\u0275element(137, "input", 48);
+      \u0275\u0275elementStart(138, "label", 49);
+      \u0275\u0275text(139, "I represent that the information in this request is accurate and that I am authorized to submit this request.");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(120, "p", 43);
-      \u0275\u0275text(121, " PLEASE SELECT TYPE OF REQUEST YOU ARE MAKING ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(122, "select", 44);
-      \u0275\u0275template(123, DsarFormComponent_option_123_Template, 2, 2, "option", 27);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(124, DsarFormComponent_span_124_Template, 2, 0, "span", 10);
+      \u0275\u0275elementStart(140, "div", 47);
+      \u0275\u0275element(141, "input", 50);
+      \u0275\u0275elementStart(142, "label", 51);
+      \u0275\u0275text(143, "I understand that Revature will not be able to process my request if the form is not properly filled out or if the request is incomplete.");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(125, "div", 13)(126, "fieldset", 6)(127, "legend", 45);
-      \u0275\u0275text(128, " Request Details (Please describe the personal data you are contacting us about) ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(129, "p");
-      \u0275\u0275text(130, " To help us process your request quickly and efficiently, please provide as much detail as possible (e.g., copies of emails between <date> and <date>). If we do not receive sufficient information to locate the data you require, we may be unable to comply with your request. ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275element(131, "textarea", 46);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(132, "div", 13)(133, "fieldset", 6)(134, "legend", 47);
-      \u0275\u0275text(135, " Request Reason/Justification: ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(136, "p");
-      \u0275\u0275text(137, " Please provide additional details relating to your request (e.g., the reason for withdrawing consent, requesting erasure of personal data, or objecting to processing of personal data), as applicable. ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275element(138, "textarea", 48);
+      \u0275\u0275elementStart(144, "div", 41);
+      \u0275\u0275text(145, " When sending your request via email or post, please provide your printed name, date, and signature below: ");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(139, "section", 3)(140, "div", 13)(141, "fieldset", 6)(142, "legend", 4);
-      \u0275\u0275text(143, "DECLARATION");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(144, "p");
-      \u0275\u0275text(145, " I confirm that I have read and understand the terms of this subject access request form and certify that information given in this request to Revature LLC, and its related affiliate entities, (Revature) is true. I understand that it is necessary for Revature to confirm my identity as the data subject and it may be necessary to obtain more detailed information in order to locate the correct personal data. ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(146, "div", 49);
-      \u0275\u0275element(147, "input", 50);
-      \u0275\u0275elementStart(148, "label", 51);
-      \u0275\u0275text(149, "I represent that the information in this request is accurate and that I am authorized to submit this request.");
+      \u0275\u0275elementStart(146, "div", 1)(147, "fieldset", 2)(148, "legend", 52);
+      \u0275\u0275text(149, " Full Name");
+      \u0275\u0275elementStart(150, "span", 4);
+      \u0275\u0275text(151, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(150, "div", 49);
-      \u0275\u0275element(151, "input", 52);
-      \u0275\u0275elementStart(152, "label", 53);
-      \u0275\u0275text(153, "I understand that Revature will not be able to process my request if the form is not properly filled out or if the request is incomplete.");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(154, "p");
-      \u0275\u0275text(155, " When sending your request via email or post, please provide your printed name, date, and signature below: ");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(156, "div", 5)(157, "fieldset", 6)(158, "legend", 54);
-      \u0275\u0275text(159, " Full Name");
-      \u0275\u0275elementStart(160, "span", 8);
-      \u0275\u0275text(161, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275element(162, "input", 55);
-      \u0275\u0275template(163, DsarFormComponent_span_163_Template, 2, 0, "span", 10);
+      \u0275\u0275element(152, "input", 53);
+      \u0275\u0275template(153, DsarFormComponent_span_153_Template, 2, 0, "span", 6);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(164, "fieldset", 6)(165, "legend", 56);
-      \u0275\u0275text(166, " Date");
-      \u0275\u0275elementStart(167, "span", 8);
+      \u0275\u0275elementStart(154, "fieldset", 2)(155, "legend", 54);
+      \u0275\u0275text(156, " Date");
+      \u0275\u0275elementStart(157, "span", 4);
+      \u0275\u0275text(158, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(159, "input", 55);
+      \u0275\u0275template(160, DsarFormComponent_span_160_Template, 2, 0, "span", 6);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(161, "div", 9)(162, "fieldset", 2)(163, "div", 47);
+      \u0275\u0275element(164, "input", 56);
+      \u0275\u0275elementStart(165, "label", 57);
+      \u0275\u0275text(166, "I Consent");
+      \u0275\u0275elementStart(167, "span", 4);
       \u0275\u0275text(168, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275element(169, "input", 57);
-      \u0275\u0275template(170, DsarFormComponent_span_170_Template, 2, 0, "span", 10);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(171, "div", 13)(172, "fieldset", 6)(173, "div", 49);
-      \u0275\u0275element(174, "input", 58);
-      \u0275\u0275elementStart(175, "label", 59);
-      \u0275\u0275text(176, "I Consent");
-      \u0275\u0275elementStart(177, "span", 8);
-      \u0275\u0275text(178, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(179, DsarFormComponent_span_179_Template, 2, 0, "span", 10);
+      \u0275\u0275template(169, DsarFormComponent_span_169_Template, 2, 0, "span", 6);
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(180, "div", 60)(181, "re-captcha", 61);
-      \u0275\u0275listener("resolved", function DsarFormComponent_Template_re_captcha_resolved_181_listener($event) {
+      \u0275\u0275elementStart(170, "div", 58)(171, "re-captcha", 59);
+      \u0275\u0275listener("resolved", function DsarFormComponent_Template_re_captcha_resolved_171_listener($event) {
         return ctx.recaptchaSuccessCallback($event);
       });
       \u0275\u0275elementEnd();
-      \u0275\u0275template(182, DsarFormComponent_span_182_Template, 2, 0, "span", 10);
+      \u0275\u0275template(172, DsarFormComponent_span_172_Template, 2, 0, "span", 6);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(183, "div", 62);
-      \u0275\u0275template(184, DsarFormComponent_button_184_Template, 2, 0, "button", 63)(185, DsarFormComponent_div_185_Template, 4, 0, "div", 64);
-      \u0275\u0275elementEnd()()()();
+      \u0275\u0275elementStart(173, "div", 60);
+      \u0275\u0275template(174, DsarFormComponent_button_174_Template, 2, 0, "button", 61)(175, DsarFormComponent_div_175_Template, 4, 0, "div", 62);
+      \u0275\u0275elementEnd()()();
     }
     if (rf & 2) {
       let tmp_1_0;
@@ -53497,17 +53488,16 @@ var DsarFormComponent = class _DsarFormComponent {
       let tmp_7_0;
       let tmp_8_0;
       let tmp_9_0;
-      let tmp_11_0;
-      let tmp_15_0;
+      let tmp_12_0;
       let tmp_16_0;
-      let tmp_19_0;
-      let tmp_20_0;
+      let tmp_17_0;
       let tmp_21_0;
       let tmp_22_0;
       let tmp_23_0;
-      \u0275\u0275advance(11);
+      let tmp_24_0;
+      let tmp_25_0;
       \u0275\u0275property("formGroup", ctx.form);
-      \u0275\u0275advance(11);
+      \u0275\u0275advance(8);
       \u0275\u0275property("ngIf", ((tmp_1_0 = ctx.form.get("legalFirstName")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx.form.get("legalFirstName")) == null ? null : tmp_1_0.touched));
       \u0275\u0275advance(7);
       \u0275\u0275property("ngIf", ((tmp_2_0 = ctx.form.get("legalLastName")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx.form.get("legalLastName")) == null ? null : tmp_2_0.touched));
@@ -53526,9 +53516,11 @@ var DsarFormComponent = class _DsarFormComponent {
       \u0275\u0275advance(7);
       \u0275\u0275property("ngIf", ((tmp_9_0 = ctx.form.get("phone")) == null ? null : tmp_9_0.invalid) && ((tmp_9_0 = ctx.form.get("phone")) == null ? null : tmp_9_0.touched));
       \u0275\u0275advance(8);
+      \u0275\u0275property("value", "");
+      \u0275\u0275advance(2);
       \u0275\u0275property("ngForOf", ctx.relationshipWithRevature);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_11_0 = ctx.form.get("relationshipWithRevature")) == null ? null : tmp_11_0.invalid) && ((tmp_11_0 = ctx.form.get("relationshipWithRevature")) == null ? null : tmp_11_0.touched));
+      \u0275\u0275property("ngIf", ((tmp_12_0 = ctx.form.get("relationshipWithRevature")) == null ? null : tmp_12_0.invalid) && ((tmp_12_0 = ctx.form.get("relationshipWithRevature")) == null ? null : tmp_12_0.touched));
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.showOtherRelationshipField);
       \u0275\u0275advance(9);
@@ -53536,29 +53528,31 @@ var DsarFormComponent = class _DsarFormComponent {
       \u0275\u0275advance(4);
       \u0275\u0275property("value", false);
       \u0275\u0275advance(3);
-      \u0275\u0275property("ngIf", ((tmp_15_0 = ctx.form.get("isRequestingOnBehalf")) == null ? null : tmp_15_0.invalid) && ((tmp_15_0 = ctx.form.get("isRequestingOnBehalf")) == null ? null : tmp_15_0.touched));
+      \u0275\u0275property("ngIf", ((tmp_16_0 = ctx.form.get("isRequestingOnBehalf")) == null ? null : tmp_16_0.invalid) && ((tmp_16_0 = ctx.form.get("isRequestingOnBehalf")) == null ? null : tmp_16_0.touched));
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_16_0 = ctx.form.get("isRequestingOnBehalf")) == null ? null : tmp_16_0.value);
+      \u0275\u0275property("ngIf", (tmp_17_0 = ctx.form.get("isRequestingOnBehalf")) == null ? null : tmp_17_0.value);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.showBehalfFields);
       \u0275\u0275advance(11);
+      \u0275\u0275property("value", "");
+      \u0275\u0275advance(2);
       \u0275\u0275property("ngForOf", ctx.requestTypes);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_19_0 = ctx.form.get("requestType")) == null ? null : tmp_19_0.invalid) && ((tmp_19_0 = ctx.form.get("requestType")) == null ? null : tmp_19_0.touched));
+      \u0275\u0275property("ngIf", ((tmp_21_0 = ctx.form.get("requestType")) == null ? null : tmp_21_0.invalid) && ((tmp_21_0 = ctx.form.get("requestType")) == null ? null : tmp_21_0.touched));
       \u0275\u0275advance(39);
-      \u0275\u0275property("ngIf", ((tmp_20_0 = ctx.form.get("fullName")) == null ? null : tmp_20_0.invalid) && ((tmp_20_0 = ctx.form.get("fullName")) == null ? null : tmp_20_0.touched));
+      \u0275\u0275property("ngIf", ((tmp_22_0 = ctx.form.get("fullName")) == null ? null : tmp_22_0.invalid) && ((tmp_22_0 = ctx.form.get("fullName")) == null ? null : tmp_22_0.touched));
       \u0275\u0275advance(7);
-      \u0275\u0275property("ngIf", ((tmp_21_0 = ctx.form.get("date")) == null ? null : tmp_21_0.invalid) && ((tmp_21_0 = ctx.form.get("date")) == null ? null : tmp_21_0.touched));
+      \u0275\u0275property("ngIf", ((tmp_23_0 = ctx.form.get("date")) == null ? null : tmp_23_0.invalid) && ((tmp_23_0 = ctx.form.get("date")) == null ? null : tmp_23_0.touched));
       \u0275\u0275advance(9);
-      \u0275\u0275property("ngIf", ((tmp_22_0 = ctx.form.get("iConsent")) == null ? null : tmp_22_0.invalid) && ((tmp_22_0 = ctx.form.get("iConsent")) == null ? null : tmp_22_0.touched));
+      \u0275\u0275property("ngIf", ((tmp_24_0 = ctx.form.get("iConsent")) == null ? null : tmp_24_0.invalid) && ((tmp_24_0 = ctx.form.get("iConsent")) == null ? null : tmp_24_0.touched));
       \u0275\u0275advance(3);
-      \u0275\u0275property("ngIf", ((tmp_23_0 = ctx.form.get("validCaptacha")) == null ? null : tmp_23_0.value) === false);
+      \u0275\u0275property("ngIf", ((tmp_25_0 = ctx.form.get("validCaptacha")) == null ? null : tmp_25_0.value) === false);
       \u0275\u0275advance(2);
       \u0275\u0275property("ngIf", ctx.showSubmitButton);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.loading);
     }
-  }, dependencies: [NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, RecaptchaComponent], styles: ['\n\n.custom-checkbox[_ngcontent-%COMP%]   input[type=checkbox][_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-checkbox[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 16px;\n  cursor: pointer;\n}\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n  bottom: 0 !important;\n}\n.form-label[_ngcontent-%COMP%] {\n  padding: 8px 0;\n}\n.form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n  height: auto !important;\n}\n.b2c-error-message[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: #F9B200;\n}\n.b2b-form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  border-radius: 36px;\n  border-color: #FF7014;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n@media screen and (max-width: 600px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n    margin-bottom: 10px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  min-height: 50px;\n  text-align: center;\n  line-height: 30px;\n  cursor: pointer;\n  border-radius: 7px;\n  border: 1px solid white;\n  color: white;\n  margin-bottom: 0px;\n  align-content: center;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: white;\n  color: black;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n  height: 40px;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-wrapper[_ngcontent-%COMP%] {\n  position: relative;\n}\ninput[type=file][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-file-upload[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: transparent;\n  color: white;\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n}\n.custom-file-upload[_ngcontent-%COMP%]:hover {\n  background-color: #00183c;\n}\n.custom-file-upload[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-file-upload[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n.custom-button[_ngcontent-%COMP%] {\n  height: 50px;\n  width: 170px;\n  background-color: rgb(255, 207, 0);\n  border: none;\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n  transition: background-color 0.5s;\n  transition: scale 0.5s;\n  transition: color 0.3s;\n  z-index: 1;\n  border-radius: 50px;\n  overflow: hidden;\n  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);\n  font-size: 16px;\n  margin-top: 2.5rem;\n}\noption[_ngcontent-%COMP%] {\n  color: black;\n}\n.custom-button[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: -100%;\n  width: 100%;\n  height: 100%;\n  background-color: rgb(255, 113, 21);\n  transition: left 0.3s;\n  z-index: -1;\n}\n.custom-button[_ngcontent-%COMP%]:hover::before {\n  left: 0;\n}\n.custom-button[_ngcontent-%COMP%]:hover {\n  scale: 1.1;\n  color: white;\n}\n.resume-success[_ngcontent-%COMP%] {\n  color: green;\n}\n.dropbox-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: rgba(0, 123, 255, 0);\n  color: rgb(0, 0, 0);\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n  height: 40px;\n}\n.dropbox-wrapper[_ngcontent-%COMP%]:hover {\n  background-color: #b1b5b9;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}\n.rev-multi-select[_ngcontent-%COMP%] {\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown {\n  background-color: rgba(0, 0, 0, 0.1) !important;\n  border: 1px solid rgba(255, 255, 255, 0.13) !important;\n  border-radius: 8px !important;\n  font-family: inherit !important;\n  width: 100% !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn {\n  background-color: transparent !important;\n  border: none !important;\n  color: #fafafa !important;\n  padding: 12px 24px !important;\n  border-radius: 8px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .dropdown-down {\n  border-top: 5px solid #fafafa !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .dropdown-up {\n  border-bottom: 5px solid #fafafa !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item-container {\n  padding-bottom: 4px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item {\n  background: white !important;\n  border: 1px solid white !important;\n  color: black !important;\n  max-width: none !important;\n  padding: 2px 8px !important;\n  border-radius: 0.5rem !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item a {\n  color: black !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list {\n  background: white !important;\n  border: 1px solid #ccc !important;\n  border-radius: 8px !important;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1) !important;\n  margin-top: 0px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .no-filtered-data h5 {\n  font-size: 16px !important;\n  color: black !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .filter-textbox input {\n  background-color: white !important;\n  border: 1px solid #ccc !important;\n  color: #333 !important;\n  border-radius: 4px !important;\n  padding: 5px 0px 5px 20px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .filter-textbox input::placeholder {\n  color: #999 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list ul li {\n  color: #333 !important;\n  padding: 8px 12px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list ul li:hover {\n  background-color: rgba(175, 173, 173, 0.1) !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1:hover, \n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1.selected {\n  background-color: rgba(175, 173, 173, 0.1) !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1.selected {\n  background-color: rgba(175, 173, 173, 0.2) !important;\n  color: #333 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-item-checkbox input[type=checkbox]:checked + div:before {\n  background: #011635 !important;\n  border: 2px solid #011635 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-item-checkbox input[type=checkbox] + div:before {\n  border: 2px solid #ccc !important;\n}'] });
+  }, dependencies: [NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, RecaptchaComponent], styles: ['\n\n.custom-checkbox[_ngcontent-%COMP%]   input[type=checkbox][_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-checkbox[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 16px;\n  cursor: pointer;\n  color: #fff;\n  display: inline;\n}\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n  bottom: 0 !important;\n}\n.form-label[_ngcontent-%COMP%] {\n  padding: 8px 0;\n}\n.form-content[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: #fff;\n}\n.form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n  height: auto !important;\n}\n.b2c-error-message[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: #F9B200;\n}\n.b2b-form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  border-radius: 36px;\n  border-color: #FF7014;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n@media screen and (max-width: 600px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n    margin-bottom: 10px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  min-height: 50px;\n  text-align: center;\n  line-height: 30px;\n  cursor: pointer;\n  border-radius: 7px;\n  border: 1px solid white;\n  color: white;\n  margin-bottom: 0px;\n  align-content: center;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: white;\n  color: black;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n  height: 40px;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-wrapper[_ngcontent-%COMP%] {\n  position: relative;\n}\ninput[type=file][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-file-upload[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: transparent;\n  color: white;\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n}\n.custom-file-upload[_ngcontent-%COMP%]:hover {\n  background-color: #00183c;\n}\n.custom-file-upload[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-file-upload[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n.custom-button[_ngcontent-%COMP%] {\n  height: 50px;\n  width: 170px;\n  background-color: rgb(255, 207, 0);\n  border: none;\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n  transition: background-color 0.5s;\n  transition: scale 0.5s;\n  transition: color 0.3s;\n  z-index: 1;\n  border-radius: 50px;\n  overflow: hidden;\n  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);\n  font-size: 16px;\n  margin-top: 2.5rem;\n}\noption[_ngcontent-%COMP%] {\n  color: black;\n}\n.custom-button[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: -100%;\n  width: 100%;\n  height: 100%;\n  background-color: rgb(255, 113, 21);\n  transition: left 0.3s;\n  z-index: -1;\n}\n.custom-button[_ngcontent-%COMP%]:hover::before {\n  left: 0;\n}\n.custom-button[_ngcontent-%COMP%]:hover {\n  scale: 1.1;\n  color: white;\n}\n.resume-success[_ngcontent-%COMP%] {\n  color: green;\n}\n.dropbox-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: rgba(0, 123, 255, 0);\n  color: rgb(0, 0, 0);\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n  height: 40px;\n}\n.dropbox-wrapper[_ngcontent-%COMP%]:hover {\n  background-color: #b1b5b9;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}\n.rev-multi-select[_ngcontent-%COMP%] {\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown {\n  background-color: rgba(0, 0, 0, 0.1) !important;\n  border: 1px solid rgba(255, 255, 255, 0.13) !important;\n  border-radius: 8px !important;\n  font-family: inherit !important;\n  width: 100% !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn {\n  background-color: transparent !important;\n  border: none !important;\n  color: #fafafa !important;\n  padding: 12px 24px !important;\n  border-radius: 8px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .dropdown-down {\n  border-top: 5px solid #fafafa !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .dropdown-up {\n  border-bottom: 5px solid #fafafa !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item-container {\n  padding-bottom: 4px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item {\n  background: white !important;\n  border: 1px solid white !important;\n  color: black !important;\n  max-width: none !important;\n  padding: 2px 8px !important;\n  border-radius: 0.5rem !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item a {\n  color: black !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list {\n  background: white !important;\n  border: 1px solid #ccc !important;\n  border-radius: 8px !important;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1) !important;\n  margin-top: 0px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .no-filtered-data h5 {\n  font-size: 16px !important;\n  color: black !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .filter-textbox input {\n  background-color: white !important;\n  border: 1px solid #ccc !important;\n  color: #333 !important;\n  border-radius: 4px !important;\n  padding: 5px 0px 5px 20px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .filter-textbox input::placeholder {\n  color: #999 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list ul li {\n  color: #333 !important;\n  padding: 8px 12px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list ul li:hover {\n  background-color: rgba(175, 173, 173, 0.1) !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1:hover, \n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1.selected {\n  background-color: rgba(175, 173, 173, 0.1) !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1.selected {\n  background-color: rgba(175, 173, 173, 0.2) !important;\n  color: #333 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-item-checkbox input[type=checkbox]:checked + div:before {\n  background: #011635 !important;\n  border: 2px solid #011635 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-item-checkbox input[type=checkbox] + div:before {\n  border: 2px solid #ccc !important;\n}'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DsarFormComponent, { className: "DsarFormComponent" });
@@ -54056,7 +54050,7 @@ var sourcingFormModule = class _sourcingFormModule {
 
 // src/environments/environment.ts
 var environment = {
-  formName: "b2c"
+  formName: "dsar"
 };
 
 // src/app/recruitment-form.module.ts

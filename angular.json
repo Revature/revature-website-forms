@@ -157,6 +157,28 @@
                   "with": "src/environments/environment.b2b.ts"
                 }
               ]
+            },
+            "dsar": {
+              "optimization": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "3MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kB",
+                  "maximumError": "10kB"
+                }
+              ],
+              "outputHashing": "none",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dsar.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

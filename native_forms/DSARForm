@@ -1,0 +1,700 @@
+<style>
+.dropdown{
+	position: static !important;
+}
+  a:focus, a:hover {
+		text-decoration: none !important;
+	}
+  .dsar-form {
+    color: #fafafa;
+
+    .quickcont-bg,
+    .quickcont-bg-marketo {
+      position: relative;
+      width: 100%;
+      padding: 50px 25px;
+      text-align: center;
+      -webkit-transform: translate3d(0, 0, 0);
+      margin-top: 7% !important;
+    }
+
+    option {
+      color: black
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
+
+    .faq li.qq {
+      font-weight: 700;
+      font-size: 120%;
+      cursor: pointer;
+      list-style: none;
+      text-decoration: none;
+    }
+
+    .help-block {
+      text-transform: lowercase;
+    }
+
+    h4.sub-headrev {
+      font-weight: bold;
+      width: 60%;
+      margin: 0 auto;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+    }
+
+    .dssr-subtxt p {
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 24px;
+    }
+
+    .dssr-subtxt {
+      margin: 0 auto;
+      padding-bottom: 35px;
+    }
+
+    p.last-para {
+      padding-top: 15px;
+    }
+
+    .faq li {
+      padding: 20px;
+    }
+
+    .faq-subhead {
+      font-size: 16px;
+      font-weight: bold;
+      padding-left: 38px;
+      padding-bottom: 12px;
+    }
+
+    .qq img {
+      width: 32px;
+      height: 32px;
+      float: right;
+    }
+
+    .faq li.qq h4 {
+      font-size: 26px;
+      color: #fafafa;
+      font-weight: 700;
+      padding: 0 40px 0 0;
+    }
+
+    .cod-active {
+      color: #f26925 !important;
+    }
+
+    #requestForm label {
+      font-size: 16px;
+      color: #fafafa !important;
+      font-weight: 700;
+    }
+
+    .shortfield-home {
+      width: 100%;
+      border: 1px solid #fafafa !important;
+      padding-left: 10px;
+      font-size: 16px;
+    }
+
+    .white-submit-btn {
+      background-color: #fafafa !important;
+      border-radius: 5px !important;
+    }
+
+    #requestFormTitle {
+      font-size: 34px;
+      color: #fafafa !important;
+      font-weight: 900;
+      margin: 30px 13px 30px 24px;
+      text-align: center;
+    }
+
+    .help-block {
+      display: block;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      color: #a94442;
+    }
+
+    p.type-reqset {
+      font-size: 13px;
+      padding-top: 3px;
+      font-weight: 900;
+    }
+
+    p.req-revopt {
+      font-size: 14px;
+      font-weight: 600;
+      padding-top: 8px;
+      margin-bottom: 0px;
+    }
+
+    input[type=checkbox] {
+      margin: 8px 0 0;
+      margin-top: 1px\9;
+      line-height: normal;
+      border: 1px solid #fafafa;
+      border-radius: 0.25em;
+      width: 1.3em;
+      height: 1.3em;
+    }
+
+    @media only screen and (max-width: 767px) {
+
+      h4.sub-headrev {
+        font-weight: bold;
+        width: 80%;
+        margin: 0 auto;
+        margin-bottom: 25px;
+        text-transform: uppercase;
+      }
+
+      .quickcont-bg,
+      .quickcont-bg-marketo {
+        position: relative;
+        width: 100%;
+        padding: 35px 25px !important;
+        text-align: center;
+        -webkit-transform: translate3d(0, 0, 0);
+        margin-top: 12% !important;
+      }
+    }
+
+    @media only screen and (max-width: 480px) {
+
+      .quickcont-bg,
+      .quickcont-bg-marketo {
+        position: relative;
+        width: 100%;
+        padding: 30px 25px !important;
+        text-align: center;
+        -webkit-transform: translate3d(0, 0, 0);
+        margin-top: 18% !important;
+      }
+    }
+  }
+</style>
+<div data-spy="scroll" class="dsar-form">
+  <section class="">
+    <div class="">
+      <section id='pre-text'>
+        <div class="dssr-subtxt">
+          <p>Under applicable data privacy laws, you may have the right to request access to and receive, rectify
+            and erase personal data Revature may hold about you, as well as opt-out of the sale of such personal
+            data, opt-out of sharing of such personal data for cross-context behavioral advertising purposes,
+            restrict the processing of such personal data, object to the processing of such data and withdraw
+            consent where you have provided us with your consent for the processing of such personal data</p>
+          <p>Please use the below form to request to exercise such rights.</p>
+          <p>If you need additional instruction or have questions, please see FAQ below the form for further
+            details.</p>
+        </div>
+      </section>
+
+
+
+      <section class="row pvcy-form-section">
+        <h4 class="sub-headrev">Requester (“Data Subject”) Details:</h4>
+        <div class="">
+          <div class="row no-margin">
+            <div class="col-12 blog-bottom-border1 no-mpad" id="requestFormContainer1">
+              <form id="requestForm" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8"
+                method="POST">
+                <input type=hidden name="orgid" value="00D0P000000Da8T">
+                <input type=hidden name="retURL" value="http://Revature.com">
+                <input type=hidden name="recordType" id="recordType" value="0123g0000001swX">
+                <div class="col-lg-6 col-xs-12 form-group">
+                  <label class="control-label" for="LegalFirstName">Legal First Name*</label>
+                  <input class="shortfield-home form-field" id="00N3g000000YxE7" maxlength="255" name="00N3g000000YxE7"
+                    size="20" type="text" required />
+                  <span id="nameHelp" class="help-block" style="display:none;">Please enter Legal first name.</span>
+                </div>
+                <div class="col-lg-6 col-xs-12 form-group">
+                  <label class="control-label" for="LegalLastName">Legal Last Name*</label>
+                  <input class="shortfield-home form-field" id="00N3g000000YxE8" maxlength="255" name="00N3g000000YxE8"
+                    size="20" type="text" required />
+                  <span id="nameHelp" class="help-block" style="display:none;">Please enter Legal last name.</span>
+                </div>
+                <div class="col-lg-12 col-xs-12 form-group">
+                  <label class="control-label" for="OtherName">Former, Preferred, and/or Other Names Used at
+                    Revature*</label>
+                  <input class="shortfield-home form-field" id="00N7A000008eY11" placeholder="OtherName" maxlength="255"
+                    name="00N7A000008eY11" size="20" type="text" required />
+                  <span id="nameHelp" class="help-block" style="display:none;">Please enter other name.</span>
+                </div>
+                <div class="col-lg-12 col-xs-12 form-group">
+                  <label class="control-label" for="StreetAddress">Current Street Address</label>
+                  <input class="shortfield-home form-field" id="00N3g000000YxEM" placeholder="Street address"
+                    maxlength="255" name="00N3g000000YxEM" size="20" type="text" />
+                </div>
+                <div class="col-lg-6 col-xs-12 form-group">
+                  <label class="control-label" for="City">Current City</label>
+                  <input class="shortfield-home form-field" id="00N3g000000YxDz" placeholder="City" maxlength="255"
+                    name="00N3g000000YxDz" size="20" type="text" />
+                </div>
+                <div class="col-lg-6 col-xs-12 form-group">
+                  <label class="control-label" for="State">Current State*</label>
+                  <input class="shortfield-home form-field" id="00N3g000000YxEK" placeholder="State" maxlength="255"
+                    name="00N3g000000YxEK" size="20" type="text" required />
+                  <span id="stateHelp" class="help-block" style="display:none;">Please enter state.</span>
+                </div>
+                <div class="col-lg-6 col-xs-12 form-group">
+                  <label class="control-label" for="ZipCode">Post Code</label>
+                  <input class="shortfield-home form-field" id="00N3g000000YxEP" placeholder="ZipCode" maxlength="255"
+                    name="00N3g000000YxEP" size="20" type="text" />
+                  <!--  <span id="nameHelp" class="help-block" style="display:none;">Please enter first name.</span> -->
+                </div>
+                <div class="col-lg-6 col-xs-12 form-group">
+                  <label class="control-label" for="Country">Country*</label>
+                  <select class="shortfield-home form-field" id="00N3g000000YxE2" name="00N3g000000YxE2" title="Country"
+                    required>
+                    <option value="">--None--</option>
+                    <option value="United States">United States</option>
+                    <option value="Canada">Canada</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="India">India</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <span id="stateHelp" class="help-block" style="display:none;">Please select a Country.</span>
+                </div>
+
+                <div class="col-lg-6 col-xs-12 form-group">
+                  <label class="control-label" for="email">Email Address*</label>
+                  <input class="shortfield-home form-field" id="00N0d0000031Q43" maxlength="80" name="00N0d0000031Q43"
+                    size="20" type="text" required />
+                  <span id="emailHelp" class="help-block" style="display:none;">please enter email address.</span>
+                </div>
+                <div class="col-lg-6 col-xs-12 form-group" id="webphone1">
+                  <label class="control-label" for="phone">Phone Number*</label>
+                  <!--  <input class="shortfield-home form-field" id="phone" placeholder="phone number" maxlength="40" name="phone" size="20" type="text" required /> -->
+                  <input class="shortfield-home form-field" id="00N3g000000YxE9" maxlength="40" name="00N3g000000YxE9"
+                    size="20" type="text" required />
+                  <span id="phoneHelp" class="help-block" style="display:none;">Please enter Phone Number.</span>
+                </div>
+                <script>
+                  webphone1.onpaste = function (event) {
+                    /*alert("paste: " + event.clipboardData.getData('text/plain'));*/
+                    event.preventDefault();
+                  };
+
+                  webphone1.oncut = webphone1.oncopy = function (event) {
+                    /*alert(event.type + '-' + document.getSelection());*/
+                    event.preventDefault();
+                  };
+                </script>
+                <div class="col-lg-6 col-xs-12 form-group">
+                  <label class="control-label" for="RelationshipWithRevature">Relationship With Revature *</label>
+                  <select class="shortfield-home form-field" id="00N3g000000YxEF" name="00N3g000000YxEF"
+                    title="Relationship With Revature" onchange="getrelationship1(this.value);" required>
+                    <option value="">--None--</option>
+                    <option value="Associate or Software Engineer">Associate or Software Engineer</option>
+                    <option value="Subscriber or On Mailing List">Subscriber or On Mailing List</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <span id="nameHelp" class="help-block" style="display:none;">Please Select Relationship With
+                    Revature.</span>
+                </div>
+
+                <script type='text/javascript'>
+                  function getrelationship1(val) {
+                    var relationshipelement2 = document.getElementById('rev-specify');
+                    if (val == 'Other') {
+
+                      relationshipelement2.style.display = 'block';
+                    } else {
+                      jQuery("#00N3g000000YxEEEA0").val("");
+                      relationshipelement2.style.display = 'none';
+                    }
+                  }
+                </script>
+
+
+                <div id="rev-specify" class="col-lg-6 col-xs-12 form-group" style="display: none;"><label
+                    class="control-label" for="RelationshiptoDataSubjectDetails">Please specify</label><textarea
+                    class="shortfield-home form-field" id="00N3g000000YxEEEA0" name="00N3g000000YxEEEA0" rows="1"
+                    type="text" wrap="soft"></textarea><span id="specifyHelp" class="help-block"
+                    style="display:none;">Please enter specify name.</span></div>
+                <script>CKEDITOR.timestamp = '4.18.0.4';
+                  var protocolAndHost = window.location.protocol + '//' + window.location.host;
+
+                  var editor = CKEDITOR.replace('00N3g000000YxEEEA0', {
+                    removePlugins: 'elementspath,maximize,image,tabletools,liststyle,contextmenu,resize',
+                    baseHref: protocolAndHost + '/ckeditor/ckeditor-4.x/rel/',
+                    customConfig: '/ckeditor/ckeditor-4.x/rel/sfdc-config.js',
+                    height: '425',
+                    bodyId: '00N3g000000YxEEEA0_rta_body',
+                    toolbar: 'SalesforceBasic',
+                    sfdcLabels: { CkeLineHeight: { singleValue: 'Single', doubleValue: 'Double', title: 'Line Height', secondValue: '1.15', thirdValue: '1.5' }, CkeCodeBlock: { addCodeSample: 'Add a code sample' }, CkeQuickText: { title: 'Insert quick text' }, CkeMediaEmbed: { iframeMissing: 'Invalid &lt;iframe&gt; element. Please use valid code from the approved sites.', subtitle: 'Paste &amp;lt;iframe&amp;gt; code here:', description: 'Use &lt;iframe&gt; code from an approved video source.', title: 'Embed Multimedia Content', exampleTitle: 'Example:', example: '\n            \n                &lt;iframe width=\&quot;560\&quot; height=\&quot;315\&quot; src=\&quot;https://www.youtube.com/embed/KcOm0TNvKBA\&quot; frameborder=\&quot;0\&quot; allowfullscreen&gt;&lt;/iframe&gt;\n            \n        ' }, CkeImageMenu: { uploadFile: ' Browse or Upload', uploadCms: 'Salesforce CMS', pasteUrl: 'Paste Image URL', uploadUrl: 'Web Image', uploadSFFile: 'Salesforce Files', title: 'Insert images into your message' }, CkeImagePaste: { CkeImagePasteWarning: 'Pasting an image is not working properly with Firefox, please use [Copy Image location] instead.' }, CkeImageDialog: { infoTab_desc_info: 'Enter a description of the image for visually impaired users', uploadTab_desc: 'Description', defaultImageDescription: 'User-added image', uploadTab_file_info: 'Maximum size 1 MB. Only PNG, GIF or JPEG', uploadTab_desc_info: 'Enter a description of the image for visually impaired users', imageUploadLimit_info: 'Max number of upload images exceeded', btn_insert_tooltip: 'Insert Image', httpUrlWarning: 'Are you sure you want to use an http URL? Using http image URLs may result in security warnings about insecure content. To avoid these warnings, use https image URLs instead.', title: 'Insert Image', error: 'Error:', uploadTab: 'Upload Image', wrongFileTypeError: 'You can insert only .gif .jpeg and .png files.', infoTab_url: 'URL', infoTab: 'Web Address', infoTab_url_info: 'Example: http://www.mysite.com/myimage.jpg', missingUrlError: 'You must enter a URL', uploadTab_file: 'Select Image', btn_update_tooltip: 'Update Image', infoTab_desc: 'Description', btn_insert: 'Insert', btn_update: 'Update', btn_upadte: 'Update', invalidUrlError: 'You can only use http:, https:, data:, //, /, or relative URL schemes.' }, sfdcSwitchToText: { sfdcSwitchToTextAlt: 'Use plain text' }, CkeSmartLink: { title: 'Insert a Smart Link', SmartLinkContextMenuEdit: 'Edit Smart Link' } },
+                    contentsCss: ['/ckeditor/ckeditor-4.x/rel/contents.css', '/sCSS/56.0/sprites/1664389980000/Theme3/default/gc/CKEditor.css', '/sCSS/56.0/sprites/1664389980000/Theme3/default/gc/HtmlDetailElem.css'],
+                    disableNativeSpellChecker: false,
+                    language: 'en-US',
+                    allowIframe: false,
+                    isPardotOrg: false,
+                    isCmsOnly: false,
+                    sharedSpaces: { top: 'cke_topSpace', bottom: ' cke_bottomSpace' }
+                    , filebrowserImageUploadUrl: '/_ui/common/request/servlet/RtaImageUploadServlet?_CONFIRMATIONTOKEN=VmpFPSxNakF5TXkwd01TMHlNVlF4TXpvME5Eb3hOQzQ1TURkYSw3RVpwRDM4YURHQjZqR3g5bDRZTUt2LE5HRm1NemMy'
+                  });
+
+                  editor.on('instanceReady', function (evt) {
+                    try {
+                      var id = evt.editor.name;
+                      CKiframe = document.getElementById('cke_' + id).querySelector('iframe');
+                      meta = document.createElement('meta');
+                      meta.setAttribute('name', 'referrer');
+                      meta.setAttribute('content', 'no-referrer');
+                      CKiframe.contentDocument.head.appendChild(meta);
+                    } catch (e) { }
+                  });
+
+                </script>
+
+                <div class="col-lg-12 col-xs-12" style="display:none" ;>
+                  <label class="control-label" for="Requesting on the behalf of someone else">Are you making a request
+                    on BEHALF of another individual?</label>
+                  <input class="shortfield-home form-field" id="00N3g000000YxEH" name="00N3g000000YxEH" type="checkbox"
+                    value="1" />
+                  <!--  <span id="nameHelp" class="help-block" style="display:none;">Please enter first name.</span> -->
+                </div>
+                <div class="col-lg-12 col-xs-12 form-group">
+                  <label>Are you making a request on BEHALF of another individual? </label>
+                  <br>
+                  <input type="checkbox" class="checkoption" id="00N3g000000YxEH" name="00N3g000000YxEH" value="1"> Yes
+                  <input type="checkbox" class="checkoption" name="anotherindividual2" value="no"> No <br>
+                  <p class="req-revopt">If you stated Yes, please identify your information below:</p>
+                </div>
+                <script type="text/javascript">
+                  jQuery(document).ready(function () {
+                    jQuery('.checkoption').click(function () {
+                      jQuery('.checkoption').not(this).prop('checked', false);
+                      var checkval = jQuery(".checkoption:checked").val();
+                      if (checkval == '1') {
+                        jQuery("#dssrfields").show();
+                        jQuery('#00N3g000000YxEH').val('1');
+                        jQuery("#dssrfields input").prop('disabled', false);
+                        jQuery("#dssrfields select").prop('disabled', false);
+                      } else {
+                        jQuery("#dssrfields").hide();
+                        jQuery('#00N3g000000YxEH').val('0');
+                        jQuery("#dssrfields input").prop('disabled', true);
+                        jQuery("#dssrfields select").prop('disabled', true);
+                      }
+                    });
+                  });
+                </script>
+
+                <div id="dssrfields" style="display:none;">
+                  <div class="col-lg-6 col-xs-12 form-group">
+                    <label class="control-label" for=" FirstNameOther">First Name*</label>
+                    <input class="shortfield-home form-field" id="00N3g000000YxE5" maxlength="255"
+                      name="00N3g000000YxE5" size="20" type="text" required />
+                    <span id="nameotherHelp" class="help-block" style="display:none;">Please enter first name.</span>
+                  </div>
+                  <div class="col-lg-6 col-xs-12 form-group">
+                    <label class="control-label" for=" LastNameOther">Last Name*</label>
+                    <input class="shortfield-home form-field" id="00N3g000000YxE6" maxlength="255"
+                      name="00N3g000000YxE6" size="20" type="text" required />
+                    <span id="lastnameotherHelp" class="help-block" style="display:none;">Please enter last name.</span>
+                  </div>
+                  <div class="col-lg-6 col-xs-12 form-group">
+                    <label class="control-label" for=" StreetAddressOther">Current Street Address</label>
+                    <input class="shortfield-home form-field" id="00N3g000000YxEL" maxlength="255"
+                      name="00N3g000000YxEL" size="20" type="text" />
+                  </div>
+                  <div class="col-lg-6 col-xs-12 form-group">
+                    <label class="control-label" for=" CityOther:">Current City </label>
+                    <input class="shortfield-home form-field" id="00N3g000000YxDy" maxlength="255"
+                      name="00N3g000000YxDy" size="20" type="text" />
+                  </div>
+                  <div class="col-lg-6 col-xs-12 form-group">
+                    <label class="control-label" for=" StateOther:">Current State*</label>
+                    <input class="shortfield-home form-field" id="00N3g000000YxEJ" maxlength="255"
+                      name="00N3g000000YxEJ" size="20" type="text" required />
+                    <span id="otherstateHelp" class="help-block" style="display:none;">Please enter state.</span>
+                  </div>
+                  <div class="col-lg-6 col-xs-12 form-group">
+                    <label class="control-label" for=" ZipCodeOther:">Post Code</label>
+                    <input class="shortfield-home form-field" id="00N3g000000YxEO" maxlength="255"
+                      name="00N3g000000YxEO" size="20" type="text" />
+                  </div>
+                  <div class="col-lg-6 col-xs-12 form-group">
+                    <label class="control-label" for="Country">Country*</label>
+                    <select class="shortfield-home form-field" id="00N3g000000YxE1" name="00N3g000000YxE1"
+                      title="Country Other" required>
+                      <option value="">--None--</option>
+                      <option value="United States">United States</option>
+                      <option value="Canada">Canada</option>
+                      <option value="United Kingdom">United Kingdom</option>
+                      <option value="India">India</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    <span id="stateHelp" class="help-block" style="display:none;">Please select a Country.</span>
+                  </div>
+                  <div class="col-lg-6 col-xs-12 form-group">
+                    <label class="control-label" for=" EmailOther:">Email Address*</label>
+                    <input class="shortfield-home form-field" id="EmailOther__c" placeholder="email address"
+                      maxlength="80" name="EmailOther__c" size="20" type="text" required />
+                    <span id="otheremailHelp" class="help-block" style="display:none;">Please enter Email
+                      Address.</span>
+                  </div>
+                  <div class="col-lg-6 col-xs-12 form-group" id="webphone">
+                    <label class="control-label" for="PhoneOther:" style=" padding-top: 15px;"> Phone Number*</label>
+                    <input class="shortfield-home form-field" id="00N3g000000YxEB" maxlength="40" name="00N3g000000YxEB"
+                      size="20" type="text" required style="margin-top: 8px;" />
+                    <span id="phoneHelp" class="help-block" style="display:none;">Please enter Phone Number.</span>
+                  </div>
+                  <script>
+                    webphone.onpaste = function (event) {
+                      /*alert("paste: " + event.clipboardData.getData('text/plain'));*/
+                      event.preventDefault();
+                    };
+
+                    webphone.oncut = webphone.oncopy = function (event) {
+                      /*alert(event.type + '-' + document.getSelection());*/
+                      event.preventDefault();
+                    };
+                  </script>
+                  <div class="col-lg-6 col-xs-12 form-group">
+                    <label class="control-label" for="RelationshiptoDataSubject">Relationship to Data Subject (Person
+                      whose data you are contacting us about): </label>
+                    <select class="shortfield-home form-field" id="00N3g000000YxED" name="00N3g000000YxED"
+                      title="Relationship to Data Subject" onchange="getrelationship(this.value);">
+                      <option value="">--None--</option>
+                      <option value="Attorney">Attorney</option>
+                      <option value="Third-Party Service">Third-Party Service</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    <!--  <span id="nameHelp" class="help-block" style="display:none;">Please enter first name.</span> -->
+                  </div>
+                </div>
+                <script type='text/javascript'>
+                  function getrelationship(val) {
+                    var relationshipelement1 = document.getElementById('relationshipfield1');
+                    if (val == 'Third-Party Service') {
+                      var label_text = jQuery("#changetext").text();
+                      jQuery("#00N3g000000YxECEA0").val("");
+                      jQuery("#changetext").text("Company Name*");
+                      jQuery("#changetexthelp").text("Please enter Company name.");
+                      relationshipelement1.style.display = 'block';
+                      jQuery("#00N3g000000YxECEA0").prop('required', true);
+                    } else if (val == 'Other') {
+                      var label_text = jQuery("#changetext").text();
+                      jQuery("#00N3g000000YxECEA0").val("");
+                      jQuery("#changetext").text("Please specify*");
+                      jQuery("#changetexthelp").text("Please enter specify name.");
+                      relationshipelement1.style.display = 'block';
+                      jQuery("#00N3g000000YxECEA0").prop('required', true);
+                    } else {
+                      jQuery("#00N3g000000YxECEA0").val("");
+                      relationshipelement1.style.display = 'none';
+                      jQuery("#00N3g000000YxECEA0").removeAttr('required');
+                    }
+                  }
+                </script>
+                <div id="relationshipfield1" style="display: none;">
+                  <div class="col-lg-12 col-xs-12 form-group">
+                    <label class="control-label" id="changetext" for="RelationshiptoDataSubjectDetails">Company
+                      Name*</label>
+                    <textarea class="shortfield-home form-field" id="00N3g000000YxECEA0" name="00N3g000000YxECEA0"
+                      rows="1" type="text" wrap="soft"></textarea>
+                    <span id="changetexthelp" class="help-block" style="display:none;">Please enter Company name.</span>
+                  </div>
+                </div>
+                <div class="dserfields2" style="display: none;">
+                  <script>CKEDITOR.timestamp = '4.18.0.4';
+                    var protocolAndHost = window.location.protocol + '//' + window.location.host;
+
+                    var editor = CKEDITOR.replace('00N3g000000YxECEA0', {
+                      removePlugins: 'elementspath,maximize,image,tabletools,liststyle,contextmenu,resize',
+                      baseHref: protocolAndHost + '/ckeditor/ckeditor-4.x/rel/',
+                      customConfig: '/ckeditor/ckeditor-4.x/rel/sfdc-config.js',
+                      height: '425',
+                      bodyId: '00N3g000000YxECEA0_rta_body',
+                      toolbar: 'SalesforceBasic',
+                      sfdcLabels: { CkeLineHeight: { singleValue: 'Single', doubleValue: 'Double', title: 'Line Height', secondValue: '1.15', thirdValue: '1.5' }, CkeCodeBlock: { addCodeSample: 'Add a code sample' }, CkeQuickText: { title: 'Insert quick text' }, CkeMediaEmbed: { iframeMissing: 'Invalid &lt;iframe&gt; element. Please use valid code from the approved sites.', subtitle: 'Paste &amp;lt;iframe&amp;gt; code here:', description: 'Use &lt;iframe&gt; code from an approved video source.', title: 'Embed Multimedia Content', exampleTitle: 'Example:', example: '\n            \n                &lt;iframe width=\&quot;560\&quot; height=\&quot;315\&quot; src=\&quot;https://www.youtube.com/embed/KcOm0TNvKBA\&quot; frameborder=\&quot;0\&quot; allowfullscreen&gt;&lt;/iframe&gt;\n            \n        ' }, CkeImageMenu: { uploadFile: ' Browse or Upload', uploadCms: 'Salesforce CMS', pasteUrl: 'Paste Image URL', uploadUrl: 'Web Image', uploadSFFile: 'Salesforce Files', title: 'Insert images into your message' }, CkeImagePaste: { CkeImagePasteWarning: 'Pasting an image is not working properly with Firefox, please use [Copy Image location] instead.' }, CkeImageDialog: { infoTab_desc_info: 'Enter a description of the image for visually impaired users', uploadTab_desc: 'Description', defaultImageDescription: 'User-added image', uploadTab_file_info: 'Maximum size 1 MB. Only PNG, GIF or JPEG', uploadTab_desc_info: 'Enter a description of the image for visually impaired users', imageUploadLimit_info: 'Max number of upload images exceeded', btn_insert_tooltip: 'Insert Image', httpUrlWarning: 'Are you sure you want to use an http URL? Using http image URLs may result in security warnings about insecure content. To avoid these warnings, use https image URLs instead.', title: 'Insert Image', error: 'Error:', uploadTab: 'Upload Image', wrongFileTypeError: 'You can insert only .gif .jpeg and .png files.', infoTab_url: 'URL', infoTab: 'Web Address', infoTab_url_info: 'Example: http://www.mysite.com/myimage.jpg', missingUrlError: 'You must enter a URL', uploadTab_file: 'Select Image', btn_update_tooltip: 'Update Image', infoTab_desc: 'Description', btn_insert: 'Insert', btn_update: 'Update', btn_upadte: 'Update', invalidUrlError: 'You can only use http:, https:, data:, //, /, or relative URL schemes.' }, sfdcSwitchToText: { sfdcSwitchToTextAlt: 'Use plain text' }, CkeSmartLink: { title: 'Insert a Smart Link', SmartLinkContextMenuEdit: 'Edit Smart Link' } },
+                      contentsCss: ['/ckeditor/ckeditor-4.x/rel/contents.css', '/sCSS/56.0/sprites/1664389980000/Theme3/default/gc/CKEditor.css', '/sCSS/56.0/sprites/1664389980000/Theme3/default/gc/HtmlDetailElem.css'],
+                      disableNativeSpellChecker: false,
+                      language: 'en-US',
+                      allowIframe: false,
+                      isPardotOrg: false,
+                      isCmsOnly: false,
+                      sharedSpaces: { top: 'cke_topSpace', bottom: ' cke_bottomSpace' }
+                      , filebrowserImageUploadUrl: '/_ui/common/request/servlet/RtaImageUploadServlet?_CONFIRMATIONTOKEN=VmpFPSxNakF5TXkwd01TMHlNVlF4TXpvME5Eb3hOQzQ1TURWYSxFY2xnZWFSOTBsb0pWTGtPd1NoQWN3LE5HRm1NemMy'
+                    });
+
+                    editor.on('instanceReady', function (evt) {
+                      try {
+                        var id = evt.editor.name;
+                        CKiframe = document.getElementById('cke_' + id).querySelector('iframe');
+                        meta = document.createElement('meta');
+                        meta.setAttribute('name', 'referrer');
+                        meta.setAttribute('content', 'no-referrer');
+                        CKiframe.contentDocument.head.appendChild(meta);
+                      } catch (e) { }
+                    });
+
+                  </script>
+                </div>
+                <div class="col-lg-12 col-xs-12 form-group">
+                  <label class="control-label" for="TypeofRequest">Type of Request *</label>
+                  <p class="type-reqset">PLEASE SELECT TYPE OF REQUEST YOU ARE MAKING</p>
+                  <select class="shortfield-home form-field" id="00N3g000000YxEN" name="00N3g000000YxEN"
+                    title="Type of Request" required>
+                    <option value="">--None--</option>
+                    <option value="Consent withdrawal">Consent withdrawal</option>
+                    <option value="Access request">Access request</option>
+                    <option value="Rectification of personal data">Rectification of personal data</option>
+                    <option value="Erasure of personal data">Erasure of personal data</option>
+                    <option value="Restriction of processing of personal data">Restriction of processing of personal
+                      data
+                    </option>
+                    <option value="Personal data portability request">Personal data portability request</option>
+                    <option value="Objection to the processing of personal data">Objection to the processing of personal
+                      data </option>
+
+                  </select>
+                  <span id="nameHelp" class="help-block" style="display:none;">Please enter Type of request.</span>
+                </div>
+                <div class="col-lg-12 col-xs-12 form-group">
+                  <label class="control-label" for=" RequestDetails"> Request Details (Please describe the personal data
+                    you are contacting us about)</label>
+                  <p>To help us process your request quickly and efficiently, please provide as much detail as possible
+                    (e.g., copies of emails between &lt;date&gt; and &lt;date&gt;). If we do not receive sufficient
+                    information to locate the data you require, we may be unable to comply with your request. </p>
+                  <textarea class="shortfield-home form-field" id="00N3g000000YxEGEA0" name="00N3g000000YxEGEA0"
+                    rows="5" type="text" wrap="soft"></textarea>
+                  <span id="nameHelp" class="help-block" style="display:none;">Please enter Request Destails.</span>
+                </div>
+                <script>CKEDITOR.timestamp = '4.18.0.4';
+                  var protocolAndHost = window.location.protocol + '//' + window.location.host;
+
+                  var editor = CKEDITOR.replace('00N3g000000YxEGEA0', {
+                    removePlugins: 'elementspath,maximize,image,tabletools,liststyle,contextmenu,resize',
+                    baseHref: protocolAndHost + '/ckeditor/ckeditor-4.x/rel/',
+                    customConfig: '/ckeditor/ckeditor-4.x/rel/sfdc-config.js',
+                    height: '425',
+                    bodyId: '00N3g000000YxEGEA0_rta_body',
+                    toolbar: 'SalesforceBasic',
+                    sfdcLabels: { CkeLineHeight: { singleValue: 'Single', doubleValue: 'Double', title: 'Line Height', secondValue: '1.15', thirdValue: '1.5' }, CkeCodeBlock: { addCodeSample: 'Add a code sample' }, CkeQuickText: { title: 'Insert quick text' }, CkeMediaEmbed: { iframeMissing: 'Invalid &lt;iframe&gt; element. Please use valid code from the approved sites.', subtitle: 'Paste &amp;lt;iframe&amp;gt; code here:', description: 'Use &lt;iframe&gt; code from an approved video source.', title: 'Embed Multimedia Content', exampleTitle: 'Example:', example: '\n            \n                &lt;iframe width=\&quot;560\&quot; height=\&quot;315\&quot; src=\&quot;https://www.youtube.com/embed/KcOm0TNvKBA\&quot; frameborder=\&quot;0\&quot; allowfullscreen&gt;&lt;/iframe&gt;\n            \n        ' }, CkeImageMenu: { uploadFile: ' Browse or Upload', uploadCms: 'Salesforce CMS', pasteUrl: 'Paste Image URL', uploadUrl: 'Web Image', uploadSFFile: 'Salesforce Files', title: 'Insert images into your message' }, CkeImagePaste: { CkeImagePasteWarning: 'Pasting an image is not working properly with Firefox, please use [Copy Image location] instead.' }, CkeImageDialog: { infoTab_desc_info: 'Enter a description of the image for visually impaired users', uploadTab_desc: 'Description', defaultImageDescription: 'User-added image', uploadTab_file_info: 'Maximum size 1 MB. Only PNG, GIF or JPEG', uploadTab_desc_info: 'Enter a description of the image for visually impaired users', imageUploadLimit_info: 'Max number of upload images exceeded', btn_insert_tooltip: 'Insert Image', httpUrlWarning: 'Are you sure you want to use an http URL? Using http image URLs may result in security warnings about insecure content. To avoid these warnings, use https image URLs instead.', title: 'Insert Image', error: 'Error:', uploadTab: 'Upload Image', wrongFileTypeError: 'You can insert only .gif .jpeg and .png files.', infoTab_url: 'URL', infoTab: 'Web Address', infoTab_url_info: 'Example: http://www.mysite.com/myimage.jpg', missingUrlError: 'You must enter a URL', uploadTab_file: 'Select Image', btn_update_tooltip: 'Update Image', infoTab_desc: 'Description', btn_insert: 'Insert', btn_update: 'Update', btn_upadte: 'Update', invalidUrlError: 'You can only use http:, https:, data:, //, /, or relative URL schemes.' }, sfdcSwitchToText: { sfdcSwitchToTextAlt: 'Use plain text' }, CkeSmartLink: { title: 'Insert a Smart Link', SmartLinkContextMenuEdit: 'Edit Smart Link' } },
+                    contentsCss: ['/ckeditor/ckeditor-4.x/rel/contents.css', '/sCSS/56.0/sprites/1664389980000/Theme3/default/gc/CKEditor.css', '/sCSS/56.0/sprites/1664389980000/Theme3/default/gc/HtmlDetailElem.css'],
+                    disableNativeSpellChecker: false,
+                    language: 'en-US',
+                    allowIframe: false,
+                    isPardotOrg: false,
+                    isCmsOnly: false,
+                    sharedSpaces: { top: 'cke_topSpace', bottom: ' cke_bottomSpace' }
+                    , filebrowserImageUploadUrl: '/_ui/common/request/servlet/RtaImageUploadServlet?_CONFIRMATIONTOKEN=VmpFPSxNakF5TXkwd01TMHlNVlF4TmpveU1Ub3lOaTQyT1RSYSx5TFhzUGFvVTQ1Um9PYmNhVGlmOW5aLE5HRm1NemMy'
+                  });
+
+                  editor.on('instanceReady', function (evt) {
+                    try {
+                      var id = evt.editor.name;
+                      CKiframe = document.getElementById('cke_' + id).querySelector('iframe');
+                      meta = document.createElement('meta');
+                      meta.setAttribute('name', 'referrer');
+                      meta.setAttribute('content', 'no-referrer');
+                      CKiframe.contentDocument.head.appendChild(meta);
+                    } catch (e) { }
+                  });
+
+                </script>
+                <div class="col-lg-12 col-xs-12 form-group">
+                  <label class="control-label" for="RequetDetails">Request Reason/Justification:</label>
+                  <p>Please provide additional details relating to your request (e.g., the reason for withdrawing
+                    consent, requesting erasure of personal data, or objecting to processing of personal data), as
+                    applicable. </p>
+                  <textarea class="shortfield-home form-field" id="00N3g000000YxEIEA0" name="00N3g000000YxEIEA0"
+                    rows="5" type="text" wrap="soft"></textarea>
+                  <!--  <span id="nameHelp" class="help-block" style="display:none;">Please enter first name.</span> -->
+                </div>
+                <script>CKEDITOR.timestamp = '4.18.0.4';
+                  var protocolAndHost = window.location.protocol + '//' + window.location.host;
+
+                  var editor = CKEDITOR.replace('00N3g000000YxEIEA0', {
+                    removePlugins: 'elementspath,maximize,image,tabletools,liststyle,contextmenu,resize',
+                    baseHref: protocolAndHost + '/ckeditor/ckeditor-4.x/rel/',
+                    customConfig: '/ckeditor/ckeditor-4.x/rel/sfdc-config.js',
+                    height: '425',
+                    bodyId: '00N3g000000YxEIEA0_rta_body',
+                    toolbar: 'SalesforceBasic',
+                    sfdcLabels: { CkeLineHeight: { singleValue: 'Single', doubleValue: 'Double', title: 'Line Height', secondValue: '1.15', thirdValue: '1.5' }, CkeCodeBlock: { addCodeSample: 'Add a code sample' }, CkeQuickText: { title: 'Insert quick text' }, CkeMediaEmbed: { iframeMissing: 'Invalid &lt;iframe&gt; element. Please use valid code from the approved sites.', subtitle: 'Paste &amp;lt;iframe&amp;gt; code here:', description: 'Use &lt;iframe&gt; code from an approved video source.', title: 'Embed Multimedia Content', exampleTitle: 'Example:', example: '\n            \n                &lt;iframe width=\&quot;560\&quot; height=\&quot;315\&quot; src=\&quot;https://www.youtube.com/embed/KcOm0TNvKBA\&quot; frameborder=\&quot;0\&quot; allowfullscreen&gt;&lt;/iframe&gt;\n            \n        ' }, CkeImageMenu: { uploadFile: ' Browse or Upload', uploadCms: 'Salesforce CMS', pasteUrl: 'Paste Image URL', uploadUrl: 'Web Image', uploadSFFile: 'Salesforce Files', title: 'Insert images into your message' }, CkeImagePaste: { CkeImagePasteWarning: 'Pasting an image is not working properly with Firefox, please use [Copy Image location] instead.' }, CkeImageDialog: { infoTab_desc_info: 'Enter a description of the image for visually impaired users', uploadTab_desc: 'Description', defaultImageDescription: 'User-added image', uploadTab_file_info: 'Maximum size 1 MB. Only PNG, GIF or JPEG', uploadTab_desc_info: 'Enter a description of the image for visually impaired users', imageUploadLimit_info: 'Max number of upload images exceeded', btn_insert_tooltip: 'Insert Image', httpUrlWarning: 'Are you sure you want to use an http URL? Using http image URLs may result in security warnings about insecure content. To avoid these warnings, use https image URLs instead.', title: 'Insert Image', error: 'Error:', uploadTab: 'Upload Image', wrongFileTypeError: 'You can insert only .gif .jpeg and .png files.', infoTab_url: 'URL', infoTab: 'Web Address', infoTab_url_info: 'Example: http://www.mysite.com/myimage.jpg', missingUrlError: 'You must enter a URL', uploadTab_file: 'Select Image', btn_update_tooltip: 'Update Image', infoTab_desc: 'Description', btn_insert: 'Insert', btn_update: 'Update', btn_upadte: 'Update', invalidUrlError: 'You can only use http:, https:, data:, //, /, or relative URL schemes.' }, sfdcSwitchToText: { sfdcSwitchToTextAlt: 'Use plain text' }, CkeSmartLink: { title: 'Insert a Smart Link', SmartLinkContextMenuEdit: 'Edit Smart Link' } },
+                    contentsCss: ['/ckeditor/ckeditor-4.x/rel/contents.css', '/sCSS/56.0/sprites/1664389980000/Theme3/default/gc/CKEditor.css', '/sCSS/56.0/sprites/1664389980000/Theme3/default/gc/HtmlDetailElem.css'],
+                    disableNativeSpellChecker: false,
+                    language: 'en-US',
+                    allowIframe: false,
+                    isPardotOrg: false,
+                    isCmsOnly: false,
+                    sharedSpaces: { top: 'cke_topSpace', bottom: ' cke_bottomSpace' }
+                    , filebrowserImageUploadUrl: '/_ui/common/request/servlet/RtaImageUploadServlet?_CONFIRMATIONTOKEN=VmpFPSxNakF5TXkwd01TMHlNVlF4TXpvME5Eb3hOQzQ1TVRCYSxYM0EwWngxS3lDWlJZbFJfdl9FZ1BmLE5HRm1NemMy'
+                  });
+
+                  editor.on('instanceReady', function (evt) {
+                    try {
+                      var id = evt.editor.name;
+                      CKiframe = document.getElementById('cke_' + id).querySelector('iframe');
+                      meta = document.createElement('meta');
+                      meta.setAttribute('name', 'referrer');
+                      meta.setAttribute('content', 'no-referrer');
+                      CKiframe.contentDocument.head.appendChild(meta);
+                    } catch (e) { }
+                  });
+
+                </script>
+                <div class="col-lg-12 col-xs-12 form-group" style="padding-top: 10px;">
+                  <label style="padding-top: 5px;">DECLARATION </label>
+                  <p>I confirm that I have read and understand the terms of this subject access request form and certify
+                    that information given in this request to Revature LLC, and its related affiliate entities,
+                    (Revature) is true. I understand that it is necessary for Revature to confirm my identity as the
+                    data subject and it may be necessary to obtain more detailed information in order to locate the
+                    correct personal data. </p>
+                  <input type="checkbox" class="checkoption3" name="anotherindividua3" value="yes"> I represent that the
+                  information in this request is accurate and that I am authorized to submit this request. </br>
+                  <input type="checkbox" class="checkoption4" name="anotherindividual4" value="no"> I understand that
+                  Revature will not be able to process my request if the form is not properly filled out or if the
+                  request is incomplete. <p class="last-para">When sending your request via email or post, please
+                    provide your printed name, date, and signature below:</p>
+                </div>
+                <div class="col-lg-6 col-xs-12 form-group">
+                  <label class="control-label" for="FirstName">Full Name*</label>
+                  <input class="shortfield-home form-field" id="fullname" maxlength="255" name="fullname" size="20"
+                    type="text" required />
+                  <span id="nameHelp" class="help-block" style="display:none;">Please enter full name.</span>
+                </div>
+                <div class="col-lg-6 col-xs-12 form-group">
+                  <label class="control-label" for="Date">Date*</label>
+                  <input class="shortfield-home form-field" id="date" maxlength="255" name="date" size="20" type="date"
+                    required />
+                  <span id="nameHelp" class="help-block" style="display:none;">Please enter date.</span>
+                </div>
+                <div class="col-lg-12 col-xs-12" id="authGroup">
+                  <label class="control-label" for="Consent">I Consent*</label>
+                  <input class="" id="00N3g000000YxE0" name="00N3g000000YxE0" type="checkbox" value="1" required />
+                  <span id="consentHelp" class="help-block" style="display:none;">Please select Consent Checkbox.</span>
+                </div>
+                <input type="hidden" id="external" name="external" value="1" />
+
+                <div class="col-lg-12 col-xs-12 text-center">
+                  <span id="recruitSubmitBtn">
+                    <input type="submit" id="button" value="Submit" class="b2b-form-button">
+                  </span>
+                  <!--  <span class="help-block" style="display:none;" id="confirmMsg">There was an issue with your submission, please try again.</span> -->
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/673612697348b6e2271724e1_autotab.min.txt" type="text/javascript"></script>
+<script src="https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/673638d4bf10ffa1b3df9afb_dsar_bootstrap.txt" type="text/javascript"></script>
+<script src="https://cdn.prod.website-files.com/66aceb53d65d6573c00a93de/673638b718e8978f9093d716_dsar_jquery.txt" type="text/javascript"></script>
+
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.1/owl.carousel.min.js"></script>

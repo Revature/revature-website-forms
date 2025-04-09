@@ -1,0 +1,734 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div class="two-grid-container">
+    <!-- Legal First Name -->
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="legalFirstName">
+        Legal First Name<span class="required">*</span>
+      </legend>
+      <input
+        type="text"
+        class="form-field"
+        id="legalFirstName"
+        formControlName="legalFirstName"
+        placeholder="Legal First Name"
+      />
+      <span
+        class="b2c-error-message"
+        *ngIf="
+          form.get('legalFirstName')?.invalid &&
+          form.get('legalFirstName')?.touched
+        "
+      >
+        Please enter Legal first name.
+      </span>
+    </fieldset>
+
+    <!-- Legal Last Name -->
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="legalLastName">
+        Legal Last Name<span class="required">*</span>
+      </legend>
+      <input
+        type="text"
+        class="form-field"
+        id="legalLastName"
+        formControlName="legalLastName"
+        placeholder="Legal Last Name"
+      />
+      <span
+        class="b2c-error-message"
+        *ngIf="
+          form.get('legalLastName')?.invalid &&
+          form.get('legalLastName')?.touched
+        "
+      >
+        Please enter Legal last name.
+      </span>
+    </fieldset>
+  </div>
+
+  <!-- Other Names -->
+  <div class="one-grid-container">
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="otherNames">
+        Former, Preferred, and/or Other Names Used at Revature<span
+          class="required"
+          >*</span
+        >
+      </legend>
+      <input
+        type="text"
+        class="form-field"
+        id="otherNames"
+        formControlName="otherNames"
+        placeholder="Other Names"
+      />
+      <span
+        class="b2c-error-message"
+        *ngIf="
+          form.get('otherNames')?.invalid && form.get('otherNames')?.touched
+        "
+      >
+        Please enter other name.
+      </span>
+    </fieldset>
+  </div>
+
+  <!-- Street Address -->
+  <div class="one-grid-container">
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="streetAddress">
+        Current Street Address
+      </legend>
+      <input
+        type="text"
+        class="form-field"
+        id="streetAddress"
+        formControlName="streetAddress"
+        placeholder="Street Address"
+      />
+    </fieldset>
+  </div>
+
+  <div class="two-grid-container">
+    <!-- City -->
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="city">Current City</legend>
+      <input
+        type="text"
+        class="form-field"
+        id="city"
+        formControlName="city"
+        placeholder="City"
+      />
+    </fieldset>
+
+    <!-- State -->
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="state">
+        Current State<span class="required">*</span>
+      </legend>
+      <input
+        type="text"
+        class="form-field"
+        id="state"
+        formControlName="state"
+        placeholder="State"
+      />
+      <span
+        class="b2c-error-message"
+        *ngIf="form.get('state')?.invalid && form.get('state')?.touched"
+      >
+        Please enter state.
+      </span>
+    </fieldset>
+  </div>
+
+  <div class="two-grid-container">
+    <!-- Post Code -->
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="postCode">Post Code</legend>
+      <input
+        type="text"
+        class="form-field"
+        id="postCode"
+        formControlName="postCode"
+        placeholder="Post Code"
+      />
+    </fieldset>
+
+    <!-- Country -->
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="country">
+        Country<span class="required">*</span>
+      </legend>
+      <select class="form-field" id="country" formControlName="country">
+        <option [value]="''">--None--</option>
+        <option *ngFor="let country of countries" [value]="country">
+          {{ country }}
+        </option>
+      </select>
+      <span
+        class="b2c-error-message"
+        *ngIf="form.get('country')?.invalid && form.get('country')?.touched"
+      >
+        Please select a Country.
+      </span>
+    </fieldset>
+  </div>
+
+  <div class="two-grid-container">
+    <!-- Email -->
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="email">
+        Email Address<span class="required">*</span>
+      </legend>
+      <input
+        type="email"
+        class="form-field"
+        id="email"
+        formControlName="email"
+        placeholder="Email Address"
+      />
+      <span
+        class="b2c-error-message"
+        *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+      >
+        Please enter a valid email address.
+      </span>
+    </fieldset>
+
+    <!-- Phone -->
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="phone">
+        Phone Number<span class="required">*</span>
+      </legend>
+      <input
+        type="tel"
+        class="form-field"
+        id="phone"
+        formControlName="phone"
+        placeholder="Phone Number"
+      />
+      <span
+        class="b2c-error-message"
+        *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched"
+      >
+        Please enter a valid Phone Number.
+      </span>
+    </fieldset>
+  </div>
+
+  <!-- Relationship With Revature -->
+  <div class="one-grid-container">
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="relationshipWithRevature">
+        Relationship With Revature<span class="required">*</span>
+      </legend>
+      <select
+        class="form-field"
+        id="relationshipWithRevature"
+        formControlName="relationshipWithRevature"
+      >
+        <option [value]="''">--None--</option>
+        <option
+          *ngFor="let relationship of relationshipWithRevature"
+          [value]="relationship"
+        >
+          {{ relationship }}
+        </option>
+      </select>
+      <span
+        class="b2c-error-message"
+        *ngIf="
+          form.get('relationshipWithRevature')?.invalid &&
+          form.get('relationshipWithRevature')?.touched
+        "
+      >
+        Please Select Relationship With Revature.
+      </span>
+    </fieldset>
+  </div>
+
+  <!-- Other Relationship Details -->
+  <div class="one-grid-container" *ngIf="showOtherRelationshipField">
+    <fieldset class="form-fieldset">
+      <legend class="form-label" for="relationshipWithRevatureOther">
+        Please specify<span class="required">*</span>
+      </legend>
+      <textarea
+        class="form-field"
+        id="relationshipWithRevatureOther"
+        formControlName="relationshipWithRevatureOther"
+        rows="3"
+      ></textarea>
+      <span
+        class="b2c-error-message"
+        *ngIf="
+          form.get('relationshipWithRevatureOther')?.invalid &&
+          form.get('relationshipWithRevatureOther')?.touched
+        "
+      >
+        Please enter specify name.
+      </span>
+    </fieldset>
+  </div>
+
+  <!-- Are you making a request on behalf of another individual? -->
+  <div class="one-grid-container">
+    <fieldset class="form-fieldset">
+      <legend class="form-label">
+        Are you making a request on BEHALF of another individual?<span
+          class="required"
+          >*</span
+        >
+      </legend>
+      <div class="two-grid-container">
+        <div class="custom-radio">
+          <input
+            type="radio"
+            formControlName="isRequestingOnBehalf"
+            [value]="true"
+            id="isRequestingOnBehalf"
+          />
+          <label for="isRequestingOnBehalf">Yes</label>
+        </div>
+        <div class="custom-radio">
+          <input
+            type="radio"
+            formControlName="isRequestingOnBehalf"
+            [value]="false"
+            id="notRequestingOnBehalf"
+          />
+          <label for="notRequestingOnBehalf">No</label>
+        </div>
+      </div>
+      <span
+        class="b2c-error-message"
+        *ngIf="
+          form.get('isRequestingOnBehalf')?.invalid &&
+          form.get('isRequestingOnBehalf')?.touched
+        "
+      >
+        Please select an option
+      </span>
+      <div class="form-content" *ngIf="form.get('isRequestingOnBehalf')?.value">
+        If you stated Yes, please identify your information below:
+      </div>
+    </fieldset>
+  </div>
+
+  <!-- On Behalf Section -->
+  <section class="form-section" *ngIf="showBehalfFields">
+    <div class="two-grid-container">
+      <!-- First Name -->
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="onBehalfFirstName">
+          First Name<span class="required">*</span>
+        </legend>
+        <input
+          type="text"
+          class="form-field"
+          id="onBehalfFirstName"
+          formControlName="onBehalfFirstName"
+          placeholder="First Name"
+        />
+        <span
+          class="b2c-error-message"
+          *ngIf="
+            form.get('onBehalfFirstName')?.invalid &&
+            form.get('onBehalfFirstName')?.touched
+          "
+        >
+          Please enter first name.
+        </span>
+      </fieldset>
+
+      <!-- Last Name -->
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="onBehalfLastName">
+          Last Name<span class="required">*</span>
+        </legend>
+        <input
+          type="text"
+          class="form-field"
+          id="onBehalfLastName"
+          formControlName="onBehalfLastName"
+          placeholder="Last Name"
+        />
+        <span
+          class="b2c-error-message"
+          *ngIf="
+            form.get('onBehalfLastName')?.invalid &&
+            form.get('onBehalfLastName')?.touched
+          "
+        >
+          Please enter last name.
+        </span>
+      </fieldset>
+    </div>
+
+    <!-- Street Address -->
+    <div class="one-grid-container">
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="onBehalfStreetAddress">
+          Current Street Address
+        </legend>
+        <input
+          type="text"
+          class="form-field"
+          id="onBehalfStreetAddress"
+          formControlName="onBehalfStreetAddress"
+          placeholder="Street Address"
+        />
+      </fieldset>
+    </div>
+
+    <div class="two-grid-container">
+      <!-- City -->
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="onBehalfCity">Current City</legend>
+        <input
+          type="text"
+          class="form-field"
+          id="onBehalfCity"
+          formControlName="onBehalfCity"
+          placeholder="City"
+        />
+      </fieldset>
+
+      <!-- State -->
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="onBehalfState">
+          Current State<span class="required">*</span>
+        </legend>
+        <input
+          type="text"
+          class="form-field"
+          id="onBehalfState"
+          formControlName="onBehalfState"
+          placeholder="State"
+        />
+        <span
+          class="b2c-error-message"
+          *ngIf="
+            form.get('onBehalfState')?.invalid &&
+            form.get('onBehalfState')?.touched
+          "
+        >
+          Please enter state.
+        </span>
+      </fieldset>
+    </div>
+
+    <div class="two-grid-container">
+      <!-- Post Code -->
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="onBehalfPostCode">Post Code</legend>
+        <input
+          type="text"
+          class="form-field"
+          id="onBehalfPostCode"
+          formControlName="onBehalfPostCode"
+          placeholder="Post Code"
+        />
+      </fieldset>
+
+      <!-- Country -->
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="onBehalfCountry">
+          Country<span class="required">*</span>
+        </legend>
+        <select
+          class="form-field"
+          id="onBehalfCountry"
+          formControlName="onBehalfCountry"
+        >
+          <option [value]="''">--None--</option>
+          <option *ngFor="let country of countries" [value]="country">
+            {{ country }}
+          </option>
+        </select>
+        <span
+          class="b2c-error-message"
+          *ngIf="
+            form.get('onBehalfCountry')?.invalid &&
+            form.get('onBehalfCountry')?.touched
+          "
+        >
+          Please select a Country.
+        </span>
+      </fieldset>
+    </div>
+
+    <div class="two-grid-container">
+      <!-- Email -->
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="onBehalfEmail">
+          Email Address<span class="required">*</span>
+        </legend>
+        <input
+          type="email"
+          class="form-field"
+          id="onBehalfEmail"
+          formControlName="onBehalfEmail"
+          placeholder="Email Address"
+        />
+        <span
+          class="b2c-error-message"
+          *ngIf="
+            form.get('onBehalfEmail')?.invalid &&
+            form.get('onBehalfEmail')?.touched
+          "
+        >
+          Please enter Email Address.
+        </span>
+      </fieldset>
+
+      <!-- Phone -->
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="onBehalfPhone">
+          Phone Number<span class="required">*</span>
+        </legend>
+        <input
+          type="tel"
+          class="form-field"
+          id="onBehalfPhone"
+          formControlName="onBehalfPhone"
+          placeholder="Phone Number"
+        />
+        <span
+          class="b2c-error-message"
+          *ngIf="
+            form.get('onBehalfPhone')?.invalid &&
+            form.get('onBehalfPhone')?.touched
+          "
+        >
+          Please enter Phone Number.
+        </span>
+      </fieldset>
+    </div>
+
+    <!-- Relationship to Data Subject -->
+    <div class="one-grid-container">
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="relationshipToDataSubject">
+          Relationship to Data Subject (Person whose data you are contacting us
+          about)
+        </legend>
+        <select
+          class="form-field"
+          id="relationshipToDataSubject"
+          formControlName="relationshipToDataSubject"
+        >
+          <option [value]="''">--None--</option>
+          <option
+            *ngFor="let relationship of relationshipToDataSubject"
+            [value]="relationship"
+          >
+            {{ relationship }}
+          </option>
+        </select>
+      </fieldset>
+    </div>
+
+    <!-- Relationship Details -->
+    <div class="one-grid-container" *ngIf="showRelationshipDetails">
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="relationshipToDataSubjectDetails">
+          {{ relationshipDetailsLabel }}
+        </legend>
+        <textarea
+          class="form-field"
+          id="relationshipToDataSubjectDetails"
+          formControlName="relationshipToDataSubjectDetails"
+          rows="3"
+        ></textarea>
+        <span
+          class="b2c-error-message"
+          *ngIf="
+            form.get('relationshipToDataSubjectDetails')?.invalid &&
+            form.get('relationshipToDataSubjectDetails')?.touched
+          "
+        >
+          {{ relationshipDetailsHelpText }}
+        </span>
+      </fieldset>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <!-- Type of Request -->
+    <div class="one-grid-container">
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="requestType">
+          Type of Request<span class="required">*</span>
+        </legend>
+        <div class="form-content">PLEASE SELECT TYPE OF REQUEST YOU ARE MAKING</div>
+        <select
+          class="form-field"
+          id="requestType"
+          formControlName="requestType"
+        >
+          <option [value]="''">--None--</option>
+          <option *ngFor="let type of requestTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+        <span
+          class="b2c-error-message"
+          *ngIf="
+            form.get('requestType')?.invalid && form.get('requestType')?.touched
+          "
+        >
+          Please enter Type of request.
+        </span>
+      </fieldset>
+    </div>
+
+    <!-- Request Details -->
+    <div class="one-grid-container">
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="requestDetails">
+          Request Details (Please describe the personal data you are contacting
+          us about)
+        </legend>
+        <div class="form-content">
+          To help us process your request quickly and efficiently, please
+          provide as much detail as possible (e.g., copies of emails between
+          &lt;date&gt; and &lt;date&gt;). If we do not receive sufficient
+          information to locate the data you require, we may be unable to comply
+          with your request.
+        </div>
+        <textarea
+          class="form-field"
+          id="requestDetails"
+          formControlName="requestDetails"
+          rows="5"
+        ></textarea>
+      </fieldset>
+    </div>
+
+    <!-- Request Reason -->
+    <div class="one-grid-container">
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="requestReason">
+          Request Reason/Justification:
+        </legend>
+        <div class="form-content">
+          Please provide additional details relating to your request (e.g., the
+          reason for withdrawing consent, requesting erasure of personal data,
+          or objecting to processing of personal data), as applicable.
+        </div>
+        <textarea
+          class="form-field"
+          id="requestReason"
+          formControlName="requestReason"
+          rows="5"
+        ></textarea>
+      </fieldset>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <!-- Declaration -->
+    <div class="one-grid-container">
+      <fieldset class="form-fieldset">
+        <legend class="form-label">DECLARATION</legend>
+        <div class="form-content">
+          I confirm that I have read and understand the terms of this subject
+          access request form and certify that information given in this request
+          to Revature LLC, and its related affiliate entities, (Revature) is
+          true. I understand that it is necessary for Revature to confirm my
+          identity as the data subject and it may be necessary to obtain more
+          detailed information in order to locate the correct personal data.
+        </div>
+
+        <div class="custom-checkbox">
+          <input type="checkbox" id="declaration1" checked disabled />
+          <label for="declaration1"
+            >I represent that the information in this request is accurate and
+            that I am authorized to submit this request.</label
+          >
+        </div>
+        <div class="custom-checkbox">
+          <input type="checkbox" id="declaration2" checked disabled />
+          <label for="declaration2"
+            >I understand that Revature will not be able to process my request
+            if the form is not properly filled out or if the request is
+            incomplete.</label
+          >
+        </div>
+
+        <div class="form-content">
+          When sending your request via email or post, please provide your
+          printed name, date, and signature below:
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="two-grid-container">
+      <!-- Full Name -->
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="fullName">
+          Full Name<span class="required">*</span>
+        </legend>
+        <input
+          type="text"
+          class="form-field"
+          id="fullName"
+          formControlName="fullName"
+          placeholder="Full Name"
+        />
+        <span
+          class="b2c-error-message"
+          *ngIf="form.get('fullName')?.invalid && form.get('fullName')?.touched"
+        >
+          Please enter full name.
+        </span>
+      </fieldset>
+
+      <!-- Date -->
+      <fieldset class="form-fieldset">
+        <legend class="form-label" for="date">
+          Date<span class="required">*</span>
+        </legend>
+        <input
+          type="date"
+          class="form-field"
+          id="date"
+          formControlName="date"
+        />
+        <span
+          class="b2c-error-message"
+          *ngIf="form.get('date')?.invalid && form.get('date')?.touched"
+        >
+          Please enter date.
+        </span>
+      </fieldset>
+    </div>
+
+    <!-- Consent Checkbox -->
+    <div class="one-grid-container">
+      <fieldset class="form-fieldset">
+        <div class="custom-checkbox">
+          <input type="checkbox" id="iConsent" formControlName="iConsent" />
+          <label class="form-label" for="iConsent">I Consent<span class="required">*</span></label>
+          <span
+            class="b2c-error-message"
+            *ngIf="
+              form.get('iConsent')?.invalid && form.get('iConsent')?.touched
+            "
+          >
+            Please select Consent Checkbox.
+          </span>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- reCAPTCHA -->
+    <div class="recaptcha-container">
+      <re-captcha
+        formControlName="validCaptacha"
+        (resolved)="recaptchaSuccessCallback($event)"
+      ></re-captcha>
+      <span
+        class="b2c-error-message"
+        *ngIf="form.get('validCaptacha')?.value === false"
+      >
+        Please complete the reCAPTCHA.
+      </span>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="submit-container">
+      <button type="submit" class="b2b-form-button" *ngIf="showSubmitButton">
+        Submit
+      </button>
+      <div class="loading-indicator" *ngIf="loading">
+        <div class="spinner"></div>
+        <span>Submitting...</span>
+      </div>
+    </div>
+  </section>
+</form>

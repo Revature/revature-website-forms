@@ -52082,47 +52082,47 @@ var B2cFormComponent = class _B2cFormComponent {
 })();
 
 // src/app/b2b-form/b2b-form.component.ts
-function B2bFormComponent_span_24_Template(rf, ctx) {
+function B2bFormComponent_span_23_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "Email is required.");
     \u0275\u0275elementEnd();
   }
 }
-function B2bFormComponent_span_25_Template(rf, ctx) {
+function B2bFormComponent_span_24_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "Invalid email address.");
     \u0275\u0275elementEnd();
   }
 }
-function B2bFormComponent_span_26_Template(rf, ctx) {
+function B2bFormComponent_span_25_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "Please enter a business email.");
     \u0275\u0275elementEnd();
   }
 }
-function B2bFormComponent_fieldset_27_span_3_Template(rf, ctx) {
+function B2bFormComponent_fieldset_26_span_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "Phone is required.");
     \u0275\u0275elementEnd();
   }
 }
-function B2bFormComponent_fieldset_27_span_4_Template(rf, ctx) {
+function B2bFormComponent_fieldset_26_span_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "Phone number is not valid.");
     \u0275\u0275elementEnd();
   }
 }
-function B2bFormComponent_fieldset_27_Template(rf, ctx) {
+function B2bFormComponent_fieldset_26_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "fieldset", 2);
-    \u0275\u0275element(1, "input", 15);
+    \u0275\u0275element(1, "input", 16);
     \u0275\u0275elementStart(2, "span", 4);
-    \u0275\u0275template(3, B2bFormComponent_fieldset_27_span_3_Template, 2, 0, "span", 10)(4, B2bFormComponent_fieldset_27_span_4_Template, 2, 0, "span", 10);
+    \u0275\u0275template(3, B2bFormComponent_fieldset_26_span_3_Template, 2, 0, "span", 10)(4, B2bFormComponent_fieldset_26_span_4_Template, 2, 0, "span", 10);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -52141,7 +52141,7 @@ function B2bFormComponent_fieldset_27_Template(rf, ctx) {
 function B2bFormComponent_fieldset_28_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "fieldset", 2);
-    \u0275\u0275element(1, "textarea", 16);
+    \u0275\u0275element(1, "textarea", 17);
     \u0275\u0275elementStart(2, "span", 4);
     \u0275\u0275text(3, " Your Message is required ");
     \u0275\u0275elementEnd()();
@@ -52157,7 +52157,7 @@ function B2bFormComponent_ng_container_29_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "re-captcha", 17);
+    \u0275\u0275elementStart(1, "re-captcha", 18);
     \u0275\u0275listener("resolved", function B2bFormComponent_ng_container_29_Template_re_captcha_resolved_1_listener($event) {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
@@ -52178,7 +52178,7 @@ function B2bFormComponent_ng_container_29_Template(rf, ctx) {
 }
 function B2bFormComponent_button_31_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "button", 18);
+    \u0275\u0275elementStart(0, "button", 19);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -52191,7 +52191,7 @@ function B2bFormComponent_button_31_Template(rf, ctx) {
 }
 function B2bFormComponent_div_32_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "div", 19);
+    \u0275\u0275element(0, "div", 20);
   }
 }
 var B2bFormComponent = class _B2bFormComponent {
@@ -52208,6 +52208,7 @@ var B2bFormComponent = class _B2bFormComponent {
   isExtendedForm = false;
   showYourMessage = false;
   downloadMessage = "Let's Talk";
+  isHorizontalForm = false;
   form;
   loading = false;
   showSubmitButton = true;
@@ -52454,7 +52455,7 @@ var B2bFormComponent = class _B2bFormComponent {
         return ctx.onResize();
       }, false, \u0275\u0275resolveWindow);
     }
-  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"] }, decls: 33, vars: 19, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], [1, "one-grid-container"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "4", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
+  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"], isHorizontalForm: [0, "ishorizontalform", "isHorizontalForm"] }, decls: 33, vars: 21, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], [3, "ngClass"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], [1, "one-grid-container"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "4", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function B2bFormComponent_Template_form_ngSubmit_0_listener() {
@@ -52474,55 +52475,62 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275element(12, "input", 7);
       \u0275\u0275elementStart(13, "span", 4);
       \u0275\u0275text(14, " Job Title is required ");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(15, "div", 6)(16, "fieldset", 2);
-      \u0275\u0275element(17, "input", 8);
-      \u0275\u0275elementStart(18, "span", 4);
-      \u0275\u0275text(19, " Company Name is required ");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(20, "div", 6)(21, "fieldset", 2);
-      \u0275\u0275element(22, "input", 9);
-      \u0275\u0275elementStart(23, "span", 4);
-      \u0275\u0275template(24, B2bFormComponent_span_24_Template, 2, 0, "span", 10)(25, B2bFormComponent_span_25_Template, 2, 0, "span", 10)(26, B2bFormComponent_span_26_Template, 2, 0, "span", 10);
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(27, B2bFormComponent_fieldset_27_Template, 5, 4, "fieldset", 11)(28, B2bFormComponent_fieldset_28_Template, 4, 2, "fieldset", 11);
+      \u0275\u0275elementStart(15, "fieldset", 2);
+      \u0275\u0275element(16, "input", 8);
+      \u0275\u0275elementStart(17, "span", 4);
+      \u0275\u0275text(18, " Company Name is required ");
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(19, "div", 6)(20, "fieldset", 2);
+      \u0275\u0275element(21, "input", 9);
+      \u0275\u0275elementStart(22, "span", 4);
+      \u0275\u0275template(23, B2bFormComponent_span_23_Template, 2, 0, "span", 10)(24, B2bFormComponent_span_24_Template, 2, 0, "span", 10)(25, B2bFormComponent_span_25_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275template(26, B2bFormComponent_fieldset_26_Template, 5, 4, "fieldset", 11);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(27, "div", 12);
+      \u0275\u0275template(28, B2bFormComponent_fieldset_28_Template, 4, 2, "fieldset", 11);
       \u0275\u0275elementEnd();
       \u0275\u0275template(29, B2bFormComponent_ng_container_29_Template, 4, 2, "ng-container", 10);
-      \u0275\u0275elementStart(30, "div", 12);
-      \u0275\u0275template(31, B2bFormComponent_button_31_Template, 2, 2, "button", 13);
+      \u0275\u0275elementStart(30, "div", 13);
+      \u0275\u0275template(31, B2bFormComponent_button_31_Template, 2, 2, "button", 14);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(32, B2bFormComponent_div_32_Template, 1, 0, "div", 14);
+      \u0275\u0275template(32, B2bFormComponent_div_32_Template, 1, 0, "div", 15);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
       let tmp_1_0;
       let tmp_2_0;
-      let tmp_3_0;
       let tmp_4_0;
       let tmp_5_0;
-      let tmp_6_0;
       let tmp_7_0;
       let tmp_8_0;
+      let tmp_9_0;
+      let tmp_10_0;
       \u0275\u0275property("formGroup", ctx.form);
       \u0275\u0275advance(4);
       \u0275\u0275classProp("visible", ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.touched));
       \u0275\u0275advance(4);
       \u0275\u0275classProp("visible", ((tmp_2_0 = ctx.form.get("lastName")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx.form.get("lastName")) == null ? null : tmp_2_0.touched));
-      \u0275\u0275advance(5);
-      \u0275\u0275classProp("visible", ((tmp_3_0 = ctx.form.get("jobTitle")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx.form.get("jobTitle")) == null ? null : tmp_3_0.touched));
-      \u0275\u0275advance(5);
-      \u0275\u0275classProp("visible", ((tmp_4_0 = ctx.form.get("companyName")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx.form.get("companyName")) == null ? null : tmp_4_0.touched));
-      \u0275\u0275advance(5);
-      \u0275\u0275classProp("visible", ((tmp_5_0 = ctx.form.get("email")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx.form.get("email")) == null ? null : tmp_5_0.touched));
+      \u0275\u0275advance(2);
+      \u0275\u0275property("ngClass", ctx.isHorizontalForm ? "two-grid-container" : "one-grid-container");
+      \u0275\u0275advance(3);
+      \u0275\u0275classProp("visible", ((tmp_4_0 = ctx.form.get("jobTitle")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx.form.get("jobTitle")) == null ? null : tmp_4_0.touched));
+      \u0275\u0275advance(4);
+      \u0275\u0275classProp("visible", ((tmp_5_0 = ctx.form.get("companyName")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx.form.get("companyName")) == null ? null : tmp_5_0.touched));
+      \u0275\u0275advance(2);
+      \u0275\u0275property("ngClass", ctx.isHorizontalForm && ctx.isExtendedForm ? "two-grid-container" : "one-grid-container");
+      \u0275\u0275advance(3);
+      \u0275\u0275classProp("visible", ((tmp_7_0 = ctx.form.get("email")) == null ? null : tmp_7_0.invalid) && ((tmp_7_0 = ctx.form.get("email")) == null ? null : tmp_7_0.touched));
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_6_0 = ctx.form.get("email")) == null ? null : tmp_6_0.errors == null ? null : tmp_6_0.errors["required"]);
+      \u0275\u0275property("ngIf", (tmp_8_0 = ctx.form.get("email")) == null ? null : tmp_8_0.errors == null ? null : tmp_8_0.errors["required"]);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_7_0 = ctx.form.get("email")) == null ? null : tmp_7_0.errors == null ? null : tmp_7_0.errors["invalidEmail"]);
+      \u0275\u0275property("ngIf", (tmp_9_0 = ctx.form.get("email")) == null ? null : tmp_9_0.errors == null ? null : tmp_9_0.errors["invalidEmail"]);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_8_0 = ctx.form.get("email")) == null ? null : tmp_8_0.errors == null ? null : tmp_8_0.errors["businessEmail"]);
+      \u0275\u0275property("ngIf", (tmp_10_0 = ctx.form.get("email")) == null ? null : tmp_10_0.errors == null ? null : tmp_10_0.errors["businessEmail"]);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.isExtendedForm);
-      \u0275\u0275advance();
+      \u0275\u0275advance(2);
       \u0275\u0275property("ngIf", ctx.showYourMessage);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.isExtendedForm);
@@ -52531,10 +52539,1029 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.loading);
     }
-  }, dependencies: [NgIf, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, MinLengthValidator, MaxLengthValidator, FormGroupDirective, FormControlName, RecaptchaComponent, NoWhitespaceDirective], styles: ['\n\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\ntextarea[_ngcontent-%COMP%] {\n  resize: none;\n}\n.b2b-form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n}\n.b2b-error-message[_ngcontent-%COMP%] {\n  color: #F9B200;\n  padding: 4px;\n  text-align: left;\n  line-height: 14px;\n  display: block;\n  margin-bottom: 8px;\n  visibility: hidden;\n}\n.b2b-error-message.visible[_ngcontent-%COMP%] {\n  visibility: visible;\n}\n.form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n  border-color: #FF7014;\n  justify-self: center;\n}\n.form-button-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n}\n.b2b-form-field[_ngcontent-%COMP%]::placeholder {\n  color: #ffffff;\n  opacity: 0.4;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n@media screen and (max-width: 900px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  cursor: pointer;\n  background-color: #EBF1F4;\n  border-radius: 10px;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: #00183C;\n  color: #fff;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n  margin-left: 0;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}'] });
+  }, dependencies: [NgClass, NgIf, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, MinLengthValidator, MaxLengthValidator, FormGroupDirective, FormControlName, RecaptchaComponent, NoWhitespaceDirective], styles: ['\n\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\ntextarea[_ngcontent-%COMP%] {\n  resize: none;\n}\n.b2b-form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n}\n.b2b-error-message[_ngcontent-%COMP%] {\n  color: #F9B200;\n  padding: 4px;\n  text-align: left;\n  line-height: 14px;\n  display: block;\n  margin-bottom: 8px;\n  visibility: hidden;\n}\n.b2b-error-message.visible[_ngcontent-%COMP%] {\n  visibility: visible;\n}\n.form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n  border-color: #FF7014;\n  justify-self: center;\n}\n.form-button-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n}\n.b2b-form-field[_ngcontent-%COMP%]::placeholder {\n  color: #ffffff;\n  opacity: 0.4;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n@media screen and (max-width: 900px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  cursor: pointer;\n  background-color: #EBF1F4;\n  border-radius: 10px;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: #00183C;\n  color: #fff;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n  margin-left: 0;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(B2bFormComponent, { className: "B2bFormComponent" });
+})();
+
+// src/app/dsar-form/dsar-form.component.ts
+function DsarFormComponent_span_22_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter Legal first name. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_span_29_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter Legal last name. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_span_37_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter other name. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_span_54_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter state. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_option_68_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "option", 26);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const country_r1 = ctx.$implicit;
+    \u0275\u0275property("value", country_r1.value);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", country_r1.label, " ");
+  }
+}
+function DsarFormComponent_span_69_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please select a Country. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_span_77_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter a valid email address. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_span_84_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter a valid Phone Number. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_option_92_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "option", 26);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const relationship_r2 = ctx.$implicit;
+    \u0275\u0275property("value", relationship_r2.value);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", relationship_r2.label, " ");
+  }
+}
+function DsarFormComponent_span_93_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please Select Relationship With Revature. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_div_94_span_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter specify name. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_div_94_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 13)(1, "fieldset", 6)(2, "legend", 66);
+    \u0275\u0275text(3, " Please specify");
+    \u0275\u0275elementStart(4, "span", 8);
+    \u0275\u0275text(5, "*");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275element(6, "textarea", 67);
+    \u0275\u0275template(7, DsarFormComponent_div_94_span_7_Template, 2, 0, "span", 10);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    let tmp_1_0;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275advance(7);
+    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r2.form.get("relationshipWithRevatureOther")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r2.form.get("relationshipWithRevatureOther")) == null ? null : tmp_1_0.touched));
+  }
+}
+function DsarFormComponent_span_110_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please select an option ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_p_111_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p");
+    \u0275\u0275text(1, " If you stated Yes, please identify your information below: ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_section_112_span_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter first name. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_section_112_span_15_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter last name. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_section_112_span_32_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter state. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_section_112_option_46_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "option", 26);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const country_r4 = ctx.$implicit;
+    \u0275\u0275property("value", country_r4.value);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", country_r4.label, " ");
+  }
+}
+function DsarFormComponent_section_112_span_47_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please select a Country. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_section_112_span_55_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter Email Address. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_section_112_span_62_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter Phone Number. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_section_112_option_68_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "option", 26);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const relationship_r5 = ctx.$implicit;
+    \u0275\u0275property("value", relationship_r5.value);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", relationship_r5.label, " ");
+  }
+}
+function DsarFormComponent_section_112_div_69_span_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r2 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ctx_r2.relationshipDetailsHelpText, " ");
+  }
+}
+function DsarFormComponent_section_112_div_69_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 13)(1, "fieldset", 6)(2, "legend", 88);
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(4, "textarea", 89);
+    \u0275\u0275template(5, DsarFormComponent_section_112_div_69_span_5_Template, 2, 1, "span", 10);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    let tmp_3_0;
+    const ctx_r2 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1(" ", ctx_r2.relationshipDetailsLabel, " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r2.form.get("relationshipToDataSubjectDetails")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r2.form.get("relationshipToDataSubjectDetails")) == null ? null : tmp_3_0.touched));
+  }
+}
+function DsarFormComponent_section_112_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "section", 3)(1, "div", 5)(2, "fieldset", 6)(3, "legend", 68);
+    \u0275\u0275text(4, " First Name");
+    \u0275\u0275elementStart(5, "span", 8);
+    \u0275\u0275text(6, "*");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275element(7, "input", 69);
+    \u0275\u0275template(8, DsarFormComponent_section_112_span_8_Template, 2, 0, "span", 10);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "fieldset", 6)(10, "legend", 70);
+    \u0275\u0275text(11, " Last Name");
+    \u0275\u0275elementStart(12, "span", 8);
+    \u0275\u0275text(13, "*");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275element(14, "input", 71);
+    \u0275\u0275template(15, DsarFormComponent_section_112_span_15_Template, 2, 0, "span", 10);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(16, "div", 13)(17, "fieldset", 6)(18, "legend", 72);
+    \u0275\u0275text(19, " Current Street Address ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(20, "input", 73);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(21, "div", 5)(22, "fieldset", 6)(23, "legend", 74);
+    \u0275\u0275text(24, "Current City");
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(25, "input", 75);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(26, "fieldset", 6)(27, "legend", 76);
+    \u0275\u0275text(28, " Current State");
+    \u0275\u0275elementStart(29, "span", 8);
+    \u0275\u0275text(30, "*");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275element(31, "input", 77);
+    \u0275\u0275template(32, DsarFormComponent_section_112_span_32_Template, 2, 0, "span", 10);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(33, "div", 5)(34, "fieldset", 6)(35, "legend", 78);
+    \u0275\u0275text(36, "Post Code");
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(37, "input", 79);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(38, "fieldset", 6)(39, "legend", 80);
+    \u0275\u0275text(40, " Country");
+    \u0275\u0275elementStart(41, "span", 8);
+    \u0275\u0275text(42, "*");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(43, "select", 81)(44, "option", 26);
+    \u0275\u0275text(45, "--None--");
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(46, DsarFormComponent_section_112_option_46_Template, 2, 2, "option", 27);
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(47, DsarFormComponent_section_112_span_47_Template, 2, 0, "span", 10);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(48, "div", 5)(49, "fieldset", 6)(50, "legend", 82);
+    \u0275\u0275text(51, " Email Address");
+    \u0275\u0275elementStart(52, "span", 8);
+    \u0275\u0275text(53, "*");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275element(54, "input", 83);
+    \u0275\u0275template(55, DsarFormComponent_section_112_span_55_Template, 2, 0, "span", 10);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(56, "fieldset", 6)(57, "legend", 84);
+    \u0275\u0275text(58, " Phone Number");
+    \u0275\u0275elementStart(59, "span", 8);
+    \u0275\u0275text(60, "*");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275element(61, "input", 85);
+    \u0275\u0275template(62, DsarFormComponent_section_112_span_62_Template, 2, 0, "span", 10);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(63, "div", 13)(64, "fieldset", 6)(65, "legend", 86);
+    \u0275\u0275text(66, " Relationship to Data Subject (Person whose data you are contacting us about) ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(67, "select", 87);
+    \u0275\u0275template(68, DsarFormComponent_section_112_option_68_Template, 2, 2, "option", 27);
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275template(69, DsarFormComponent_section_112_div_69_Template, 6, 2, "div", 34);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    let tmp_1_0;
+    let tmp_2_0;
+    let tmp_3_0;
+    let tmp_6_0;
+    let tmp_7_0;
+    let tmp_8_0;
+    const ctx_r2 = \u0275\u0275nextContext();
+    \u0275\u0275advance(8);
+    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r2.form.get("onBehalfFirstName")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r2.form.get("onBehalfFirstName")) == null ? null : tmp_1_0.touched));
+    \u0275\u0275advance(7);
+    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r2.form.get("onBehalfLastName")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r2.form.get("onBehalfLastName")) == null ? null : tmp_2_0.touched));
+    \u0275\u0275advance(17);
+    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r2.form.get("onBehalfState")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r2.form.get("onBehalfState")) == null ? null : tmp_3_0.touched));
+    \u0275\u0275advance(12);
+    \u0275\u0275property("value", "");
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngForOf", ctx_r2.countries);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ((tmp_6_0 = ctx_r2.form.get("onBehalfCountry")) == null ? null : tmp_6_0.invalid) && ((tmp_6_0 = ctx_r2.form.get("onBehalfCountry")) == null ? null : tmp_6_0.touched));
+    \u0275\u0275advance(8);
+    \u0275\u0275property("ngIf", ((tmp_7_0 = ctx_r2.form.get("onBehalfEmail")) == null ? null : tmp_7_0.invalid) && ((tmp_7_0 = ctx_r2.form.get("onBehalfEmail")) == null ? null : tmp_7_0.touched));
+    \u0275\u0275advance(7);
+    \u0275\u0275property("ngIf", ((tmp_8_0 = ctx_r2.form.get("onBehalfPhone")) == null ? null : tmp_8_0.invalid) && ((tmp_8_0 = ctx_r2.form.get("onBehalfPhone")) == null ? null : tmp_8_0.touched));
+    \u0275\u0275advance(6);
+    \u0275\u0275property("ngForOf", ctx_r2.relationshipToDataSubject);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ctx_r2.showRelationshipDetails);
+  }
+}
+function DsarFormComponent_option_123_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "option", 26);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const type_r6 = ctx.$implicit;
+    \u0275\u0275property("value", type_r6.value);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", type_r6.label, " ");
+  }
+}
+function DsarFormComponent_span_124_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter Type of request. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_span_163_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter full name. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_span_170_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please enter date. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_span_179_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please select Consent Checkbox. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_span_182_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 65);
+    \u0275\u0275text(1, " Please complete the reCAPTCHA. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_button_184_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "button", 90);
+    \u0275\u0275text(1, " Submit ");
+    \u0275\u0275elementEnd();
+  }
+}
+function DsarFormComponent_div_185_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 91);
+    \u0275\u0275element(1, "div", 92);
+    \u0275\u0275elementStart(2, "span");
+    \u0275\u0275text(3, "Submitting...");
+    \u0275\u0275elementEnd()();
+  }
+}
+var DsarFormComponent = class _DsarFormComponent {
+  constructor(fb, http, sharedService) {
+    this.fb = fb;
+    this.http = http;
+    this.sharedService = sharedService;
+    this.initForm();
+  }
+  form;
+  loading = false;
+  showSubmitButton = true;
+  countries = [
+    { value: "United States", label: "United States" },
+    { value: "Canada", label: "Canada" },
+    { value: "United Kingdom", label: "United Kingdom" },
+    { value: "India", label: "India" },
+    { value: "Other", label: "Other" }
+  ];
+  relationshipWithRevature = [
+    { value: "", label: "--None--" },
+    { value: "Associate or Software Engineer", label: "Associate or Software Engineer" },
+    { value: "Subscriber or On Mailing List", label: "Subscriber or On Mailing List" },
+    { value: "Other", label: "Other" }
+  ];
+  relationshipToDataSubject = [
+    { value: "", label: "--None--" },
+    { value: "Attorney", label: "Attorney" },
+    { value: "Third-Party Service", label: "Third-Party Service" },
+    { value: "Other", label: "Other" }
+  ];
+  requestTypes = [
+    { value: "", label: "--None--" },
+    { value: "Consent withdrawal", label: "Consent withdrawal" },
+    { value: "Access request", label: "Access request" },
+    { value: "Rectification of personal data", label: "Rectification of personal data" },
+    { value: "Erasure of personal data", label: "Erasure of personal data" },
+    { value: "Restriction of processing of personal data", label: "Restriction of processing of personal data" },
+    { value: "Personal data portability request", label: "Personal data portability request" },
+    { value: "Objection to the processing of personal data", label: "Objection to the processing of personal data" }
+  ];
+  showOtherRelationshipField = false;
+  showBehalfFields = false;
+  showRelationshipDetails = false;
+  relationshipDetailsLabel = "";
+  relationshipDetailsHelpText = "";
+  initForm() {
+    this.form = this.fb.group({
+      // Data Subject Details
+      legalFirstName: ["", [Validators.required]],
+      legalLastName: ["", [Validators.required]],
+      otherNames: ["", [Validators.required]],
+      streetAddress: [""],
+      city: [""],
+      state: ["", [Validators.required]],
+      postCode: [""],
+      country: ["", [Validators.required]],
+      email: ["", [Validators.required, this.validateEmail]],
+      phone: ["", [Validators.required, this.validatePhone.bind(this)]],
+      relationshipWithRevature: ["", [Validators.required]],
+      relationshipWithRevatureOther: [""],
+      // On behalf fields
+      isRequestingOnBehalf: [false],
+      // Data Subject Details when requesting on behalf
+      onBehalfFirstName: [""],
+      onBehalfLastName: [""],
+      onBehalfStreetAddress: [""],
+      onBehalfCity: [""],
+      onBehalfState: [""],
+      onBehalfPostCode: [""],
+      onBehalfCountry: [""],
+      onBehalfEmail: [""],
+      onBehalfPhone: [""],
+      relationshipToDataSubject: [""],
+      relationshipToDataSubjectDetails: [""],
+      // Request details
+      requestType: ["", [Validators.required]],
+      requestDetails: [""],
+      requestReason: [""],
+      // Declaration
+      fullName: ["", [Validators.required]],
+      date: ["", [Validators.required]],
+      iConsent: [false, [Validators.requiredTrue]],
+      // reCAPTCHA
+      validCaptacha: [""]
+    });
+    this.form.get("phone")?.valueChanges.subscribe((value) => {
+      this.formatPhoneNumber(value);
+    });
+    this.form.get("onBehalfPhone")?.valueChanges.subscribe((value) => {
+      this.formatOnBehalfPhoneNumber(value);
+    });
+    this.form.get("relationshipWithRevature")?.valueChanges.subscribe((value) => {
+      this.handleRelationshipWithRevatureChange(value);
+    });
+    this.form.get("isRequestingOnBehalf")?.valueChanges.subscribe((value) => {
+      this.handleOnBehalfChange(value);
+    });
+    this.form.get("relationshipToDataSubject")?.valueChanges.subscribe((value) => {
+      this.handleRelationshipToDataSubjectChange(value);
+    });
+  }
+  handleRelationshipWithRevatureChange(value) {
+    this.showOtherRelationshipField = value === "Other";
+    if (this.showOtherRelationshipField) {
+      this.form.get("relationshipWithRevatureOther")?.setValidators([Validators.required]);
+    } else {
+      this.form.get("relationshipWithRevatureOther")?.clearValidators();
+      this.form.get("relationshipWithRevatureOther")?.setValue("");
+    }
+    this.form.get("relationshipWithRevatureOther")?.updateValueAndValidity();
+  }
+  handleOnBehalfChange(value) {
+    this.showBehalfFields = value;
+    const behalfControls = [
+      "onBehalfFirstName",
+      "onBehalfLastName",
+      "onBehalfState",
+      "onBehalfCountry",
+      "onBehalfEmail",
+      "onBehalfPhone"
+    ];
+    if (this.showBehalfFields) {
+      behalfControls.forEach((control) => {
+        this.form.get(control)?.setValidators([Validators.required]);
+        this.form.get(control)?.updateValueAndValidity();
+      });
+    } else {
+      behalfControls.forEach((control) => {
+        this.form.get(control)?.clearValidators();
+        this.form.get(control)?.setValue("");
+        this.form.get(control)?.updateValueAndValidity();
+      });
+      this.form.get("relationshipToDataSubject")?.setValue("");
+      this.form.get("relationshipToDataSubjectDetails")?.setValue("");
+      this.showRelationshipDetails = false;
+    }
+  }
+  handleRelationshipToDataSubjectChange(value) {
+    this.showRelationshipDetails = value === "Third-Party Service" || value === "Other";
+    if (value === "Third-Party Service") {
+      this.relationshipDetailsLabel = "Company Name*";
+      this.relationshipDetailsHelpText = "Please enter Company name.";
+      this.form.get("relationshipToDataSubjectDetails")?.setValidators([Validators.required]);
+    } else if (value === "Other") {
+      this.relationshipDetailsLabel = "Please specify*";
+      this.relationshipDetailsHelpText = "Please enter specify name.";
+      this.form.get("relationshipToDataSubjectDetails")?.setValidators([Validators.required]);
+    } else {
+      this.form.get("relationshipToDataSubjectDetails")?.clearValidators();
+      this.form.get("relationshipToDataSubjectDetails")?.setValue("");
+    }
+    this.form.get("relationshipToDataSubjectDetails")?.updateValueAndValidity();
+  }
+  validateEmail(control) {
+    if (control.value === null || control.value === "") {
+      return null;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]+$/;
+    return emailPattern.test(control.value) ? null : { invalidEmail: true };
+  }
+  validatePhone(control) {
+    const phone = control.value?.replace(/\D/g, "");
+    if (!phone) {
+      return null;
+    }
+    const phoneRegExp = /^\d{6,14}$/;
+    return phoneRegExp.test(phone) ? null : { invalidPhone: true };
+  }
+  formatPhoneNumber(phone) {
+    const phoneControl = this.form.get("phone");
+    if (!phoneControl)
+      return;
+    let formattedPhone = phone.replace(/\D/g, "");
+    phoneControl.setValue(formattedPhone, { emitEvent: false });
+  }
+  formatOnBehalfPhoneNumber(phone) {
+    const phoneControl = this.form.get("onBehalfPhone");
+    if (!phoneControl)
+      return;
+    let formattedPhone = phone.replace(/\D/g, "");
+    phoneControl.setValue(formattedPhone, { emitEvent: false });
+  }
+  recaptchaSuccessCallback(response) {
+    this.form.get("validCaptacha")?.setValue(response ? true : false);
+  }
+  onSubmit() {
+    return __async(this, null, function* () {
+      if (this.sharedService.hasSuspiciousContent(this.form.value)) {
+        return;
+      }
+      if (this.form.invalid) {
+        this.form.markAllAsTouched();
+        if (!this.form.get("validCaptacha")?.value) {
+          this.form.get("validCaptacha")?.setValue(false);
+        }
+        return;
+      }
+      if (!this.form.get("validCaptacha")?.value) {
+        this.form.get("validCaptacha")?.setValue(false);
+        return;
+      }
+      this.loading = true;
+      this.showSubmitButton = false;
+      const formData = this.prepareFormData();
+      yield this.submitForm(formData);
+    });
+  }
+  prepareFormData() {
+    let formDataObject = __spreadValues({}, this.form.value);
+    const queryParams = this.getQueryParams();
+    const standardizedQuery = this.standardizeQueryParams(queryParams);
+    formDataObject = __spreadProps(__spreadValues({
+      url: window?.location?.href.split("#")[0] || "",
+      ApplicationDevice__c: window.innerWidth < 640 ? "Mobile" : "Desktop",
+      irClickId: standardizedQuery?.irclickid || "",
+      searchEngine: standardizedQuery?.searchengine || "",
+      searchString: standardizedQuery?.srstring || "",
+      payPerClickKeyword: standardizedQuery?.keyword || "",
+      gCLID: standardizedQuery?.gclid || "",
+      uTMTerm: standardizedQuery?.utm_term || "",
+      uTMCampaign: standardizedQuery.utm_campaign || "",
+      uTMContent: standardizedQuery.utm_content || "",
+      uTMMedium: standardizedQuery.utm_medium || "",
+      uTMSource: standardizedQuery.utm_source || "",
+      uTMSchoolID: standardizedQuery.utm_schoolid || "",
+      referrerURL: document.referrer || "Direct",
+      uTMReferrerName: standardizedQuery.utm_referrername || "",
+      campaignvalue: standardizedQuery.campaignvalue || "",
+      appcastClickID: "",
+      sourcedBy: standardizedQuery.sourcedby || "",
+      referredByEmail: standardizedQuery.referredByEmail || "",
+      referredBy: standardizedQuery.ra || "",
+      referredByUser: standardizedQuery.ru || "",
+      leadDate: (/* @__PURE__ */ new Date()).toISOString()
+    }, formDataObject), {
+      leadType: "DSAR"
+    });
+    const salesforceMapping = {
+      legalFirstName: "00N3g000000YxE7",
+      legalLastName: "00N3g000000YxE8",
+      otherNames: "00N7A000008eY11",
+      streetAddress: "00N3g000000YxEM",
+      city: "00N3g000000YxDz",
+      state: "00N3g000000YxEK",
+      postCode: "00N3g000000YxEP",
+      country: "00N3g000000YxE2",
+      email: "00N0d0000031Q43",
+      phone: "00N3g000000YxE9",
+      relationshipWithRevature: "00N3g000000YxEF",
+      relationshipWithRevatureOther: "00N3g000000YxEE",
+      isRequestingOnBehalf: "00N3g000000YxEH",
+      onBehalfFirstName: "00N3g000000YxE5",
+      onBehalfLastName: "00N3g000000YxE6",
+      onBehalfStreetAddress: "00N3g000000YxEL",
+      onBehalfCity: "00N3g000000YxDy",
+      onBehalfState: "00N3g000000YxEJ",
+      onBehalfPostCode: "00N3g000000YxEO",
+      onBehalfCountry: "00N3g000000YxE1",
+      onBehalfEmail: "EmailOther__c",
+      onBehalfPhone: "00N3g000000YxEB",
+      relationshipToDataSubject: "00N3g000000YxED",
+      relationshipToDataSubjectDetails: "00N3g000000YxEC",
+      requestType: "00N3g000000YxEN",
+      requestDetails: "00N3g000000YxEG",
+      requestReason: "00N3g000000YxEI",
+      iConsent: "00N3g000000YxE0"
+    };
+    for (const [formField, sfField] of Object.entries(salesforceMapping)) {
+      formDataObject[sfField] = formDataObject[formField];
+    }
+    formDataObject["00N3g000000YxEH"] = formDataObject.isRequestingOnBehalf ? "1" : "0";
+    formDataObject["00N3g000000YxE0"] = formDataObject.iConsent ? "1" : "0";
+    delete formDataObject["g-recaptcha-response"];
+    return formDataObject;
+  }
+  submitForm(formDataObject) {
+    return __async(this, null, function* () {
+      const apiUrl = ENV_VAR.FORM_API_ENDPOINT;
+      const queryString = this.createQueryString(formDataObject);
+      const apiUrlWithParams = apiUrl + "?" + queryString;
+      try {
+        const response = yield this.http.get(apiUrlWithParams).toPromise();
+        if (response?.status === "ok") {
+          console.log("Form data submitted successfully");
+          this.navigateToThankYouPage(formDataObject.legalFirstName);
+        } else {
+          console.error("Error submitting form data");
+          alert("Error submitting form data. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error submitting form data:", error);
+        alert("Error submitting form data. Please try again.");
+      } finally {
+        this.loading = false;
+        this.showSubmitButton = true;
+      }
+    });
+  }
+  navigateToThankYouPage(firstName) {
+    window.location.href = `/thank-you?name=${btoa(firstName)}`;
+  }
+  getQueryParams() {
+    return new URLSearchParams(window.location.search);
+  }
+  standardizeQueryParams(queryParams) {
+    const standardizedQueryParams = {};
+    for (const [key, value] of queryParams.entries()) {
+      const lowerKey = key.toLowerCase();
+      standardizedQueryParams[lowerKey] = value;
+    }
+    return standardizedQueryParams;
+  }
+  createQueryString(data) {
+    return Object.keys(data).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key] || "")}`).join("&");
+  }
+  onResize() {
+    this.resizeCaptcha();
+  }
+  ngAfterViewInit() {
+    this.resizeCaptcha();
+  }
+  resizeCaptcha() {
+    const width = window.innerWidth;
+    const recaptchaContainer = document.querySelector(".g-recaptcha");
+    if (recaptchaContainer) {
+      if (width < 400) {
+        const scale = width / 400;
+        const transformOrigin = "left top";
+        recaptchaContainer.style.transform = `scale(${scale})`;
+        recaptchaContainer.style.transformOrigin = transformOrigin;
+      } else {
+        recaptchaContainer.style.transform = "scale(1)";
+      }
+    }
+  }
+  static \u0275fac = function DsarFormComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _DsarFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(SharedService));
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _DsarFormComponent, selectors: [["app-dsar-form"]], hostBindings: function DsarFormComponent_HostBindings(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275listener("resize", function DsarFormComponent_resize_HostBindingHandler() {
+        return ctx.onResize();
+      }, false, \u0275\u0275resolveWindow);
+    }
+  }, decls: 186, vars: 26, consts: [["id", "pre-text"], [1, "dsar-title"], ["novalidate", "", 3, "ngSubmit", "formGroup"], [1, "form-section"], [1, "form-label"], [1, "two-grid-container"], [1, "form-fieldset"], ["for", "legalFirstName", 1, "form-label"], [1, "required"], ["type", "text", "id", "legalFirstName", "formControlName", "legalFirstName", 1, "form-field"], ["class", "b2c-error-message", 4, "ngIf"], ["for", "legalLastName", 1, "form-label"], ["type", "text", "id", "legalLastName", "formControlName", "legalLastName", 1, "form-field"], [1, "one-grid-container"], ["for", "otherNames", 1, "form-label"], ["type", "text", "id", "otherNames", "formControlName", "otherNames", 1, "form-field"], ["for", "streetAddress", 1, "form-label"], ["type", "text", "id", "streetAddress", "formControlName", "streetAddress", 1, "form-field"], ["for", "city", 1, "form-label"], ["type", "text", "id", "city", "formControlName", "city", 1, "form-field"], ["for", "state", 1, "form-label"], ["type", "text", "id", "state", "formControlName", "state", 1, "form-field"], ["for", "postCode", 1, "form-label"], ["type", "text", "id", "postCode", "formControlName", "postCode", 1, "form-field"], ["for", "country", 1, "form-label"], ["id", "country", "formControlName", "country", 1, "form-field"], [3, "value"], [3, "value", 4, "ngFor", "ngForOf"], ["for", "email", 1, "form-label"], ["type", "email", "id", "email", "formControlName", "email", 1, "form-field"], ["for", "phone", 1, "form-label"], ["type", "tel", "id", "phone", "formControlName", "phone", 1, "form-field"], ["for", "relationshipWithRevature", 1, "form-label"], ["id", "relationshipWithRevature", "formControlName", "relationshipWithRevature", 1, "form-field"], ["class", "one-grid-container", 4, "ngIf"], [1, "custom-radio"], ["type", "radio", "formControlName", "isRequestingOnBehalf", "id", "isRequestingOnBehalf", 3, "value"], ["for", "isRequestingOnBehalf"], ["type", "radio", "formControlName", "isRequestingOnBehalf", "id", "notRequestingOnBehalf", 3, "value"], ["for", "notRequestingOnBehalf"], [4, "ngIf"], ["class", "form-section", 4, "ngIf"], ["for", "requestType", 1, "form-label"], [1, "type-reqset"], ["id", "requestType", "formControlName", "requestType", 1, "form-field"], ["for", "requestDetails", 1, "form-label"], ["id", "requestDetails", "formControlName", "requestDetails", "rows", "5", 1, "form-field"], ["for", "requestReason", 1, "form-label"], ["id", "requestReason", "formControlName", "requestReason", "rows", "5", 1, "form-field"], [1, "custom-checkbox"], ["type", "checkbox", "id", "declaration1", "checked", "", "disabled", ""], ["for", "declaration1"], ["type", "checkbox", "id", "declaration2", "checked", "", "disabled", ""], ["for", "declaration2"], ["for", "fullName", 1, "form-label"], ["type", "text", "id", "fullName", "formControlName", "fullName", 1, "form-field"], ["for", "date", 1, "form-label"], ["type", "date", "id", "date", "formControlName", "date", 1, "form-field"], ["type", "checkbox", "id", "iConsent", "formControlName", "iConsent"], ["for", "iConsent"], [1, "recaptcha-container"], ["formControlName", "validCaptacha", 3, "resolved"], [1, "submit-container"], ["type", "submit", "class", "b2b-form-button", 4, "ngIf"], ["class", "loading-indicator", 4, "ngIf"], [1, "b2c-error-message"], ["for", "relationshipWithRevatureOther", 1, "form-label"], ["id", "relationshipWithRevatureOther", "formControlName", "relationshipWithRevatureOther", "rows", "3", 1, "form-field"], ["for", "onBehalfFirstName", 1, "form-label"], ["type", "text", "id", "onBehalfFirstName", "formControlName", "onBehalfFirstName", 1, "form-field"], ["for", "onBehalfLastName", 1, "form-label"], ["type", "text", "id", "onBehalfLastName", "formControlName", "onBehalfLastName", 1, "form-field"], ["for", "onBehalfStreetAddress", 1, "form-label"], ["type", "text", "id", "onBehalfStreetAddress", "formControlName", "onBehalfStreetAddress", 1, "form-field"], ["for", "onBehalfCity", 1, "form-label"], ["type", "text", "id", "onBehalfCity", "formControlName", "onBehalfCity", 1, "form-field"], ["for", "onBehalfState", 1, "form-label"], ["type", "text", "id", "onBehalfState", "formControlName", "onBehalfState", 1, "form-field"], ["for", "onBehalfPostCode", 1, "form-label"], ["type", "text", "id", "onBehalfPostCode", "formControlName", "onBehalfPostCode", 1, "form-field"], ["for", "onBehalfCountry", 1, "form-label"], ["id", "onBehalfCountry", "formControlName", "onBehalfCountry", 1, "form-field"], ["for", "onBehalfEmail", 1, "form-label"], ["type", "email", "id", "onBehalfEmail", "formControlName", "onBehalfEmail", 1, "form-field"], ["for", "onBehalfPhone", 1, "form-label"], ["type", "tel", "id", "onBehalfPhone", "formControlName", "onBehalfPhone", 1, "form-field"], ["for", "relationshipToDataSubject", 1, "form-label"], ["id", "relationshipToDataSubject", "formControlName", "relationshipToDataSubject", 1, "form-field"], ["for", "relationshipToDataSubjectDetails", 1, "form-label"], ["id", "relationshipToDataSubjectDetails", "formControlName", "relationshipToDataSubjectDetails", "rows", "3", 1, "form-field"], ["type", "submit", 1, "b2b-form-button"], [1, "loading-indicator"], [1, "spinner"]], template: function DsarFormComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "div")(1, "section", 0)(2, "div")(3, "h2", 1);
+      \u0275\u0275text(4, "Data Subject Access Request");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(5, "p");
+      \u0275\u0275text(6, " Under applicable data privacy laws, you may have the right to request access to and receive, rectify and erase personal data Revature may hold about you, as well as opt-out of the sale of such personal data, opt-out of sharing of such personal data for cross-context behavioral advertising purposes, restrict the processing of such personal data, object to the processing of such data and withdraw consent where you have provided us with your consent for the processing of such personal data. ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(7, "p");
+      \u0275\u0275text(8, "Please use the below form to request to exercise such rights.");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(9, "p");
+      \u0275\u0275text(10, " If you need additional instruction or have questions, please see FAQ below the form for further details. ");
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(11, "form", 2);
+      \u0275\u0275listener("ngSubmit", function DsarFormComponent_Template_form_ngSubmit_11_listener() {
+        return ctx.onSubmit();
+      });
+      \u0275\u0275elementStart(12, "section", 3)(13, "legend", 4);
+      \u0275\u0275text(14, 'Requester ("Data Subject") Details:');
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(15, "div", 5)(16, "fieldset", 6)(17, "legend", 7);
+      \u0275\u0275text(18, " Legal First Name");
+      \u0275\u0275elementStart(19, "span", 8);
+      \u0275\u0275text(20, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(21, "input", 9);
+      \u0275\u0275template(22, DsarFormComponent_span_22_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(23, "fieldset", 6)(24, "legend", 11);
+      \u0275\u0275text(25, " Legal Last Name");
+      \u0275\u0275elementStart(26, "span", 8);
+      \u0275\u0275text(27, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(28, "input", 12);
+      \u0275\u0275template(29, DsarFormComponent_span_29_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(30, "div", 13)(31, "fieldset", 6)(32, "legend", 14);
+      \u0275\u0275text(33, " Former, Preferred, and/or Other Names Used at Revature");
+      \u0275\u0275elementStart(34, "span", 8);
+      \u0275\u0275text(35, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(36, "input", 15);
+      \u0275\u0275template(37, DsarFormComponent_span_37_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(38, "div", 13)(39, "fieldset", 6)(40, "legend", 16);
+      \u0275\u0275text(41, " Current Street Address ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(42, "input", 17);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(43, "div", 5)(44, "fieldset", 6)(45, "legend", 18);
+      \u0275\u0275text(46, "Current City");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(47, "input", 19);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(48, "fieldset", 6)(49, "legend", 20);
+      \u0275\u0275text(50, " Current State");
+      \u0275\u0275elementStart(51, "span", 8);
+      \u0275\u0275text(52, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(53, "input", 21);
+      \u0275\u0275template(54, DsarFormComponent_span_54_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(55, "div", 5)(56, "fieldset", 6)(57, "legend", 22);
+      \u0275\u0275text(58, "Post Code");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(59, "input", 23);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(60, "fieldset", 6)(61, "legend", 24);
+      \u0275\u0275text(62, " Country");
+      \u0275\u0275elementStart(63, "span", 8);
+      \u0275\u0275text(64, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(65, "select", 25)(66, "option", 26);
+      \u0275\u0275text(67, "--None--");
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(68, DsarFormComponent_option_68_Template, 2, 2, "option", 27);
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(69, DsarFormComponent_span_69_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(70, "div", 5)(71, "fieldset", 6)(72, "legend", 28);
+      \u0275\u0275text(73, " Email Address");
+      \u0275\u0275elementStart(74, "span", 8);
+      \u0275\u0275text(75, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(76, "input", 29);
+      \u0275\u0275template(77, DsarFormComponent_span_77_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(78, "fieldset", 6)(79, "legend", 30);
+      \u0275\u0275text(80, " Phone Number");
+      \u0275\u0275elementStart(81, "span", 8);
+      \u0275\u0275text(82, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(83, "input", 31);
+      \u0275\u0275template(84, DsarFormComponent_span_84_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(85, "div", 13)(86, "fieldset", 6)(87, "legend", 32);
+      \u0275\u0275text(88, " Relationship With Revature");
+      \u0275\u0275elementStart(89, "span", 8);
+      \u0275\u0275text(90, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(91, "select", 33);
+      \u0275\u0275template(92, DsarFormComponent_option_92_Template, 2, 2, "option", 27);
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(93, DsarFormComponent_span_93_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275template(94, DsarFormComponent_div_94_Template, 8, 1, "div", 34);
+      \u0275\u0275elementStart(95, "div", 13)(96, "fieldset", 6)(97, "legend", 4);
+      \u0275\u0275text(98, " Are you making a request on BEHALF of another individual?");
+      \u0275\u0275elementStart(99, "span", 8);
+      \u0275\u0275text(100, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(101, "div", 5)(102, "div", 35);
+      \u0275\u0275element(103, "input", 36);
+      \u0275\u0275elementStart(104, "label", 37);
+      \u0275\u0275text(105, "Yes");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(106, "div", 35);
+      \u0275\u0275element(107, "input", 38);
+      \u0275\u0275elementStart(108, "label", 39);
+      \u0275\u0275text(109, "No");
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275template(110, DsarFormComponent_span_110_Template, 2, 0, "span", 10)(111, DsarFormComponent_p_111_Template, 2, 0, "p", 40);
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275template(112, DsarFormComponent_section_112_Template, 70, 10, "section", 41);
+      \u0275\u0275elementStart(113, "section", 3)(114, "div", 13)(115, "fieldset", 6)(116, "legend", 42);
+      \u0275\u0275text(117, " Type of Request");
+      \u0275\u0275elementStart(118, "span", 8);
+      \u0275\u0275text(119, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(120, "p", 43);
+      \u0275\u0275text(121, " PLEASE SELECT TYPE OF REQUEST YOU ARE MAKING ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(122, "select", 44);
+      \u0275\u0275template(123, DsarFormComponent_option_123_Template, 2, 2, "option", 27);
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(124, DsarFormComponent_span_124_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(125, "div", 13)(126, "fieldset", 6)(127, "legend", 45);
+      \u0275\u0275text(128, " Request Details (Please describe the personal data you are contacting us about) ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(129, "p");
+      \u0275\u0275text(130, " To help us process your request quickly and efficiently, please provide as much detail as possible (e.g., copies of emails between <date> and <date>). If we do not receive sufficient information to locate the data you require, we may be unable to comply with your request. ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(131, "textarea", 46);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(132, "div", 13)(133, "fieldset", 6)(134, "legend", 47);
+      \u0275\u0275text(135, " Request Reason/Justification: ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(136, "p");
+      \u0275\u0275text(137, " Please provide additional details relating to your request (e.g., the reason for withdrawing consent, requesting erasure of personal data, or objecting to processing of personal data), as applicable. ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(138, "textarea", 48);
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(139, "section", 3)(140, "div", 13)(141, "fieldset", 6)(142, "legend", 4);
+      \u0275\u0275text(143, "DECLARATION");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(144, "p");
+      \u0275\u0275text(145, " I confirm that I have read and understand the terms of this subject access request form and certify that information given in this request to Revature LLC, and its related affiliate entities, (Revature) is true. I understand that it is necessary for Revature to confirm my identity as the data subject and it may be necessary to obtain more detailed information in order to locate the correct personal data. ");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(146, "div", 49);
+      \u0275\u0275element(147, "input", 50);
+      \u0275\u0275elementStart(148, "label", 51);
+      \u0275\u0275text(149, "I represent that the information in this request is accurate and that I am authorized to submit this request.");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(150, "div", 49);
+      \u0275\u0275element(151, "input", 52);
+      \u0275\u0275elementStart(152, "label", 53);
+      \u0275\u0275text(153, "I understand that Revature will not be able to process my request if the form is not properly filled out or if the request is incomplete.");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(154, "p");
+      \u0275\u0275text(155, " When sending your request via email or post, please provide your printed name, date, and signature below: ");
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(156, "div", 5)(157, "fieldset", 6)(158, "legend", 54);
+      \u0275\u0275text(159, " Full Name");
+      \u0275\u0275elementStart(160, "span", 8);
+      \u0275\u0275text(161, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(162, "input", 55);
+      \u0275\u0275template(163, DsarFormComponent_span_163_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(164, "fieldset", 6)(165, "legend", 56);
+      \u0275\u0275text(166, " Date");
+      \u0275\u0275elementStart(167, "span", 8);
+      \u0275\u0275text(168, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275element(169, "input", 57);
+      \u0275\u0275template(170, DsarFormComponent_span_170_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(171, "div", 13)(172, "fieldset", 6)(173, "div", 49);
+      \u0275\u0275element(174, "input", 58);
+      \u0275\u0275elementStart(175, "label", 59);
+      \u0275\u0275text(176, "I Consent");
+      \u0275\u0275elementStart(177, "span", 8);
+      \u0275\u0275text(178, "*");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275template(179, DsarFormComponent_span_179_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275elementStart(180, "div", 60)(181, "re-captcha", 61);
+      \u0275\u0275listener("resolved", function DsarFormComponent_Template_re_captcha_resolved_181_listener($event) {
+        return ctx.recaptchaSuccessCallback($event);
+      });
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(182, DsarFormComponent_span_182_Template, 2, 0, "span", 10);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(183, "div", 62);
+      \u0275\u0275template(184, DsarFormComponent_button_184_Template, 2, 0, "button", 63)(185, DsarFormComponent_div_185_Template, 4, 0, "div", 64);
+      \u0275\u0275elementEnd()()()();
+    }
+    if (rf & 2) {
+      let tmp_1_0;
+      let tmp_2_0;
+      let tmp_3_0;
+      let tmp_4_0;
+      let tmp_7_0;
+      let tmp_8_0;
+      let tmp_9_0;
+      let tmp_11_0;
+      let tmp_15_0;
+      let tmp_16_0;
+      let tmp_19_0;
+      let tmp_20_0;
+      let tmp_21_0;
+      let tmp_22_0;
+      let tmp_23_0;
+      \u0275\u0275advance(11);
+      \u0275\u0275property("formGroup", ctx.form);
+      \u0275\u0275advance(11);
+      \u0275\u0275property("ngIf", ((tmp_1_0 = ctx.form.get("legalFirstName")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx.form.get("legalFirstName")) == null ? null : tmp_1_0.touched));
+      \u0275\u0275advance(7);
+      \u0275\u0275property("ngIf", ((tmp_2_0 = ctx.form.get("legalLastName")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx.form.get("legalLastName")) == null ? null : tmp_2_0.touched));
+      \u0275\u0275advance(8);
+      \u0275\u0275property("ngIf", ((tmp_3_0 = ctx.form.get("otherNames")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx.form.get("otherNames")) == null ? null : tmp_3_0.touched));
+      \u0275\u0275advance(17);
+      \u0275\u0275property("ngIf", ((tmp_4_0 = ctx.form.get("state")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx.form.get("state")) == null ? null : tmp_4_0.touched));
+      \u0275\u0275advance(12);
+      \u0275\u0275property("value", "");
+      \u0275\u0275advance(2);
+      \u0275\u0275property("ngForOf", ctx.countries);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ((tmp_7_0 = ctx.form.get("country")) == null ? null : tmp_7_0.invalid) && ((tmp_7_0 = ctx.form.get("country")) == null ? null : tmp_7_0.touched));
+      \u0275\u0275advance(8);
+      \u0275\u0275property("ngIf", ((tmp_8_0 = ctx.form.get("email")) == null ? null : tmp_8_0.invalid) && ((tmp_8_0 = ctx.form.get("email")) == null ? null : tmp_8_0.touched));
+      \u0275\u0275advance(7);
+      \u0275\u0275property("ngIf", ((tmp_9_0 = ctx.form.get("phone")) == null ? null : tmp_9_0.invalid) && ((tmp_9_0 = ctx.form.get("phone")) == null ? null : tmp_9_0.touched));
+      \u0275\u0275advance(8);
+      \u0275\u0275property("ngForOf", ctx.relationshipWithRevature);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ((tmp_11_0 = ctx.form.get("relationshipWithRevature")) == null ? null : tmp_11_0.invalid) && ((tmp_11_0 = ctx.form.get("relationshipWithRevature")) == null ? null : tmp_11_0.touched));
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.showOtherRelationshipField);
+      \u0275\u0275advance(9);
+      \u0275\u0275property("value", true);
+      \u0275\u0275advance(4);
+      \u0275\u0275property("value", false);
+      \u0275\u0275advance(3);
+      \u0275\u0275property("ngIf", ((tmp_15_0 = ctx.form.get("isRequestingOnBehalf")) == null ? null : tmp_15_0.invalid) && ((tmp_15_0 = ctx.form.get("isRequestingOnBehalf")) == null ? null : tmp_15_0.touched));
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", (tmp_16_0 = ctx.form.get("isRequestingOnBehalf")) == null ? null : tmp_16_0.value);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.showBehalfFields);
+      \u0275\u0275advance(11);
+      \u0275\u0275property("ngForOf", ctx.requestTypes);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ((tmp_19_0 = ctx.form.get("requestType")) == null ? null : tmp_19_0.invalid) && ((tmp_19_0 = ctx.form.get("requestType")) == null ? null : tmp_19_0.touched));
+      \u0275\u0275advance(39);
+      \u0275\u0275property("ngIf", ((tmp_20_0 = ctx.form.get("fullName")) == null ? null : tmp_20_0.invalid) && ((tmp_20_0 = ctx.form.get("fullName")) == null ? null : tmp_20_0.touched));
+      \u0275\u0275advance(7);
+      \u0275\u0275property("ngIf", ((tmp_21_0 = ctx.form.get("date")) == null ? null : tmp_21_0.invalid) && ((tmp_21_0 = ctx.form.get("date")) == null ? null : tmp_21_0.touched));
+      \u0275\u0275advance(9);
+      \u0275\u0275property("ngIf", ((tmp_22_0 = ctx.form.get("iConsent")) == null ? null : tmp_22_0.invalid) && ((tmp_22_0 = ctx.form.get("iConsent")) == null ? null : tmp_22_0.touched));
+      \u0275\u0275advance(3);
+      \u0275\u0275property("ngIf", ((tmp_23_0 = ctx.form.get("validCaptacha")) == null ? null : tmp_23_0.value) === false);
+      \u0275\u0275advance(2);
+      \u0275\u0275property("ngIf", ctx.showSubmitButton);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.loading);
+    }
+  }, dependencies: [NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, RecaptchaComponent], styles: ['\n\n.custom-checkbox[_ngcontent-%COMP%]   input[type=checkbox][_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-checkbox[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 16px;\n  cursor: pointer;\n}\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n  bottom: 0 !important;\n}\n.form-label[_ngcontent-%COMP%] {\n  padding: 8px 0;\n}\n.form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n  height: auto !important;\n}\n.b2c-error-message[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: #F9B200;\n}\n.b2b-form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  border-radius: 36px;\n  border-color: #FF7014;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n@media screen and (max-width: 600px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n    margin-bottom: 10px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  min-height: 50px;\n  text-align: center;\n  line-height: 30px;\n  cursor: pointer;\n  border-radius: 7px;\n  border: 1px solid white;\n  color: white;\n  margin-bottom: 0px;\n  align-content: center;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: white;\n  color: black;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n  height: 40px;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-wrapper[_ngcontent-%COMP%] {\n  position: relative;\n}\ninput[type=file][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-file-upload[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: transparent;\n  color: white;\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n}\n.custom-file-upload[_ngcontent-%COMP%]:hover {\n  background-color: #00183c;\n}\n.custom-file-upload[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-file-upload[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n.custom-button[_ngcontent-%COMP%] {\n  height: 50px;\n  width: 170px;\n  background-color: rgb(255, 207, 0);\n  border: none;\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n  transition: background-color 0.5s;\n  transition: scale 0.5s;\n  transition: color 0.3s;\n  z-index: 1;\n  border-radius: 50px;\n  overflow: hidden;\n  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);\n  font-size: 16px;\n  margin-top: 2.5rem;\n}\noption[_ngcontent-%COMP%] {\n  color: black;\n}\n.custom-button[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: -100%;\n  width: 100%;\n  height: 100%;\n  background-color: rgb(255, 113, 21);\n  transition: left 0.3s;\n  z-index: -1;\n}\n.custom-button[_ngcontent-%COMP%]:hover::before {\n  left: 0;\n}\n.custom-button[_ngcontent-%COMP%]:hover {\n  scale: 1.1;\n  color: white;\n}\n.resume-success[_ngcontent-%COMP%] {\n  color: green;\n}\n.dropbox-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: rgba(0, 123, 255, 0);\n  color: rgb(0, 0, 0);\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n  height: 40px;\n}\n.dropbox-wrapper[_ngcontent-%COMP%]:hover {\n  background-color: #b1b5b9;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}\n.rev-multi-select[_ngcontent-%COMP%] {\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown {\n  background-color: rgba(0, 0, 0, 0.1) !important;\n  border: 1px solid rgba(255, 255, 255, 0.13) !important;\n  border-radius: 8px !important;\n  font-family: inherit !important;\n  width: 100% !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn {\n  background-color: transparent !important;\n  border: none !important;\n  color: #fafafa !important;\n  padding: 12px 24px !important;\n  border-radius: 8px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .dropdown-down {\n  border-top: 5px solid #fafafa !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .dropdown-up {\n  border-bottom: 5px solid #fafafa !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item-container {\n  padding-bottom: 4px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item {\n  background: white !important;\n  border: 1px solid white !important;\n  color: black !important;\n  max-width: none !important;\n  padding: 2px 8px !important;\n  border-radius: 0.5rem !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item a {\n  color: black !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list {\n  background: white !important;\n  border: 1px solid #ccc !important;\n  border-radius: 8px !important;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1) !important;\n  margin-top: 0px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .no-filtered-data h5 {\n  font-size: 16px !important;\n  color: black !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .filter-textbox input {\n  background-color: white !important;\n  border: 1px solid #ccc !important;\n  color: #333 !important;\n  border-radius: 4px !important;\n  padding: 5px 0px 5px 20px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .filter-textbox input::placeholder {\n  color: #999 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list ul li {\n  color: #333 !important;\n  padding: 8px 12px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list ul li:hover {\n  background-color: rgba(175, 173, 173, 0.1) !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1:hover, \n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1.selected {\n  background-color: rgba(175, 173, 173, 0.1) !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1.selected {\n  background-color: rgba(175, 173, 173, 0.2) !important;\n  color: #333 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-item-checkbox input[type=checkbox]:checked + div:before {\n  background: #011635 !important;\n  border: 2px solid #011635 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-item-checkbox input[type=checkbox] + div:before {\n  border: 2px solid #ccc !important;\n}'] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DsarFormComponent, { className: "DsarFormComponent" });
 })();
 
 // src/app/app-routing.module.ts
@@ -52542,7 +53569,8 @@ var routes = [
   { path: "sourcing-form", component: SourcingFormComponent },
   { path: "recruitment-form", component: RecruitmentFormComponent },
   { path: "b2c-form", component: B2cFormComponent },
-  { path: "b2b-form", component: B2bFormComponent }
+  { path: "b2b-form", component: B2bFormComponent },
+  { path: "dsar-form", component: DsarFormComponent }
 ];
 var AppRoutingModule = class _AppRoutingModule {
   static \u0275fac = function AppRoutingModule_Factory(__ngFactoryType__) {
@@ -53128,6 +54156,38 @@ var b2bFormModule = class _b2bFormModule {
   ] });
 };
 
+// src/app/dsar-form.module.ts
+var dsarFormModule = class _dsarFormModule {
+  constructor(injector) {
+    this.injector = injector;
+  }
+  ngDoBootstrap() {
+    const dsarForm = createCustomElement(DsarFormComponent, {
+      injector: this.injector
+    });
+    customElements.define("dsar-form", dsarForm);
+  }
+  static \u0275fac = function dsarFormModule_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _dsarFormModule)(\u0275\u0275inject(Injector));
+  };
+  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({ type: _dsarFormModule });
+  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({ providers: [
+    provideHttpClient(),
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: ENV_VAR.GTM_SITE_KEY
+      }
+    }
+  ], imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    RecaptchaModule,
+    SharedModule
+  ] });
+};
+
 // src/main.ts
 var formName = environment.formName;
 if (formName == "sourcing") {
@@ -53144,6 +54204,10 @@ if (formName == "sourcing") {
   }).catch((err) => console.error(err));
 } else if (formName == "b2b") {
   platformBrowser().bootstrapModule(b2bFormModule, {
+    ngZoneEventCoalescing: true
+  }).catch((err) => console.error(err));
+} else if (formName == "dsar") {
+  platformBrowser().bootstrapModule(dsarFormModule, {
     ngZoneEventCoalescing: true
   }).catch((err) => console.error(err));
 } else {
