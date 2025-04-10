@@ -328,6 +328,72 @@
         </ng-container>
     </div>
 
+    <fieldset class="two-grid-container">
+        <legend class="form-label">Are you a Displaced Federal Worker?</legend>
+        <div class="custom-radio">
+            <input type="radio" formControlName="displacedWorker" value="no" id="noDisplacedWorker">
+            <label for="noDisplacedWorker">No</label>
+        </div>
+        <div class="custom-radio">
+            <input type="radio" formControlName="displacedWorker" value="yes" id="yesDisplacedWorker">
+            <label for="yesDisplacedWorker">Yes</label>
+        </div>
+        <span class="b2c-error-message"
+            *ngIf="form.get('displacedWorker')?.invalid && form.get('displacedWorker')?.touched">
+            Please select an option
+        </span>
+    </fieldset>
+
+    <ng-container *ngIf="form.get('displacedWorker')?.value === 'yes'">
+        <fieldset class="one-grid-container">
+            <legend class="form-label">What Agency Did You Work For?</legend>
+            <input noWhitespace maxlength="40" class="form-field common-field" type="text" formControlName="displacedWorkerAgency" placeholder="Agency name">
+            <span class="b2c-error-message common-error-message"
+                *ngIf="form.get('displacedWorkerAgency')?.invalid && form.get('displacedWorkerAgency')?.touched">
+                Agency name is required
+            </span>
+        </fieldset>
+
+        <fieldset class="one-grid-container">
+            <legend class="form-label">Years of Federal Government Experience</legend>
+            <input noWhitespace class="form-field common-field" type="text" formControlName="federalExperienceYears" placeholder="Number of years" maxlength="4">
+            <span class="b2c-error-message common-error-message"
+                *ngIf="form.get('federalExperienceYears')?.invalid && form.get('federalExperienceYears')?.touched">
+                <span *ngIf="form.get('federalExperienceYears')?.errors?.['required']">
+                    Years of experience is required
+                </span>
+                <span *ngIf="form.get('federalExperienceYears')?.errors?.['pattern']">
+                    Years must be a number
+                </span>
+            </span>
+        </fieldset>
+
+        <fieldset class="two-grid-container">
+            <legend class="form-label">Do you hold a Security Clearance?</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="securityClearance" value="no" id="noSecurityClearance">
+                <label for="noSecurityClearance">No</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="securityClearance" value="yes" id="yesSecurityClearance">
+                <label for="yesSecurityClearance">Yes</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('securityClearance')?.invalid && form.get('securityClearance')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
+
+        <fieldset class="one-grid-container" *ngIf="form.get('securityClearance')?.value === 'yes'">
+            <legend class="form-label">Which Security Clearance do you hold?</legend>
+            <input noWhitespace maxlength="40" class="form-field common-field" type="text" formControlName="securityClearanceType" placeholder="Clearance type">
+            <span class="b2c-error-message common-error-message"
+                *ngIf="form.get('securityClearanceType')?.invalid && form.get('securityClearanceType')?.touched">
+                Clearance type is required
+            </span>
+        </fieldset>
+    </ng-container>
+
     <!-- Current Student -->
     <fieldset id="currentStudentRadioButtons" class="two-grid-container">
         <legend class="form-label">Are You Currently a Student?</legend>

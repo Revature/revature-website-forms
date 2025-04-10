@@ -205,7 +205,7 @@ export class B2cFormComponent implements AfterViewInit {
       '12thGrade': ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in 12th Board exam (in %)
       '10thGrade': ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in 10th Board exam (in %)
 
-      // New India Hiring Fields
+      // India Hiring Fields
       hasCertifications: [''],
       certificationTopics: [[]],
       certificationDetails: [''],
@@ -217,6 +217,13 @@ export class B2cFormComponent implements AfterViewInit {
       gender: [''],
       language: [[]],
       languageOthers: [''],
+
+      // Fields for Displaced Worker
+      displacedWorker: [''],
+      displacedWorkerAgency: [''],
+      federalExperienceYears: [''],
+      securityClearance: [''],
+      securityClearanceType: [''],
     });
 
     this.form.get('phone')?.valueChanges.subscribe((value) => {
@@ -267,6 +274,14 @@ export class B2cFormComponent implements AfterViewInit {
 
     this.form.get('language')?.valueChanges.subscribe((value) => {
       this.handleLanguageChange(value);
+    });
+
+    this.form.get('displacedWorker')?.valueChanges.subscribe((value) => {
+      this.handleDisplacedWorkerChange(value);
+    });
+
+    this.form.get('securityClearance')?.valueChanges.subscribe((value) => {
+      this.handleSecurityClearanceChange(value);
     });
   }
 
@@ -1045,5 +1060,37 @@ export class B2cFormComponent implements AfterViewInit {
 
   get internshipsControls() {
     return (this.form.get('internships') as FormArray).controls;
+  }
+
+  private handleDisplacedWorkerChange(value: string): void {
+    if (value === 'yes') {
+      this.form.get('displacedWorkerAgency')?.setValidators([Validators.required]);
+      this.form.get('federalExperienceYears')?.setValidators([Validators.required, Validators.pattern('^[0-9]+(\.[0-9]+)?$')]);
+      this.form.get('securityClearance')?.setValidators([Validators.required]);
+    } else {
+      this.form.get('displacedWorkerAgency')?.clearValidators();
+      this.form.get('federalExperienceYears')?.clearValidators();
+      this.form.get('securityClearance')?.clearValidators();
+      
+      this.form.get('displacedWorkerAgency')?.setValue('');
+      this.form.get('federalExperienceYears')?.setValue('');
+      this.form.get('securityClearance')?.setValue('');
+      this.form.get('securityClearanceType')?.setValue('');
+    }
+    
+    this.form.get('displacedWorkerAgency')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('federalExperienceYears')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('securityClearance')?.updateValueAndValidity({ emitEvent: false });
+  }
+
+  private handleSecurityClearanceChange(value: string): void {
+    if (value === 'yes') {
+      this.form.get('securityClearanceType')?.setValidators([Validators.required]);
+    } else {
+      this.form.get('securityClearanceType')?.clearValidators();
+      this.form.get('securityClearanceType')?.setValue('');
+    }
+    
+    this.form.get('securityClearanceType')?.updateValueAndValidity({ emitEvent: false });
   }
 }
