@@ -11,6 +11,8 @@
         id="legalFirstName"
         formControlName="legalFirstName"
         placeholder="Legal First Name"
+        maxlength="40"
+        noWhitespace
       />
       <span
         class="b2c-error-message"
@@ -34,6 +36,8 @@
         id="legalLastName"
         formControlName="legalLastName"
         placeholder="Legal Last Name"
+        maxlength="80"
+        noWhitespace
       />
       <span
         class="b2c-error-message"
@@ -62,6 +66,8 @@
         id="otherNames"
         formControlName="otherNames"
         placeholder="Other Names"
+        maxlength="80"
+        noWhitespace
       />
       <span
         class="b2c-error-message"
@@ -86,6 +92,8 @@
         id="streetAddress"
         formControlName="streetAddress"
         placeholder="Street Address"
+        maxlength="100"
+        noWhitespace
       />
     </fieldset>
   </div>
@@ -100,6 +108,8 @@
         id="city"
         formControlName="city"
         placeholder="City"
+        maxlength="40"
+        noWhitespace
       />
     </fieldset>
 
@@ -114,6 +124,8 @@
         id="state"
         formControlName="state"
         placeholder="State"
+        maxlength="40"
+        noWhitespace
       />
       <span
         class="b2c-error-message"
@@ -134,6 +146,8 @@
         id="postCode"
         formControlName="postCode"
         placeholder="Post Code"
+        maxlength="10"
+        noWhitespace
       />
     </fieldset>
 
@@ -169,6 +183,8 @@
         id="email"
         formControlName="email"
         placeholder="Email Address"
+        maxlength="80"
+        noWhitespace
       />
       <span
         class="b2c-error-message"
@@ -189,6 +205,7 @@
         id="phone"
         formControlName="phone"
         placeholder="Phone Number"
+        maxlength="15"
       />
       <span
         class="b2c-error-message"
@@ -312,6 +329,8 @@
           id="onBehalfFirstName"
           formControlName="onBehalfFirstName"
           placeholder="First Name"
+          maxlength="40"
+          noWhitespace
         />
         <span
           class="b2c-error-message"
@@ -335,6 +354,8 @@
           id="onBehalfLastName"
           formControlName="onBehalfLastName"
           placeholder="Last Name"
+          maxlength="80"
+          noWhitespace
         />
         <span
           class="b2c-error-message"
@@ -360,6 +381,8 @@
           id="onBehalfStreetAddress"
           formControlName="onBehalfStreetAddress"
           placeholder="Street Address"
+          maxlength="100"
+          noWhitespace
         />
       </fieldset>
     </div>
@@ -374,6 +397,8 @@
           id="onBehalfCity"
           formControlName="onBehalfCity"
           placeholder="City"
+          maxlength="40"
+          noWhitespace
         />
       </fieldset>
 
@@ -388,6 +413,8 @@
           id="onBehalfState"
           formControlName="onBehalfState"
           placeholder="State"
+          maxlength="40"
+          noWhitespace
         />
         <span
           class="b2c-error-message"
@@ -411,6 +438,8 @@
           id="onBehalfPostCode"
           formControlName="onBehalfPostCode"
           placeholder="Post Code"
+          maxlength="10"
+          noWhitespace
         />
       </fieldset>
 
@@ -453,6 +482,8 @@
           id="onBehalfEmail"
           formControlName="onBehalfEmail"
           placeholder="Email Address"
+          maxlength="80"
+          noWhitespace
         />
         <span
           class="b2c-error-message"
@@ -476,6 +507,7 @@
           id="onBehalfPhone"
           formControlName="onBehalfPhone"
           placeholder="Phone Number"
+          maxlength="15"
         />
         <span
           class="b2c-error-message"
@@ -625,14 +657,14 @@
         </div>
 
         <div class="custom-checkbox">
-          <input type="checkbox" id="declaration1" checked disabled />
+          <input type="checkbox" id="declaration1" />
           <label for="declaration1"
             >I represent that the information in this request is accurate and
             that I am authorized to submit this request.</label
           >
         </div>
         <div class="custom-checkbox">
-          <input type="checkbox" id="declaration2" checked disabled />
+          <input type="checkbox" id="declaration2" />
           <label for="declaration2"
             >I understand that Revature will not be able to process my request
             if the form is not properly filled out or if the request is
@@ -659,6 +691,8 @@
           id="fullName"
           formControlName="fullName"
           placeholder="Full Name"
+          maxlength="80"
+          noWhitespace
         />
         <span
           class="b2c-error-message"
@@ -707,17 +741,9 @@
     </div>
 
     <!-- reCAPTCHA -->
-    <div class="recaptcha-container">
-      <re-captcha
-        formControlName="validCaptacha"
-        (resolved)="recaptchaSuccessCallback($event)"
-      ></re-captcha>
-      <span
-        class="b2c-error-message"
-        *ngIf="form.get('validCaptacha')?.value === false"
-      >
-        Please complete the reCAPTCHA.
-      </span>
+    <re-captcha (resolved)="recaptchaSuccessCallback($event)"></re-captcha>
+    <div *ngIf="form.get('validCaptacha')?.value === false" class="form-error-message">
+        Please complete the reCAPTCHA to proceed.
     </div>
 
     <!-- Submit Button -->

@@ -1,13 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, AfterViewInit, HostListener } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, HostListener, Input } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ENV_VAR } from '../common/form-contants';
 import { SharedService } from '../common/shared.service';
 
 @Component({
   selector: 'app-dsar-form',
   templateUrl: './dsar-form.component.html',
-  styleUrl: './dsar-form.component.scss'
+  styleUrl: './dsar-form.component.scss',
 })
 export class DsarFormComponent implements AfterViewInit {
   form: FormGroup;
@@ -20,20 +25,16 @@ export class DsarFormComponent implements AfterViewInit {
     'Canada',
     'United Kingdom',
     'India',
-    'Other'
+    'Other',
   ];
 
   relationshipWithRevature = [
     'Associate or Software Engineer',
     'Subscriber or On Mailing List',
-    'Other'
+    'Other',
   ];
 
-  relationshipToDataSubject = [
-    'Attorney',
-    'Third-Party Service',
-    'Other'
-  ];
+  relationshipToDataSubject = ['Attorney', 'Third-Party Service', 'Other'];
 
   requestTypes = [
     'Consent withdrawal',
@@ -42,7 +43,7 @@ export class DsarFormComponent implements AfterViewInit {
     'Erasure of personal data',
     'Restriction of processing of personal data',
     'Personal data portability request',
-    'Objection to the processing of personal data'
+    'Objection to the processing of personal data',
   ];
 
   showOtherRelationshipField = false;
@@ -77,7 +78,7 @@ export class DsarFormComponent implements AfterViewInit {
 
       // On behalf fields
       isRequestingOnBehalf: [false],
-      
+
       // Data Subject Details when requesting on behalf
       onBehalfFirstName: [''],
       onBehalfLastName: [''],
@@ -102,7 +103,7 @@ export class DsarFormComponent implements AfterViewInit {
       iConsent: [false, [Validators.requiredTrue]],
 
       // reCAPTCHA
-      validCaptacha: ['']
+      validCaptacha: [''],
     });
 
     // Add dynamic field handling
@@ -114,24 +115,30 @@ export class DsarFormComponent implements AfterViewInit {
       this.formatOnBehalfPhoneNumber(value);
     });
 
-    this.form.get('relationshipWithRevature')?.valueChanges.subscribe((value) => {
-      this.handleRelationshipWithRevatureChange(value);
-    });
+    this.form
+      .get('relationshipWithRevature')
+      ?.valueChanges.subscribe((value) => {
+        this.handleRelationshipWithRevatureChange(value);
+      });
 
     this.form.get('isRequestingOnBehalf')?.valueChanges.subscribe((value) => {
       this.handleOnBehalfChange(value);
     });
 
-    this.form.get('relationshipToDataSubject')?.valueChanges.subscribe((value) => {
-      this.handleRelationshipToDataSubjectChange(value);
-    });
+    this.form
+      .get('relationshipToDataSubject')
+      ?.valueChanges.subscribe((value) => {
+        this.handleRelationshipToDataSubjectChange(value);
+      });
   }
 
   private handleRelationshipWithRevatureChange(value: string): void {
-    this.showOtherRelationshipField = (value === 'Other');
-    
+    this.showOtherRelationshipField = value === 'Other';
+
     if (this.showOtherRelationshipField) {
-      this.form.get('relationshipWithRevatureOther')?.setValidators([Validators.required]);
+      this.form
+        .get('relationshipWithRevatureOther')
+        ?.setValidators([Validators.required]);
     } else {
       this.form.get('relationshipWithRevatureOther')?.clearValidators();
       this.form.get('relationshipWithRevatureOther')?.setValue('');
@@ -141,28 +148,28 @@ export class DsarFormComponent implements AfterViewInit {
 
   private handleOnBehalfChange(value: boolean): void {
     this.showBehalfFields = value;
-    
+
     const behalfControls = [
-      'onBehalfFirstName', 
-      'onBehalfLastName', 
-      'onBehalfState', 
-      'onBehalfCountry', 
-      'onBehalfEmail', 
-      'onBehalfPhone'
+      'onBehalfFirstName',
+      'onBehalfLastName',
+      'onBehalfState',
+      'onBehalfCountry',
+      'onBehalfEmail',
+      'onBehalfPhone',
     ];
-    
+
     if (this.showBehalfFields) {
-      behalfControls.forEach(control => {
+      behalfControls.forEach((control) => {
         this.form.get(control)?.setValidators([Validators.required]);
         this.form.get(control)?.updateValueAndValidity();
       });
     } else {
-      behalfControls.forEach(control => {
+      behalfControls.forEach((control) => {
         this.form.get(control)?.clearValidators();
         this.form.get(control)?.setValue('');
         this.form.get(control)?.updateValueAndValidity();
       });
-      
+
       // Reset relationship fields
       this.form.get('relationshipToDataSubject')?.setValue('');
       this.form.get('relationshipToDataSubjectDetails')?.setValue('');
@@ -171,21 +178,26 @@ export class DsarFormComponent implements AfterViewInit {
   }
 
   private handleRelationshipToDataSubjectChange(value: string): void {
-    this.showRelationshipDetails = (value === 'Third-Party Service' || value === 'Other');
-    
+    this.showRelationshipDetails =
+      value === 'Third-Party Service' || value === 'Other';
+
     if (value === 'Third-Party Service') {
       this.relationshipDetailsLabel = 'Company Name*';
       this.relationshipDetailsHelpText = 'Please enter Company name.';
-      this.form.get('relationshipToDataSubjectDetails')?.setValidators([Validators.required]);
+      this.form
+        .get('relationshipToDataSubjectDetails')
+        ?.setValidators([Validators.required]);
     } else if (value === 'Other') {
       this.relationshipDetailsLabel = 'Please specify*';
       this.relationshipDetailsHelpText = 'Please enter specify name.';
-      this.form.get('relationshipToDataSubjectDetails')?.setValidators([Validators.required]);
+      this.form
+        .get('relationshipToDataSubjectDetails')
+        ?.setValidators([Validators.required]);
     } else {
       this.form.get('relationshipToDataSubjectDetails')?.clearValidators();
       this.form.get('relationshipToDataSubjectDetails')?.setValue('');
     }
-    
+
     this.form.get('relationshipToDataSubjectDetails')?.updateValueAndValidity();
   }
 
@@ -252,36 +264,7 @@ export class DsarFormComponent implements AfterViewInit {
 
   private prepareFormData(): any {
     let formDataObject = { ...this.form.value };
-    const queryParams = this.getQueryParams();
-    const standardizedQuery = this.standardizeQueryParams(queryParams);
-
-    formDataObject = {
-      url: window?.location?.href.split('#')[0] || "",
-      ApplicationDevice__c: window.innerWidth < 640 ? "Mobile" : "Desktop",
-      irClickId: standardizedQuery?.irclickid || "",
-      searchEngine: standardizedQuery?.searchengine || "",
-      searchString: standardizedQuery?.srstring || "",
-      payPerClickKeyword: standardizedQuery?.keyword || "",
-      gCLID: standardizedQuery?.gclid || "",
-      uTMTerm: standardizedQuery?.utm_term || "",
-      uTMCampaign: standardizedQuery.utm_campaign || "",
-      uTMContent: standardizedQuery.utm_content || "",
-      uTMMedium: standardizedQuery.utm_medium || "",
-      uTMSource: standardizedQuery.utm_source || "",
-      uTMSchoolID: standardizedQuery.utm_schoolid || "",
-      referrerURL: document.referrer || "Direct",
-      uTMReferrerName: standardizedQuery.utm_referrername || "",
-      campaignvalue: standardizedQuery.campaignvalue || "",
-      appcastClickID: '',
-      sourcedBy: standardizedQuery.sourcedby || "",
-      referredByEmail: standardizedQuery.referredByEmail || "",
-      referredBy: standardizedQuery.ra || "",
-      referredByUser: standardizedQuery.ru || "",
-      leadDate: new Date().toISOString(),
-      ...formDataObject,
-      leadType: "DSAR"
-    };
-
+    let SFDataObject: any = {};
     // Map form fields to Salesforce fields
     const salesforceMapping = {
       legalFirstName: '00N3g000000YxE7',
@@ -311,30 +294,50 @@ export class DsarFormComponent implements AfterViewInit {
       requestType: '00N3g000000YxEN',
       requestDetails: '00N3g000000YxEG',
       requestReason: '00N3g000000YxEI',
-      iConsent: '00N3g000000YxE0'
+      iConsent: '00N3g000000YxE0',
     };
 
     // Add Salesforce field mappings to form data
     for (const [formField, sfField] of Object.entries(salesforceMapping)) {
-      formDataObject[sfField] = formDataObject[formField];
+      SFDataObject[sfField] = formDataObject[formField];
     }
 
     // Handle checkbox values for Salesforce
-    formDataObject['00N3g000000YxEH'] = formDataObject.isRequestingOnBehalf ? '1' : '0';
+    formDataObject['00N3g000000YxEH'] = formDataObject.isRequestingOnBehalf
+      ? '1'
+      : '0';
     formDataObject['00N3g000000YxE0'] = formDataObject.iConsent ? '1' : '0';
 
-    delete formDataObject["g-recaptcha-response"];
+    delete formDataObject['g-recaptcha-response'];
     return formDataObject;
   }
 
   async submitForm(formDataObject: any): Promise<void> {
-    const apiUrl = ENV_VAR.FORM_API_ENDPOINT;
-    const queryString = this.createQueryString(formDataObject);
-    const apiUrlWithParams = apiUrl + '?' + queryString;
-    
+    const apiUrl =
+      'https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8';
+
     try {
-      const response: any = await this.http.get(apiUrlWithParams).toPromise();
-      if (response?.status === "ok") {
+      const formData = new FormData();
+
+      formData.append('orgid', '00D0P000000Da8T');
+      formData.append('retURL', 'http://Revature.com');
+      formData.append('recordType', '0123g0000001swX');
+      formData.append('external', '1');
+
+      // Add mapped form fields
+      for (const [key, value] of Object.entries(formDataObject)) {
+        if (value !== undefined && value !== null) {
+          formData.append(key, String(value));
+        }
+      }
+
+      // Send POST request
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
         console.log('Form data submitted successfully');
         this.navigateToThankYouPage(formDataObject.legalFirstName);
       } else {
@@ -360,19 +363,22 @@ export class DsarFormComponent implements AfterViewInit {
 
   standardizeQueryParams(queryParams: any): any {
     const standardizedQueryParams: any = {};
-    
+
     // Convert all keys to lowercase for case-insensitive lookup
     for (const [key, value] of queryParams.entries()) {
       const lowerKey = key.toLowerCase();
       standardizedQueryParams[lowerKey] = value;
     }
-    
+
     return standardizedQueryParams;
   }
 
   createQueryString(data: any): string {
     return Object.keys(data)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key] || '')}`)
+      .map(
+        (key) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(data[key] || '')}`
+      )
       .join('&');
   }
 
@@ -388,13 +394,14 @@ export class DsarFormComponent implements AfterViewInit {
   private resizeCaptcha(): void {
     const width = window.innerWidth;
     const recaptchaContainer = document.querySelector('.g-recaptcha');
-    
+
     if (recaptchaContainer) {
       if (width < 400) {
         const scale = width / 400;
         const transformOrigin = 'left top';
         (recaptchaContainer as HTMLElement).style.transform = `scale(${scale})`;
-        (recaptchaContainer as HTMLElement).style.transformOrigin = transformOrigin;
+        (recaptchaContainer as HTMLElement).style.transformOrigin =
+          transformOrigin;
       } else {
         (recaptchaContainer as HTMLElement).style.transform = 'scale(1)';
       }
