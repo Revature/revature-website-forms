@@ -328,7 +328,7 @@
         </ng-container>
     </div>
 
-    <fieldset class="two-grid-container">
+    <fieldset class="two-grid-container" *ngIf="isFederalWorker">
         <legend class="form-label">Are you a Displaced Federal Worker?</legend>
         <div class="custom-radio">
             <input type="radio" formControlName="displacedWorker" value="no" id="noDisplacedWorker">
@@ -344,7 +344,7 @@
         </span>
     </fieldset>
 
-    <ng-container *ngIf="form.get('displacedWorker')?.value === 'yes'">
+    <ng-container *ngIf="isFederalWorker &&form.get('displacedWorker')?.value === 'yes'">
         <fieldset class="one-grid-container">
             <legend class="form-label">What Agency Did You Work For?</legend>
             <input noWhitespace maxlength="40" class="form-field common-field" type="text" formControlName="displacedWorkerAgency" placeholder="Agency name">

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostListener, AfterViewInit } from '@angular/core';
+import { Component, HostListener, AfterViewInit, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ENV_VAR, MAJORS, US_SCHOOLS, MEXICO_STATE_VALUES, MEXICO_SCHOOLS } from '../common/form-contants';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
@@ -13,7 +13,9 @@ declare const Dropbox: any;
   styleUrl: './b2c-form.component.scss'
 })
 
-export class B2cFormComponent implements AfterViewInit {
+export class B2cFormComponent implements AfterViewInit, OnInit {
+  @Input('isfederalworker') public isFederalWorker: boolean = false;
+  
   form: FormGroup;
 
   graduationYears: number[] = [];
@@ -140,6 +142,24 @@ export class B2cFormComponent implements AfterViewInit {
     this.initDropbox();
   }
 
+  ngOnInit() {
+    if (this.isFederalWorker && this.form) {
+      this.form.addControl('displacedWorker', this.fb.control('', Validators.required));
+      this.form.addControl('displacedWorkerAgency', this.fb.control(''));
+      this.form.addControl('federalExperienceYears', this.fb.control(''));
+      this.form.addControl('securityClearance', this.fb.control(''));
+      this.form.addControl('securityClearanceType', this.fb.control(''));
+      
+      this.form.get('displacedWorker')?.valueChanges.subscribe((value) => {
+        this.handleDisplacedWorkerChange(value);
+      });
+
+      this.form.get('securityClearance')?.valueChanges.subscribe((value) => {
+        this.handleSecurityClearanceChange(value);
+      });
+    }
+  }
+
   private initForm(): void {
     this.form = this.fb.group({
       // Full Name
@@ -217,13 +237,6 @@ export class B2cFormComponent implements AfterViewInit {
       gender: [''],
       language: [[]],
       languageOthers: [''],
-
-      // Fields for Displaced Worker
-      displacedWorker: [''],
-      displacedWorkerAgency: [''],
-      federalExperienceYears: [''],
-      securityClearance: [''],
-      securityClearanceType: [''],
     });
 
     this.form.get('phone')?.valueChanges.subscribe((value) => {
@@ -274,14 +287,6 @@ export class B2cFormComponent implements AfterViewInit {
 
     this.form.get('language')?.valueChanges.subscribe((value) => {
       this.handleLanguageChange(value);
-    });
-
-    this.form.get('displacedWorker')?.valueChanges.subscribe((value) => {
-      this.handleDisplacedWorkerChange(value);
-    });
-
-    this.form.get('securityClearance')?.valueChanges.subscribe((value) => {
-      this.handleSecurityClearanceChange(value);
     });
   }
 
