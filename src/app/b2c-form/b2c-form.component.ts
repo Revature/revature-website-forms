@@ -144,6 +144,8 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     if (this.isFederalWorker && this.form) {
+      this.form.get('currentStudent')?.setValue('no');
+
       this.form.addControl('displacedWorker', this.fb.control('', Validators.required));
       this.form.addControl('displacedWorkerAgency', this.fb.control(''));
       this.form.addControl('federalExperienceYears', this.fb.control(''));

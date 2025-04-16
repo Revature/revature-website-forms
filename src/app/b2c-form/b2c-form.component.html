@@ -395,7 +395,7 @@
     </ng-container>
 
     <!-- Current Student -->
-    <fieldset id="currentStudentRadioButtons" class="two-grid-container">
+    <fieldset id="currentStudentRadioButtons" class="two-grid-container" *ngIf="!isFederalWorker">
         <legend class="form-label">Are You Currently a Student?</legend>
         <div class="custom-radio">
             <input type="radio" formControlName="currentStudent" value="no" id="no">
