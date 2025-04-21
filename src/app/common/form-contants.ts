@@ -807,12 +807,14 @@ export const ENV_VAR = isStaging
     FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/3b5603b0-22d1-4884-90ea-f2f4cad233cb/webflowleadtrigger",
     RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
     GTM_SITE_KEY: "6LeaFGMqAAAAAJh6Nnj4lPdL7lkcREg13PcHzInK",
+    URL: "https://revature-dev.webflow.io",
     ENV: "staging",
   }
   : {
     FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/8aa3e26d-f754-4b76-92d4-fd755c4c7c9e/webflowleadtrigger",
     RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
     GTM_SITE_KEY: "6LcSglgqAAAAAHhuq6vBM6MzbjNnheGj-l1lS-lO",
+    URL: "https://revature.com",
     ENV: "production",
   };
 

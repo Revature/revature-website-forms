@@ -329,7 +329,7 @@
     </div>
 
     <fieldset class="two-grid-container" *ngIf="isFederalWorker">
-        <legend class="form-label">Are you a Displaced Federal Worker?</legend>
+        <legend class="form-label">Are You A Displaced Federal or Government Worker?</legend>
         <div class="custom-radio">
             <input type="radio" formControlName="displacedWorker" value="no" id="noDisplacedWorker">
             <label for="noDisplacedWorker">No</label>
@@ -346,7 +346,7 @@
 
     <ng-container *ngIf="isFederalWorker &&form.get('displacedWorker')?.value === 'yes'">
         <fieldset class="one-grid-container">
-            <legend class="form-label">What Agency Did You Work For?</legend>
+            <legend class="form-label">What Agency or Company Did You Work For?</legend>
             <input noWhitespace maxlength="40" class="form-field common-field" type="text" formControlName="displacedWorkerAgency" placeholder="Agency name">
             <span class="b2c-error-message common-error-message"
                 *ngIf="form.get('displacedWorkerAgency')?.invalid && form.get('displacedWorkerAgency')?.touched">
@@ -355,7 +355,7 @@
         </fieldset>
 
         <fieldset class="one-grid-container">
-            <legend class="form-label">Years of Federal Government Experience</legend>
+            <legend class="form-label">Years Of Federal Government Experience</legend>
             <input noWhitespace class="form-field common-field" type="text" formControlName="federalExperienceYears" placeholder="Number of years" maxlength="4">
             <span class="b2c-error-message common-error-message"
                 *ngIf="form.get('federalExperienceYears')?.invalid && form.get('federalExperienceYears')?.touched">
@@ -369,7 +369,7 @@
         </fieldset>
 
         <fieldset class="two-grid-container">
-            <legend class="form-label">Do you hold a Security Clearance?</legend>
+            <legend class="form-label">Do You Hold A Security Clearance?</legend>
             <div class="custom-radio">
                 <input type="radio" formControlName="securityClearance" value="no" id="noSecurityClearance">
                 <label for="noSecurityClearance">No</label>
@@ -385,7 +385,7 @@
         </fieldset>
 
         <fieldset class="one-grid-container" *ngIf="form.get('securityClearance')?.value === 'yes'">
-            <legend class="form-label">Which Security Clearance do you hold?</legend>
+            <legend class="form-label">Which Security Clearance Do You Hold?</legend>
             <input noWhitespace maxlength="40" class="form-field common-field" type="text" formControlName="securityClearanceType" placeholder="Clearance type">
             <span class="b2c-error-message common-error-message"
                 *ngIf="form.get('securityClearanceType')?.invalid && form.get('securityClearanceType')?.touched">

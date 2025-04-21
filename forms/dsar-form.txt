@@ -45188,11 +45188,13 @@ var ENV_VAR = isStaging ? {
   FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/3b5603b0-22d1-4884-90ea-f2f4cad233cb/webflowleadtrigger",
   RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
   GTM_SITE_KEY: "6LeaFGMqAAAAAJh6Nnj4lPdL7lkcREg13PcHzInK",
+  URL: "https://revature-dev.webflow.io",
   ENV: "staging"
 } : {
   FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/8aa3e26d-f754-4b76-92d4-fd755c4c7c9e/webflowleadtrigger",
   RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
   GTM_SITE_KEY: "6LcSglgqAAAAAHhuq6vBM6MzbjNnheGj-l1lS-lO",
+  URL: "https://revature.com",
   ENV: "production"
 };
 
@@ -48955,14 +48957,14 @@ var NgMultiSelectDropDownModule = class _NgMultiSelectDropDownModule {
 // src/app/b2c-form/b2c-form.component.ts
 function B2cFormComponent_span_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " First Name is required ");
     \u0275\u0275elementEnd();
   }
 }
 function B2cFormComponent_span_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Last Name is required ");
     \u0275\u0275elementEnd();
   }
@@ -48983,8 +48985,8 @@ function B2cFormComponent_span_15_span_2_Template(rf, ctx) {
 }
 function B2cFormComponent_span_15_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
-    \u0275\u0275template(1, B2cFormComponent_span_15_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_span_15_span_2_Template, 2, 0, "span", 39);
+    \u0275\u0275elementStart(0, "span", 57);
+    \u0275\u0275template(1, B2cFormComponent_span_15_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_span_15_span_2_Template, 2, 0, "span", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -49013,8 +49015,8 @@ function B2cFormComponent_span_18_span_2_Template(rf, ctx) {
 }
 function B2cFormComponent_span_18_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
-    \u0275\u0275template(1, B2cFormComponent_span_18_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_span_18_span_2_Template, 2, 0, "span", 39);
+    \u0275\u0275elementStart(0, "span", 57);
+    \u0275\u0275template(1, B2cFormComponent_span_18_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_span_18_span_2_Template, 2, 0, "span", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -49029,21 +49031,21 @@ function B2cFormComponent_span_18_Template(rf, ctx) {
 }
 function B2cFormComponent_span_35_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Country is required ");
     \u0275\u0275elementEnd();
   }
 }
 function B2cFormComponent_div_36_ng_container_1_span_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
+    \u0275\u0275elementStart(0, "span", 115);
     \u0275\u0275text(1, " City is required ");
     \u0275\u0275elementEnd();
   }
 }
 function B2cFormComponent_div_36_ng_container_1_span_116_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
+    \u0275\u0275elementStart(0, "span", 115);
     \u0275\u0275text(1, " State is required ");
     \u0275\u0275elementEnd();
   }
@@ -49071,8 +49073,8 @@ function B2cFormComponent_div_36_ng_container_1_span_119_span_3_Template(rf, ctx
 }
 function B2cFormComponent_div_36_ng_container_1_span_119_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
-    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_1_span_119_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_div_36_ng_container_1_span_119_span_2_Template, 2, 0, "span", 39)(3, B2cFormComponent_div_36_ng_container_1_span_119_span_3_Template, 2, 0, "span", 39);
+    \u0275\u0275elementStart(0, "span", 115);
+    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_1_span_119_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_div_36_ng_container_1_span_119_span_2_Template, 2, 0, "span", 19)(3, B2cFormComponent_div_36_ng_container_1_span_119_span_3_Template, 2, 0, "span", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -49094,173 +49096,173 @@ function B2cFormComponent_div_36_ng_container_1_Template(rf, ctx) {
     \u0275\u0275elementStart(1, "span", 9)(2, "fieldset", 3)(3, "legend", 1);
     \u0275\u0275text(4, "Location");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(5, "input", 63);
-    \u0275\u0275template(6, B2cFormComponent_div_36_ng_container_1_span_6_Template, 2, 0, "span", 64);
+    \u0275\u0275element(5, "input", 59);
+    \u0275\u0275template(6, B2cFormComponent_div_36_ng_container_1_span_6_Template, 2, 0, "span", 60);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(7, "div", 2)(8, "fieldset", 3)(9, "select", 65)(10, "option", 11);
+    \u0275\u0275elementStart(7, "div", 2)(8, "fieldset", 3)(9, "select", 61)(10, "option", 11);
     \u0275\u0275text(11, "State");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "option", 66);
+    \u0275\u0275elementStart(12, "option", 62);
     \u0275\u0275text(13, "AL");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "option", 67);
+    \u0275\u0275elementStart(14, "option", 63);
     \u0275\u0275text(15, "AK");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "option", 68);
+    \u0275\u0275elementStart(16, "option", 64);
     \u0275\u0275text(17, "AZ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "option", 69);
+    \u0275\u0275elementStart(18, "option", 65);
     \u0275\u0275text(19, "AR");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "option", 70);
+    \u0275\u0275elementStart(20, "option", 66);
     \u0275\u0275text(21, "CA");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "option", 71);
+    \u0275\u0275elementStart(22, "option", 67);
     \u0275\u0275text(23, "CO");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "option", 72);
+    \u0275\u0275elementStart(24, "option", 68);
     \u0275\u0275text(25, "CT");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "option", 73);
+    \u0275\u0275elementStart(26, "option", 69);
     \u0275\u0275text(27, "DE");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "option", 74);
+    \u0275\u0275elementStart(28, "option", 70);
     \u0275\u0275text(29, "DC");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "option", 75);
+    \u0275\u0275elementStart(30, "option", 71);
     \u0275\u0275text(31, "FL");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "option", 76);
+    \u0275\u0275elementStart(32, "option", 72);
     \u0275\u0275text(33, "GA");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(34, "option", 77);
+    \u0275\u0275elementStart(34, "option", 73);
     \u0275\u0275text(35, "HI");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(36, "option", 78);
+    \u0275\u0275elementStart(36, "option", 74);
     \u0275\u0275text(37, "ID");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(38, "option", 79);
+    \u0275\u0275elementStart(38, "option", 75);
     \u0275\u0275text(39, "IL");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(40, "option", 80);
+    \u0275\u0275elementStart(40, "option", 76);
     \u0275\u0275text(41, "IN");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(42, "option", 81);
+    \u0275\u0275elementStart(42, "option", 77);
     \u0275\u0275text(43, "IA");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(44, "option", 82);
+    \u0275\u0275elementStart(44, "option", 78);
     \u0275\u0275text(45, "KS");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(46, "option", 83);
+    \u0275\u0275elementStart(46, "option", 79);
     \u0275\u0275text(47, "KY");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(48, "option", 84);
+    \u0275\u0275elementStart(48, "option", 80);
     \u0275\u0275text(49, "LA");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(50, "option", 85);
+    \u0275\u0275elementStart(50, "option", 81);
     \u0275\u0275text(51, "ME");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(52, "option", 86);
+    \u0275\u0275elementStart(52, "option", 82);
     \u0275\u0275text(53, "MD");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(54, "option", 87);
+    \u0275\u0275elementStart(54, "option", 83);
     \u0275\u0275text(55, "MA");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(56, "option", 88);
+    \u0275\u0275elementStart(56, "option", 84);
     \u0275\u0275text(57, "MI");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(58, "option", 89);
+    \u0275\u0275elementStart(58, "option", 85);
     \u0275\u0275text(59, "MN");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(60, "option", 90);
+    \u0275\u0275elementStart(60, "option", 86);
     \u0275\u0275text(61, "MS");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(62, "option", 91);
+    \u0275\u0275elementStart(62, "option", 87);
     \u0275\u0275text(63, "MO");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(64, "option", 92);
+    \u0275\u0275elementStart(64, "option", 88);
     \u0275\u0275text(65, "MT");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(66, "option", 93);
+    \u0275\u0275elementStart(66, "option", 89);
     \u0275\u0275text(67, "NE");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(68, "option", 94);
+    \u0275\u0275elementStart(68, "option", 90);
     \u0275\u0275text(69, "NV");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(70, "option", 95);
+    \u0275\u0275elementStart(70, "option", 91);
     \u0275\u0275text(71, "NH");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(72, "option", 96);
+    \u0275\u0275elementStart(72, "option", 92);
     \u0275\u0275text(73, "NJ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(74, "option", 97);
+    \u0275\u0275elementStart(74, "option", 93);
     \u0275\u0275text(75, "NM");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(76, "option", 98);
+    \u0275\u0275elementStart(76, "option", 94);
     \u0275\u0275text(77, "NY");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(78, "option", 99);
+    \u0275\u0275elementStart(78, "option", 95);
     \u0275\u0275text(79, "NC");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(80, "option", 100);
+    \u0275\u0275elementStart(80, "option", 96);
     \u0275\u0275text(81, "ND");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(82, "option", 101);
+    \u0275\u0275elementStart(82, "option", 97);
     \u0275\u0275text(83, "OH");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(84, "option", 102);
+    \u0275\u0275elementStart(84, "option", 98);
     \u0275\u0275text(85, "OK");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(86, "option", 103);
+    \u0275\u0275elementStart(86, "option", 99);
     \u0275\u0275text(87, "OR");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(88, "option", 104);
+    \u0275\u0275elementStart(88, "option", 100);
     \u0275\u0275text(89, "PA");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(90, "option", 105);
+    \u0275\u0275elementStart(90, "option", 101);
     \u0275\u0275text(91, "PR");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(92, "option", 106);
+    \u0275\u0275elementStart(92, "option", 102);
     \u0275\u0275text(93, "RI");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(94, "option", 107);
+    \u0275\u0275elementStart(94, "option", 103);
     \u0275\u0275text(95, "SC");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(96, "option", 108);
+    \u0275\u0275elementStart(96, "option", 104);
     \u0275\u0275text(97, "SD");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(98, "option", 109);
+    \u0275\u0275elementStart(98, "option", 105);
     \u0275\u0275text(99, "TN");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(100, "option", 110);
+    \u0275\u0275elementStart(100, "option", 106);
     \u0275\u0275text(101, "TX");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(102, "option", 111);
+    \u0275\u0275elementStart(102, "option", 107);
     \u0275\u0275text(103, "UT");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(104, "option", 112);
+    \u0275\u0275elementStart(104, "option", 108);
     \u0275\u0275text(105, "VT");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(106, "option", 113);
+    \u0275\u0275elementStart(106, "option", 109);
     \u0275\u0275text(107, "VA");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(108, "option", 114);
+    \u0275\u0275elementStart(108, "option", 110);
     \u0275\u0275text(109, "WA");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(110, "option", 115);
+    \u0275\u0275elementStart(110, "option", 111);
     \u0275\u0275text(111, "WV");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(112, "option", 116);
+    \u0275\u0275elementStart(112, "option", 112);
     \u0275\u0275text(113, "WI");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(114, "option", 117);
+    \u0275\u0275elementStart(114, "option", 113);
     \u0275\u0275text(115, "WY");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(116, B2cFormComponent_div_36_ng_container_1_span_116_Template, 2, 0, "span", 64);
+    \u0275\u0275template(116, B2cFormComponent_div_36_ng_container_1_span_116_Template, 2, 0, "span", 60);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(117, "fieldset", 3);
-    \u0275\u0275element(118, "input", 118);
-    \u0275\u0275template(119, B2cFormComponent_div_36_ng_container_1_span_119_Template, 4, 3, "span", 64);
+    \u0275\u0275element(118, "input", 114);
+    \u0275\u0275template(119, B2cFormComponent_div_36_ng_container_1_span_119_Template, 4, 3, "span", 60);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementContainerEnd();
   }
@@ -49279,14 +49281,14 @@ function B2cFormComponent_div_36_ng_container_1_Template(rf, ctx) {
 }
 function B2cFormComponent_div_36_ng_container_2_span_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
+    \u0275\u0275elementStart(0, "span", 115);
     \u0275\u0275text(1, " City is required ");
     \u0275\u0275elementEnd();
   }
 }
 function B2cFormComponent_div_36_ng_container_2_option_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 122);
+    \u0275\u0275elementStart(0, "option", 118);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -49299,7 +49301,7 @@ function B2cFormComponent_div_36_ng_container_2_option_12_Template(rf, ctx) {
 }
 function B2cFormComponent_div_36_ng_container_2_span_13_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
+    \u0275\u0275elementStart(0, "span", 115);
     \u0275\u0275text(1, " State is required ");
     \u0275\u0275elementEnd();
   }
@@ -49327,8 +49329,8 @@ function B2cFormComponent_div_36_ng_container_2_span_16_span_3_Template(rf, ctx)
 }
 function B2cFormComponent_div_36_ng_container_2_span_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
-    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_2_span_16_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_div_36_ng_container_2_span_16_span_2_Template, 2, 0, "span", 39)(3, B2cFormComponent_div_36_ng_container_2_span_16_span_3_Template, 2, 0, "span", 39);
+    \u0275\u0275elementStart(0, "span", 115);
+    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_2_span_16_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_div_36_ng_container_2_span_16_span_2_Template, 2, 0, "span", 19)(3, B2cFormComponent_div_36_ng_container_2_span_16_span_3_Template, 2, 0, "span", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -49350,19 +49352,19 @@ function B2cFormComponent_div_36_ng_container_2_Template(rf, ctx) {
     \u0275\u0275elementStart(1, "span", 9)(2, "fieldset", 3)(3, "legend", 1);
     \u0275\u0275text(4, "Location");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(5, "input", 63);
-    \u0275\u0275template(6, B2cFormComponent_div_36_ng_container_2_span_6_Template, 2, 0, "span", 64);
+    \u0275\u0275element(5, "input", 59);
+    \u0275\u0275template(6, B2cFormComponent_div_36_ng_container_2_span_6_Template, 2, 0, "span", 60);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(7, "div", 2)(8, "fieldset", 3)(9, "select", 65)(10, "option", 11);
+    \u0275\u0275elementStart(7, "div", 2)(8, "fieldset", 3)(9, "select", 61)(10, "option", 11);
     \u0275\u0275text(11, "State");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(12, B2cFormComponent_div_36_ng_container_2_option_12_Template, 2, 2, "option", 120);
+    \u0275\u0275template(12, B2cFormComponent_div_36_ng_container_2_option_12_Template, 2, 2, "option", 116);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(13, B2cFormComponent_div_36_ng_container_2_span_13_Template, 2, 0, "span", 64);
+    \u0275\u0275template(13, B2cFormComponent_div_36_ng_container_2_span_13_Template, 2, 0, "span", 60);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(14, "fieldset", 3);
-    \u0275\u0275element(15, "input", 121);
-    \u0275\u0275template(16, B2cFormComponent_div_36_ng_container_2_span_16_Template, 4, 3, "span", 64);
+    \u0275\u0275element(15, "input", 117);
+    \u0275\u0275template(16, B2cFormComponent_div_36_ng_container_2_span_16_Template, 4, 3, "span", 60);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementContainerEnd();
   }
@@ -49383,7 +49385,7 @@ function B2cFormComponent_div_36_ng_container_2_Template(rf, ctx) {
 }
 function B2cFormComponent_div_36_ng_container_3_span_34_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
+    \u0275\u0275elementStart(0, "span", 115);
     \u0275\u0275text(1, " Province is required ");
     \u0275\u0275elementEnd();
   }
@@ -49411,8 +49413,8 @@ function B2cFormComponent_div_36_ng_container_3_span_37_span_3_Template(rf, ctx)
 }
 function B2cFormComponent_div_36_ng_container_3_span_37_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
-    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_3_span_37_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_div_36_ng_container_3_span_37_span_2_Template, 2, 0, "span", 39)(3, B2cFormComponent_div_36_ng_container_3_span_37_span_3_Template, 2, 0, "span", 39);
+    \u0275\u0275elementStart(0, "span", 115);
+    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_3_span_37_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_div_36_ng_container_3_span_37_span_2_Template, 2, 0, "span", 19)(3, B2cFormComponent_div_36_ng_container_3_span_37_span_3_Template, 2, 0, "span", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -49434,53 +49436,53 @@ function B2cFormComponent_div_36_ng_container_3_Template(rf, ctx) {
     \u0275\u0275elementStart(1, "legend", 1);
     \u0275\u0275text(2, "Location");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3)(5, "select", 123)(6, "option", 11);
+    \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3)(5, "select", 119)(6, "option", 11);
     \u0275\u0275text(7, "Province");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "option", 124);
+    \u0275\u0275elementStart(8, "option", 120);
     \u0275\u0275text(9, "Alberta");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "option", 125);
+    \u0275\u0275elementStart(10, "option", 121);
     \u0275\u0275text(11, "British Columbia");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "option", 126);
+    \u0275\u0275elementStart(12, "option", 122);
     \u0275\u0275text(13, "Manitoba");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "option", 127);
+    \u0275\u0275elementStart(14, "option", 123);
     \u0275\u0275text(15, "New Brunswick");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "option", 128);
+    \u0275\u0275elementStart(16, "option", 124);
     \u0275\u0275text(17, "Newfoundland and Labrador");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "option", 129);
+    \u0275\u0275elementStart(18, "option", 125);
     \u0275\u0275text(19, "Northwest Territories");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "option", 130);
+    \u0275\u0275elementStart(20, "option", 126);
     \u0275\u0275text(21, "Nova Scotia");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "option", 131);
+    \u0275\u0275elementStart(22, "option", 127);
     \u0275\u0275text(23, "Nunavut");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "option", 132);
+    \u0275\u0275elementStart(24, "option", 128);
     \u0275\u0275text(25, "Ontario");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "option", 133);
+    \u0275\u0275elementStart(26, "option", 129);
     \u0275\u0275text(27, "Prince Edward Island");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "option", 134);
+    \u0275\u0275elementStart(28, "option", 130);
     \u0275\u0275text(29, "Quebec");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "option", 135);
+    \u0275\u0275elementStart(30, "option", 131);
     \u0275\u0275text(31, "Saskatchewan");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "option", 136);
+    \u0275\u0275elementStart(32, "option", 132);
     \u0275\u0275text(33, "Yukon");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(34, B2cFormComponent_div_36_ng_container_3_span_34_Template, 2, 0, "span", 64);
+    \u0275\u0275template(34, B2cFormComponent_div_36_ng_container_3_span_34_Template, 2, 0, "span", 60);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(35, "fieldset", 3);
-    \u0275\u0275element(36, "input", 137);
-    \u0275\u0275template(37, B2cFormComponent_div_36_ng_container_3_span_37_Template, 4, 3, "span", 64);
+    \u0275\u0275element(36, "input", 133);
+    \u0275\u0275template(37, B2cFormComponent_div_36_ng_container_3_span_37_Template, 4, 3, "span", 60);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementContainerEnd();
   }
@@ -49496,7 +49498,7 @@ function B2cFormComponent_div_36_ng_container_3_Template(rf, ctx) {
 }
 function B2cFormComponent_div_36_ng_container_4_span_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
+    \u0275\u0275elementStart(0, "span", 115);
     \u0275\u0275text(1, " City is required ");
     \u0275\u0275elementEnd();
   }
@@ -49524,8 +49526,8 @@ function B2cFormComponent_div_36_ng_container_4_span_9_span_3_Template(rf, ctx) 
 }
 function B2cFormComponent_div_36_ng_container_4_span_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
-    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_4_span_9_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_div_36_ng_container_4_span_9_span_2_Template, 2, 0, "span", 39)(3, B2cFormComponent_div_36_ng_container_4_span_9_span_3_Template, 2, 0, "span", 39);
+    \u0275\u0275elementStart(0, "span", 115);
+    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_4_span_9_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_div_36_ng_container_4_span_9_span_2_Template, 2, 0, "span", 19)(3, B2cFormComponent_div_36_ng_container_4_span_9_span_3_Template, 2, 0, "span", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -49548,12 +49550,12 @@ function B2cFormComponent_div_36_ng_container_4_Template(rf, ctx) {
     \u0275\u0275text(2, "Location");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3);
-    \u0275\u0275element(5, "input", 138);
-    \u0275\u0275template(6, B2cFormComponent_div_36_ng_container_4_span_6_Template, 2, 0, "span", 64);
+    \u0275\u0275element(5, "input", 134);
+    \u0275\u0275template(6, B2cFormComponent_div_36_ng_container_4_span_6_Template, 2, 0, "span", 60);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(7, "fieldset", 3);
-    \u0275\u0275element(8, "input", 139);
-    \u0275\u0275template(9, B2cFormComponent_div_36_ng_container_4_span_9_Template, 4, 3, "span", 64);
+    \u0275\u0275element(8, "input", 135);
+    \u0275\u0275template(9, B2cFormComponent_div_36_ng_container_4_span_9_Template, 4, 3, "span", 60);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementContainerEnd();
   }
@@ -49569,7 +49571,7 @@ function B2cFormComponent_div_36_ng_container_4_Template(rf, ctx) {
 }
 function B2cFormComponent_div_36_ng_container_5_span_80_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 119);
+    \u0275\u0275elementStart(0, "span", 115);
     \u0275\u0275text(1, " State is required ");
     \u0275\u0275elementEnd();
   }
@@ -49580,118 +49582,118 @@ function B2cFormComponent_div_36_ng_container_5_Template(rf, ctx) {
     \u0275\u0275elementStart(1, "div", 9)(2, "fieldset", 3)(3, "legend", 1);
     \u0275\u0275text(4, "Location");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "select", 65)(6, "option", 11);
+    \u0275\u0275elementStart(5, "select", 61)(6, "option", 11);
     \u0275\u0275text(7, "State");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "option", 140);
+    \u0275\u0275elementStart(8, "option", 136);
     \u0275\u0275text(9, "Andaman and Nicobar Islands");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "option", 141);
+    \u0275\u0275elementStart(10, "option", 137);
     \u0275\u0275text(11, "Andhra Pradesh");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "option", 142);
+    \u0275\u0275elementStart(12, "option", 138);
     \u0275\u0275text(13, "Arunachal Pradesh");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "option", 143);
+    \u0275\u0275elementStart(14, "option", 139);
     \u0275\u0275text(15, "Assam");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "option", 144);
+    \u0275\u0275elementStart(16, "option", 140);
     \u0275\u0275text(17, "Bihar");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "option", 145);
+    \u0275\u0275elementStart(18, "option", 141);
     \u0275\u0275text(19, "Chandigarh");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "option", 146);
+    \u0275\u0275elementStart(20, "option", 142);
     \u0275\u0275text(21, "Chhattisgarh");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "option", 147);
+    \u0275\u0275elementStart(22, "option", 143);
     \u0275\u0275text(23, "Daman and Diu");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "option", 148);
+    \u0275\u0275elementStart(24, "option", 144);
     \u0275\u0275text(25, "Delhi");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "option", 149);
+    \u0275\u0275elementStart(26, "option", 145);
     \u0275\u0275text(27, "Dadra and Nagar Haveli");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "option", 150);
+    \u0275\u0275elementStart(28, "option", 146);
     \u0275\u0275text(29, "Goa");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "option", 151);
+    \u0275\u0275elementStart(30, "option", 147);
     \u0275\u0275text(31, "Gujarat");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "option", 152);
+    \u0275\u0275elementStart(32, "option", 148);
     \u0275\u0275text(33, "Himachal Pradesh");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(34, "option", 153);
+    \u0275\u0275elementStart(34, "option", 149);
     \u0275\u0275text(35, "Haryana");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(36, "option", 154);
+    \u0275\u0275elementStart(36, "option", 150);
     \u0275\u0275text(37, "Jharkhand");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(38, "option", 155);
+    \u0275\u0275elementStart(38, "option", 151);
     \u0275\u0275text(39, "Jammu and Kashmir");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(40, "option", 156);
+    \u0275\u0275elementStart(40, "option", 152);
     \u0275\u0275text(41, "Karnataka");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(42, "option", 157);
+    \u0275\u0275elementStart(42, "option", 153);
     \u0275\u0275text(43, "Kerala");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(44, "option", 158);
+    \u0275\u0275elementStart(44, "option", 154);
     \u0275\u0275text(45, "Lakshadweep");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(46, "option", 159);
+    \u0275\u0275elementStart(46, "option", 155);
     \u0275\u0275text(47, "Maharashtra");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(48, "option", 160);
+    \u0275\u0275elementStart(48, "option", 156);
     \u0275\u0275text(49, "Meghalaya");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(50, "option", 161);
+    \u0275\u0275elementStart(50, "option", 157);
     \u0275\u0275text(51, "Manipur");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(52, "option", 162);
+    \u0275\u0275elementStart(52, "option", 158);
     \u0275\u0275text(53, "Madhya Pradesh");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(54, "option", 163);
+    \u0275\u0275elementStart(54, "option", 159);
     \u0275\u0275text(55, "Mizoram");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(56, "option", 164);
+    \u0275\u0275elementStart(56, "option", 160);
     \u0275\u0275text(57, "Nagaland");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(58, "option", 165);
+    \u0275\u0275elementStart(58, "option", 161);
     \u0275\u0275text(59, "Odisha");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(60, "option", 166);
+    \u0275\u0275elementStart(60, "option", 162);
     \u0275\u0275text(61, "Punjab");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(62, "option", 167);
+    \u0275\u0275elementStart(62, "option", 163);
     \u0275\u0275text(63, "Puducherry");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(64, "option", 168);
+    \u0275\u0275elementStart(64, "option", 164);
     \u0275\u0275text(65, "Rajasthan");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(66, "option", 169);
+    \u0275\u0275elementStart(66, "option", 165);
     \u0275\u0275text(67, "Sikkim");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(68, "option", 170);
+    \u0275\u0275elementStart(68, "option", 166);
     \u0275\u0275text(69, "Tamil Nadu");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(70, "option", 171);
+    \u0275\u0275elementStart(70, "option", 167);
     \u0275\u0275text(71, "Telangana");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(72, "option", 172);
+    \u0275\u0275elementStart(72, "option", 168);
     \u0275\u0275text(73, "Tripura");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(74, "option", 173);
+    \u0275\u0275elementStart(74, "option", 169);
     \u0275\u0275text(75, "Uttar Pradesh");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(76, "option", 174);
+    \u0275\u0275elementStart(76, "option", 170);
     \u0275\u0275text(77, "Uttarakhand");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(78, "option", 175);
+    \u0275\u0275elementStart(78, "option", 171);
     \u0275\u0275text(79, "West Bengal");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(80, B2cFormComponent_div_36_ng_container_5_span_80_Template, 2, 0, "span", 64);
+    \u0275\u0275template(80, B2cFormComponent_div_36_ng_container_5_span_80_Template, 2, 0, "span", 60);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementContainerEnd();
   }
@@ -49704,8 +49706,8 @@ function B2cFormComponent_div_36_ng_container_5_Template(rf, ctx) {
 }
 function B2cFormComponent_div_36_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 62);
-    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_1_Template, 120, 3, "ng-container", 39)(2, B2cFormComponent_div_36_ng_container_2_Template, 17, 4, "ng-container", 39)(3, B2cFormComponent_div_36_ng_container_3_Template, 38, 2, "ng-container", 39)(4, B2cFormComponent_div_36_ng_container_4_Template, 10, 2, "ng-container", 39)(5, B2cFormComponent_div_36_ng_container_5_Template, 81, 1, "ng-container", 39);
+    \u0275\u0275elementStart(0, "div", 58);
+    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_1_Template, 120, 3, "ng-container", 19)(2, B2cFormComponent_div_36_ng_container_2_Template, 17, 4, "ng-container", 19)(3, B2cFormComponent_div_36_ng_container_3_Template, 38, 2, "ng-container", 19)(4, B2cFormComponent_div_36_ng_container_4_Template, 10, 2, "ng-container", 19)(5, B2cFormComponent_div_36_ng_container_5_Template, 81, 1, "ng-container", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -49727,25 +49729,198 @@ function B2cFormComponent_div_36_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_5_0 = ctx_r0.form.get("country")) == null ? null : tmp_5_0.value) === "India");
   }
 }
-function B2cFormComponent_span_48_Template(rf, ctx) {
+function B2cFormComponent_fieldset_37_span_11_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_49_ng_container_1_span_20_Template(rf, ctx) {
+function B2cFormComponent_fieldset_37_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "fieldset", 2)(1, "legend", 1);
+    \u0275\u0275text(2, "Are You A Displaced Federal or Government Worker?");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "div", 22);
+    \u0275\u0275element(4, "input", 172);
+    \u0275\u0275elementStart(5, "label", 173);
+    \u0275\u0275text(6, "No");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(7, "div", 22);
+    \u0275\u0275element(8, "input", 174);
+    \u0275\u0275elementStart(9, "label", 175);
+    \u0275\u0275text(10, "Yes");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275template(11, B2cFormComponent_fieldset_37_span_11_Template, 2, 0, "span", 29);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    let tmp_1_0;
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(11);
+    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("displacedWorker")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("displacedWorker")) == null ? null : tmp_1_0.touched));
+  }
+}
+function B2cFormComponent_ng_container_38_span_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 57);
+    \u0275\u0275text(1, " Agency name is required ");
+    \u0275\u0275elementEnd();
+  }
+}
+function B2cFormComponent_ng_container_38_span_10_span_1_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span");
+    \u0275\u0275text(1, " Years of experience is required ");
+    \u0275\u0275elementEnd();
+  }
+}
+function B2cFormComponent_ng_container_38_span_10_span_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span");
+    \u0275\u0275text(1, " Years must be a number ");
+    \u0275\u0275elementEnd();
+  }
+}
+function B2cFormComponent_ng_container_38_span_10_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 57);
+    \u0275\u0275template(1, B2cFormComponent_ng_container_38_span_10_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_ng_container_38_span_10_span_2_Template, 2, 0, "span", 19);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    let tmp_2_0;
+    let tmp_3_0;
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", (tmp_2_0 = ctx_r0.form.get("federalExperienceYears")) == null ? null : tmp_2_0.errors == null ? null : tmp_2_0.errors["required"]);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("federalExperienceYears")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["pattern"]);
+  }
+}
+function B2cFormComponent_ng_container_38_span_22_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_49_ng_container_1_div_26_div_1_Template(rf, ctx) {
+function B2cFormComponent_ng_container_38_fieldset_23_span_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 57);
+    \u0275\u0275text(1, " Clearance type is required ");
+    \u0275\u0275elementEnd();
+  }
+}
+function B2cFormComponent_ng_container_38_fieldset_23_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "fieldset", 9)(1, "legend", 1);
+    \u0275\u0275text(2, "Which Security Clearance Do You Hold?");
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(3, "input", 183);
+    \u0275\u0275template(4, B2cFormComponent_ng_container_38_fieldset_23_span_4_Template, 2, 0, "span", 5);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    let tmp_2_0;
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(4);
+    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r0.form.get("securityClearanceType")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("securityClearanceType")) == null ? null : tmp_2_0.touched));
+  }
+}
+function B2cFormComponent_ng_container_38_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementContainerStart(0);
+    \u0275\u0275elementStart(1, "fieldset", 9)(2, "legend", 1);
+    \u0275\u0275text(3, "What Agency or Company Did You Work For?");
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(4, "input", 177);
+    \u0275\u0275template(5, B2cFormComponent_ng_container_38_span_5_Template, 2, 0, "span", 5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "fieldset", 9)(7, "legend", 1);
+    \u0275\u0275text(8, "Years Of Federal Government Experience");
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(9, "input", 178);
+    \u0275\u0275template(10, B2cFormComponent_ng_container_38_span_10_Template, 3, 2, "span", 5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "fieldset", 2)(12, "legend", 1);
+    \u0275\u0275text(13, "Do You Hold A Security Clearance?");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(14, "div", 22);
+    \u0275\u0275element(15, "input", 179);
+    \u0275\u0275elementStart(16, "label", 180);
+    \u0275\u0275text(17, "No");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(18, "div", 22);
+    \u0275\u0275element(19, "input", 181);
+    \u0275\u0275elementStart(20, "label", 182);
+    \u0275\u0275text(21, "Yes");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275template(22, B2cFormComponent_ng_container_38_span_22_Template, 2, 0, "span", 29);
+    \u0275\u0275elementEnd();
+    \u0275\u0275template(23, B2cFormComponent_ng_container_38_fieldset_23_Template, 5, 1, "fieldset", 38);
+    \u0275\u0275elementContainerEnd();
+  }
+  if (rf & 2) {
+    let tmp_1_0;
+    let tmp_2_0;
+    let tmp_3_0;
+    let tmp_4_0;
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(5);
+    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("displacedWorkerAgency")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("displacedWorkerAgency")) == null ? null : tmp_1_0.touched));
+    \u0275\u0275advance(5);
+    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r0.form.get("federalExperienceYears")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("federalExperienceYears")) == null ? null : tmp_2_0.touched));
+    \u0275\u0275advance(12);
+    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("securityClearance")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("securityClearance")) == null ? null : tmp_3_0.touched));
+    \u0275\u0275advance();
+    \u0275\u0275property("ngIf", ((tmp_4_0 = ctx_r0.form.get("securityClearance")) == null ? null : tmp_4_0.value) === "yes");
+  }
+}
+function B2cFormComponent_fieldset_39_span_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 176);
+    \u0275\u0275text(1, " Please select an option ");
+    \u0275\u0275elementEnd();
+  }
+}
+function B2cFormComponent_fieldset_39_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "fieldset", 184)(1, "legend", 1);
+    \u0275\u0275text(2, "Are You Currently a Student?");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "div", 22);
+    \u0275\u0275element(4, "input", 185);
+    \u0275\u0275elementStart(5, "label", 186);
+    \u0275\u0275text(6, "No");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(7, "div", 22);
+    \u0275\u0275element(8, "input", 187);
+    \u0275\u0275elementStart(9, "label", 188);
+    \u0275\u0275text(10, "Yes");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275template(11, B2cFormComponent_fieldset_39_span_11_Template, 2, 0, "span", 29);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    let tmp_1_0;
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(11);
+    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_1_0.touched));
+  }
+}
+function B2cFormComponent_div_40_ng_container_1_span_20_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 176);
+    \u0275\u0275text(1, " Please select an option ");
+    \u0275\u0275elementEnd();
+  }
+}
+function B2cFormComponent_div_40_ng_container_1_div_26_div_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 193);
-    \u0275\u0275listener("mousedown", function B2cFormComponent_div_49_ng_container_1_div_26_div_1_Template_div_mousedown_0_listener($event) {
+    \u0275\u0275elementStart(0, "div", 205);
+    \u0275\u0275listener("mousedown", function B2cFormComponent_div_40_ng_container_1_div_26_div_1_Template_div_mousedown_0_listener($event) {
       const major_r5 = \u0275\u0275restoreView(_r4).$implicit;
       const ctx_r0 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r0.selectAutoCompleteValue($event, "major", major_r5));
@@ -49759,10 +49934,10 @@ function B2cFormComponent_div_49_ng_container_1_div_26_div_1_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", major_r5.label, " ");
   }
 }
-function B2cFormComponent_div_49_ng_container_1_div_26_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_1_div_26_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 191);
-    \u0275\u0275template(1, B2cFormComponent_div_49_ng_container_1_div_26_div_1_Template, 2, 1, "div", 192);
+    \u0275\u0275elementStart(0, "div", 203);
+    \u0275\u0275template(1, B2cFormComponent_div_40_ng_container_1_div_26_div_1_Template, 2, 1, "div", 204);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -49771,18 +49946,18 @@ function B2cFormComponent_div_49_ng_container_1_div_26_Template(rf, ctx) {
     \u0275\u0275property("ngForOf", ctx_r0.filteredMajors);
   }
 }
-function B2cFormComponent_div_49_ng_container_1_span_27_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_1_span_27_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 194);
+    \u0275\u0275elementStart(0, "span", 206);
     \u0275\u0275text(1, " Major is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_49_ng_container_1_div_33_div_1_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_1_div_33_div_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 193);
-    \u0275\u0275listener("mousedown", function B2cFormComponent_div_49_ng_container_1_div_33_div_1_Template_div_mousedown_0_listener($event) {
+    \u0275\u0275elementStart(0, "div", 205);
+    \u0275\u0275listener("mousedown", function B2cFormComponent_div_40_ng_container_1_div_33_div_1_Template_div_mousedown_0_listener($event) {
       const school_r7 = \u0275\u0275restoreView(_r6).$implicit;
       const ctx_r0 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r0.selectAutoCompleteValue($event, "school", school_r7));
@@ -49796,10 +49971,10 @@ function B2cFormComponent_div_49_ng_container_1_div_33_div_1_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", school_r7.label, " ");
   }
 }
-function B2cFormComponent_div_49_ng_container_1_div_33_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_1_div_33_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 191);
-    \u0275\u0275template(1, B2cFormComponent_div_49_ng_container_1_div_33_div_1_Template, 2, 1, "div", 192);
+    \u0275\u0275elementStart(0, "div", 203);
+    \u0275\u0275template(1, B2cFormComponent_div_40_ng_container_1_div_33_div_1_Template, 2, 1, "div", 204);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -49808,85 +49983,85 @@ function B2cFormComponent_div_49_ng_container_1_div_33_Template(rf, ctx) {
     \u0275\u0275property("ngForOf", ctx_r0.filteredSchools);
   }
 }
-function B2cFormComponent_div_49_ng_container_1_span_34_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_1_span_34_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 194);
+    \u0275\u0275elementStart(0, "span", 206);
     \u0275\u0275text(1, " School is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_49_ng_container_1_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
     \u0275\u0275elementContainerStart(0);
     \u0275\u0275elementStart(1, "legend", 1);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "fieldset", 2)(4, "div", 19);
-    \u0275\u0275element(5, "input", 178);
-    \u0275\u0275elementStart(6, "label", 179);
+    \u0275\u0275elementStart(3, "fieldset", 2)(4, "div", 22);
+    \u0275\u0275element(5, "input", 190);
+    \u0275\u0275elementStart(6, "label", 191);
     \u0275\u0275text(7);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 19);
-    \u0275\u0275element(9, "input", 180);
-    \u0275\u0275elementStart(10, "label", 181);
+    \u0275\u0275elementStart(8, "div", 22);
+    \u0275\u0275element(9, "input", 192);
+    \u0275\u0275elementStart(10, "label", 193);
     \u0275\u0275text(11);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "div", 19);
-    \u0275\u0275element(13, "input", 182);
-    \u0275\u0275elementStart(14, "label", 183);
+    \u0275\u0275elementStart(12, "div", 22);
+    \u0275\u0275element(13, "input", 194);
+    \u0275\u0275elementStart(14, "label", 195);
     \u0275\u0275text(15);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(16, "div", 19);
-    \u0275\u0275element(17, "input", 184);
-    \u0275\u0275elementStart(18, "label", 185);
+    \u0275\u0275elementStart(16, "div", 22);
+    \u0275\u0275element(17, "input", 196);
+    \u0275\u0275elementStart(18, "label", 197);
     \u0275\u0275text(19);
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(20, B2cFormComponent_div_49_ng_container_1_span_20_Template, 2, 0, "span", 24);
+    \u0275\u0275template(20, B2cFormComponent_div_40_ng_container_1_span_20_Template, 2, 0, "span", 29);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(21, "fieldset", 9)(22, "legend", 1);
     \u0275\u0275text(23, "Major");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "div", 186)(25, "input", 187);
-    \u0275\u0275listener("input", function B2cFormComponent_div_49_ng_container_1_Template_input_input_25_listener($event) {
+    \u0275\u0275elementStart(24, "div", 198)(25, "input", 199);
+    \u0275\u0275listener("input", function B2cFormComponent_div_40_ng_container_1_Template_input_input_25_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.filterMajors($event));
-    })("focus", function B2cFormComponent_div_49_ng_container_1_Template_input_focus_25_listener() {
+    })("focus", function B2cFormComponent_div_40_ng_container_1_Template_input_focus_25_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.focusedControl["major"] = true);
-    })("blur", function B2cFormComponent_div_49_ng_container_1_Template_input_blur_25_listener($event) {
+    })("blur", function B2cFormComponent_div_40_ng_container_1_Template_input_blur_25_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.setFocusedControl($event, "major", false));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275template(26, B2cFormComponent_div_49_ng_container_1_div_26_Template, 2, 1, "div", 188);
+    \u0275\u0275template(26, B2cFormComponent_div_40_ng_container_1_div_26_Template, 2, 1, "div", 200);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(27, B2cFormComponent_div_49_ng_container_1_span_27_Template, 2, 0, "span", 189);
+    \u0275\u0275template(27, B2cFormComponent_div_40_ng_container_1_span_27_Template, 2, 0, "span", 201);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(28, "fieldset", 9)(29, "legend", 1);
     \u0275\u0275text(30, "School");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(31, "div", 186)(32, "input", 190);
-    \u0275\u0275listener("input", function B2cFormComponent_div_49_ng_container_1_Template_input_input_32_listener($event) {
+    \u0275\u0275elementStart(31, "div", 198)(32, "input", 202);
+    \u0275\u0275listener("input", function B2cFormComponent_div_40_ng_container_1_Template_input_input_32_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.filterSchools($event));
-    })("focus", function B2cFormComponent_div_49_ng_container_1_Template_input_focus_32_listener() {
+    })("focus", function B2cFormComponent_div_40_ng_container_1_Template_input_focus_32_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.focusedControl["school"] = true);
-    })("blur", function B2cFormComponent_div_49_ng_container_1_Template_input_blur_32_listener($event) {
+    })("blur", function B2cFormComponent_div_40_ng_container_1_Template_input_blur_32_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r0 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r0.setFocusedControl($event, "school", false));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275template(33, B2cFormComponent_div_49_ng_container_1_div_33_Template, 2, 1, "div", 188);
+    \u0275\u0275template(33, B2cFormComponent_div_40_ng_container_1_div_33_Template, 2, 1, "div", 200);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(34, B2cFormComponent_div_49_ng_container_1_span_34_Template, 2, 0, "span", 189);
+    \u0275\u0275template(34, B2cFormComponent_div_40_ng_container_1_span_34_Template, 2, 0, "span", 201);
     \u0275\u0275elementEnd();
     \u0275\u0275elementContainerEnd();
   }
@@ -49918,45 +50093,45 @@ function B2cFormComponent_div_49_ng_container_1_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_11_0 = ctx_r0.form.get("school")) == null ? null : tmp_11_0.invalid) && ((tmp_11_0 = ctx_r0.form.get("school")) == null ? null : tmp_11_0.touched));
   }
 }
-function B2cFormComponent_div_49_ng_container_2_span_24_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_2_span_24_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_49_ng_container_2_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
     \u0275\u0275elementStart(1, "legend", 1);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "fieldset", 2)(4, "div", 19);
-    \u0275\u0275element(5, "input", 178);
-    \u0275\u0275elementStart(6, "label", 179);
+    \u0275\u0275elementStart(3, "fieldset", 2)(4, "div", 22);
+    \u0275\u0275element(5, "input", 190);
+    \u0275\u0275elementStart(6, "label", 191);
     \u0275\u0275text(7, "High School");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 19);
-    \u0275\u0275element(9, "input", 180);
-    \u0275\u0275elementStart(10, "label", 181);
+    \u0275\u0275elementStart(8, "div", 22);
+    \u0275\u0275element(9, "input", 192);
+    \u0275\u0275elementStart(10, "label", 193);
     \u0275\u0275text(11, "Associate's Degree");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "div", 19);
-    \u0275\u0275element(13, "input", 195);
-    \u0275\u0275elementStart(14, "label", 196);
+    \u0275\u0275elementStart(12, "div", 22);
+    \u0275\u0275element(13, "input", 207);
+    \u0275\u0275elementStart(14, "label", 208);
     \u0275\u0275text(15, "3-Year Bachelor's Degree");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(16, "div", 19);
-    \u0275\u0275element(17, "input", 197);
-    \u0275\u0275elementStart(18, "label", 198);
+    \u0275\u0275elementStart(16, "div", 22);
+    \u0275\u0275element(17, "input", 209);
+    \u0275\u0275elementStart(18, "label", 210);
     \u0275\u0275text(19, "4-Year Bachelor's Degree");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(20, "div", 19);
-    \u0275\u0275element(21, "input", 184);
-    \u0275\u0275elementStart(22, "label", 185);
+    \u0275\u0275elementStart(20, "div", 22);
+    \u0275\u0275element(21, "input", 196);
+    \u0275\u0275elementStart(22, "label", 197);
     \u0275\u0275text(23, "Master's Degree");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(24, B2cFormComponent_div_49_ng_container_2_span_24_Template, 2, 0, "span", 24);
+    \u0275\u0275template(24, B2cFormComponent_div_40_ng_container_2_span_24_Template, 2, 0, "span", 29);
     \u0275\u0275elementEnd();
     \u0275\u0275elementContainerEnd();
   }
@@ -49970,35 +50145,35 @@ function B2cFormComponent_div_49_ng_container_2_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_3_0.touched));
   }
 }
-function B2cFormComponent_div_49_ng_container_3_span_16_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_3_span_16_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_49_ng_container_3_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
     \u0275\u0275elementStart(1, "legend", 1);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "fieldset", 2)(4, "div", 19);
-    \u0275\u0275element(5, "input", 199);
-    \u0275\u0275elementStart(6, "label", 200);
+    \u0275\u0275elementStart(3, "fieldset", 2)(4, "div", 22);
+    \u0275\u0275element(5, "input", 211);
+    \u0275\u0275elementStart(6, "label", 212);
     \u0275\u0275text(7, "Secondary School");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 19);
-    \u0275\u0275element(9, "input", 182);
-    \u0275\u0275elementStart(10, "label", 183);
+    \u0275\u0275elementStart(8, "div", 22);
+    \u0275\u0275element(9, "input", 194);
+    \u0275\u0275elementStart(10, "label", 195);
     \u0275\u0275text(11, "BA/BSc");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "div", 19);
-    \u0275\u0275element(13, "input", 184);
-    \u0275\u0275elementStart(14, "label", 185);
+    \u0275\u0275elementStart(12, "div", 22);
+    \u0275\u0275element(13, "input", 196);
+    \u0275\u0275elementStart(14, "label", 197);
     \u0275\u0275text(15, "MA/MLitt/MSc");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(16, B2cFormComponent_div_49_ng_container_3_span_16_Template, 2, 0, "span", 24);
+    \u0275\u0275template(16, B2cFormComponent_div_40_ng_container_3_span_16_Template, 2, 0, "span", 29);
     \u0275\u0275elementEnd();
     \u0275\u0275elementContainerEnd();
   }
@@ -50012,16 +50187,16 @@ function B2cFormComponent_div_49_ng_container_3_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_3_0.touched));
   }
 }
-function B2cFormComponent_div_49_ng_container_4_span_24_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_4_span_24_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 194);
+    \u0275\u0275elementStart(0, "span", 206);
     \u0275\u0275text(1, " Degree is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_49_ng_container_4_option_29_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_4_option_29_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 122);
+    \u0275\u0275elementStart(0, "option", 118);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -50032,54 +50207,54 @@ function B2cFormComponent_div_49_ng_container_4_option_29_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", branch_r8.label, " ");
   }
 }
-function B2cFormComponent_div_49_ng_container_4_span_30_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_4_span_30_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 194);
+    \u0275\u0275elementStart(0, "span", 206);
     \u0275\u0275text(1, " Branch is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_49_ng_container_4_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
     \u0275\u0275elementStart(1, "legend", 1);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3)(5, "select", 201)(6, "option", 11);
+    \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3)(5, "select", 213)(6, "option", 11);
     \u0275\u0275text(7, "Select an option");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "option", 202);
+    \u0275\u0275elementStart(8, "option", 214);
     \u0275\u0275text(9, "Bachelor of Science");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "option", 203);
+    \u0275\u0275elementStart(10, "option", 215);
     \u0275\u0275text(11, "Bachelor of Engineering");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "option", 204);
+    \u0275\u0275elementStart(12, "option", 216);
     \u0275\u0275text(13, "Bachelor of Technology");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "option", 205);
+    \u0275\u0275elementStart(14, "option", 217);
     \u0275\u0275text(15, "Master of Science");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "option", 206);
+    \u0275\u0275elementStart(16, "option", 218);
     \u0275\u0275text(17, "Master of Engineering");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "option", 207);
+    \u0275\u0275elementStart(18, "option", 219);
     \u0275\u0275text(19, "Master of Technology");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "option", 208);
+    \u0275\u0275elementStart(20, "option", 220);
     \u0275\u0275text(21, "Master of Computer Application");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "option", 209);
+    \u0275\u0275elementStart(22, "option", 221);
     \u0275\u0275text(23, "Other");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(24, B2cFormComponent_div_49_ng_container_4_span_24_Template, 2, 0, "span", 189);
+    \u0275\u0275template(24, B2cFormComponent_div_40_ng_container_4_span_24_Template, 2, 0, "span", 201);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(25, "fieldset", 3)(26, "select", 210)(27, "option", 11);
+    \u0275\u0275elementStart(25, "fieldset", 3)(26, "select", 222)(27, "option", 11);
     \u0275\u0275text(28, "Select an option");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(29, B2cFormComponent_div_49_ng_container_4_option_29_Template, 2, 2, "option", 120);
+    \u0275\u0275template(29, B2cFormComponent_div_40_ng_container_4_option_29_Template, 2, 2, "option", 116);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(30, B2cFormComponent_div_49_ng_container_4_span_30_Template, 2, 0, "span", 189);
+    \u0275\u0275template(30, B2cFormComponent_div_40_ng_container_4_span_30_Template, 2, 0, "span", 201);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementContainerEnd();
   }
@@ -50098,16 +50273,16 @@ function B2cFormComponent_div_49_ng_container_4_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_5_0 = ctx_r0.form.get("branch")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx_r0.form.get("branch")) == null ? null : tmp_5_0.touched));
   }
 }
-function B2cFormComponent_div_49_ng_container_5_span_32_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_5_span_32_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 194);
+    \u0275\u0275elementStart(0, "span", 206);
     \u0275\u0275text(1, " Graduation Month is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_49_ng_container_5_option_37_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_5_option_37_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 122);
+    \u0275\u0275elementStart(0, "option", 118);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -50118,66 +50293,66 @@ function B2cFormComponent_div_49_ng_container_5_option_37_Template(rf, ctx) {
     \u0275\u0275textInterpolate(year_r9);
   }
 }
-function B2cFormComponent_div_49_ng_container_5_span_38_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_5_span_38_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 194);
+    \u0275\u0275elementStart(0, "span", 206);
     \u0275\u0275text(1, " Graduation Year is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_49_ng_container_5_Template(rf, ctx) {
+function B2cFormComponent_div_40_ng_container_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
     \u0275\u0275elementStart(1, "legend", 1);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3)(5, "select", 211)(6, "option", 11);
+    \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3)(5, "select", 223)(6, "option", 11);
     \u0275\u0275text(7, "Select a month");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "option", 212);
+    \u0275\u0275elementStart(8, "option", 224);
     \u0275\u0275text(9, "January");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "option", 213);
+    \u0275\u0275elementStart(10, "option", 225);
     \u0275\u0275text(11, "February");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "option", 214);
+    \u0275\u0275elementStart(12, "option", 226);
     \u0275\u0275text(13, "March");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "option", 215);
+    \u0275\u0275elementStart(14, "option", 227);
     \u0275\u0275text(15, "April");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "option", 216);
+    \u0275\u0275elementStart(16, "option", 228);
     \u0275\u0275text(17, "May");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "option", 217);
+    \u0275\u0275elementStart(18, "option", 229);
     \u0275\u0275text(19, "June");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "option", 218);
+    \u0275\u0275elementStart(20, "option", 230);
     \u0275\u0275text(21, "July");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "option", 219);
+    \u0275\u0275elementStart(22, "option", 231);
     \u0275\u0275text(23, "August");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "option", 220);
+    \u0275\u0275elementStart(24, "option", 232);
     \u0275\u0275text(25, "September");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "option", 221);
+    \u0275\u0275elementStart(26, "option", 233);
     \u0275\u0275text(27, "October");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "option", 222);
+    \u0275\u0275elementStart(28, "option", 234);
     \u0275\u0275text(29, "November");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "option", 223);
+    \u0275\u0275elementStart(30, "option", 235);
     \u0275\u0275text(31, "December");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(32, B2cFormComponent_div_49_ng_container_5_span_32_Template, 2, 0, "span", 189);
+    \u0275\u0275template(32, B2cFormComponent_div_40_ng_container_5_span_32_Template, 2, 0, "span", 201);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(33, "fieldset", 3)(34, "select", 224)(35, "option", 11);
+    \u0275\u0275elementStart(33, "fieldset", 3)(34, "select", 236)(35, "option", 11);
     \u0275\u0275text(36, "Select a year");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(37, B2cFormComponent_div_49_ng_container_5_option_37_Template, 2, 2, "option", 120);
+    \u0275\u0275template(37, B2cFormComponent_div_40_ng_container_5_option_37_Template, 2, 2, "option", 116);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(38, B2cFormComponent_div_49_ng_container_5_span_38_Template, 2, 0, "span", 189);
+    \u0275\u0275template(38, B2cFormComponent_div_40_ng_container_5_span_38_Template, 2, 0, "span", 201);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementContainerEnd();
   }
@@ -50196,10 +50371,10 @@ function B2cFormComponent_div_49_ng_container_5_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_5_0 = ctx_r0.form.get("graduationYear")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx_r0.form.get("graduationYear")) == null ? null : tmp_5_0.touched));
   }
 }
-function B2cFormComponent_div_49_Template(rf, ctx) {
+function B2cFormComponent_div_40_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 177);
-    \u0275\u0275template(1, B2cFormComponent_div_49_ng_container_1_Template, 35, 10, "ng-container", 39)(2, B2cFormComponent_div_49_ng_container_2_Template, 25, 2, "ng-container", 39)(3, B2cFormComponent_div_49_ng_container_3_Template, 17, 2, "ng-container", 39)(4, B2cFormComponent_div_49_ng_container_4_Template, 31, 4, "ng-container", 39)(5, B2cFormComponent_div_49_ng_container_5_Template, 39, 4, "ng-container", 39);
+    \u0275\u0275elementStart(0, "div", 189);
+    \u0275\u0275template(1, B2cFormComponent_div_40_ng_container_1_Template, 35, 10, "ng-container", 19)(2, B2cFormComponent_div_40_ng_container_2_Template, 25, 2, "ng-container", 19)(3, B2cFormComponent_div_40_ng_container_3_Template, 17, 2, "ng-container", 19)(4, B2cFormComponent_div_40_ng_container_4_Template, 31, 4, "ng-container", 19)(5, B2cFormComponent_div_40_ng_container_5_Template, 39, 4, "ng-container", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -50221,43 +50396,43 @@ function B2cFormComponent_div_49_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_5_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_5_0.value) === "yes" || ((tmp_5_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_5_0.value) && ((tmp_5_0 = ctx_r0.form.get("country")) == null ? null : tmp_5_0.value) === "India");
   }
 }
-function B2cFormComponent_span_65_Template(rf, ctx) {
+function B2cFormComponent_span_56_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_span_82_Template(rf, ctx) {
+function B2cFormComponent_span_73_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Experience is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_fieldset_83_span_11_Template(rf, ctx) {
+function B2cFormComponent_fieldset_74_span_11_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_fieldset_83_Template(rf, ctx) {
+function B2cFormComponent_fieldset_74_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "fieldset", 2)(1, "legend", 1);
     \u0275\u0275text(2, "Are you legally authorized to work in the country of the position for which you are applying?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 19);
-    \u0275\u0275element(4, "input", 225);
-    \u0275\u0275elementStart(5, "label", 226);
+    \u0275\u0275elementStart(3, "div", 22);
+    \u0275\u0275element(4, "input", 237);
+    \u0275\u0275elementStart(5, "label", 238);
     \u0275\u0275text(6, "No");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(7, "div", 19);
-    \u0275\u0275element(8, "input", 227);
-    \u0275\u0275elementStart(9, "label", 228);
+    \u0275\u0275elementStart(7, "div", 22);
+    \u0275\u0275element(8, "input", 239);
+    \u0275\u0275elementStart(9, "label", 240);
     \u0275\u0275text(10, "Yes");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(11, B2cFormComponent_fieldset_83_span_11_Template, 2, 0, "span", 24);
+    \u0275\u0275template(11, B2cFormComponent_fieldset_74_span_11_Template, 2, 0, "span", 29);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -50267,30 +50442,30 @@ function B2cFormComponent_fieldset_83_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("workAuthorization")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("workAuthorization")) == null ? null : tmp_1_0.touched));
   }
 }
-function B2cFormComponent_ng_container_84_span_12_Template(rf, ctx) {
+function B2cFormComponent_ng_container_75_span_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_84_Template(rf, ctx) {
+function B2cFormComponent_ng_container_75_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
     \u0275\u0275elementStart(1, "fieldset", 2)(2, "legend", 1);
     \u0275\u0275text(3, "Do you currently, or will you in the future, require sponsorship to continue to work in the this country?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 19);
-    \u0275\u0275element(5, "input", 229);
-    \u0275\u0275elementStart(6, "label", 230);
+    \u0275\u0275elementStart(4, "div", 22);
+    \u0275\u0275element(5, "input", 241);
+    \u0275\u0275elementStart(6, "label", 242);
     \u0275\u0275text(7, "No");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 19);
-    \u0275\u0275element(9, "input", 231);
-    \u0275\u0275elementStart(10, "label", 232);
+    \u0275\u0275elementStart(8, "div", 22);
+    \u0275\u0275element(9, "input", 243);
+    \u0275\u0275elementStart(10, "label", 244);
     \u0275\u0275text(11, "Yes");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(12, B2cFormComponent_ng_container_84_span_12_Template, 2, 0, "span", 24);
+    \u0275\u0275template(12, B2cFormComponent_ng_container_75_span_12_Template, 2, 0, "span", 29);
     \u0275\u0275elementEnd();
     \u0275\u0275elementContainerEnd();
   }
@@ -50301,30 +50476,30 @@ function B2cFormComponent_ng_container_84_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("sponsorship")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("sponsorship")) == null ? null : tmp_1_0.touched));
   }
 }
-function B2cFormComponent_ng_container_85_span_12_Template(rf, ctx) {
+function B2cFormComponent_ng_container_76_span_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_85_Template(rf, ctx) {
+function B2cFormComponent_ng_container_76_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
     \u0275\u0275elementStart(1, "fieldset", 2)(2, "legend", 1);
     \u0275\u0275text(3, "Is your work authorization employer-dependent or dependent upon a family member's current or future sponsorship with another employer?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 19);
-    \u0275\u0275element(5, "input", 233);
-    \u0275\u0275elementStart(6, "label", 234);
+    \u0275\u0275elementStart(4, "div", 22);
+    \u0275\u0275element(5, "input", 245);
+    \u0275\u0275elementStart(6, "label", 246);
     \u0275\u0275text(7, "No");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 19);
-    \u0275\u0275element(9, "input", 235);
-    \u0275\u0275elementStart(10, "label", 236);
+    \u0275\u0275elementStart(8, "div", 22);
+    \u0275\u0275element(9, "input", 247);
+    \u0275\u0275elementStart(10, "label", 248);
     \u0275\u0275text(11, "Yes");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(12, B2cFormComponent_ng_container_85_span_12_Template, 2, 0, "span", 24);
+    \u0275\u0275template(12, B2cFormComponent_ng_container_76_span_12_Template, 2, 0, "span", 29);
     \u0275\u0275elementEnd();
     \u0275\u0275elementContainerEnd();
   }
@@ -50335,24 +50510,24 @@ function B2cFormComponent_ng_container_85_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("futureSponsorship")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("futureSponsorship")) == null ? null : tmp_1_0.touched));
   }
 }
-function B2cFormComponent_ng_container_86_span_6_span_1_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_6_span_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " Degree score is required. ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_span_6_span_2_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_6_span_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " Score must be a number ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_span_6_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 261);
-    \u0275\u0275template(1, B2cFormComponent_ng_container_86_span_6_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_ng_container_86_span_6_span_2_Template, 2, 0, "span", 39);
+    \u0275\u0275elementStart(0, "span", 273);
+    \u0275\u0275template(1, B2cFormComponent_ng_container_77_span_6_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_ng_container_77_span_6_span_2_Template, 2, 0, "span", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -50365,24 +50540,24 @@ function B2cFormComponent_ng_container_86_span_6_Template(rf, ctx) {
     \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("majorGrade")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["pattern"]);
   }
 }
-function B2cFormComponent_ng_container_86_span_11_span_1_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_11_span_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " 12th score is required. ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_span_11_span_2_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_11_span_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " Score must be a number ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_span_11_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 261);
-    \u0275\u0275template(1, B2cFormComponent_ng_container_86_span_11_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_ng_container_86_span_11_span_2_Template, 2, 0, "span", 39);
+    \u0275\u0275elementStart(0, "span", 273);
+    \u0275\u0275template(1, B2cFormComponent_ng_container_77_span_11_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_ng_container_77_span_11_span_2_Template, 2, 0, "span", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -50395,24 +50570,24 @@ function B2cFormComponent_ng_container_86_span_11_Template(rf, ctx) {
     \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("12thGrade")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["pattern"]);
   }
 }
-function B2cFormComponent_ng_container_86_span_16_span_1_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_16_span_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " 10th score is required. ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_span_16_span_2_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_16_span_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " Score must be a number ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_span_16_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 261);
-    \u0275\u0275template(1, B2cFormComponent_ng_container_86_span_16_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_ng_container_86_span_16_span_2_Template, 2, 0, "span", 39);
+    \u0275\u0275elementStart(0, "span", 273);
+    \u0275\u0275template(1, B2cFormComponent_ng_container_77_span_16_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_ng_container_77_span_16_span_2_Template, 2, 0, "span", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -50425,41 +50600,41 @@ function B2cFormComponent_ng_container_86_span_16_Template(rf, ctx) {
     \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("10thGrade")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["pattern"]);
   }
 }
-function B2cFormComponent_ng_container_86_span_28_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_28_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_29_span_5_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_29_span_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Please select at least one topic ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_29_span_10_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_29_span_10_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Certification details are required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_29_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_29_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "fieldset", 40)(2, "legend", 1);
+    \u0275\u0275elementStart(1, "fieldset", 36)(2, "legend", 1);
     \u0275\u0275text(3, "If yes, please select the relevant topic(s):");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(4, "ng-multiselect-dropdown", 262);
-    \u0275\u0275template(5, B2cFormComponent_ng_container_86_ng_container_29_span_5_Template, 2, 0, "span", 5);
+    \u0275\u0275element(4, "ng-multiselect-dropdown", 274);
+    \u0275\u0275template(5, B2cFormComponent_ng_container_77_ng_container_29_span_5_Template, 2, 0, "span", 5);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(6, "fieldset", 9)(7, "legend", 1);
     \u0275\u0275text(8, "Please specify the certification:");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(9, "textarea", 263);
-    \u0275\u0275template(10, B2cFormComponent_ng_container_86_ng_container_29_span_10_Template, 2, 0, "span", 5);
+    \u0275\u0275element(9, "textarea", 275);
+    \u0275\u0275template(10, B2cFormComponent_ng_container_77_ng_container_29_span_10_Template, 2, 0, "span", 5);
     \u0275\u0275elementEnd();
     \u0275\u0275elementContainerEnd();
   }
@@ -50475,18 +50650,18 @@ function B2cFormComponent_ng_container_86_ng_container_29_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_6_0 = ctx_r0.form.get("certificationDetails")) == null ? null : tmp_6_0.invalid) && ((tmp_6_0 = ctx_r0.form.get("certificationDetails")) == null ? null : tmp_6_0.touched));
   }
 }
-function B2cFormComponent_ng_container_86_span_41_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_41_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_div_4_button_5_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_div_4_button_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 274);
-    \u0275\u0275listener("click", function B2cFormComponent_ng_container_86_ng_container_42_div_4_button_5_Template_button_click_0_listener() {
+    \u0275\u0275elementStart(0, "button", 286);
+    \u0275\u0275listener("click", function B2cFormComponent_ng_container_77_ng_container_42_div_4_button_5_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r10);
       const i_r11 = \u0275\u0275nextContext().index;
       const ctx_r0 = \u0275\u0275nextContext(3);
@@ -50496,31 +50671,31 @@ function B2cFormComponent_ng_container_86_ng_container_42_div_4_button_5_Templat
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_div_4_span_11_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_div_4_span_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Organization is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_div_4_span_16_span_1_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_div_4_span_16_span_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " Duration is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_div_4_span_16_span_2_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_div_4_span_16_span_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " Duration must be a valid number ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_div_4_span_16_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_div_4_span_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
-    \u0275\u0275template(1, B2cFormComponent_ng_container_86_ng_container_42_div_4_span_16_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_ng_container_86_ng_container_42_div_4_span_16_span_2_Template, 2, 0, "span", 39);
+    \u0275\u0275elementStart(0, "span", 57);
+    \u0275\u0275template(1, B2cFormComponent_ng_container_77_ng_container_42_div_4_span_16_span_1_Template, 2, 0, "span", 19)(2, B2cFormComponent_ng_container_77_ng_container_42_div_4_span_16_span_2_Template, 2, 0, "span", 19);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -50533,63 +50708,63 @@ function B2cFormComponent_ng_container_86_ng_container_42_div_4_span_16_Template
     \u0275\u0275property("ngIf", (tmp_7_0 = internship_r12.get("duration")) == null ? null : tmp_7_0.errors == null ? null : tmp_7_0.errors["pattern"]);
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_div_4_span_22_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_div_4_span_22_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Location is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_div_4_span_27_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_div_4_span_27_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Technology is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_div_4_span_33_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_div_4_span_33_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Role is required ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_div_4_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_div_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 266)(1, "div", 9)(2, "div", 267)(3, "legend", 1);
+    \u0275\u0275elementStart(0, "div", 278)(1, "div", 9)(2, "div", 279)(3, "legend", 1);
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(5, B2cFormComponent_ng_container_86_ng_container_42_div_4_button_5_Template, 2, 0, "button", 268);
+    \u0275\u0275template(5, B2cFormComponent_ng_container_77_ng_container_42_div_4_button_5_Template, 2, 0, "button", 280);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(6, "div", 2)(7, "fieldset", 3)(8, "legend", 1);
     \u0275\u0275text(9, "Organization");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(10, "input", 269);
-    \u0275\u0275template(11, B2cFormComponent_ng_container_86_ng_container_42_div_4_span_11_Template, 2, 0, "span", 5);
+    \u0275\u0275element(10, "input", 281);
+    \u0275\u0275template(11, B2cFormComponent_ng_container_77_ng_container_42_div_4_span_11_Template, 2, 0, "span", 5);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(12, "fieldset", 3)(13, "legend", 1);
     \u0275\u0275text(14, "Duration (months)");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(15, "input", 270);
-    \u0275\u0275template(16, B2cFormComponent_ng_container_86_ng_container_42_div_4_span_16_Template, 3, 2, "span", 5);
+    \u0275\u0275element(15, "input", 282);
+    \u0275\u0275template(16, B2cFormComponent_ng_container_77_ng_container_42_div_4_span_16_Template, 3, 2, "span", 5);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(17, "div", 2)(18, "fieldset", 3)(19, "legend", 1);
     \u0275\u0275text(20, "Location");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(21, "input", 271);
-    \u0275\u0275template(22, B2cFormComponent_ng_container_86_ng_container_42_div_4_span_22_Template, 2, 0, "span", 5);
+    \u0275\u0275element(21, "input", 283);
+    \u0275\u0275template(22, B2cFormComponent_ng_container_77_ng_container_42_div_4_span_22_Template, 2, 0, "span", 5);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(23, "fieldset", 3)(24, "legend", 1);
     \u0275\u0275text(25, "Technology");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(26, "input", 272);
-    \u0275\u0275template(27, B2cFormComponent_ng_container_86_ng_container_42_div_4_span_27_Template, 2, 0, "span", 5);
+    \u0275\u0275element(26, "input", 284);
+    \u0275\u0275template(27, B2cFormComponent_ng_container_77_ng_container_42_div_4_span_27_Template, 2, 0, "span", 5);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(28, "div", 9)(29, "fieldset", 3)(30, "legend", 1);
     \u0275\u0275text(31, "Role");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(32, "input", 273);
-    \u0275\u0275template(33, B2cFormComponent_ng_container_86_ng_container_42_div_4_span_33_Template, 2, 0, "span", 5);
+    \u0275\u0275element(32, "input", 285);
+    \u0275\u0275template(33, B2cFormComponent_ng_container_77_ng_container_42_div_4_span_33_Template, 2, 0, "span", 5);
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
@@ -50618,11 +50793,11 @@ function B2cFormComponent_ng_container_86_ng_container_42_div_4_Template(rf, ctx
     \u0275\u0275property("ngIf", ((tmp_12_0 = internship_r12.get("role")) == null ? null : tmp_12_0.invalid) && ((tmp_12_0 = internship_r12.get("role")) == null ? null : tmp_12_0.touched));
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_div_5_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_div_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r13 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 9)(1, "button", 275);
-    \u0275\u0275listener("click", function B2cFormComponent_ng_container_86_ng_container_42_div_5_Template_button_click_1_listener() {
+    \u0275\u0275elementStart(0, "div", 9)(1, "button", 287);
+    \u0275\u0275listener("click", function B2cFormComponent_ng_container_77_ng_container_42_div_5_Template_button_click_1_listener() {
       \u0275\u0275restoreView(_r13);
       const ctx_r0 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r0.addInternship());
@@ -50631,16 +50806,16 @@ function B2cFormComponent_ng_container_86_ng_container_42_div_5_Template(rf, ctx
     \u0275\u0275elementEnd()();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_42_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_42_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
     \u0275\u0275elementStart(1, "legend", 1);
     \u0275\u0275text(2, "If yes, please provide details about your internship(s):");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 264);
-    \u0275\u0275template(4, B2cFormComponent_ng_container_86_ng_container_42_div_4_Template, 34, 8, "div", 265);
+    \u0275\u0275elementStart(3, "div", 276);
+    \u0275\u0275template(4, B2cFormComponent_ng_container_77_ng_container_42_div_4_Template, 34, 8, "div", 277);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(5, B2cFormComponent_ng_container_86_ng_container_42_div_5_Template, 3, 0, "div", 42);
+    \u0275\u0275template(5, B2cFormComponent_ng_container_77_ng_container_42_div_5_Template, 3, 0, "div", 38);
     \u0275\u0275elementContainerEnd();
   }
   if (rf & 2) {
@@ -50651,16 +50826,16 @@ function B2cFormComponent_ng_container_86_ng_container_42_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ctx_r0.internshipsControls.length < 4);
   }
 }
-function B2cFormComponent_ng_container_86_span_58_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_58_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_59_option_7_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_59_option_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 122);
+    \u0275\u0275elementStart(0, "option", 118);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -50671,20 +50846,20 @@ function B2cFormComponent_ng_container_86_ng_container_59_option_7_Template(rf, 
     \u0275\u0275textInterpolate(type_r14.label);
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_59_fieldset_8_span_4_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_59_fieldset_8_span_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Please provide details about your disability ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_59_fieldset_8_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_59_fieldset_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "fieldset", 9)(1, "legend", 1);
     \u0275\u0275text(2, "Please specify your disability:");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(3, "input", 277);
-    \u0275\u0275template(4, B2cFormComponent_ng_container_86_ng_container_59_fieldset_8_span_4_Template, 2, 0, "span", 5);
+    \u0275\u0275element(3, "input", 289);
+    \u0275\u0275template(4, B2cFormComponent_ng_container_77_ng_container_59_fieldset_8_span_4_Template, 2, 0, "span", 5);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -50694,18 +50869,18 @@ function B2cFormComponent_ng_container_86_ng_container_59_fieldset_8_Template(rf
     \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("disabilityTypeOthers")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("disabilityTypeOthers")) == null ? null : tmp_3_0.touched));
   }
 }
-function B2cFormComponent_ng_container_86_ng_container_59_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_ng_container_59_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
     \u0275\u0275elementStart(1, "fieldset", 9)(2, "legend", 1);
     \u0275\u0275text(3, "If yes, and you feel comfortable sharing, please specify the nature of your disability (optional):");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "select", 276)(5, "option", 11);
+    \u0275\u0275elementStart(4, "select", 288)(5, "option", 11);
     \u0275\u0275text(6, "Select disability type");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(7, B2cFormComponent_ng_container_86_ng_container_59_option_7_Template, 2, 2, "option", 120);
+    \u0275\u0275template(7, B2cFormComponent_ng_container_77_ng_container_59_option_7_Template, 2, 2, "option", 116);
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(8, B2cFormComponent_ng_container_86_ng_container_59_fieldset_8_Template, 5, 1, "fieldset", 42);
+    \u0275\u0275template(8, B2cFormComponent_ng_container_77_ng_container_59_fieldset_8_Template, 5, 1, "fieldset", 38);
     \u0275\u0275elementContainerEnd();
   }
   if (rf & 2) {
@@ -50717,106 +50892,106 @@ function B2cFormComponent_ng_container_86_ng_container_59_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("disabilityType")) == null ? null : tmp_3_0.value) === "Others");
   }
 }
-function B2cFormComponent_ng_container_86_span_75_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_span_75_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1, " Please select an option ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_ng_container_86_Template(rf, ctx) {
+function B2cFormComponent_ng_container_77_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementContainerStart(0);
     \u0275\u0275elementStart(1, "div", 9)(2, "fieldset", 3)(3, "legend", 1);
     \u0275\u0275text(4, "Score in Degree (in %)");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(5, "input", 237);
-    \u0275\u0275template(6, B2cFormComponent_ng_container_86_span_6_Template, 3, 2, "span", 238);
+    \u0275\u0275element(5, "input", 249);
+    \u0275\u0275template(6, B2cFormComponent_ng_container_77_span_6_Template, 3, 2, "span", 250);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(7, "fieldset", 3)(8, "legend", 1);
     \u0275\u0275text(9, "Score in 12th Board exam (in %)");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(10, "input", 239);
-    \u0275\u0275template(11, B2cFormComponent_ng_container_86_span_11_Template, 3, 2, "span", 238);
+    \u0275\u0275element(10, "input", 251);
+    \u0275\u0275template(11, B2cFormComponent_ng_container_77_span_11_Template, 3, 2, "span", 250);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(12, "fieldset", 3)(13, "legend", 1);
     \u0275\u0275text(14, "Score in 10th Board exam (in %)");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(15, "input", 240);
-    \u0275\u0275template(16, B2cFormComponent_ng_container_86_span_16_Template, 3, 2, "span", 238);
+    \u0275\u0275element(15, "input", 252);
+    \u0275\u0275template(16, B2cFormComponent_ng_container_77_span_16_Template, 3, 2, "span", 250);
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(17, "fieldset", 2)(18, "legend", 1);
     \u0275\u0275text(19, "Have you completed any certifications?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "div", 19);
-    \u0275\u0275element(21, "input", 241);
-    \u0275\u0275elementStart(22, "label", 242);
+    \u0275\u0275elementStart(20, "div", 22);
+    \u0275\u0275element(21, "input", 253);
+    \u0275\u0275elementStart(22, "label", 254);
     \u0275\u0275text(23, "No");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(24, "div", 19);
-    \u0275\u0275element(25, "input", 243);
-    \u0275\u0275elementStart(26, "label", 244);
+    \u0275\u0275elementStart(24, "div", 22);
+    \u0275\u0275element(25, "input", 255);
+    \u0275\u0275elementStart(26, "label", 256);
     \u0275\u0275text(27, "Yes");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(28, B2cFormComponent_ng_container_86_span_28_Template, 2, 0, "span", 24);
+    \u0275\u0275template(28, B2cFormComponent_ng_container_77_span_28_Template, 2, 0, "span", 29);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(29, B2cFormComponent_ng_container_86_ng_container_29_Template, 11, 5, "ng-container", 39);
+    \u0275\u0275template(29, B2cFormComponent_ng_container_77_ng_container_29_Template, 11, 5, "ng-container", 19);
     \u0275\u0275elementStart(30, "fieldset", 2)(31, "legend", 1);
     \u0275\u0275text(32, "Have you completed any internships?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(33, "div", 19);
-    \u0275\u0275element(34, "input", 245);
-    \u0275\u0275elementStart(35, "label", 246);
+    \u0275\u0275elementStart(33, "div", 22);
+    \u0275\u0275element(34, "input", 257);
+    \u0275\u0275elementStart(35, "label", 258);
     \u0275\u0275text(36, "No");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(37, "div", 19);
-    \u0275\u0275element(38, "input", 247);
-    \u0275\u0275elementStart(39, "label", 248);
+    \u0275\u0275elementStart(37, "div", 22);
+    \u0275\u0275element(38, "input", 259);
+    \u0275\u0275elementStart(39, "label", 260);
     \u0275\u0275text(40, "Yes");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(41, B2cFormComponent_ng_container_86_span_41_Template, 2, 0, "span", 24);
+    \u0275\u0275template(41, B2cFormComponent_ng_container_77_span_41_Template, 2, 0, "span", 29);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(42, B2cFormComponent_ng_container_86_ng_container_42_Template, 6, 2, "ng-container", 39);
+    \u0275\u0275template(42, B2cFormComponent_ng_container_77_ng_container_42_Template, 6, 2, "ng-container", 19);
     \u0275\u0275elementStart(43, "fieldset", 9)(44, "legend", 1);
     \u0275\u0275text(45, "Do you identify as a person with a disability?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(46, "div", 19);
-    \u0275\u0275element(47, "input", 249);
-    \u0275\u0275elementStart(48, "label", 250);
+    \u0275\u0275elementStart(46, "div", 22);
+    \u0275\u0275element(47, "input", 261);
+    \u0275\u0275elementStart(48, "label", 262);
     \u0275\u0275text(49, "No");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(50, "div", 19);
-    \u0275\u0275element(51, "input", 251);
-    \u0275\u0275elementStart(52, "label", 252);
+    \u0275\u0275elementStart(50, "div", 22);
+    \u0275\u0275element(51, "input", 263);
+    \u0275\u0275elementStart(52, "label", 264);
     \u0275\u0275text(53, "Yes");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(54, "div", 19);
-    \u0275\u0275element(55, "input", 253);
-    \u0275\u0275elementStart(56, "label", 254);
+    \u0275\u0275elementStart(54, "div", 22);
+    \u0275\u0275element(55, "input", 265);
+    \u0275\u0275elementStart(56, "label", 266);
     \u0275\u0275text(57, "Prefer not to say");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(58, B2cFormComponent_ng_container_86_span_58_Template, 2, 0, "span", 24);
+    \u0275\u0275template(58, B2cFormComponent_ng_container_77_span_58_Template, 2, 0, "span", 29);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(59, B2cFormComponent_ng_container_86_ng_container_59_Template, 9, 2, "ng-container", 39);
+    \u0275\u0275template(59, B2cFormComponent_ng_container_77_ng_container_59_Template, 9, 2, "ng-container", 19);
     \u0275\u0275elementStart(60, "fieldset", 9)(61, "legend", 1);
     \u0275\u0275text(62, "Please specify your gender:");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(63, "div", 19);
-    \u0275\u0275element(64, "input", 255);
-    \u0275\u0275elementStart(65, "label", 256);
+    \u0275\u0275elementStart(63, "div", 22);
+    \u0275\u0275element(64, "input", 267);
+    \u0275\u0275elementStart(65, "label", 268);
     \u0275\u0275text(66, "Female");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(67, "div", 19);
-    \u0275\u0275element(68, "input", 257);
-    \u0275\u0275elementStart(69, "label", 258);
+    \u0275\u0275elementStart(67, "div", 22);
+    \u0275\u0275element(68, "input", 269);
+    \u0275\u0275elementStart(69, "label", 270);
     \u0275\u0275text(70, "Male");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(71, "div", 19);
-    \u0275\u0275element(72, "input", 259);
-    \u0275\u0275elementStart(73, "label", 260);
+    \u0275\u0275elementStart(71, "div", 22);
+    \u0275\u0275element(72, "input", 271);
+    \u0275\u0275elementStart(73, "label", 272);
     \u0275\u0275text(74, "Prefer not to answer");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(75, B2cFormComponent_ng_container_86_span_75_Template, 2, 0, "span", 24);
+    \u0275\u0275template(75, B2cFormComponent_ng_container_77_span_75_Template, 2, 0, "span", 29);
     \u0275\u0275elementEnd();
     \u0275\u0275elementContainerEnd();
   }
@@ -50854,27 +51029,27 @@ function B2cFormComponent_ng_container_86_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_10_0 = ctx_r0.form.get("gender")) == null ? null : tmp_10_0.invalid) && ((tmp_10_0 = ctx_r0.form.get("gender")) == null ? null : tmp_10_0.touched));
   }
 }
-function B2cFormComponent_span_91_Template(rf, ctx) {
+function B2cFormComponent_span_82_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Please select at least one topic ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_fieldset_92_span_4_Template(rf, ctx) {
+function B2cFormComponent_fieldset_83_span_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 61);
+    \u0275\u0275elementStart(0, "span", 57);
     \u0275\u0275text(1, " Please provide details about your language ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_fieldset_92_Template(rf, ctx) {
+function B2cFormComponent_fieldset_83_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "fieldset", 9)(1, "legend", 1);
     \u0275\u0275text(2, "Please specify your language:");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(3, "input", 278);
-    \u0275\u0275template(4, B2cFormComponent_fieldset_92_span_4_Template, 2, 0, "span", 5);
+    \u0275\u0275element(3, "input", 290);
+    \u0275\u0275template(4, B2cFormComponent_fieldset_83_span_4_Template, 2, 0, "span", 5);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -50884,7 +51059,7 @@ function B2cFormComponent_fieldset_92_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("languageOthers")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("languageOthers")) == null ? null : tmp_1_0.touched));
   }
 }
-function B2cFormComponent_span_105_Template(rf, ctx) {
+function B2cFormComponent_span_96_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 176);
     \u0275\u0275text(1);
@@ -50896,9 +51071,9 @@ function B2cFormComponent_span_105_Template(rf, ctx) {
     \u0275\u0275textInterpolate(ctx_r0.fileError);
   }
 }
-function B2cFormComponent_span_106_Template(rf, ctx) {
+function B2cFormComponent_span_97_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 279);
+    \u0275\u0275elementStart(0, "span", 291);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -50908,23 +51083,23 @@ function B2cFormComponent_span_106_Template(rf, ctx) {
     \u0275\u0275textInterpolate(ctx_r0.fileSuccess);
   }
 }
-function B2cFormComponent_div_126_Template(rf, ctx) {
+function B2cFormComponent_div_117_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 280);
+    \u0275\u0275elementStart(0, "div", 292);
     \u0275\u0275text(1, " Please complete the reCAPTCHA to proceed. ");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_button_127_Template(rf, ctx) {
+function B2cFormComponent_button_118_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "button", 281);
+    \u0275\u0275elementStart(0, "button", 293);
     \u0275\u0275text(1, "Submit");
     \u0275\u0275elementEnd();
   }
 }
-function B2cFormComponent_div_128_Template(rf, ctx) {
+function B2cFormComponent_div_119_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "div", 282);
+    \u0275\u0275element(0, "div", 294);
   }
 }
 var B2cFormComponent = class _B2cFormComponent {
@@ -50935,6 +51110,7 @@ var B2cFormComponent = class _B2cFormComponent {
     this.initForm();
     this.initDropbox();
   }
+  isFederalWorker = false;
   form;
   graduationYears = [];
   showSponsorshipFields = false;
@@ -51041,6 +51217,22 @@ var B2cFormComponent = class _B2cFormComponent {
     searchPlaceholderText: "Search...",
     enableCheckAll: false
   };
+  ngOnInit() {
+    if (this.isFederalWorker && this.form) {
+      this.form.get("currentStudent")?.setValue("no");
+      this.form.addControl("displacedWorker", this.fb.control("", Validators.required));
+      this.form.addControl("displacedWorkerAgency", this.fb.control(""));
+      this.form.addControl("federalExperienceYears", this.fb.control(""));
+      this.form.addControl("securityClearance", this.fb.control(""));
+      this.form.addControl("securityClearanceType", this.fb.control(""));
+      this.form.get("displacedWorker")?.valueChanges.subscribe((value) => {
+        this.handleDisplacedWorkerChange(value);
+      });
+      this.form.get("securityClearance")?.valueChanges.subscribe((value) => {
+        this.handleSecurityClearanceChange(value);
+      });
+    }
+  }
   initForm() {
     this.form = this.fb.group({
       // Full Name
@@ -51099,7 +51291,7 @@ var B2cFormComponent = class _B2cFormComponent {
       // Score in 12th Board exam (in %)
       "10thGrade": ["", [Validators.pattern("^[0-9]{1,2}$")]],
       // Score in 10th Board exam (in %)
-      // New India Hiring Fields
+      // India Hiring Fields
       hasCertifications: [""],
       certificationTopics: [[]],
       certificationDetails: [""],
@@ -51831,6 +52023,33 @@ var B2cFormComponent = class _B2cFormComponent {
   get internshipsControls() {
     return this.form.get("internships").controls;
   }
+  handleDisplacedWorkerChange(value) {
+    if (value === "yes") {
+      this.form.get("displacedWorkerAgency")?.setValidators([Validators.required]);
+      this.form.get("federalExperienceYears")?.setValidators([Validators.required, Validators.pattern("^[0-9]+(.[0-9]+)?$")]);
+      this.form.get("securityClearance")?.setValidators([Validators.required]);
+    } else {
+      this.form.get("displacedWorkerAgency")?.clearValidators();
+      this.form.get("federalExperienceYears")?.clearValidators();
+      this.form.get("securityClearance")?.clearValidators();
+      this.form.get("displacedWorkerAgency")?.setValue("");
+      this.form.get("federalExperienceYears")?.setValue("");
+      this.form.get("securityClearance")?.setValue("");
+      this.form.get("securityClearanceType")?.setValue("");
+    }
+    this.form.get("displacedWorkerAgency")?.updateValueAndValidity({ emitEvent: false });
+    this.form.get("federalExperienceYears")?.updateValueAndValidity({ emitEvent: false });
+    this.form.get("securityClearance")?.updateValueAndValidity({ emitEvent: false });
+  }
+  handleSecurityClearanceChange(value) {
+    if (value === "yes") {
+      this.form.get("securityClearanceType")?.setValidators([Validators.required]);
+    } else {
+      this.form.get("securityClearanceType")?.clearValidators();
+      this.form.get("securityClearanceType")?.setValue("");
+    }
+    this.form.get("securityClearanceType")?.updateValueAndValidity({ emitEvent: false });
+  }
   static \u0275fac = function B2cFormComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _B2cFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(SharedService));
   };
@@ -51840,7 +52059,7 @@ var B2cFormComponent = class _B2cFormComponent {
         return ctx.onResize();
       }, false, \u0275\u0275resolveWindow);
     }
-  }, decls: 129, vars: 28, consts: [[3, "ngSubmit", "formGroup"], [1, "form-label"], [1, "two-grid-container"], [1, "form-fieldset"], ["noWhitespace", "", "maxlength", "40", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "form-field", "common-field"], ["class", "b2c-error-message common-error-message", 4, "ngIf"], ["noWhitespace", "", "maxlength", "80", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "form-field", "common-field"], ["maxlength", "80", "type", "email", "formControlName", "email", "placeholder", "Email Address", 1, "form-field", "common-field"], ["type", "tel", "formControlName", "phone", 1, "form-field", "common-field", 3, "placeholder"], [1, "one-grid-container"], ["formControlName", "country", 1, "form-field", "common-field"], ["value", "", "disabled", "", "selected", ""], ["value", "United States"], ["value", "Mexico"], ["value", "Canada"], ["value", "United Kingdom"], ["value", "India"], ["id", "locationFields", 4, "ngIf"], ["id", "currentStudentRadioButtons", 1, "two-grid-container"], [1, "custom-radio"], ["type", "radio", "formControlName", "currentStudent", "value", "no", "id", "no"], ["for", "no"], ["type", "radio", "formControlName", "currentStudent", "value", "yes", "id", "yes"], ["for", "yes"], ["class", "b2c-error-message", 4, "ngIf"], ["id", "educationFields", 4, "ngIf"], ["type", "radio", "formControlName", "willingToRelocate", "value", "Yes", "id", "absolutely"], ["for", "absolutely"], ["type", "radio", "formControlName", "willingToRelocate", "value", "Maybe", "id", "considerMoving"], ["for", "considerMoving"], ["type", "radio", "formControlName", "willingToRelocate", "value", "No", "id", "notAnOption"], ["for", "notAnOption"], ["formControlName", "programmingExperience", 1, "form-field", "common-field"], ["value", "No"], ["value", "0-1 year"], ["value", "1-3 years"], ["value", "3-5 years"], ["value", "5+ years"], ["class", "two-grid-container", 4, "ngIf"], [4, "ngIf"], [1, "one-grid-container", "rev-multi-select"], ["formControlName", "language", 3, "placeholder", "settings", "data"], ["class", "one-grid-container", 4, "ngIf"], [1, "legend-container"], [2, "color", "white", "font-size", "18px"], ["src", "https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png", 2, "width", "30px", "height", "30px", "margin-right", "10px"], ["type", "file", "id", "ResumeUpload", "accept", ".pdf, .docx, .doc, .rtf, .txt", 3, "change"], [1, "dropbox-button", 2, "color", "white", "font-size", "18px", 3, "click"], ["src", "https://uploads-ssl.webflow.com/6647aada168e006f04521106/6673257bcdcad45f4881b227_dropbox_icon.png", 2, "width", "30px", "height", "30px", "margin-right", "10px"], ["class", "resume-success", 4, "ngIf"], [2, "margin-top", "1rem", "color", "#9ca3af"], [2, "margin-top", "5px", "font-size", "16px", "color", "#9ca3af", "line-height", "unset"], [2, "font-size", "16px", "color", "#9ca3af", "line-height", "unset"], [2, "font-size", "16px", "color", "#fff"], [2, "margin-top", "0.5rem", "margin-bottom", "0.5rem"], ["type", "checkbox", "formControlName", "dataConsent", "id", "dataConsent"], [2, "font-weight", "unset", "display", "unset"], [3, "resolved"], ["class", "form-error-message", 4, "ngIf"], ["type", "submit", "class", "b2b-form-button", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], [1, "b2c-error-message", "common-error-message"], ["id", "locationFields"], ["noWhitespace", "", "maxlength", "40", "type", "text", "formControlName", "city", "placeholder", "City", 1, "form-field", "location-field", "common-field"], ["class", "b2c-error-message location-error-message common-error-message", 4, "ngIf"], ["formControlName", "state", 1, "form-field", "location-field", "common-field"], ["value", "Alabama"], ["value", "Alaska"], ["value", "Arizona"], ["value", "Arkansas"], ["value", "California"], ["value", "Colorado"], ["value", "Connecticut"], ["value", "Delaware"], ["value", "District of Columbia"], ["value", "Florida"], ["value", "Georgia"], ["value", "Hawaii"], ["value", "Idaho"], ["value", "Illinois"], ["value", "Indiana"], ["value", "Iowa"], ["value", "Kansas"], ["value", "Kentucky"], ["value", "Louisiana"], ["value", "Maine"], ["value", "Maryland"], ["value", "Massachusetts"], ["value", "Michigan"], ["value", "Minnesota"], ["value", "Mississippi"], ["value", "Missouri"], ["value", "Montana"], ["value", "Nebraska"], ["value", "Nevada"], ["value", "New Hampshire"], ["value", "New Jersey"], ["value", "New Mexico"], ["value", "New York"], ["value", "North Carolina"], ["value", "North Dakota"], ["value", "Ohio"], ["value", "Oklahoma"], ["value", "Oregon"], ["value", "Pennsylvania"], ["value", "Puerto Rico"], ["value", "Rhode Island"], ["value", "South Carolina"], ["value", "South Dakota"], ["value", "Tennessee"], ["value", "Texas"], ["value", "Utah"], ["value", "Vermont"], ["value", "Virginia"], ["value", "Washington"], ["value", "West Virginia"], ["value", "Wisconsin"], ["value", "Wyoming"], ["noWhitespace", "", "type", "text", "formControlName", "zip", "placeholder", "ZIP", "maxlength", "5", 1, "form-field", "location-field", "common-field"], [1, "b2c-error-message", "location-error-message", "common-error-message"], [3, "value", 4, "ngFor", "ngForOf"], ["noWhitespace", "", "type", "text", "formControlName", "zip", "placeholder", "Postal Code", "maxlength", "5", 1, "form-field", "location-field", "common-field"], [3, "value"], ["formControlName", "canadaState", 1, "form-field", "location-field", "common-field"], ["value", "Alberta"], ["value", "British Columbia"], ["value", "Manitoba"], ["value", "New Brunswick"], ["value", "Newfoundland and Labrador"], ["value", "Northwest Territories"], ["value", "Nova Scotia"], ["value", "Nunavut"], ["value", "Ontario"], ["value", "Prince Edward Island"], ["value", "Quebec"], ["value", "Saskatchewan"], ["value", "Yukon"], ["noWhitespace", "", "type", "text", "formControlName", "canadaZip", "placeholder", "ZIP", "maxlength", "6", 1, "form-field", "location-field", "common-field"], ["noWhitespace", "", "maxlength", "40", "type", "text", "formControlName", "city", "placeholder", "City/Town", 1, "form-field", "location-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "ukZip", "placeholder", "Zip/Postcode", "maxlength", "7", 1, "form-field", "location-field", "common-field"], ["value", "Andaman and Nicobar Islands"], ["value", "Andhra Pradesh"], ["value", "Arunachal Pradesh"], ["value", "Assam"], ["value", "Bihar"], ["value", "Chandigarh"], ["value", "Chhattisgarh"], ["value", "Daman and Diu"], ["value", "Delhi"], ["value", "Dadra and Nagar Haveli"], ["value", "Goa"], ["value", "Gujarat"], ["value", "Himachal Pradesh"], ["value", "Haryana"], ["value", "Jharkhand"], ["value", "Jammu and Kashmir"], ["value", "Karnataka"], ["value", "Kerala"], ["value", "Lakshadweep"], ["value", "Maharashtra"], ["value", "Meghalaya"], ["value", "Manipur"], ["value", "Madhya Pradesh"], ["value", "Mizoram"], ["value", "Nagaland"], ["value", "Odisha"], ["value", "Punjab"], ["value", "Puducherry"], ["value", "Rajasthan"], ["value", "Sikkim"], ["value", "Tamil Nadu"], ["value", "Telangana"], ["value", "Tripura"], ["value", "Uttar Pradesh"], ["value", "Uttarakhand"], ["value", "West Bengal"], [1, "b2c-error-message"], ["id", "educationFields"], ["type", "radio", "formControlName", "levelOfEducation", "value", "High School", "id", "highSchool"], ["for", "highSchool"], ["type", "radio", "formControlName", "levelOfEducation", "value", "Associate's Degree", "id", "associatesDegree"], ["for", "associatesDegree"], ["type", "radio", "formControlName", "levelOfEducation", "value", "Bachelor's Degree", "id", "bachelorsDegree"], ["for", "bachelorsDegree"], ["type", "radio", "formControlName", "levelOfEducation", "value", "Master's Degree", "id", "mastersDegree"], ["for", "mastersDegree"], [1, "autocomplete-container"], ["formControlName", "major", "type", "text", "placeholder", "Major", 1, "form-field", "educationFields-field", "common-field", 3, "input", "focus", "blur"], ["class", "autocomplete-items", 4, "ngIf"], ["class", "b2c-error-message educationFields-error-message common-error-message", 4, "ngIf"], ["formControlName", "school", "type", "text", "placeholder", "School", "placeholder", "School", 1, "form-field", "educationFields-field", "common-field", 3, "input", "focus", "blur"], [1, "autocomplete-items"], ["class", "autocomplete-item", 3, "mousedown", 4, "ngFor", "ngForOf"], [1, "autocomplete-item", 3, "mousedown"], [1, "b2c-error-message", "educationFields-error-message", "common-error-message"], ["type", "radio", "formControlName", "levelOfEducation", "value", "3-Year Bachelor's Degree", "id", "threeYearBachelor"], ["for", "threeYearBachelor"], ["type", "radio", "formControlName", "levelOfEducation", "value", "4-Year Bachelor's Degree", "id", "fourYearBachelor"], ["for", "fourYearBachelor"], ["type", "radio", "formControlName", "levelOfEducation", "value", "High School", "id", "secondarySchool"], ["for", "secondarySchool"], ["formControlName", "levelOfEducation", 1, "form-field", "educationFields-field", "common-field"], ["value", "Bachelor's Degree"], ["value", "Bachelor's Degree_2"], ["value", "Bachelor's Degree_3"], ["value", "Master's Degree"], ["value", "Master's Degree_2"], ["value", "Master's Degree_3"], ["value", "Master's Degree_4"], ["value", "High School"], ["formControlName", "branch", 1, "form-field", "educationFields-field", "common-field"], ["formControlName", "graduationMonth", 1, "form-field", "educationFields-field", "common-field"], ["value", "01"], ["value", "02"], ["value", "03"], ["value", "04"], ["value", "05"], ["value", "06"], ["value", "07"], ["value", "08"], ["value", "09"], ["value", "10"], ["value", "11"], ["value", "12"], ["formControlName", "graduationYear", 1, "form-field", "educationFields-field", "common-field"], ["type", "radio", "formControlName", "workAuthorization", "value", "no", "id", "notAuthorized"], ["for", "notAuthorized"], ["type", "radio", "formControlName", "workAuthorization", "value", "yes", "id", "authorized"], ["for", "authorized"], ["type", "radio", "formControlName", "sponsorship", "value", "no", "id", "noSponsorship"], ["for", "noSponsorship"], ["type", "radio", "formControlName", "sponsorship", "value", "yes", "id", "yesSponsorship"], ["for", "yesSponsorship"], ["type", "radio", "formControlName", "futureSponsorship", "value", "no", "id", "nofutureSponsorship"], ["for", "nofutureSponsorship"], ["type", "radio", "formControlName", "futureSponsorship", "value", "yes", "id", "yesfutureSponsorship"], ["for", "yesfutureSponsorship"], ["noWhitespace", "", "formControlName", "majorGrade", "type", "text", "maxlength", "2", "placeholder", "Degree Score", 1, "form-field", "education-field", "common-field"], ["class", "b2c-error-message education-error-message common-error-message", 4, "ngIf"], ["noWhitespace", "", "formControlName", "12thGrade", "type", "text", "maxlength", "2", "placeholder", "12th Score", 1, "form-field", "education-field", "common-field"], ["noWhitespace", "", "formControlName", "10thGrade", "type", "text", "maxlength", "2", "placeholder", "10th Score", 1, "form-field", "education-field", "common-field"], ["type", "radio", "formControlName", "hasCertifications", "value", "no", "id", "noCertifications"], ["for", "noCertifications"], ["type", "radio", "formControlName", "hasCertifications", "value", "yes", "id", "yesCertifications"], ["for", "yesCertifications"], ["type", "radio", "formControlName", "hasInternships", "value", "no", "id", "noInternships"], ["for", "noInternships"], ["type", "radio", "formControlName", "hasInternships", "value", "yes", "id", "yesInternships"], ["for", "yesInternships"], ["type", "radio", "formControlName", "disability", "value", "no", "id", "noDisability"], ["for", "noDisability"], ["type", "radio", "formControlName", "disability", "value", "yes", "id", "yesDisability"], ["for", "yesDisability"], ["type", "radio", "formControlName", "disability", "value", "prefer not to say", "id", "preferNotToSayDisability"], ["for", "preferNotToSayDisability"], ["type", "radio", "formControlName", "gender", "value", "Female", "id", "femaleGender"], ["for", "femaleGender"], ["type", "radio", "formControlName", "gender", "value", "Male", "id", "maleGender"], ["for", "maleGender"], ["type", "radio", "formControlName", "gender", "value", "Prefer Not to answer", "id", "preferNotToSayGender"], ["for", "preferNotToSayGender"], [1, "b2c-error-message", "education-error-message", "common-error-message"], ["formControlName", "certificationTopics", 3, "placeholder", "settings", "data"], ["noWhitespace", "", "formControlName", "certificationDetails", "rows", "3", "placeholder", "Enter certification details", 1, "form-field", "common-field"], ["formArrayName", "internships"], ["style", "margin-bottom: 20px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.13); border-radius: 8px;", 3, "formGroupName", 4, "ngFor", "ngForOf"], [2, "margin-bottom", "20px", "padding", "15px", "border", "1px solid rgba(255, 255, 255, 0.13)", "border-radius", "8px", 3, "formGroupName"], [2, "display", "flex", "justify-content", "space-between", "align-items", "center"], ["type", "button", "style", "background: none; border: none; color: #F9B200; cursor: pointer;", 3, "click", 4, "ngIf"], ["noWhitespace", "", "type", "text", "formControlName", "organization", "maxlength", "40", "placeholder", "Organization name", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "duration", "maxlength", "3", "placeholder", "Number of months", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "location", "maxlength", "40", "placeholder", "Location", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "technology", "maxlength", "40", "placeholder", "Technology", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "role", "maxlength", "40", "placeholder", "Role", 1, "form-field", "common-field"], ["type", "button", 2, "background", "none", "border", "none", "color", "#F9B200", "cursor", "pointer", 3, "click"], ["type", "button", 1, "add-internship-form-button", 3, "click"], ["formControlName", "disabilityType", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "maxlength", "40", "formControlName", "disabilityTypeOthers", "placeholder", "Please describe your disability", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "maxlength", "40", "formControlName", "languageOthers", "placeholder", "Please describe your language", 1, "form-field", "common-field"], [1, "resume-success"], [1, "form-error-message"], ["type", "submit", 1, "b2b-form-button"], ["id", "loadSpinner", 1, "spinner"]], template: function B2cFormComponent_Template(rf, ctx) {
+  }, inputs: { isFederalWorker: [0, "isfederalworker", "isFederalWorker"] }, decls: 120, vars: 30, consts: [[3, "ngSubmit", "formGroup"], [1, "form-label"], [1, "two-grid-container"], [1, "form-fieldset"], ["noWhitespace", "", "maxlength", "40", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "form-field", "common-field"], ["class", "b2c-error-message common-error-message", 4, "ngIf"], ["noWhitespace", "", "maxlength", "80", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "form-field", "common-field"], ["maxlength", "80", "type", "email", "formControlName", "email", "placeholder", "Email Address", 1, "form-field", "common-field"], ["type", "tel", "formControlName", "phone", 1, "form-field", "common-field", 3, "placeholder"], [1, "one-grid-container"], ["formControlName", "country", 1, "form-field", "common-field"], ["value", "", "disabled", "", "selected", ""], ["value", "United States"], ["value", "Mexico"], ["value", "Canada"], ["value", "United Kingdom"], ["value", "India"], ["id", "locationFields", 4, "ngIf"], ["class", "two-grid-container", 4, "ngIf"], [4, "ngIf"], ["id", "currentStudentRadioButtons", "class", "two-grid-container", 4, "ngIf"], ["id", "educationFields", 4, "ngIf"], [1, "custom-radio"], ["type", "radio", "formControlName", "willingToRelocate", "value", "Yes", "id", "absolutely"], ["for", "absolutely"], ["type", "radio", "formControlName", "willingToRelocate", "value", "Maybe", "id", "considerMoving"], ["for", "considerMoving"], ["type", "radio", "formControlName", "willingToRelocate", "value", "No", "id", "notAnOption"], ["for", "notAnOption"], ["class", "b2c-error-message", 4, "ngIf"], ["formControlName", "programmingExperience", 1, "form-field", "common-field"], ["value", "No"], ["value", "0-1 year"], ["value", "1-3 years"], ["value", "3-5 years"], ["value", "5+ years"], [1, "one-grid-container", "rev-multi-select"], ["formControlName", "language", 3, "placeholder", "settings", "data"], ["class", "one-grid-container", 4, "ngIf"], [1, "legend-container"], [2, "color", "white", "font-size", "18px"], ["src", "https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png", 2, "width", "30px", "height", "30px", "margin-right", "10px"], ["type", "file", "id", "ResumeUpload", "accept", ".pdf, .docx, .doc, .rtf, .txt", 3, "change"], [1, "dropbox-button", 2, "color", "white", "font-size", "18px", 3, "click"], ["src", "https://uploads-ssl.webflow.com/6647aada168e006f04521106/6673257bcdcad45f4881b227_dropbox_icon.png", 2, "width", "30px", "height", "30px", "margin-right", "10px"], ["class", "resume-success", 4, "ngIf"], [2, "margin-top", "1rem", "color", "#9ca3af"], [2, "margin-top", "5px", "font-size", "16px", "color", "#9ca3af", "line-height", "unset"], [2, "font-size", "16px", "color", "#9ca3af", "line-height", "unset"], [2, "font-size", "16px", "color", "#fff"], [2, "margin-top", "0.5rem", "margin-bottom", "0.5rem"], ["type", "checkbox", "formControlName", "dataConsent", "id", "dataConsent"], [2, "font-weight", "unset", "display", "unset"], [3, "resolved"], ["class", "form-error-message", 4, "ngIf"], ["type", "submit", "class", "b2b-form-button", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], [1, "b2c-error-message", "common-error-message"], ["id", "locationFields"], ["noWhitespace", "", "maxlength", "40", "type", "text", "formControlName", "city", "placeholder", "City", 1, "form-field", "location-field", "common-field"], ["class", "b2c-error-message location-error-message common-error-message", 4, "ngIf"], ["formControlName", "state", 1, "form-field", "location-field", "common-field"], ["value", "Alabama"], ["value", "Alaska"], ["value", "Arizona"], ["value", "Arkansas"], ["value", "California"], ["value", "Colorado"], ["value", "Connecticut"], ["value", "Delaware"], ["value", "District of Columbia"], ["value", "Florida"], ["value", "Georgia"], ["value", "Hawaii"], ["value", "Idaho"], ["value", "Illinois"], ["value", "Indiana"], ["value", "Iowa"], ["value", "Kansas"], ["value", "Kentucky"], ["value", "Louisiana"], ["value", "Maine"], ["value", "Maryland"], ["value", "Massachusetts"], ["value", "Michigan"], ["value", "Minnesota"], ["value", "Mississippi"], ["value", "Missouri"], ["value", "Montana"], ["value", "Nebraska"], ["value", "Nevada"], ["value", "New Hampshire"], ["value", "New Jersey"], ["value", "New Mexico"], ["value", "New York"], ["value", "North Carolina"], ["value", "North Dakota"], ["value", "Ohio"], ["value", "Oklahoma"], ["value", "Oregon"], ["value", "Pennsylvania"], ["value", "Puerto Rico"], ["value", "Rhode Island"], ["value", "South Carolina"], ["value", "South Dakota"], ["value", "Tennessee"], ["value", "Texas"], ["value", "Utah"], ["value", "Vermont"], ["value", "Virginia"], ["value", "Washington"], ["value", "West Virginia"], ["value", "Wisconsin"], ["value", "Wyoming"], ["noWhitespace", "", "type", "text", "formControlName", "zip", "placeholder", "ZIP", "maxlength", "5", 1, "form-field", "location-field", "common-field"], [1, "b2c-error-message", "location-error-message", "common-error-message"], [3, "value", 4, "ngFor", "ngForOf"], ["noWhitespace", "", "type", "text", "formControlName", "zip", "placeholder", "Postal Code", "maxlength", "5", 1, "form-field", "location-field", "common-field"], [3, "value"], ["formControlName", "canadaState", 1, "form-field", "location-field", "common-field"], ["value", "Alberta"], ["value", "British Columbia"], ["value", "Manitoba"], ["value", "New Brunswick"], ["value", "Newfoundland and Labrador"], ["value", "Northwest Territories"], ["value", "Nova Scotia"], ["value", "Nunavut"], ["value", "Ontario"], ["value", "Prince Edward Island"], ["value", "Quebec"], ["value", "Saskatchewan"], ["value", "Yukon"], ["noWhitespace", "", "type", "text", "formControlName", "canadaZip", "placeholder", "ZIP", "maxlength", "6", 1, "form-field", "location-field", "common-field"], ["noWhitespace", "", "maxlength", "40", "type", "text", "formControlName", "city", "placeholder", "City/Town", 1, "form-field", "location-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "ukZip", "placeholder", "Zip/Postcode", "maxlength", "7", 1, "form-field", "location-field", "common-field"], ["value", "Andaman and Nicobar Islands"], ["value", "Andhra Pradesh"], ["value", "Arunachal Pradesh"], ["value", "Assam"], ["value", "Bihar"], ["value", "Chandigarh"], ["value", "Chhattisgarh"], ["value", "Daman and Diu"], ["value", "Delhi"], ["value", "Dadra and Nagar Haveli"], ["value", "Goa"], ["value", "Gujarat"], ["value", "Himachal Pradesh"], ["value", "Haryana"], ["value", "Jharkhand"], ["value", "Jammu and Kashmir"], ["value", "Karnataka"], ["value", "Kerala"], ["value", "Lakshadweep"], ["value", "Maharashtra"], ["value", "Meghalaya"], ["value", "Manipur"], ["value", "Madhya Pradesh"], ["value", "Mizoram"], ["value", "Nagaland"], ["value", "Odisha"], ["value", "Punjab"], ["value", "Puducherry"], ["value", "Rajasthan"], ["value", "Sikkim"], ["value", "Tamil Nadu"], ["value", "Telangana"], ["value", "Tripura"], ["value", "Uttar Pradesh"], ["value", "Uttarakhand"], ["value", "West Bengal"], ["type", "radio", "formControlName", "displacedWorker", "value", "no", "id", "noDisplacedWorker"], ["for", "noDisplacedWorker"], ["type", "radio", "formControlName", "displacedWorker", "value", "yes", "id", "yesDisplacedWorker"], ["for", "yesDisplacedWorker"], [1, "b2c-error-message"], ["noWhitespace", "", "maxlength", "40", "type", "text", "formControlName", "displacedWorkerAgency", "placeholder", "Agency name", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "federalExperienceYears", "placeholder", "Number of years", "maxlength", "4", 1, "form-field", "common-field"], ["type", "radio", "formControlName", "securityClearance", "value", "no", "id", "noSecurityClearance"], ["for", "noSecurityClearance"], ["type", "radio", "formControlName", "securityClearance", "value", "yes", "id", "yesSecurityClearance"], ["for", "yesSecurityClearance"], ["noWhitespace", "", "maxlength", "40", "type", "text", "formControlName", "securityClearanceType", "placeholder", "Clearance type", 1, "form-field", "common-field"], ["id", "currentStudentRadioButtons", 1, "two-grid-container"], ["type", "radio", "formControlName", "currentStudent", "value", "no", "id", "no"], ["for", "no"], ["type", "radio", "formControlName", "currentStudent", "value", "yes", "id", "yes"], ["for", "yes"], ["id", "educationFields"], ["type", "radio", "formControlName", "levelOfEducation", "value", "High School", "id", "highSchool"], ["for", "highSchool"], ["type", "radio", "formControlName", "levelOfEducation", "value", "Associate's Degree", "id", "associatesDegree"], ["for", "associatesDegree"], ["type", "radio", "formControlName", "levelOfEducation", "value", "Bachelor's Degree", "id", "bachelorsDegree"], ["for", "bachelorsDegree"], ["type", "radio", "formControlName", "levelOfEducation", "value", "Master's Degree", "id", "mastersDegree"], ["for", "mastersDegree"], [1, "autocomplete-container"], ["formControlName", "major", "type", "text", "placeholder", "Major", 1, "form-field", "educationFields-field", "common-field", 3, "input", "focus", "blur"], ["class", "autocomplete-items", 4, "ngIf"], ["class", "b2c-error-message educationFields-error-message common-error-message", 4, "ngIf"], ["formControlName", "school", "type", "text", "placeholder", "School", "placeholder", "School", 1, "form-field", "educationFields-field", "common-field", 3, "input", "focus", "blur"], [1, "autocomplete-items"], ["class", "autocomplete-item", 3, "mousedown", 4, "ngFor", "ngForOf"], [1, "autocomplete-item", 3, "mousedown"], [1, "b2c-error-message", "educationFields-error-message", "common-error-message"], ["type", "radio", "formControlName", "levelOfEducation", "value", "3-Year Bachelor's Degree", "id", "threeYearBachelor"], ["for", "threeYearBachelor"], ["type", "radio", "formControlName", "levelOfEducation", "value", "4-Year Bachelor's Degree", "id", "fourYearBachelor"], ["for", "fourYearBachelor"], ["type", "radio", "formControlName", "levelOfEducation", "value", "High School", "id", "secondarySchool"], ["for", "secondarySchool"], ["formControlName", "levelOfEducation", 1, "form-field", "educationFields-field", "common-field"], ["value", "Bachelor's Degree"], ["value", "Bachelor's Degree_2"], ["value", "Bachelor's Degree_3"], ["value", "Master's Degree"], ["value", "Master's Degree_2"], ["value", "Master's Degree_3"], ["value", "Master's Degree_4"], ["value", "High School"], ["formControlName", "branch", 1, "form-field", "educationFields-field", "common-field"], ["formControlName", "graduationMonth", 1, "form-field", "educationFields-field", "common-field"], ["value", "01"], ["value", "02"], ["value", "03"], ["value", "04"], ["value", "05"], ["value", "06"], ["value", "07"], ["value", "08"], ["value", "09"], ["value", "10"], ["value", "11"], ["value", "12"], ["formControlName", "graduationYear", 1, "form-field", "educationFields-field", "common-field"], ["type", "radio", "formControlName", "workAuthorization", "value", "no", "id", "notAuthorized"], ["for", "notAuthorized"], ["type", "radio", "formControlName", "workAuthorization", "value", "yes", "id", "authorized"], ["for", "authorized"], ["type", "radio", "formControlName", "sponsorship", "value", "no", "id", "noSponsorship"], ["for", "noSponsorship"], ["type", "radio", "formControlName", "sponsorship", "value", "yes", "id", "yesSponsorship"], ["for", "yesSponsorship"], ["type", "radio", "formControlName", "futureSponsorship", "value", "no", "id", "nofutureSponsorship"], ["for", "nofutureSponsorship"], ["type", "radio", "formControlName", "futureSponsorship", "value", "yes", "id", "yesfutureSponsorship"], ["for", "yesfutureSponsorship"], ["noWhitespace", "", "formControlName", "majorGrade", "type", "text", "maxlength", "2", "placeholder", "Degree Score", 1, "form-field", "education-field", "common-field"], ["class", "b2c-error-message education-error-message common-error-message", 4, "ngIf"], ["noWhitespace", "", "formControlName", "12thGrade", "type", "text", "maxlength", "2", "placeholder", "12th Score", 1, "form-field", "education-field", "common-field"], ["noWhitespace", "", "formControlName", "10thGrade", "type", "text", "maxlength", "2", "placeholder", "10th Score", 1, "form-field", "education-field", "common-field"], ["type", "radio", "formControlName", "hasCertifications", "value", "no", "id", "noCertifications"], ["for", "noCertifications"], ["type", "radio", "formControlName", "hasCertifications", "value", "yes", "id", "yesCertifications"], ["for", "yesCertifications"], ["type", "radio", "formControlName", "hasInternships", "value", "no", "id", "noInternships"], ["for", "noInternships"], ["type", "radio", "formControlName", "hasInternships", "value", "yes", "id", "yesInternships"], ["for", "yesInternships"], ["type", "radio", "formControlName", "disability", "value", "no", "id", "noDisability"], ["for", "noDisability"], ["type", "radio", "formControlName", "disability", "value", "yes", "id", "yesDisability"], ["for", "yesDisability"], ["type", "radio", "formControlName", "disability", "value", "prefer not to say", "id", "preferNotToSayDisability"], ["for", "preferNotToSayDisability"], ["type", "radio", "formControlName", "gender", "value", "Female", "id", "femaleGender"], ["for", "femaleGender"], ["type", "radio", "formControlName", "gender", "value", "Male", "id", "maleGender"], ["for", "maleGender"], ["type", "radio", "formControlName", "gender", "value", "Prefer Not to answer", "id", "preferNotToSayGender"], ["for", "preferNotToSayGender"], [1, "b2c-error-message", "education-error-message", "common-error-message"], ["formControlName", "certificationTopics", 3, "placeholder", "settings", "data"], ["noWhitespace", "", "formControlName", "certificationDetails", "rows", "3", "placeholder", "Enter certification details", 1, "form-field", "common-field"], ["formArrayName", "internships"], ["style", "margin-bottom: 20px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.13); border-radius: 8px;", 3, "formGroupName", 4, "ngFor", "ngForOf"], [2, "margin-bottom", "20px", "padding", "15px", "border", "1px solid rgba(255, 255, 255, 0.13)", "border-radius", "8px", 3, "formGroupName"], [2, "display", "flex", "justify-content", "space-between", "align-items", "center"], ["type", "button", "style", "background: none; border: none; color: #F9B200; cursor: pointer;", 3, "click", 4, "ngIf"], ["noWhitespace", "", "type", "text", "formControlName", "organization", "maxlength", "40", "placeholder", "Organization name", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "duration", "maxlength", "3", "placeholder", "Number of months", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "location", "maxlength", "40", "placeholder", "Location", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "technology", "maxlength", "40", "placeholder", "Technology", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "formControlName", "role", "maxlength", "40", "placeholder", "Role", 1, "form-field", "common-field"], ["type", "button", 2, "background", "none", "border", "none", "color", "#F9B200", "cursor", "pointer", 3, "click"], ["type", "button", 1, "add-internship-form-button", 3, "click"], ["formControlName", "disabilityType", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "maxlength", "40", "formControlName", "disabilityTypeOthers", "placeholder", "Please describe your disability", 1, "form-field", "common-field"], ["noWhitespace", "", "type", "text", "maxlength", "40", "formControlName", "languageOthers", "placeholder", "Please describe your language", 1, "form-field", "common-field"], [1, "resume-success"], [1, "form-error-message"], ["type", "submit", 1, "b2b-form-button"], ["id", "loadSpinner", 1, "spinner"]], template: function B2cFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function B2cFormComponent_Template_form_ngSubmit_0_listener() {
@@ -51891,121 +52110,105 @@ var B2cFormComponent = class _B2cFormComponent {
       \u0275\u0275elementEnd()();
       \u0275\u0275template(35, B2cFormComponent_span_35_Template, 2, 0, "span", 5);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(36, B2cFormComponent_div_36_Template, 6, 5, "div", 17);
-      \u0275\u0275elementStart(37, "fieldset", 18)(38, "legend", 1);
-      \u0275\u0275text(39, "Are You Currently a Student?");
+      \u0275\u0275template(36, B2cFormComponent_div_36_Template, 6, 5, "div", 17)(37, B2cFormComponent_fieldset_37_Template, 12, 1, "fieldset", 18)(38, B2cFormComponent_ng_container_38_Template, 24, 4, "ng-container", 19)(39, B2cFormComponent_fieldset_39_Template, 12, 1, "fieldset", 20)(40, B2cFormComponent_div_40_Template, 6, 5, "div", 21);
+      \u0275\u0275elementStart(41, "fieldset", 9)(42, "legend", 1);
+      \u0275\u0275text(43, "Willingness to Relocate");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(40, "div", 19);
-      \u0275\u0275element(41, "input", 20);
-      \u0275\u0275elementStart(42, "label", 21);
-      \u0275\u0275text(43, "No");
+      \u0275\u0275elementStart(44, "div", 22);
+      \u0275\u0275element(45, "input", 23);
+      \u0275\u0275elementStart(46, "label", 24);
+      \u0275\u0275text(47, "Absolutely!");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(44, "div", 19);
-      \u0275\u0275element(45, "input", 22);
-      \u0275\u0275elementStart(46, "label", 23);
-      \u0275\u0275text(47, "Yes");
+      \u0275\u0275elementStart(48, "div", 22);
+      \u0275\u0275element(49, "input", 25);
+      \u0275\u0275elementStart(50, "label", 26);
+      \u0275\u0275text(51, "Would Consider Moving for the Right Role");
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(48, B2cFormComponent_span_48_Template, 2, 0, "span", 24);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(49, B2cFormComponent_div_49_Template, 6, 5, "div", 25);
-      \u0275\u0275elementStart(50, "fieldset", 9)(51, "legend", 1);
-      \u0275\u0275text(52, "Willingness to Relocate");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(53, "div", 19);
-      \u0275\u0275element(54, "input", 26);
-      \u0275\u0275elementStart(55, "label", 27);
-      \u0275\u0275text(56, "Absolutely!");
+      \u0275\u0275elementStart(52, "div", 22);
+      \u0275\u0275element(53, "input", 27);
+      \u0275\u0275elementStart(54, "label", 28);
+      \u0275\u0275text(55, "Not an option");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(57, "div", 19);
-      \u0275\u0275element(58, "input", 28);
-      \u0275\u0275elementStart(59, "label", 29);
-      \u0275\u0275text(60, "Would Consider Moving for the Right Role");
+      \u0275\u0275template(56, B2cFormComponent_span_56_Template, 2, 0, "span", 29);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(57, "fieldset", 9)(58, "legend", 1);
+      \u0275\u0275text(59, "How many years of programming experience?");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(60, "select", 30)(61, "option", 11);
+      \u0275\u0275text(62, "Select an option");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(63, "option", 31);
+      \u0275\u0275text(64, "None");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(65, "option", 32);
+      \u0275\u0275text(66, "0-1 year");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(67, "option", 33);
+      \u0275\u0275text(68, "1-3 years");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(69, "option", 34);
+      \u0275\u0275text(70, "3-5 years");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(71, "option", 35);
+      \u0275\u0275text(72, "5+ years");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(61, "div", 19);
-      \u0275\u0275element(62, "input", 30);
-      \u0275\u0275elementStart(63, "label", 31);
-      \u0275\u0275text(64, "Not an option");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(65, B2cFormComponent_span_65_Template, 2, 0, "span", 24);
+      \u0275\u0275template(73, B2cFormComponent_span_73_Template, 2, 0, "span", 5);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(66, "fieldset", 9)(67, "legend", 1);
-      \u0275\u0275text(68, "How many years of programming experience?");
+      \u0275\u0275template(74, B2cFormComponent_fieldset_74_Template, 12, 1, "fieldset", 18)(75, B2cFormComponent_ng_container_75_Template, 13, 1, "ng-container", 19)(76, B2cFormComponent_ng_container_76_Template, 13, 1, "ng-container", 19)(77, B2cFormComponent_ng_container_77_Template, 76, 10, "ng-container", 19);
+      \u0275\u0275elementStart(78, "fieldset", 36)(79, "legend", 1);
+      \u0275\u0275text(80, "What language(s) do you speak fluently?");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(69, "select", 32)(70, "option", 11);
-      \u0275\u0275text(71, "Select an option");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(72, "option", 33);
-      \u0275\u0275text(73, "None");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(74, "option", 34);
-      \u0275\u0275text(75, "0-1 year");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(76, "option", 35);
-      \u0275\u0275text(77, "1-3 years");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(78, "option", 36);
-      \u0275\u0275text(79, "3-5 years");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(80, "option", 37);
-      \u0275\u0275text(81, "5+ years");
-      \u0275\u0275elementEnd()();
+      \u0275\u0275element(81, "ng-multiselect-dropdown", 37);
       \u0275\u0275template(82, B2cFormComponent_span_82_Template, 2, 0, "span", 5);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(83, B2cFormComponent_fieldset_83_Template, 12, 1, "fieldset", 38)(84, B2cFormComponent_ng_container_84_Template, 13, 1, "ng-container", 39)(85, B2cFormComponent_ng_container_85_Template, 13, 1, "ng-container", 39)(86, B2cFormComponent_ng_container_86_Template, 76, 10, "ng-container", 39);
-      \u0275\u0275elementStart(87, "fieldset", 40)(88, "legend", 1);
-      \u0275\u0275text(89, "What language(s) do you speak fluently?");
+      \u0275\u0275template(83, B2cFormComponent_fieldset_83_Template, 5, 1, "fieldset", 38);
+      \u0275\u0275elementStart(84, "fieldset", 2)(85, "legend", 1);
+      \u0275\u0275text(86, "Upload Your Resume");
       \u0275\u0275elementEnd();
-      \u0275\u0275element(90, "ng-multiselect-dropdown", 41);
-      \u0275\u0275template(91, B2cFormComponent_span_91_Template, 2, 0, "span", 5);
+      \u0275\u0275elementStart(87, "label", 39)(88, "div", 40);
+      \u0275\u0275element(89, "img", 41);
+      \u0275\u0275text(90, "Computer ");
       \u0275\u0275elementEnd();
-      \u0275\u0275template(92, B2cFormComponent_fieldset_92_Template, 5, 1, "fieldset", 42);
-      \u0275\u0275elementStart(93, "fieldset", 2)(94, "legend", 1);
-      \u0275\u0275text(95, "Upload Your Resume");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(96, "label", 43)(97, "div", 44);
-      \u0275\u0275element(98, "img", 45);
-      \u0275\u0275text(99, "Computer ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(100, "input", 46);
-      \u0275\u0275listener("change", function B2cFormComponent_Template_input_change_100_listener($event) {
+      \u0275\u0275elementStart(91, "input", 42);
+      \u0275\u0275listener("change", function B2cFormComponent_Template_input_change_91_listener($event) {
         return ctx.onFileChange($event);
       });
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(101, "label", 43)(102, "div", 47);
-      \u0275\u0275listener("click", function B2cFormComponent_Template_div_click_102_listener() {
+      \u0275\u0275elementStart(92, "label", 39)(93, "div", 43);
+      \u0275\u0275listener("click", function B2cFormComponent_Template_div_click_93_listener() {
         return ctx.onDropboxClick();
       });
-      \u0275\u0275element(103, "img", 48);
-      \u0275\u0275text(104, "Dropbox ");
+      \u0275\u0275element(94, "img", 44);
+      \u0275\u0275text(95, "Dropbox ");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275template(105, B2cFormComponent_span_105_Template, 2, 1, "span", 24)(106, B2cFormComponent_span_106_Template, 2, 1, "span", 49);
-      \u0275\u0275elementStart(107, "div", 50);
-      \u0275\u0275text(108, " * Note ");
-      \u0275\u0275elementStart(109, "ul", 51)(110, "li", 52);
-      \u0275\u0275text(111, "Resume file type should be one of the following: .doc, .docx, .pdf, .txt, .rtf");
+      \u0275\u0275template(96, B2cFormComponent_span_96_Template, 2, 1, "span", 29)(97, B2cFormComponent_span_97_Template, 2, 1, "span", 45);
+      \u0275\u0275elementStart(98, "div", 46);
+      \u0275\u0275text(99, " * Note ");
+      \u0275\u0275elementStart(100, "ul", 47)(101, "li", 48);
+      \u0275\u0275text(102, "Resume file type should be one of the following: .doc, .docx, .pdf, .txt, .rtf");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(112, "li", 52);
-      \u0275\u0275text(113, "Size less than 5MB");
+      \u0275\u0275elementStart(103, "li", 48);
+      \u0275\u0275text(104, "Size less than 5MB");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(114, "div", 53)(115, "div");
-      \u0275\u0275text(116, "Your privacy is important to us");
+      \u0275\u0275elementStart(105, "div", 49)(106, "div");
+      \u0275\u0275text(107, "Your privacy is important to us");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(117, "div", 54);
-      \u0275\u0275text(118, " Revature is committed to safeguarding your privacy. We will never sell or share your personal information. Submitting this form constitutes your express written consent to receive emails, texts, and phone messages from Revature at the phone number(s) and e-mail address provided in this form for work-related opportunities. ");
+      \u0275\u0275elementStart(108, "div", 50);
+      \u0275\u0275text(109, " Revature is committed to safeguarding your privacy. We will never sell or share your personal information. Submitting this form constitutes your express written consent to receive emails, texts, and phone messages from Revature at the phone number(s) and e-mail address provided in this form for work-related opportunities. ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(119, "div");
-      \u0275\u0275element(120, "input", 55);
-      \u0275\u0275elementStart(121, "label", 56)(122, "b");
-      \u0275\u0275text(123, "(Optional)");
+      \u0275\u0275elementStart(110, "div");
+      \u0275\u0275element(111, "input", 51);
+      \u0275\u0275elementStart(112, "label", 52)(113, "b");
+      \u0275\u0275text(114, "(Optional)");
       \u0275\u0275elementEnd();
-      \u0275\u0275text(124, " Select this checkbox if you would like Revature to share your contact information with our career-placement and network partners for the purpose of expanding your opportunities. This information may include your name, phone number, email address, education level, and work authorization status.");
+      \u0275\u0275text(115, " Select this checkbox if you would like Revature to share your contact information with our career-placement and network partners for the purpose of expanding your opportunities. This information may include your name, phone number, email address, education level, and work authorization status.");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(125, "re-captcha", 57);
-      \u0275\u0275listener("resolved", function B2cFormComponent_Template_re_captcha_resolved_125_listener($event) {
+      \u0275\u0275elementStart(116, "re-captcha", 53);
+      \u0275\u0275listener("resolved", function B2cFormComponent_Template_re_captcha_resolved_116_listener($event) {
         return ctx.recaptchaSuccessCallback($event);
       });
       \u0275\u0275elementEnd();
-      \u0275\u0275template(126, B2cFormComponent_div_126_Template, 2, 0, "div", 58)(127, B2cFormComponent_button_127_Template, 2, 0, "button", 59)(128, B2cFormComponent_div_128_Template, 1, 0, "div", 60);
+      \u0275\u0275template(117, B2cFormComponent_div_117_Template, 2, 0, "div", 54)(118, B2cFormComponent_button_118_Template, 2, 0, "button", 55)(119, B2cFormComponent_div_119_Template, 1, 0, "div", 56);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -52017,15 +52220,15 @@ var B2cFormComponent = class _B2cFormComponent {
       let tmp_7_0;
       let tmp_8_0;
       let tmp_9_0;
-      let tmp_10_0;
       let tmp_11_0;
-      let tmp_12_0;
       let tmp_13_0;
       let tmp_14_0;
-      let tmp_17_0;
-      let tmp_21_0;
-      let tmp_22_0;
-      let tmp_25_0;
+      let tmp_15_0;
+      let tmp_16_0;
+      let tmp_19_0;
+      let tmp_23_0;
+      let tmp_24_0;
+      let tmp_27_0;
       \u0275\u0275property("formGroup", ctx.form);
       \u0275\u0275advance(6);
       \u0275\u0275property("ngIf", ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.touched));
@@ -52042,34 +52245,38 @@ var B2cFormComponent = class _B2cFormComponent {
       \u0275\u0275property("ngIf", ((tmp_8_0 = ctx.form.get("country")) == null ? null : tmp_8_0.invalid) && ((tmp_8_0 = ctx.form.get("country")) == null ? null : tmp_8_0.touched));
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", (tmp_9_0 = ctx.form.get("country")) == null ? null : tmp_9_0.value);
-      \u0275\u0275advance(12);
-      \u0275\u0275property("ngIf", ((tmp_10_0 = ctx.form.get("currentStudent")) == null ? null : tmp_10_0.invalid) && ((tmp_10_0 = ctx.form.get("currentStudent")) == null ? null : tmp_10_0.touched));
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_11_0 = ctx.form.get("currentStudent")) == null ? null : tmp_11_0.value);
+      \u0275\u0275property("ngIf", ctx.isFederalWorker);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.isFederalWorker && ((tmp_11_0 = ctx.form.get("displacedWorker")) == null ? null : tmp_11_0.value) === "yes");
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", !ctx.isFederalWorker);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", (tmp_13_0 = ctx.form.get("currentStudent")) == null ? null : tmp_13_0.value);
       \u0275\u0275advance(16);
-      \u0275\u0275property("ngIf", ((tmp_12_0 = ctx.form.get("willingToRelocate")) == null ? null : tmp_12_0.invalid) && ((tmp_12_0 = ctx.form.get("willingToRelocate")) == null ? null : tmp_12_0.touched));
+      \u0275\u0275property("ngIf", ((tmp_14_0 = ctx.form.get("willingToRelocate")) == null ? null : tmp_14_0.invalid) && ((tmp_14_0 = ctx.form.get("willingToRelocate")) == null ? null : tmp_14_0.touched));
       \u0275\u0275advance(17);
-      \u0275\u0275property("ngIf", ((tmp_13_0 = ctx.form.get("programmingExperience")) == null ? null : tmp_13_0.invalid) && ((tmp_13_0 = ctx.form.get("programmingExperience")) == null ? null : tmp_13_0.touched));
+      \u0275\u0275property("ngIf", ((tmp_15_0 = ctx.form.get("programmingExperience")) == null ? null : tmp_15_0.invalid) && ((tmp_15_0 = ctx.form.get("programmingExperience")) == null ? null : tmp_15_0.touched));
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_14_0 = ctx.form.get("country")) == null ? null : tmp_14_0.value) !== "India");
+      \u0275\u0275property("ngIf", ((tmp_16_0 = ctx.form.get("country")) == null ? null : tmp_16_0.value) !== "India");
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.showSponsorshipFields);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.showFutureSponsorshipFields);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_17_0 = ctx.form.get("country")) == null ? null : tmp_17_0.value) === "India");
+      \u0275\u0275property("ngIf", ((tmp_19_0 = ctx.form.get("country")) == null ? null : tmp_19_0.value) === "India");
       \u0275\u0275advance(4);
       \u0275\u0275property("placeholder", "Select language(s)")("settings", ctx.multiselectDropdownSettingsWithoutSelectAll)("data", ctx.languagesList);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_21_0 = ctx.form.get("certificationTopics")) == null ? null : tmp_21_0.invalid) && ((tmp_21_0 = ctx.form.get("certificationTopics")) == null ? null : tmp_21_0.touched));
+      \u0275\u0275property("ngIf", ((tmp_23_0 = ctx.form.get("certificationTopics")) == null ? null : tmp_23_0.invalid) && ((tmp_23_0 = ctx.form.get("certificationTopics")) == null ? null : tmp_23_0.touched));
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_22_0 = ctx.form.get("language")) == null ? null : tmp_22_0.value.includes("Others"));
+      \u0275\u0275property("ngIf", (tmp_24_0 = ctx.form.get("language")) == null ? null : tmp_24_0.value.includes("Others"));
       \u0275\u0275advance(13);
       \u0275\u0275property("ngIf", ctx.fileError);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.fileSuccess);
       \u0275\u0275advance(20);
-      \u0275\u0275property("ngIf", ((tmp_25_0 = ctx.form.get("validCaptacha")) == null ? null : tmp_25_0.value) === false);
+      \u0275\u0275property("ngIf", ((tmp_27_0 = ctx.form.get("validCaptacha")) == null ? null : tmp_27_0.value) === false);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.showSubmitButton);
       \u0275\u0275advance();
@@ -52964,11 +53171,7 @@ var DsarFormComponent = class _DsarFormComponent {
     "Subscriber or On Mailing List",
     "Other"
   ];
-  relationshipToDataSubject = [
-    "Attorney",
-    "Third-Party Service",
-    "Other"
-  ];
+  relationshipToDataSubject = ["Attorney", "Third-Party Service", "Other"];
   requestTypes = [
     "Consent withdrawal",
     "Access request",
@@ -53020,6 +53223,8 @@ var DsarFormComponent = class _DsarFormComponent {
       fullName: ["", [Validators.required]],
       date: ["", [Validators.required]],
       iConsent: [false, [Validators.requiredTrue]],
+      anotherindividua3: [""],
+      anotherindividual4: [""],
       // reCAPTCHA
       validCaptacha: [""]
     });
@@ -53147,34 +53352,7 @@ var DsarFormComponent = class _DsarFormComponent {
   }
   prepareFormData() {
     let formDataObject = __spreadValues({}, this.form.value);
-    const queryParams = this.getQueryParams();
-    const standardizedQuery = this.standardizeQueryParams(queryParams);
-    formDataObject = __spreadProps(__spreadValues({
-      url: window?.location?.href.split("#")[0] || "",
-      ApplicationDevice__c: window.innerWidth < 640 ? "Mobile" : "Desktop",
-      irClickId: standardizedQuery?.irclickid || "",
-      searchEngine: standardizedQuery?.searchengine || "",
-      searchString: standardizedQuery?.srstring || "",
-      payPerClickKeyword: standardizedQuery?.keyword || "",
-      gCLID: standardizedQuery?.gclid || "",
-      uTMTerm: standardizedQuery?.utm_term || "",
-      uTMCampaign: standardizedQuery.utm_campaign || "",
-      uTMContent: standardizedQuery.utm_content || "",
-      uTMMedium: standardizedQuery.utm_medium || "",
-      uTMSource: standardizedQuery.utm_source || "",
-      uTMSchoolID: standardizedQuery.utm_schoolid || "",
-      referrerURL: document.referrer || "Direct",
-      uTMReferrerName: standardizedQuery.utm_referrername || "",
-      campaignvalue: standardizedQuery.campaignvalue || "",
-      appcastClickID: "",
-      sourcedBy: standardizedQuery.sourcedby || "",
-      referredByEmail: standardizedQuery.referredByEmail || "",
-      referredBy: standardizedQuery.ra || "",
-      referredByUser: standardizedQuery.ru || "",
-      leadDate: (/* @__PURE__ */ new Date()).toISOString()
-    }, formDataObject), {
-      leadType: "DSAR"
-    });
+    let SFDataObject = {};
     const salesforceMapping = {
       legalFirstName: "00N3g000000YxE7",
       legalLastName: "00N3g000000YxE8",
@@ -53199,34 +53377,43 @@ var DsarFormComponent = class _DsarFormComponent {
       onBehalfEmail: "EmailOther__c",
       onBehalfPhone: "00N3g000000YxEB",
       relationshipToDataSubject: "00N3g000000YxED",
-      relationshipToDataSubjectDetails: "00N3g000000YxEC",
+      relationshipToDataSubjectDetails: "00N3g000000YxECEA0",
       requestType: "00N3g000000YxEN",
       requestDetails: "00N3g000000YxEG",
       requestReason: "00N3g000000YxEI",
-      iConsent: "00N3g000000YxE0"
+      iConsent: "00N3g000000YxE0",
+      date: "date",
+      fullName: "fullName",
+      anotherindividua3: "anotherindividua3",
+      anotherindividual4: "anotherindividual4"
     };
     for (const [formField, sfField] of Object.entries(salesforceMapping)) {
-      formDataObject[sfField] = formDataObject[formField];
+      SFDataObject[sfField] = formDataObject[formField];
     }
-    formDataObject["00N3g000000YxEH"] = formDataObject.isRequestingOnBehalf ? "1" : "0";
-    formDataObject["00N3g000000YxE0"] = formDataObject.iConsent ? "1" : "0";
-    delete formDataObject["g-recaptcha-response"];
-    return formDataObject;
+    SFDataObject["00N3g000000YxEH"] = formDataObject.isRequestingOnBehalf ? "1" : "0";
+    SFDataObject["00N3g000000YxE0"] = formDataObject.iConsent ? "1" : "0";
+    SFDataObject["anotherindividua3"] = formDataObject.anotherindividua3 ? "yes" : "";
+    SFDataObject["anotherindividual4"] = formDataObject.anotherindividual4 ? "no" : "";
+    return SFDataObject;
   }
   submitForm(formDataObject) {
     return __async(this, null, function* () {
-      const apiUrl = ENV_VAR.FORM_API_ENDPOINT;
-      const queryString = this.createQueryString(formDataObject);
-      const apiUrlWithParams = apiUrl + "?" + queryString;
+      const apiUrl = "https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
       try {
-        const response = yield this.http.get(apiUrlWithParams).toPromise();
-        if (response?.status === "ok") {
-          console.log("Form data submitted successfully");
-          this.navigateToThankYouPage(formDataObject.legalFirstName);
-        } else {
-          console.error("Error submitting form data");
-          alert("Error submitting form data. Please try again.");
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = apiUrl;
+        this.appendFormField(form, "orgid", "00D0P000000Da8T");
+        this.appendFormField(form, "retURL", ENV_VAR.URL + "/thank-you/dsar");
+        this.appendFormField(form, "recordType", "0123g0000001swX");
+        this.appendFormField(form, "external", "1");
+        for (const [key, value] of Object.entries(formDataObject)) {
+          if (value !== void 0 && value !== null) {
+            this.appendFormField(form, key, String(value));
+          }
         }
+        document.body.appendChild(form);
+        form.submit();
       } catch (error) {
         console.error("Error submitting form data:", error);
         alert("Error submitting form data. Please try again.");
@@ -53235,6 +53422,13 @@ var DsarFormComponent = class _DsarFormComponent {
         this.showSubmitButton = true;
       }
     });
+  }
+  appendFormField(form, name, value) {
+    const input2 = document.createElement("input");
+    input2.type = "hidden";
+    input2.name = name;
+    input2.value = value;
+    form.appendChild(input2);
   }
   navigateToThankYouPage(firstName) {
     window.location.href = `/thank-you?name=${btoa(firstName)}`;
@@ -53282,7 +53476,7 @@ var DsarFormComponent = class _DsarFormComponent {
         return ctx.onResize();
       }, false, \u0275\u0275resolveWindow);
     }
-  }, decls: 175, vars: 28, consts: [["novalidate", "", 3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["for", "legalFirstName", 1, "form-label"], [1, "required"], ["type", "text", "id", "legalFirstName", "formControlName", "legalFirstName", "placeholder", "Legal First Name", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["class", "b2c-error-message", 4, "ngIf"], ["for", "legalLastName", 1, "form-label"], ["type", "text", "id", "legalLastName", "formControlName", "legalLastName", "placeholder", "Legal Last Name", "maxlength", "80", "noWhitespace", "", 1, "form-field"], [1, "one-grid-container"], ["for", "otherNames", 1, "form-label"], ["type", "text", "id", "otherNames", "formControlName", "otherNames", "placeholder", "Other Names", "maxlength", "80", "noWhitespace", "", 1, "form-field"], ["for", "streetAddress", 1, "form-label"], ["type", "text", "id", "streetAddress", "formControlName", "streetAddress", "placeholder", "Street Address", "maxlength", "100", "noWhitespace", "", 1, "form-field"], ["for", "city", 1, "form-label"], ["type", "text", "id", "city", "formControlName", "city", "placeholder", "City", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["for", "state", 1, "form-label"], ["type", "text", "id", "state", "formControlName", "state", "placeholder", "State", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["for", "postCode", 1, "form-label"], ["type", "text", "id", "postCode", "formControlName", "postCode", "placeholder", "Post Code", "maxlength", "10", "noWhitespace", "", 1, "form-field"], ["for", "country", 1, "form-label"], ["id", "country", "formControlName", "country", 1, "form-field"], [3, "value"], [3, "value", 4, "ngFor", "ngForOf"], ["for", "email", 1, "form-label"], ["type", "email", "id", "email", "formControlName", "email", "placeholder", "Email Address", "maxlength", "80", "noWhitespace", "", 1, "form-field"], ["for", "phone", 1, "form-label"], ["type", "tel", "id", "phone", "formControlName", "phone", "placeholder", "Phone Number", "maxlength", "15", 1, "form-field"], ["for", "relationshipWithRevature", 1, "form-label"], ["id", "relationshipWithRevature", "formControlName", "relationshipWithRevature", 1, "form-field"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-label"], [1, "custom-radio"], ["type", "radio", "formControlName", "isRequestingOnBehalf", "id", "isRequestingOnBehalf", 3, "value"], ["for", "isRequestingOnBehalf"], ["type", "radio", "formControlName", "isRequestingOnBehalf", "id", "notRequestingOnBehalf", 3, "value"], ["for", "notRequestingOnBehalf"], ["class", "form-content", 4, "ngIf"], ["class", "form-section", 4, "ngIf"], [1, "form-section"], ["for", "requestType", 1, "form-label"], [1, "form-content"], ["id", "requestType", "formControlName", "requestType", 1, "form-field"], ["for", "requestDetails", 1, "form-label"], ["id", "requestDetails", "formControlName", "requestDetails", "rows", "5", 1, "form-field"], ["for", "requestReason", 1, "form-label"], ["id", "requestReason", "formControlName", "requestReason", "rows", "5", 1, "form-field"], [1, "custom-checkbox"], ["type", "checkbox", "id", "declaration1", "checked", "", "disabled", ""], ["for", "declaration1"], ["type", "checkbox", "id", "declaration2", "checked", "", "disabled", ""], ["for", "declaration2"], ["for", "fullName", 1, "form-label"], ["type", "text", "id", "fullName", "formControlName", "fullName", "placeholder", "Full Name", "maxlength", "80", "noWhitespace", "", 1, "form-field"], ["for", "date", 1, "form-label"], ["type", "date", "id", "date", "formControlName", "date", 1, "form-field"], ["type", "checkbox", "id", "iConsent", "formControlName", "iConsent"], ["for", "iConsent", 1, "form-label"], [3, "resolved"], ["class", "form-error-message", 4, "ngIf"], [1, "submit-container"], ["type", "submit", "class", "b2b-form-button", 4, "ngIf"], ["class", "loading-indicator", 4, "ngIf"], [1, "b2c-error-message"], ["for", "relationshipWithRevatureOther", 1, "form-label"], ["id", "relationshipWithRevatureOther", "formControlName", "relationshipWithRevatureOther", "rows", "3", 1, "form-field"], ["for", "onBehalfFirstName", 1, "form-label"], ["type", "text", "id", "onBehalfFirstName", "formControlName", "onBehalfFirstName", "placeholder", "First Name", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfLastName", 1, "form-label"], ["type", "text", "id", "onBehalfLastName", "formControlName", "onBehalfLastName", "placeholder", "Last Name", "maxlength", "80", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfStreetAddress", 1, "form-label"], ["type", "text", "id", "onBehalfStreetAddress", "formControlName", "onBehalfStreetAddress", "placeholder", "Street Address", "maxlength", "100", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfCity", 1, "form-label"], ["type", "text", "id", "onBehalfCity", "formControlName", "onBehalfCity", "placeholder", "City", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfState", 1, "form-label"], ["type", "text", "id", "onBehalfState", "formControlName", "onBehalfState", "placeholder", "State", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfPostCode", 1, "form-label"], ["type", "text", "id", "onBehalfPostCode", "formControlName", "onBehalfPostCode", "placeholder", "Post Code", "maxlength", "10", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfCountry", 1, "form-label"], ["id", "onBehalfCountry", "formControlName", "onBehalfCountry", 1, "form-field"], ["for", "onBehalfEmail", 1, "form-label"], ["type", "email", "id", "onBehalfEmail", "formControlName", "onBehalfEmail", "placeholder", "Email Address", "maxlength", "80", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfPhone", 1, "form-label"], ["type", "tel", "id", "onBehalfPhone", "formControlName", "onBehalfPhone", "placeholder", "Phone Number", "maxlength", "15", 1, "form-field"], ["for", "relationshipToDataSubject", 1, "form-label"], ["id", "relationshipToDataSubject", "formControlName", "relationshipToDataSubject", 1, "form-field"], ["for", "relationshipToDataSubjectDetails", 1, "form-label"], ["id", "relationshipToDataSubjectDetails", "formControlName", "relationshipToDataSubjectDetails", "rows", "3", 1, "form-field"], [1, "form-error-message"], ["type", "submit", 1, "b2b-form-button"], [1, "loading-indicator"], [1, "spinner"]], template: function DsarFormComponent_Template(rf, ctx) {
+  }, decls: 175, vars: 28, consts: [["novalidate", "", 3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["for", "legalFirstName", 1, "form-label"], [1, "required"], ["type", "text", "id", "legalFirstName", "formControlName", "legalFirstName", "placeholder", "Legal First Name", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["class", "b2c-error-message", 4, "ngIf"], ["for", "legalLastName", 1, "form-label"], ["type", "text", "id", "legalLastName", "formControlName", "legalLastName", "placeholder", "Legal Last Name", "maxlength", "80", "noWhitespace", "", 1, "form-field"], [1, "one-grid-container"], ["for", "otherNames", 1, "form-label"], ["type", "text", "id", "otherNames", "formControlName", "otherNames", "placeholder", "Other Names", "maxlength", "80", "noWhitespace", "", 1, "form-field"], ["for", "streetAddress", 1, "form-label"], ["type", "text", "id", "streetAddress", "formControlName", "streetAddress", "placeholder", "Street Address", "maxlength", "100", "noWhitespace", "", 1, "form-field"], ["for", "city", 1, "form-label"], ["type", "text", "id", "city", "formControlName", "city", "placeholder", "City", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["for", "state", 1, "form-label"], ["type", "text", "id", "state", "formControlName", "state", "placeholder", "State", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["for", "postCode", 1, "form-label"], ["type", "text", "id", "postCode", "formControlName", "postCode", "placeholder", "Post Code", "maxlength", "10", "noWhitespace", "", 1, "form-field"], ["for", "country", 1, "form-label"], ["id", "country", "formControlName", "country", 1, "form-field"], [3, "value"], [3, "value", 4, "ngFor", "ngForOf"], ["for", "email", 1, "form-label"], ["type", "email", "id", "email", "formControlName", "email", "placeholder", "Email Address", "maxlength", "80", "noWhitespace", "", 1, "form-field"], ["for", "phone", 1, "form-label"], ["type", "tel", "id", "phone", "formControlName", "phone", "placeholder", "Phone Number", "maxlength", "15", 1, "form-field"], ["for", "relationshipWithRevature", 1, "form-label"], ["id", "relationshipWithRevature", "formControlName", "relationshipWithRevature", 1, "form-field"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-label"], [1, "custom-radio"], ["type", "radio", "formControlName", "isRequestingOnBehalf", "id", "isRequestingOnBehalf", 3, "value"], ["for", "isRequestingOnBehalf"], ["type", "radio", "formControlName", "isRequestingOnBehalf", "id", "notRequestingOnBehalf", 3, "value"], ["for", "notRequestingOnBehalf"], ["class", "form-content", 4, "ngIf"], ["class", "form-section", 4, "ngIf"], [1, "form-section"], ["for", "requestType", 1, "form-label"], [1, "form-content"], ["id", "requestType", "formControlName", "requestType", 1, "form-field"], ["for", "requestDetails", 1, "form-label"], ["id", "requestDetails", "formControlName", "requestDetails", "rows", "5", 1, "form-field"], ["for", "requestReason", 1, "form-label"], ["id", "requestReason", "formControlName", "requestReason", "rows", "5", 1, "form-field"], [1, "custom-checkbox"], ["type", "checkbox", "id", "declaration1", "formControlName", "anotherindividua3"], ["for", "declaration1"], ["type", "checkbox", "id", "declaration2", "formControlName", "anotherindividual4"], ["for", "declaration2"], ["for", "fullName", 1, "form-label"], ["type", "text", "id", "fullName", "formControlName", "fullName", "placeholder", "Full Name", "maxlength", "80", "noWhitespace", "", 1, "form-field"], ["for", "date", 1, "form-label"], ["type", "date", "id", "date", "formControlName", "date", 1, "form-field"], ["type", "checkbox", "id", "iConsent", "formControlName", "iConsent"], ["for", "iConsent", 1, "form-label"], [3, "resolved"], ["class", "form-error-message", 4, "ngIf"], [1, "submit-container"], ["type", "submit", "class", "b2b-form-button", 4, "ngIf"], ["class", "loading-indicator", 4, "ngIf"], [1, "b2c-error-message"], ["for", "relationshipWithRevatureOther", 1, "form-label"], ["id", "relationshipWithRevatureOther", "formControlName", "relationshipWithRevatureOther", "rows", "3", 1, "form-field"], ["for", "onBehalfFirstName", 1, "form-label"], ["type", "text", "id", "onBehalfFirstName", "formControlName", "onBehalfFirstName", "placeholder", "First Name", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfLastName", 1, "form-label"], ["type", "text", "id", "onBehalfLastName", "formControlName", "onBehalfLastName", "placeholder", "Last Name", "maxlength", "80", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfStreetAddress", 1, "form-label"], ["type", "text", "id", "onBehalfStreetAddress", "formControlName", "onBehalfStreetAddress", "placeholder", "Street Address", "maxlength", "100", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfCity", 1, "form-label"], ["type", "text", "id", "onBehalfCity", "formControlName", "onBehalfCity", "placeholder", "City", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfState", 1, "form-label"], ["type", "text", "id", "onBehalfState", "formControlName", "onBehalfState", "placeholder", "State", "maxlength", "40", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfPostCode", 1, "form-label"], ["type", "text", "id", "onBehalfPostCode", "formControlName", "onBehalfPostCode", "placeholder", "Post Code", "maxlength", "10", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfCountry", 1, "form-label"], ["id", "onBehalfCountry", "formControlName", "onBehalfCountry", 1, "form-field"], ["for", "onBehalfEmail", 1, "form-label"], ["type", "email", "id", "onBehalfEmail", "formControlName", "onBehalfEmail", "placeholder", "Email Address", "maxlength", "80", "noWhitespace", "", 1, "form-field"], ["for", "onBehalfPhone", 1, "form-label"], ["type", "tel", "id", "onBehalfPhone", "formControlName", "onBehalfPhone", "placeholder", "Phone Number", "maxlength", "15", 1, "form-field"], ["for", "relationshipToDataSubject", 1, "form-label"], ["id", "relationshipToDataSubject", "formControlName", "relationshipToDataSubject", 1, "form-field"], ["for", "relationshipToDataSubjectDetails", 1, "form-label"], ["id", "relationshipToDataSubjectDetails", "formControlName", "relationshipToDataSubjectDetails", "rows", "3", 1, "form-field"], [1, "form-error-message"], ["type", "submit", 1, "b2b-form-button"], [1, "loading-indicator"], [1, "spinner"]], template: function DsarFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function DsarFormComponent_Template_form_ngSubmit_0_listener() {
@@ -53551,7 +53745,7 @@ var DsarFormComponent = class _DsarFormComponent {
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.loading);
     }
-  }, dependencies: [NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, MaxLengthValidator, FormGroupDirective, FormControlName, RecaptchaComponent, NoWhitespaceDirective], styles: ['\n\n.custom-checkbox[_ngcontent-%COMP%]   input[type=checkbox][_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-checkbox[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 16px;\n  cursor: pointer;\n  color: #fff;\n  display: inline;\n}\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n  bottom: 0 !important;\n}\n.form-label[_ngcontent-%COMP%] {\n  padding: 8px 0;\n}\n.form-content[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: #fff;\n}\n.form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n  height: auto !important;\n}\n.b2c-error-message[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: #F9B200;\n}\n.b2b-form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  border-radius: 36px;\n  border-color: #FF7014;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n@media screen and (max-width: 600px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n    margin-bottom: 10px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  min-height: 50px;\n  text-align: center;\n  line-height: 30px;\n  cursor: pointer;\n  border-radius: 7px;\n  border: 1px solid white;\n  color: white;\n  margin-bottom: 0px;\n  align-content: center;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: white;\n  color: black;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n  height: 40px;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-wrapper[_ngcontent-%COMP%] {\n  position: relative;\n}\ninput[type=file][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-file-upload[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: transparent;\n  color: white;\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n}\n.custom-file-upload[_ngcontent-%COMP%]:hover {\n  background-color: #00183c;\n}\n.custom-file-upload[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-file-upload[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n.custom-button[_ngcontent-%COMP%] {\n  height: 50px;\n  width: 170px;\n  background-color: rgb(255, 207, 0);\n  border: none;\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n  transition: background-color 0.5s;\n  transition: scale 0.5s;\n  transition: color 0.3s;\n  z-index: 1;\n  border-radius: 50px;\n  overflow: hidden;\n  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);\n  font-size: 16px;\n  margin-top: 2.5rem;\n}\noption[_ngcontent-%COMP%] {\n  color: black;\n}\n.custom-button[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: -100%;\n  width: 100%;\n  height: 100%;\n  background-color: rgb(255, 113, 21);\n  transition: left 0.3s;\n  z-index: -1;\n}\n.custom-button[_ngcontent-%COMP%]:hover::before {\n  left: 0;\n}\n.custom-button[_ngcontent-%COMP%]:hover {\n  scale: 1.1;\n  color: white;\n}\n.resume-success[_ngcontent-%COMP%] {\n  color: green;\n}\n.dropbox-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: rgba(0, 123, 255, 0);\n  color: rgb(0, 0, 0);\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n  height: 40px;\n}\n.dropbox-wrapper[_ngcontent-%COMP%]:hover {\n  background-color: #b1b5b9;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}\n.rev-multi-select[_ngcontent-%COMP%] {\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown {\n  background-color: rgba(0, 0, 0, 0.1) !important;\n  border: 1px solid rgba(255, 255, 255, 0.13) !important;\n  border-radius: 8px !important;\n  font-family: inherit !important;\n  width: 100% !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn {\n  background-color: transparent !important;\n  border: none !important;\n  color: #fafafa !important;\n  padding: 12px 24px !important;\n  border-radius: 8px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .dropdown-down {\n  border-top: 5px solid #fafafa !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .dropdown-up {\n  border-bottom: 5px solid #fafafa !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item-container {\n  padding-bottom: 4px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item {\n  background: white !important;\n  border: 1px solid white !important;\n  color: black !important;\n  max-width: none !important;\n  padding: 2px 8px !important;\n  border-radius: 0.5rem !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-dropdown .dropdown-btn .selected-item a {\n  color: black !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list {\n  background: white !important;\n  border: 1px solid #ccc !important;\n  border-radius: 8px !important;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1) !important;\n  margin-top: 0px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .no-filtered-data h5 {\n  font-size: 16px !important;\n  color: black !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .filter-textbox input {\n  background-color: white !important;\n  border: 1px solid #ccc !important;\n  color: #333 !important;\n  border-radius: 4px !important;\n  padding: 5px 0px 5px 20px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .filter-textbox input::placeholder {\n  color: #999 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list ul li {\n  color: #333 !important;\n  padding: 8px 12px !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list ul li:hover {\n  background-color: rgba(175, 173, 173, 0.1) !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1:hover, \n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1.selected {\n  background-color: rgba(175, 173, 173, 0.1) !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .dropdown-list .item1.selected {\n  background-color: rgba(175, 173, 173, 0.2) !important;\n  color: #333 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-item-checkbox input[type=checkbox]:checked + div:before {\n  background: #011635 !important;\n  border: 2px solid #011635 !important;\n}\n.rev-multi-select[_ngcontent-%COMP%]     .multiselect-item-checkbox input[type=checkbox] + div:before {\n  border: 2px solid #ccc !important;\n}'] });
+  }, dependencies: [NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, MaxLengthValidator, FormGroupDirective, FormControlName, RecaptchaComponent, NoWhitespaceDirective], styles: ['\n\n.custom-checkbox[_ngcontent-%COMP%]   input[type=checkbox][_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-checkbox[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 16px;\n  cursor: pointer;\n  color: #fff;\n  display: inline;\n}\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n  bottom: 0 !important;\n}\n.form-label[_ngcontent-%COMP%] {\n  padding: 8px 0;\n}\n.form-content[_ngcontent-%COMP%] {\n  font-size: 16px;\n  color: #fff;\n}\n.form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n  height: auto !important;\n}\n.b2c-error-message[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: #F9B200;\n}\n.b2b-form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  border-radius: 36px;\n  border-color: #FF7014;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n@media screen and (max-width: 600px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n    margin-bottom: 10px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  min-height: 50px;\n  text-align: center;\n  line-height: 30px;\n  cursor: pointer;\n  border-radius: 7px;\n  border: 1px solid white;\n  color: white;\n  margin-bottom: 0px;\n  align-content: center;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: white;\n  color: black;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n  height: 40px;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-wrapper[_ngcontent-%COMP%] {\n  position: relative;\n}\ninput[type=file][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-file-upload[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: transparent;\n  color: white;\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n}\n.custom-file-upload[_ngcontent-%COMP%]:hover {\n  background-color: #00183c;\n}\n.custom-file-upload[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-file-upload[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n.custom-button[_ngcontent-%COMP%] {\n  height: 50px;\n  width: 170px;\n  background-color: rgb(255, 207, 0);\n  border: none;\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n  transition: background-color 0.5s;\n  transition: scale 0.5s;\n  transition: color 0.3s;\n  z-index: 1;\n  border-radius: 50px;\n  overflow: hidden;\n  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);\n  font-size: 16px;\n  margin-top: 2.5rem;\n}\noption[_ngcontent-%COMP%] {\n  color: black;\n}\n.custom-button[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: -100%;\n  width: 100%;\n  height: 100%;\n  background-color: rgb(255, 113, 21);\n  transition: left 0.3s;\n  z-index: -1;\n}\n.custom-button[_ngcontent-%COMP%]:hover::before {\n  left: 0;\n}\n.custom-button[_ngcontent-%COMP%]:hover {\n  scale: 1.1;\n  color: white;\n}\n.resume-success[_ngcontent-%COMP%] {\n  color: green;\n}\n.dropbox-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: rgba(0, 123, 255, 0);\n  color: rgb(0, 0, 0);\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n  height: 40px;\n}\n.dropbox-wrapper[_ngcontent-%COMP%]:hover {\n  background-color: #b1b5b9;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}\ninput[type=date][_ngcontent-%COMP%]::-webkit-calendar-picker-indicator {\n  filter: invert(1);\n}'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DsarFormComponent, { className: "DsarFormComponent" });

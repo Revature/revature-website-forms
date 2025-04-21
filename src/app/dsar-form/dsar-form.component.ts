@@ -101,6 +101,8 @@ export class DsarFormComponent implements AfterViewInit {
       fullName: ['', [Validators.required]],
       date: ['', [Validators.required]],
       iConsent: [false, [Validators.requiredTrue]],
+      anotherindividua3: [''],
+      anotherindividual4: [''],
 
       // reCAPTCHA
       validCaptacha: [''],
@@ -290,11 +292,15 @@ export class DsarFormComponent implements AfterViewInit {
       onBehalfEmail: 'EmailOther__c',
       onBehalfPhone: '00N3g000000YxEB',
       relationshipToDataSubject: '00N3g000000YxED',
-      relationshipToDataSubjectDetails: '00N3g000000YxEC',
+      relationshipToDataSubjectDetails: '00N3g000000YxECEA0',
       requestType: '00N3g000000YxEN',
       requestDetails: '00N3g000000YxEG',
       requestReason: '00N3g000000YxEI',
       iConsent: '00N3g000000YxE0',
+      date: 'date',
+      fullName: 'fullName',
+      anotherindividua3: 'anotherindividua3',
+      anotherindividual4: 'anotherindividual4',
     };
 
     // Add Salesforce field mappings to form data
@@ -303,47 +309,43 @@ export class DsarFormComponent implements AfterViewInit {
     }
 
     // Handle checkbox values for Salesforce
-    formDataObject['00N3g000000YxEH'] = formDataObject.isRequestingOnBehalf
+    SFDataObject['00N3g000000YxEH'] = formDataObject.isRequestingOnBehalf
       ? '1'
       : '0';
-    formDataObject['00N3g000000YxE0'] = formDataObject.iConsent ? '1' : '0';
-
-    delete formDataObject['g-recaptcha-response'];
-    return formDataObject;
+    SFDataObject['00N3g000000YxE0'] = formDataObject.iConsent ? '1' : '0';
+    
+    // Fix for anotherindividua3 checkbox value
+    SFDataObject['anotherindividua3'] = formDataObject.anotherindividua3 ? 'yes' : '';
+    SFDataObject['anotherindividual4'] = formDataObject.anotherindividual4 ? 'no' : '';
+    
+    return SFDataObject;
   }
-
   async submitForm(formDataObject: any): Promise<void> {
     const apiUrl =
       'https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8';
 
     try {
-      const formData = new FormData();
+      // Create a hidden form element and submit it
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = apiUrl;
 
-      formData.append('orgid', '00D0P000000Da8T');
-      formData.append('retURL', 'http://Revature.com');
-      formData.append('recordType', '0123g0000001swX');
-      formData.append('external', '1');
+      // Add required Salesforce fields
+      this.appendFormField(form, 'orgid', '00D0P000000Da8T');
+      this.appendFormField(form, 'retURL', ENV_VAR.URL + '/thank-you/dsar');
+      this.appendFormField(form, 'recordType', '0123g0000001swX');
+      this.appendFormField(form, 'external', '1');
 
       // Add mapped form fields
       for (const [key, value] of Object.entries(formDataObject)) {
         if (value !== undefined && value !== null) {
-          formData.append(key, String(value));
+          this.appendFormField(form, key, String(value));
         }
       }
 
-      // Send POST request
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        console.log('Form data submitted successfully');
-        this.navigateToThankYouPage(formDataObject.legalFirstName);
-      } else {
-        console.error('Error submitting form data');
-        alert('Error submitting form data. Please try again.');
-      }
+      // Append form to body and submit
+      document.body.appendChild(form);
+      form.submit();
     } catch (error) {
       console.error('Error submitting form data:', error);
       alert('Error submitting form data. Please try again.');
@@ -351,6 +353,14 @@ export class DsarFormComponent implements AfterViewInit {
       this.loading = false;
       this.showSubmitButton = true;
     }
+  }
+
+  private appendFormField(form: HTMLFormElement, name: string, value: string): void {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
   }
 
   navigateToThankYouPage(firstName: string): void {
