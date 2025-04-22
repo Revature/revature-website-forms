@@ -321,6 +321,7 @@ export class DsarFormComponent implements AfterViewInit {
     SFDataObject['anotherindividual4'] = formDataObject.anotherindividual4
       ? 'no'
       : '';
+    SFDataObject['00N3g000000YxE0'] = formDataObject.iConsent ? '1' : '0';
 
     return SFDataObject;
   }
