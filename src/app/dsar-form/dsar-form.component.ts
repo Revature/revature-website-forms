@@ -280,8 +280,7 @@ export class DsarFormComponent implements AfterViewInit {
       email: '00N0d0000031Q43',
       phone: '00N3g000000YxE9',
       relationshipWithRevature: '00N3g000000YxEF',
-      relationshipWithRevatureOther: '00N3g000000YxEE',
-      isRequestingOnBehalf: '00N3g000000YxEH',
+      relationshipWithRevatureOther: '00N3g000000YxEEEA0',
       onBehalfFirstName: '00N3g000000YxE5',
       onBehalfLastName: '00N3g000000YxE6',
       onBehalfStreetAddress: '00N3g000000YxEL',
@@ -294,11 +293,11 @@ export class DsarFormComponent implements AfterViewInit {
       relationshipToDataSubject: '00N3g000000YxED',
       relationshipToDataSubjectDetails: '00N3g000000YxECEA0',
       requestType: '00N3g000000YxEN',
-      requestDetails: '00N3g000000YxEG',
-      requestReason: '00N3g000000YxEI',
+      requestDetails: '00N3g000000YxEGEA0',
+      requestReason: '00N3g000000YxEIEA0',
       iConsent: '00N3g000000YxE0',
       date: 'date',
-      fullName: 'fullName',
+      fullName: 'fullname',
       anotherindividua3: 'anotherindividua3',
       anotherindividual4: 'anotherindividual4',
     };
@@ -309,15 +308,20 @@ export class DsarFormComponent implements AfterViewInit {
     }
 
     // Handle checkbox values for Salesforce
-    SFDataObject['00N3g000000YxEH'] = formDataObject.isRequestingOnBehalf
-      ? '1'
-      : '0';
-    SFDataObject['00N3g000000YxE0'] = formDataObject.iConsent ? '1' : '0';
-    
+    if (formDataObject.isRequestingOnBehalf) {
+      SFDataObject['00N3g000000YxEH'] = '1';
+    } else {
+      SFDataObject['anotherindividual2'] = 'no';
+    }
+
     // Fix for anotherindividua3 checkbox value
-    SFDataObject['anotherindividua3'] = formDataObject.anotherindividua3 ? 'yes' : '';
-    SFDataObject['anotherindividual4'] = formDataObject.anotherindividual4 ? 'no' : '';
-    
+    SFDataObject['anotherindividua3'] = formDataObject.anotherindividua3
+      ? 'yes'
+      : '';
+    SFDataObject['anotherindividual4'] = formDataObject.anotherindividual4
+      ? 'no'
+      : '';
+
     return SFDataObject;
   }
   async submitForm(formDataObject: any): Promise<void> {
@@ -355,7 +359,11 @@ export class DsarFormComponent implements AfterViewInit {
     }
   }
 
-  private appendFormField(form: HTMLFormElement, name: string, value: string): void {
+  private appendFormField(
+    form: HTMLFormElement,
+    name: string,
+    value: string
+  ): void {
     const input = document.createElement('input');
     input.type = 'hidden';
     input.name = name;
