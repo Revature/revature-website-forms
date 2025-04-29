@@ -343,7 +343,7 @@ export class DsarFormComponent implements AfterViewInit {
 
       // Add mapped form fields
       for (const [key, value] of Object.entries(formDataObject)) {
-        if (value !== undefined && value !== null) {
+        if (value !== undefined && value !== null && value !== '') {
           this.appendFormField(form, key, String(value));
         }
       }

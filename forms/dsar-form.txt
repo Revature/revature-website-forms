@@ -53396,6 +53396,7 @@ var DsarFormComponent = class _DsarFormComponent {
     }
     SFDataObject["anotherindividua3"] = formDataObject.anotherindividua3 ? "yes" : "";
     SFDataObject["anotherindividual4"] = formDataObject.anotherindividual4 ? "no" : "";
+    SFDataObject["00N3g000000YxE0"] = formDataObject.iConsent ? "1" : "0";
     return SFDataObject;
   }
   submitForm(formDataObject) {
@@ -53410,7 +53411,7 @@ var DsarFormComponent = class _DsarFormComponent {
         this.appendFormField(form, "recordType", "0123g0000001swX");
         this.appendFormField(form, "external", "1");
         for (const [key, value] of Object.entries(formDataObject)) {
-          if (value !== void 0 && value !== null) {
+          if (value !== void 0 && value !== null && value !== "") {
             this.appendFormField(form, key, String(value));
           }
         }
