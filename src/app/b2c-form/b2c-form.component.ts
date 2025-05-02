@@ -55,7 +55,41 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     { value: "a0A0P00001ZJyDjUAL", label: "Information Technology" },
     { value: "a0A0P00001ZJyDHUA1", label: "Civil Engineering" },
     { value: "a0A0P00001ZJyDqUAL", label: "Mechanical Engineering" },
-    { value: "a0A0P00001ZJyCLUA1", label: "Unlisted" }
+    { value: "a0A0P00001ZJyCLUA1", label: "Unlisted" },
+  ]
+
+  branches2 = [  
+    { value: "a0A0P00001ZJyCKUA1", label: "Agriculture" },
+    { value: "a0AVS000004So612AC", label: "Animation" },
+    { value: "a0A0P00001ZJyD8UAL", label: "Biochemistry" },
+    { value: "a0AVS000004So7d2AC", label: "Biology" },
+    { value: "a0AVS000004SoAr2AK", label: "Biotechnology" },
+    { value: "a0AVS000004SoCT2A0", label: "Botany" },
+    { value: "a0A0P00001ZJyDGUA1", label: "Chemistry" },
+    { value: "a0A0P00001ZJyDNUA1", label: "Computer Science" },
+    { value: "a0A0P00001ZJyDTUA1", label: "Economics" },
+    { value: "a0A0d00000cwGRSEA2", label: "Fashion Design" },
+    { value: "a0A0P00001ZJyDaUAL", label: "Geography" },
+    { value: "a0A0P00001ZJyCiUAL", label: "Hospitality/Tourism" },
+    { value: "a0AVS000002SEJp2AO", label: "Information Technology" },
+    { value: "a0A0P00001ZJyDpUAL", label: "Mathematics" },
+    { value: "a0A0d00000cvdt5EAA", label: "Microbiology" },
+    { value: "a0A0P00001ZJyDtUAL", label: "Nursing" },
+    { value: "a0A0P00001ZJyDvUAL", label: "Physics" },
+    { value: "a0A0P00001ZJyCJUA1", label: "Zoology" }
+  ]
+
+  branches3 = [
+    { value: "a0A0P00001ZJyDWUA1", label: "English/Literature" },
+    { value: "a0A0P00001ZJyDTUA1", label: "Economics" },
+    { value: "a0A0P00001ZJyCFUA1", label: "Sociology" },
+    { value: "a0A0P00001ZJyDcUAL", label: "History" },
+    { value: "a0AVS000004SoE52AK", label: "Archaeology" },
+    { value: "a0A0P00001ZJyDwUAL", label: "Political Science" },
+    { value: "a0A0d00000cxOcvEAE", label: "Religious and Peace Studies" },
+    { value: "a0A0P00001ZJyDyUAL", label: "Psychology" },
+    { value: "a0A0d00000cvrB5EAI", label: "Communication Studies" },
+    { value: "a0A0P00001ZJyDuUAL", label: "Philosophy" },
   ]
 
   certificationTopicsList = [
@@ -548,7 +582,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   }
 
   private onBranchChange(selectedValue: string): void {
-    const selectedBranch = this.branches.find((branch) => branch.value === selectedValue);
+    const selectedBranch = this.getBranchesArray().find((branch) => branch.value === selectedValue);
 
     if (selectedBranch) {
       this.form.patchValue({
@@ -1099,5 +1133,44 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     }
     
     this.form.get('securityClearanceType')?.updateValueAndValidity({ emitEvent: false });
+  }
+
+  handleDegreeChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.form.get('branch')?.setValue('');
+    if (!this.showBranchField()) {
+      this.form.get('branch')?.clearValidators();
+    } else {
+      this.form.get('branch')?.setValidators(Validators.required);
+    }
+    this.form.get('branch')?.updateValueAndValidity();
+  }
+
+  showBranchField(): boolean {
+    const degree = this.form.get('levelOfEducation')?.value;
+    return [
+      'Bachelor of Engineering',
+      'Bachelor of Technology',
+      'Master of Engineering',
+      'Master of Technology',
+      'Bachelor of Arts',
+      'Master of Arts',
+      'Bachelor of Science',
+      'Master of Science'
+    ].includes(degree);
+  }
+
+  getBranchesArray(): any[] {
+    const degree = this.form.get('levelOfEducation')?.value;
+    
+    if (['Bachelor of Engineering','Bachelor of Technology', 'Master of Engineering', 'Master of Technology'].includes(degree)) {
+      return this.branches;
+    } else if (['Bachelor of Arts', 'Master of Arts'].includes(degree)) {
+      return this.branches3;
+    } else if (['Bachelor of Science', 'Master of Science'].includes(degree)) {
+      return this.branches2;
+    }
+    
+    return this.branches; 
   }
 }

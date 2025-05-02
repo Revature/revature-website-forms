@@ -541,17 +541,26 @@
         <!-- India -->
         <ng-container *ngIf="form.get('country')?.value === 'India'">
             <legend class="form-label">{{ form.get('currentStudent')?.value === 'yes' ? 'Degree Expected' : 'Highest Degree Achieved' }}</legend>
-            <div class="two-grid-container">
+            <div [ngClass]="{'two-grid-container': showBranchField(), 'one-grid-container': !showBranchField()}">
                 <fieldset class="form-fieldset">
-                    <select class="form-field educationFields-field common-field" formControlName="levelOfEducation">
+                    <select class="form-field educationFields-field common-field" formControlName="levelOfEducation" (change)="handleDegreeChange($event)">
                         <option value="" disabled selected>Select an option</option>
-                        <option value="Bachelor's Degree">Bachelor of Science</option>
-                        <option value="Bachelor's Degree_2">Bachelor of Engineering</option>
-                        <option value="Bachelor's Degree_3">Bachelor of Technology</option>
-                        <option value="Master's Degree">Master of Science</option>
-                        <option value="Master's Degree_2">Master of Engineering</option>
-                        <option value="Master's Degree_3">Master of Technology</option>
-                        <option value="Master's Degree_4">Master of Computer Application</option>
+                        <option value="Bachelor of Arts">Bachelor of Arts</option>
+                        <option value="Bachelor of Science">Bachelor of Science</option>
+                        <option value="Bachelor of Engineering">Bachelor of Engineering</option>
+                        <option value="Bachelor of Technology">Bachelor of Technology</option>
+                        <option value="Bachelor of Business Administration">Bachelor of Business Administration</option>
+                        <option value="Bachelor of Commerce">Bachelor of Commerce</option>
+                        <option value="Bachelor of Computer Application">Bachelor of Computer Application</option>
+                        <option value="Bachelor of Corporate Secretaryship">Bachelor of Corporate Secretaryship</option>
+                        <option value="Master of Arts">Master of Arts</option>
+                        <option value="Master of Science">Master of Science</option>
+                        <option value="Master of Engineering">Master of Engineering</option>
+                        <option value="Master of Technology">Master of Technology</option>
+                        <option value="Master of Business Administration">Master of Business Administration</option>
+                        <option value="Master of Commerce">Master of Commerce</option>
+                        <option value="Master of Computer Application">Master of Computer Application</option>
+                        <option value="Master of Corporate Secretaryship">Master of Corporate Secretaryship</option>
                         <option value="High School">Other</option>
                     </select>
                     <span class="b2c-error-message educationFields-error-message common-error-message"
@@ -560,10 +569,10 @@
                     </span>
                 </fieldset>
 
-                <fieldset class="form-fieldset">
+                <fieldset class="form-fieldset" *ngIf="showBranchField()">
                     <select class="form-field educationFields-field common-field" formControlName="branch">
                         <option value="" disabled selected>Select an option</option>
-                        <option *ngFor="let branch of branches" [value]="branch.value">
+                        <option *ngFor="let branch of getBranchesArray()" [value]="branch.value">
                             {{ branch.label }}
                         </option>
                     </select>
