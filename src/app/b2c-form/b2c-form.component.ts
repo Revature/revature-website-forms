@@ -51,7 +51,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   branches = [
     { value: "a0A0d00000cwoOcEAI", label: "Computer Science and Engineering" },
     { value: "a0A3g000000sYkcEAE", label: "Electronics and Communication Engineering" },
-    { value: "a0A0P00001ZJyDgUAL", label: "Circuital" },
+    { value: "a0A0P00001ZJyDgUAL", label: "Electrical Engineering" },
+    { value: "a0A6g00000G3QB0EAN", label: "Electrical and Electronics Engineering" },
+    { value: "a0AVS000004Ud6T2AS", label: "Circuital" },
     { value: "a0A0P00001ZJyDjUAL", label: "Information Technology" },
     { value: "a0A0P00001ZJyDHUA1", label: "Civil Engineering" },
     { value: "a0A0P00001ZJyDqUAL", label: "Mechanical Engineering" },
