@@ -78,7 +78,8 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     { value: "a0A0d00000cvdt5EAA", label: "Microbiology" },
     { value: "a0A0P00001ZJyDtUAL", label: "Nursing" },
     { value: "a0A0P00001ZJyDvUAL", label: "Physics" },
-    { value: "a0A0P00001ZJyCJUA1", label: "Zoology" }
+    { value: "a0A0P00001ZJyCJUA1", label: "Zoology" },
+    { value: "a0A0P00001ZJyCLUA1", label: "Unlisted" },
   ]
 
   branches3 = [
@@ -92,6 +93,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     { value: "a0A0P00001ZJyDyUAL", label: "Psychology" },
     { value: "a0A0d00000cvrB5EAI", label: "Communication Studies" },
     { value: "a0A0P00001ZJyDuUAL", label: "Philosophy" },
+    { value: "a0A0P00001ZJyCLUA1", label: "Unlisted" },
   ]
 
   certificationTopicsList = [
@@ -259,9 +261,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       validCaptacha: [''],
 
       // India-Specific Fields
-      majorGrade: ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in Degree (in %)
-      '12thGrade': ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in 12th Board exam (in %)
-      '10thGrade': ['', [Validators.pattern('^[0-9]{1,2}$')]], // Score in 10th Board exam (in %)
+      majorGrade: ['', [Validators.pattern('^.{1,3}$')]], // Score in Degree (in %)
+      '12thGrade': ['', [Validators.pattern('^.{1,3}$')]], // Score in 12th Board exam (in %)
+      '10thGrade': ['', [Validators.pattern('^.{1,3}$')]], // Score in 10th Board exam (in %)
 
       // India Hiring Fields
       hasCertifications: [''],
@@ -326,6 +328,19 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     this.form.get('language')?.valueChanges.subscribe((value) => {
       this.handleLanguageChange(value);
     });
+
+    this.form.get('majorGrade')?.valueChanges.subscribe((value) => {
+      this.handleIndiaGradeChange(value, 'majorGrade');
+    });
+
+    this.form.get('12thGrade')?.valueChanges.subscribe((value) => {
+      this.handleIndiaGradeChange(value, '12thGrade');
+    });
+
+    this.form.get('10thGrade')?.valueChanges.subscribe((value) => {
+      this.handleIndiaGradeChange(value, '10thGrade');
+    });
+    
   }
 
   private initDropbox(): void {
@@ -374,7 +389,18 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       if (value.length > 15) {
         return { invalidPhone: true };
       }
-    } else if (country === 'India' || country === 'Canada') {
+    } else if (country === 'India') {
+      if (!value.startsWith('+91')) {
+        return { invalidPhone: true };
+      }
+      const remaining = value.slice(4);
+      if (!/^\d*$/.test(remaining) || remaining.length < 10) {
+        return { invalidPhone: true };
+      }
+      if (value.length > 14) {
+        return { invalidPhone: true };
+      }
+    } else if (country === 'Canada') {
       if (!/^\d*$/.test(value) || value.length < 8) {
         return { invalidPhone: true };
       }
@@ -423,16 +449,33 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
         value = '+44 ' + value.replace(/^\+?44/, '');
       }
       phoneControl.setValue(value, { emitEvent: false });
+    } else if (country === 'India') {
+      let value = phone.replace(/\D/g, '');
+      if (!value.startsWith('+91 ')) {
+        value = '+91 ' + value.replace(/^\+?91/, '');
+      }
+      phoneControl.setValue(value, { emitEvent: false });
     } else {
       phoneControl.setValue(phone.replace(/\D/g, ''), { emitEvent: false });
     }
+  }
+
+  handleIndiaGradeChange(value: string, formControl: string): void {
+    value = value.replace(/\D/g, '');
+    if (value.length > 0) {
+      if (!value.endsWith('%')) {
+        value = value + '%';
+      }
+    }
+    this.form.get(formControl)?.setValue(value, { emitEvent: false });
   }
 
   get phoneMaxLength(): number {
     const country = this.form.get('country')?.value;
     if (country === 'Mexico' || country === 'United Kingdom') return 15;
     if (country === 'United States') return 14;
-    if (country === 'India' || country === 'Canada') return 10;
+    if (country === 'India') return 14;
+    if (country === 'Canada') return 10;
     return 14;
   }
 
@@ -493,9 +536,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
     this.form.get('workAuthorization')?.setValue('')
     if (country === 'India') {
-      this.form.get('majorGrade')?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
-      this.form.get('12thGrade')?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
-      this.form.get('10thGrade')?.setValidators([Validators.required, Validators.pattern('^[0-9]+$')])
+      this.form.get('majorGrade')?.setValidators([Validators.required,Validators.pattern('^.{1,3}$')])
+      this.form.get('12thGrade')?.setValidators([Validators.required,Validators.pattern('^.{1,3}$')])
+      this.form.get('10thGrade')?.setValidators([Validators.required,Validators.pattern('^.{1,3}$')])
       this.form.get('workAuthorization')?.clearValidators()
 
       this.form.get('hasCertifications')?.setValidators([Validators.required]);
@@ -846,12 +889,6 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     } else if (formDataObject.country === "United Kingdom") {
       formDataObject.zip = formDataObject.ukZip;
     } else if (formDataObject.country === "India") {
-      if (formDataObject.levelOfEducation.includes("Bachelor's Degree")) {
-        formDataObject.levelOfEducation = "Bachelor's Degree";
-      } else if (formDataObject.levelOfEducation.includes("Master's Degree")) {
-        formDataObject.levelOfEducation = "Master's Degree";
-      }
-
       // Format certification topics as a string
       if (formDataObject.certificationTopics) {
         formDataObject.certificationTopics = formDataObject.certificationTopics.length ? JSON.stringify(formDataObject.certificationTopics) : '';
@@ -861,6 +898,10 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       if (formDataObject.internships) {
         formDataObject.internships = formDataObject.internships.length ? JSON.stringify(formDataObject.internships) : '';
       }
+
+      formDataObject.majorGrade = formDataObject.majorGrade.replace('%', '');
+      formDataObject['12thGrade'] = formDataObject['12thGrade'].replace('%', '');
+      formDataObject['10thGrade'] = formDataObject['10thGrade'].replace('%', '');
     }
 
     if (["United Kingdom", "Canada", "United States", "Mexico"].includes(formDataObject.country)) {
@@ -916,7 +957,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       Resumedropbox: '',
       ...formDataObject,
       leadDate: new Date().toISOString(),
-      phone: ["Mexico", "United Kingdom"].includes(formDataObject.country)
+      phone: ["Mexico", "United Kingdom", "India"].includes(formDataObject.country)
         ? "+" + formDataObject.phone.replace(/\D/g, "")
         : formDataObject.phone.replace(/\D/g, ""),
       FileBase64: '',

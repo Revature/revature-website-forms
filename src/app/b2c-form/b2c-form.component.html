@@ -36,7 +36,8 @@
         <fieldset class="form-fieldset">
             <input class="form-field common-field" type="tel" formControlName="phone" 
                 [placeholder]="form.get('country')?.value === 'United Kingdom' ? '+44 - Phone Number' : 
-                             (form.get('country')?.value === 'Mexico' ? '+52 - Phone Number' : 'Phone Number')"
+                             (form.get('country')?.value === 'Mexico' ? '+52 - Phone Number' :
+                             (form.get('country')?.value === 'India' ? '+91 - Phone Number' : 'Phone Number'))"
                 [attr.maxLength]="phoneMaxLength" [attr.minLength]="(form.get('country')?.value === 'United States') ? 13 : 8">
             <span class="b2c-error-message common-error-message"
                 *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched">
@@ -725,15 +726,15 @@
         <div class="one-grid-container">
             <fieldset class="form-fieldset">
                 <legend class="form-label">Score in Degree (in %)</legend>
-                <input noWhitespace class="form-field education-field common-field" formControlName="majorGrade" type="text" maxlength="2"
-                    placeholder="Degree Score">
+                <input noWhitespace class="form-field education-field common-field" formControlName="majorGrade" type="text" maxlength="3"
+                    placeholder="Degree Score in %">
                 <span class="b2c-error-message education-error-message common-error-message"
                     *ngIf="form.get('majorGrade')?.invalid && form.get('majorGrade')?.touched">
                     <span *ngIf="form.get('majorGrade')?.errors?.['required']">
                         Degree score is required.
                     </span>
                     <span *ngIf="form.get('majorGrade')?.errors?.['pattern']">
-                        Score must be a number
+                        Score must be a valid number
                     </span>
                 </span>
             </fieldset>
@@ -741,14 +742,14 @@
             <fieldset class="form-fieldset">
                 <legend class="form-label">Score in 12th Board exam (in %)</legend>
                 <input noWhitespace class="form-field education-field common-field" formControlName="12thGrade" type="text"
-                    maxlength="2" placeholder="12th Score">
+                    maxlength="3" placeholder="12th Score in %">
                 <span class="b2c-error-message education-error-message common-error-message"
                     *ngIf="form.get('12thGrade')?.invalid && form.get('12thGrade')?.touched">
                     <span *ngIf="form.get('12thGrade')?.errors?.['required']">
                         12th score is required.
                     </span>
                     <span *ngIf="form.get('12thGrade')?.errors?.['pattern']">
-                        Score must be a number
+                        Score must be a valid number
                     </span>
                 </span>
             </fieldset>
@@ -756,14 +757,14 @@
             <fieldset class="form-fieldset">
                 <legend class="form-label">Score in 10th Board exam (in %)</legend>
                 <input noWhitespace class="form-field education-field common-field" formControlName="10thGrade" type="text"
-                    maxlength="2" placeholder="10th Score">
+                    maxlength="3" placeholder="10th Score in %">
                 <span class="b2c-error-message education-error-message common-error-message"
                     *ngIf="form.get('10thGrade')?.invalid && form.get('10thGrade')?.touched">
                     <span *ngIf="form.get('10thGrade')?.errors?.['required']">
                         10th score is required.
                     </span>
                     <span *ngIf="form.get('10thGrade')?.errors?.['pattern']">
-                        Score must be a number
+                        Score must be a valid number
                     </span>
                 </span>
             </fieldset>
