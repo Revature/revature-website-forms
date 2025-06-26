@@ -583,6 +583,17 @@
                     </span>
                 </fieldset>
             </div>
+            
+            <!-- Other Degree/Branch Field (for High School or Unlisted Branch) -->
+            <fieldset class="one-grid-container" *ngIf="form.get('levelOfEducation')?.value === 'High School' || form.get('branch')?.value === 'a0A0P00001ZJyCLUA1'">
+                <legend class="form-label">{{ form.get('levelOfEducation')?.value === 'High School' ? 'Specify Other Degree' : 'Specify Branch' }}</legend>
+                <input noWhitespace maxlength="100" class="form-field common-field" type="text" formControlName="otherDegree" 
+                    placeholder="{{ form.get('levelOfEducation')?.value === 'High School' ? 'Specify your degree' : 'Specify your branch' }}">
+                <span class="b2c-error-message common-error-message"
+                    *ngIf="form.get('otherDegree')?.invalid && form.get('otherDegree')?.touched">
+                    This field is required
+                </span>
+            </fieldset>
         </ng-container>
 
         <!-- Graduation Date Fields (for current students) -->

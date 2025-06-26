@@ -15,7 +15,7 @@ declare const Dropbox: any;
 
 export class B2cFormComponent implements AfterViewInit, OnInit {
   @Input('isfederalworker') public isFederalWorker: boolean = false;
-  
+
   form: FormGroup;
 
   graduationYears: number[] = [];
@@ -60,7 +60,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     { value: "a0A0P00001ZJyCLUA1", label: "Unlisted" },
   ]
 
-  branches2 = [  
+  branches2 = [
     { value: "a0A0P00001ZJyCKUA1", label: "Agriculture" },
     { value: "a0AVS000004So612AC", label: "Animation" },
     { value: "a0A0P00001ZJyD8UAL", label: "Biochemistry" },
@@ -189,7 +189,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.addControl('federalExperienceYears', this.fb.control(''));
       this.form.addControl('securityClearance', this.fb.control(''));
       this.form.addControl('securityClearanceType', this.fb.control(''));
-      
+
       this.form.get('displacedWorker')?.valueChanges.subscribe((value) => {
         this.handleDisplacedWorkerChange(value);
       });
@@ -265,6 +265,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       '12thGrade': ['', [Validators.pattern('^.{1,3}$')]], // Score in 12th Board exam (in %)
       '10thGrade': ['', [Validators.pattern('^.{1,3}$')]], // Score in 10th Board exam (in %)
 
+      // Other Degree/Branch field
+      otherDegree: [''],
+
       // India Hiring Fields
       hasCertifications: [''],
       certificationTopics: [[]],
@@ -291,8 +294,8 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
     // Dynamic Validations Based on Current Student Selection
     this.form.get('currentStudent')?.valueChanges.subscribe((currentStudent) => {
-      this.handleCurrentStudentChange(currentStudent);
-    });
+        this.handleCurrentStudentChange(currentStudent);
+      });
 
     this.form.get('branch')?.valueChanges.subscribe((selectedValue) => {
       this.onBranchChange(selectedValue);
@@ -300,8 +303,8 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
     // Dynamic Validations Based on Work Authorization Selection
     this.form.get('workAuthorization')?.valueChanges.subscribe((workAuthorization) => {
-      this.handleWorkAuthorizationChange(workAuthorization);
-    });
+        this.handleWorkAuthorizationChange(workAuthorization);
+      });
 
     // Add dynamic validators for future sponsorship fields
     this.form.get('sponsorship')?.valueChanges.subscribe((value) => {
@@ -340,7 +343,6 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     this.form.get('10thGrade')?.valueChanges.subscribe((value) => {
       this.handleIndiaGradeChange(value, '10thGrade');
     });
-    
   }
 
   private initDropbox(): void {
@@ -580,6 +582,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     this.filterMajors(null);
     this.filterSchools(null);
     this.handleCurrentStudentChange(this.form.value.currentStudent);
+    this.updateOtherDegreeValidation();
   }
   private handleCurrentStudentChange(currentStudent: string): void {
     this.calculateGraduationYears(currentStudent);
@@ -632,27 +635,29 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     if (selectedBranch) {
       this.form.patchValue({
         major: selectedBranch.label,
-        majorID: selectedBranch.value
+        majorID: selectedBranch.value,
       });
     } else {
       this.form.patchValue({
         major: '',
-        majorID: ''
+        majorID: '',
       });
     }
+
+    this.updateOtherDegreeValidation();
   }
 
   private handleWorkAuthorizationChange(workAuthorization: string): void {
     if (workAuthorization === 'yes') {
       this.showSponsorshipFields = true;
-      this.form.get('sponsorship')?.setValidators([Validators.required])
+      this.form.get('sponsorship')?.setValidators([Validators.required]);
     } else {
       this.showSponsorshipFields = false;
       this.showFutureSponsorshipFields = false;
-      this.form.get('sponsorship')?.clearValidators()
-      this.form.get('sponsorship')?.setValue('')
-      this.form.get('futureSponsorship')?.clearValidators()
-      this.form.get('futureSponsorship')?.setValue('')
+      this.form.get('sponsorship')?.clearValidators();
+      this.form.get('sponsorship')?.setValue('');
+      this.form.get('futureSponsorship')?.clearValidators();
+      this.form.get('futureSponsorship')?.setValue('');
     }
 
     this.form.get('sponsorship')?.updateValueAndValidity({ emitEvent: false })
@@ -661,52 +666,56 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
   private handleSponsorshipChange(value: string): void {
     if (value === 'no') {
-      this.showFutureSponsorshipFields = true
-      this.form.get('futureSponsorship')?.setValidators([Validators.required])
+      this.showFutureSponsorshipFields = true;
+      this.form.get('futureSponsorship')?.setValidators([Validators.required]);
     } else {
-      this.showFutureSponsorshipFields = false
-      this.form.get('futureSponsorship')?.clearValidators()
-      this.form.get('futureSponsorship')?.setValue('')
+      this.showFutureSponsorshipFields = false;
+      this.form.get('futureSponsorship')?.clearValidators();
+      this.form.get('futureSponsorship')?.setValue('');
     }
     this.form.get('futureSponsorship')?.updateValueAndValidity({ emitEvent: false })
   }
 
   filterMajors(event: any) {
     const query = event?.target?.value?.toLowerCase();
-    this.filteredMajors = event ? MAJORS.sort((a, b) => a.label.localeCompare(b.label)).filter(major =>
-      major.label.toLowerCase().includes(query)
-    ) : MAJORS.sort((a, b) => a.label.localeCompare(b.label));
+    this.filteredMajors = event
+      ? MAJORS.sort((a, b) => a.label.localeCompare(b.label)).filter((major) =>
+          major.label.toLowerCase().includes(query)
+        )
+      : MAJORS.sort((a, b) => a.label.localeCompare(b.label));
   }
 
   filterSchools(event: any) {
     const query = event?.target?.value?.toLowerCase();
-    this.filteredSchools = event ? this.schools.sort((a, b) => a.label.localeCompare(b.label)).filter(school =>
-      school.label.toLowerCase().includes(query)
-    ) : this.schools.sort((a, b) => a.label.localeCompare(b.label));
+    this.filteredSchools = event
+      ? this.schools
+          .sort((a, b) => a.label.localeCompare(b.label))
+          .filter((school) => school.label.toLowerCase().includes(query))
+      : this.schools.sort((a, b) => a.label.localeCompare(b.label));
   }
 
   selectAutoCompleteValue(event: any, formControl: string, ObjectValue: any) {
     event.stopPropagation();
     switch (formControl) {
-      case ('major'):
+      case 'major':
         this.form.patchValue({
           major: ObjectValue.label,
-          majorID: ObjectValue.value
+          majorID: ObjectValue.value,
         });
         this.formAuditValue.major = {
           label: ObjectValue.label,
-          value: ObjectValue.value
-        }
+          value: ObjectValue.value,
+        };
         break;
-      case ('school'):
+      case 'school':
         this.form.patchValue({
           school: ObjectValue.label,
-          schoolID: ObjectValue.value
+          schoolID: ObjectValue.value,
         });
         this.formAuditValue.school = {
           label: ObjectValue.label,
-          value: ObjectValue.value
-        }
+          value: ObjectValue.value,
+        };
         break;
     }
     this.focusedControl[formControl] = false;
@@ -716,14 +725,19 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     event.preventDefault();
     this.focusedControl[formControl] = value;
     if (formControl === 'major') {
-      if (this.formAuditValue.major.label !== this.form.value.major || !this.form.value.majorID) {
+      if (
+        this.formAuditValue.major.label !== this.form.value.major ||
+        !this.form.value.majorID
+      ) {
         this.form.get('major')?.setValue('');
         this.form.get('majorID')?.setValue('');
       }
       this.filterMajors(null);
-    }
-    else if (formControl === 'school') {
-      if (this.formAuditValue.school.label !== this.form.value.school || !this.form.value.schoolID) {
+    } else if (formControl === 'school') {
+      if (
+        this.formAuditValue.school.label !== this.form.value.school ||
+        !this.form.value.schoolID
+      ) {
         this.form.get('school')?.setValue('');
         this.form.get('schoolID')?.setValue('');
       }
@@ -732,9 +746,15 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   }
 
   private calculateGraduationYears(currentStudent: string): void {
-    const currentYear = currentStudent == "yes" ? new Date().getFullYear() : new Date().getFullYear() - 2;
-    const years = currentStudent == "yes" ? 5 : 3;
-    this.graduationYears = Array.from({ length: years }, (_, i) => currentYear + i);
+    const currentYear =
+      currentStudent == 'yes'
+        ? new Date().getFullYear()
+        : new Date().getFullYear() - 2;
+    const years = currentStudent == 'yes' ? 5 : 3;
+    this.graduationYears = Array.from(
+      { length: years },
+      (_, i) => currentYear + i
+    );
   }
 
   onFileChange(event: Event): void {
@@ -772,7 +792,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
         FileBase64: rawData,
         FileExt: file.type,
         Resumedropbox: '',
-        dropbox: ''
+        dropbox: '',
       });
 
       this.fileSuccess = 'Resume ready to upload';
@@ -789,7 +809,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       success: (files: any[]) => this.handleDropboxFileChange(files[0]),
       linkType: 'preview',
       multiselect: false,
-      extensions: ['.doc', '.docx', '.pdf', '.txt', '.rtf']
+      extensions: ['.doc', '.docx', '.pdf', '.txt', '.rtf'],
     });
   }
 
@@ -801,20 +821,20 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.fileError = 'File size is too large.';
       return;
     }
-    const extension = file.link.split("/").pop().split("#")[0].split("?")[0];
-    let url = file.link.replace("dl=0", "dl=1");
+    const extension = file.link.split('/').pop().split('#')[0].split('?')[0];
+    let url = file.link.replace('dl=0', 'dl=1');
     url = url?.trim();
     this.form.patchValue({
       computer_data: '',
       dropbox: url,
-      Resumedropbox: extension
+      Resumedropbox: extension,
     });
 
     this.fileSuccess = 'Resume ready to upload';
   }
 
   recaptchaSuccessCallback(response: any) {
-    this.form.get('validCaptacha')?.setValue(response ? true : false)
+    this.form.get('validCaptacha')?.setValue(response ? true : false);
   }
 
   async onSubmit(): Promise<void> {
@@ -824,16 +844,24 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      if (!this.form.get('computer_data')?.value && !this.form.get('dropbox')?.value) {
+      if (
+        !this.form.get('computer_data')?.value &&
+        !this.form.get('dropbox')?.value
+      ) {
         this.fileError = 'Please upload a resume.';
       }
       if (!this.form.get('validCaptacha')?.value) {
         this.form.get('validCaptacha')?.setValue(false);
       }
+
+      this.scrollToFirstError();
       return;
     }
 
-    if (!this.form.get('computer_data')?.value && !this.form.get('dropbox')?.value) {
+    if (
+      !this.form.get('computer_data')?.value &&
+      !this.form.get('dropbox')?.value
+    ) {
       this.fileError = 'Please upload a resume.';
       return;
     }
@@ -856,6 +884,26 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     }
   }
 
+  private scrollToFirstError(): void {
+    // Wait for Angular to update the DOM
+    setTimeout(() => {
+      const allErrorElements = document.querySelectorAll('.b2c-error-message');
+      let errorElement;
+
+      for (let i = 0; i < allErrorElements.length; i++) {
+        const element = allErrorElements[i] as HTMLElement;
+        if (element.offsetParent !== null) {
+          errorElement = element;
+          break;
+        }
+      }
+
+      if (errorElement) {
+        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
+  }
+
   async uploadResume(): Promise<void> {
     const formData = this.form.value;
     if (formData.computer_data) {
@@ -865,7 +913,8 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
         const formDataObject = this.prepareFormData();
         await this.submitForm(formDataObject);
       } else {
-        this.fileError = 'There was an error uploading your file. Please try again.';
+        this.fileError =
+          'There was an error uploading your file. Please try again.';
         this.loading = false;
         this.showSubmitButton = true;
         throw new Error('Resume upload failed');
@@ -874,7 +923,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       const formDataObject = this.prepareFormData();
       await this.submitForm(formDataObject);
     } else {
-      this.fileError = "Please upload a resume.";
+      this.fileError = 'Please upload a resume.';
       this.loading = false;
       this.showSubmitButton = true;
       throw new Error('No resume uploaded');
@@ -883,36 +932,55 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
   prepareFormData(): any {
     let formDataObject = { ...this.form.value };
-    if (formDataObject.country === "Canada") {
+    if (formDataObject.country === 'Canada') {
       formDataObject.zip = formDataObject.canadaZip;
       formDataObject.state = formDataObject.canadaState;
-    } else if (formDataObject.country === "United Kingdom") {
+    } else if (formDataObject.country === 'United Kingdom') {
       formDataObject.zip = formDataObject.ukZip;
-    } else if (formDataObject.country === "India") {
+    } else if (formDataObject.country === 'India') {
       // Format certification topics as a string
       if (formDataObject.certificationTopics) {
-        formDataObject.certificationTopics = formDataObject.certificationTopics.length ? JSON.stringify(formDataObject.certificationTopics) : '';
+        formDataObject.certificationTopics = formDataObject.certificationTopics
+          .length
+          ? JSON.stringify(formDataObject.certificationTopics)
+          : '';
       }
 
       // Format internships as a string
       if (formDataObject.internships) {
-        formDataObject.internships = formDataObject.internships.length ? JSON.stringify(formDataObject.internships) : '';
+        formDataObject.internships = formDataObject.internships.length
+          ? JSON.stringify(formDataObject.internships)
+          : '';
       }
 
       formDataObject.majorGrade = formDataObject.majorGrade.replace('%', '');
-      formDataObject['12thGrade'] = formDataObject['12thGrade'].replace('%', '');
-      formDataObject['10thGrade'] = formDataObject['10thGrade'].replace('%', '');
+      formDataObject['12thGrade'] = formDataObject['12thGrade'].replace(
+        '%',
+        ''
+      );
+      formDataObject['10thGrade'] = formDataObject['10thGrade'].replace(
+        '%',
+        ''
+      );
     }
 
-    if (["United Kingdom", "Canada", "United States", "Mexico"].includes(formDataObject.country)) {
-      formDataObject.workAuthorization = formDataObject.workAuthorization === "yes" &&
-        formDataObject.sponsorship === "no" &&
-        formDataObject.futureSponsorship === "no"
-        ? "Yes"
-        : "No";
+    if (
+      ['United Kingdom', 'Canada', 'United States', 'Mexico'].includes(
+        formDataObject.country
+      )
+    ) {
+      formDataObject.workAuthorization =
+        formDataObject.workAuthorization === 'yes' &&
+        formDataObject.sponsorship === 'no' &&
+        formDataObject.futureSponsorship === 'no'
+          ? 'Yes'
+          : 'No';
     }
 
-    if (formDataObject.disabilityType === 'Others' && formDataObject.disabilityTypeOthers) {
+    if (
+      formDataObject.disabilityType === 'Others' &&
+      formDataObject.disabilityTypeOthers
+    ) {
       formDataObject.disabilityType = `Others - ${formDataObject.disabilityTypeOthers}`;
     }
 
@@ -931,46 +999,50 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     const standardizedQuery = this.standardizeQueryParams(queryParams);
 
     formDataObject = {
-      url: window?.location?.href.split('#')[0] || "",
-      ApplicationDevice__c: window.innerWidth < 640 ? "Mobile" : "Desktop",
-      irClickId: standardizedQuery?.irclickid || "",
-      searchEngine: standardizedQuery?.searchengine || "",
-      searchString: standardizedQuery?.srstring || "",
-      payPerClickKeyword: standardizedQuery?.keyword || "",
-      gCLID: standardizedQuery?.gclid || "",
-      uTMTerm: standardizedQuery?.utm_term || "",
-      uTMCampaign: standardizedQuery.utm_campaign || "",
-      uTMContent: standardizedQuery.utm_content || "",
-      uTMMedium: standardizedQuery.utm_medium || "",
-      uTMSource: standardizedQuery.utm_source || "",
-      uTMSchoolID: standardizedQuery.utm_schoolid || "",
-      referrerURL: document.referrer || "Direct",
-      uTMReferrerName: standardizedQuery.utm_referrername || "",
-      campaignvalue: standardizedQuery.campaignvalue || "",
+      url: window?.location?.href.split('#')[0] || '',
+      ApplicationDevice__c: window.innerWidth < 640 ? 'Mobile' : 'Desktop',
+      irClickId: standardizedQuery?.irclickid || '',
+      searchEngine: standardizedQuery?.searchengine || '',
+      searchString: standardizedQuery?.srstring || '',
+      payPerClickKeyword: standardizedQuery?.keyword || '',
+      gCLID: standardizedQuery?.gclid || '',
+      uTMTerm: standardizedQuery?.utm_term || '',
+      uTMCampaign: standardizedQuery.utm_campaign || '',
+      uTMContent: standardizedQuery.utm_content || '',
+      uTMMedium: standardizedQuery.utm_medium || '',
+      uTMSource: standardizedQuery.utm_source || '',
+      uTMSchoolID: standardizedQuery.utm_schoolid || '',
+      referrerURL: document.referrer || 'Direct',
+      uTMReferrerName: standardizedQuery.utm_referrername || '',
+      campaignvalue: standardizedQuery.campaignvalue || '',
       appcastClickID: '',
-      sourcedBy: standardizedQuery.sourcedby || "",
-      referredByEmail: standardizedQuery.referredByEmail || "",
-      referredBy: standardizedQuery.ra || "",
-      referredByUser: standardizedQuery.ru || "",
+      sourcedBy: standardizedQuery.sourcedby || '',
+      referredByEmail: standardizedQuery.referredByEmail || '',
+      referredBy: standardizedQuery.ra || '',
+      referredByUser: standardizedQuery.ru || '',
       dropbox: '',
-      veteran: (window?.location?.href.split('#')[0] || "").includes("veteran"),
+      veteran: (window?.location?.href.split('#')[0] || '').includes('veteran'),
       Resumedropbox: '',
       ...formDataObject,
       leadDate: new Date().toISOString(),
-      phone: ["Mexico", "United Kingdom", "India"].includes(formDataObject.country)
-        ? "+" + formDataObject.phone.replace(/\D/g, "")
-        : formDataObject.phone.replace(/\D/g, ""),
+      phone: ['Mexico', 'United Kingdom', 'India'].includes(
+        formDataObject.country
+      )
+        ? '+' + formDataObject.phone.replace(/\D/g, '')
+        : formDataObject.phone.replace(/\D/g, ''),
       FileBase64: '',
       FileExt: '',
       ResumeUpload: '',
       computer_data: '',
       computer_data_result: '',
-      graduationDate: formDataObject.graduationMonth ? `${formDataObject.graduationYear}-${formDataObject.graduationMonth}-01` : "",
-      leadType: "Revature"
+      graduationDate: formDataObject.graduationMonth
+        ? `${formDataObject.graduationYear}-${formDataObject.graduationMonth}-01`
+        : '',
+      leadType: 'Revature',
     };
-    delete formDataObject["computer_data"];
-    delete formDataObject["computer_data_result"];
-    delete formDataObject["g-recaptcha-response"];
+    delete formDataObject['computer_data'];
+    delete formDataObject['computer_data_result'];
+    delete formDataObject['g-recaptcha-response'];
     return formDataObject;
   }
 
@@ -980,7 +1052,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     const apiUrlWithParams = apiUrl + '?' + queryString;
     try {
       const response: any = await this.http.get(apiUrlWithParams).toPromise();
-      if (response?.status === "ok") {
+      if (response?.status === 'ok') {
         console.log('Form data submitted successfully');
       } else {
         console.error('Error submitting form data');
@@ -1024,7 +1096,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
   uploadFileViaApi(formData: any): Promise<any> {
     const payload = {
-      key: "245583662863Rk863369",
+      key: '245583662863Rk863369',
       person: `${formData.firstName} ${formData.lastName}`,
       filename: formData.computer_data,
       file: formData.computer_data_result,
@@ -1050,7 +1122,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   private resizeCaptcha(): void {
     const reCaptchaElement = document.getElementsByTagName('re-captcha')[0];
 
-    const captchaElem = reCaptchaElement?.getElementsByTagName('div')[0] as HTMLElement;
+    const captchaElem = reCaptchaElement?.getElementsByTagName(
+      'div'
+    )[0] as HTMLElement;
     if (!captchaElem) return;
 
     const captchaWidth = captchaElem?.offsetWidth;
@@ -1130,7 +1204,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
         duration: ['', [Validators.required, Validators.pattern('^(?!0+$)\\d+$')]],
         location: ['', Validators.required],
         technology: ['', Validators.required],
-        role: ['', Validators.required]
+        role: ['', Validators.required],
       });
 
       internshipsArray.push(internshipGroup);
@@ -1155,13 +1229,13 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('displacedWorkerAgency')?.clearValidators();
       this.form.get('federalExperienceYears')?.clearValidators();
       this.form.get('securityClearance')?.clearValidators();
-      
+
       this.form.get('displacedWorkerAgency')?.setValue('');
       this.form.get('federalExperienceYears')?.setValue('');
       this.form.get('securityClearance')?.setValue('');
       this.form.get('securityClearanceType')?.setValue('');
     }
-    
+
     this.form.get('displacedWorkerAgency')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('federalExperienceYears')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('securityClearance')?.updateValueAndValidity({ emitEvent: false });
@@ -1174,7 +1248,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('securityClearanceType')?.clearValidators();
       this.form.get('securityClearanceType')?.setValue('');
     }
-    
+
     this.form.get('securityClearanceType')?.updateValueAndValidity({ emitEvent: false });
   }
 
@@ -1187,6 +1261,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('branch')?.setValidators(Validators.required);
     }
     this.form.get('branch')?.updateValueAndValidity();
+    this.updateOtherDegreeValidation();
   }
 
   showBranchField(): boolean {
@@ -1199,21 +1274,43 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       'Bachelor of Arts',
       'Master of Arts',
       'Bachelor of Science',
-      'Master of Science'
+      'Master of Science',
     ].includes(degree);
   }
 
   getBranchesArray(): any[] {
     const degree = this.form.get('levelOfEducation')?.value;
-    
-    if (['Bachelor of Engineering','Bachelor of Technology', 'Master of Engineering', 'Master of Technology'].includes(degree)) {
+
+    if (
+      [
+        'Bachelor of Engineering',
+        'Bachelor of Technology',
+        'Master of Engineering',
+        'Master of Technology',
+      ].includes(degree)
+    ) {
       return this.branches;
     } else if (['Bachelor of Arts', 'Master of Arts'].includes(degree)) {
       return this.branches3;
     } else if (['Bachelor of Science', 'Master of Science'].includes(degree)) {
       return this.branches2;
     }
-    
-    return this.branches; 
+
+    return this.branches;
+  }
+
+  // Update otherDegree field validation based on levelOfEducation and branch selections
+  private updateOtherDegreeValidation(): void {
+    const levelOfEducation = this.form.get('levelOfEducation')?.value;
+    const branch = this.form.get('branch')?.value;
+
+    if (levelOfEducation === 'High School' || branch === 'a0A0P00001ZJyCLUA1') {
+      this.form.get('otherDegree')?.setValidators([Validators.required]);
+    } else {
+      this.form.get('otherDegree')?.clearValidators();
+      this.form.get('otherDegree')?.setValue('');
+    }
+
+    this.form.get('otherDegree')?.updateValueAndValidity({ emitEvent: false });
   }
 }

@@ -151,25 +151,25 @@ export class RecruitmentFormComponent {
     switch (country) {
       case 'United States':
         this.workAuthorizationValues = ["U.S. Citizen", "Green Card", "Permanent Resident", "EAD", "H1B", "OPT", "CPT", "F1", "L1", "H4", "TN", "DACA", "Other", "Yes"];
-        this.marketingPrograms = ['SPC_Experienced_Hire', 'General-Entry Level'];
+        this.marketingPrograms = ['SPC_Cont_Spec_NoExp', 'SPC_Experienced_Hire', 'General-Entry Level'];
         this.states = US_STATE_VALUES;
         this.schools = US_SCHOOLS;
         break;
       case 'Mexico':
         this.workAuthorizationValues = ["Mexican citizen", "Permanent Resident", "Asylee", "Other", "Yes"];
-        this.marketingPrograms = ['SPC_Mexico_HTD'];
+        this.marketingPrograms = ['SPC_Cont_Spec_NoExp', 'SPC_Mexico_HTD'];
         this.states = MEXICO_STATE_VALUES;
         this.schools = MEXICO_SCHOOLS;
         break;
       case 'Canada':
         this.workAuthorizationValues = ["Canadian Citizen", "Canadian Permanent Resident", "Other", "Yes"];
-        this.marketingPrograms = ['SPC_Experienced_Hire', 'Canada'];
+        this.marketingPrograms = ['SPC_Cont_Spec_NoExp', 'SPC_Experienced_Hire', 'Canada'];
         this.states = CANADA_STATE_VALUES;
         this.schools = CANADA_SCHOOLS;
         break;
       case 'United Kingdom':
         this.workAuthorizationValues = ["U.S. Citizen", "Green Card", "Canadian Citizen", "Mexican citizen", "Permanent Resident", "Canadian Permanent Resident", "EAD", "H1B", "OPT", "CPT", "F1", "L1", "H4", "TN", "DACA", "Asylee", "Other", "Yes"];
-        this.marketingPrograms = ['Experienced Hire', 'United Kingdom'];
+        this.marketingPrograms = ['SPC_Cont_Spec_NoExp', 'Experienced Hire', 'United Kingdom'];
         this.states = US_STATE_VALUES;
         this.schools = US_SCHOOLS;
         break;
@@ -180,9 +180,9 @@ export class RecruitmentFormComponent {
   }
 
   handleMarketingProgramChange(program: string) {
-    this.showOpportunityField = ['SPC_Experienced_Hire'].includes(program);
+    this.showOpportunityField = ['SPC_Experienced_Hire', 'SPC_Cont_Spec_NoExp'].includes(program);
 
-    if (this.showOpportunityField) {
+    if (this.showOpportunityField && ['SPC_Experienced_Hire'].includes(program)) {
       this.form.get('sourcedForOpp')?.setValidators(Validators.required);
     } else {
       this.form.get('sourcedForOpp')?.clearValidators();
