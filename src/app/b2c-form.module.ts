@@ -1,7 +1,6 @@
 import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
 import { createCustomElement } from '@angular/elements'
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
@@ -12,10 +11,9 @@ import { ENV_VAR } from './common/form-contants';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
-  declarations: [],
+  declarations: [B2cFormComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     ReactiveFormsModule,
     RecaptchaModule,
     SharedModule,

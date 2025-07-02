@@ -1,7 +1,6 @@
 import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
 import { SourcingFormComponent } from './sourcing-form/sourcing-form.component';
 import { createCustomElement } from '@angular/elements'
 import { ReactiveFormsModule } from '@angular/forms';
@@ -11,10 +10,9 @@ import { SharedModule } from './common/shared.module';
 import { ENV_VAR } from './common/form-contants';
 
 @NgModule({
-  declarations: [],
+  declarations: [SourcingFormComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     ReactiveFormsModule,
     RecaptchaModule,
     SharedModule

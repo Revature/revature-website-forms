@@ -85,6 +85,8 @@
                 }
               ],
               "outputHashing": "none",
+              "browser": "src/main-sourcing.ts",
+              "tsConfig": "tsconfig.sourcing.json",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -107,6 +109,8 @@
                 }
               ],
               "outputHashing": "none",
+              "browser": "src/main-recruitment.ts",
+              "tsConfig": "tsconfig.recruitment.json",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -129,6 +133,8 @@
                 }
               ],
               "outputHashing": "none",
+              "browser": "src/main-b2c.ts",
+              "tsConfig": "tsconfig.b2c.json",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -151,6 +157,8 @@
                 }
               ],
               "outputHashing": "none",
+              "browser": "src/main-b2b.ts",
+              "tsConfig": "tsconfig.b2b.json",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -173,6 +181,8 @@
                 }
               ],
               "outputHashing": "none",
+              "browser": "src/main-dsar.ts",
+              "tsConfig": "tsconfig.dsar.json",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
