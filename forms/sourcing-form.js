@@ -3131,9 +3131,6 @@ function identity(x) {
 }
 
 // node_modules/rxjs/dist/esm/internal/util/pipe.js
-function pipe(...fns) {
-  return pipeFromArray(fns);
-}
 function pipeFromArray(fns) {
   if (fns.length === 0) {
     return identity;
@@ -3290,86 +3287,6 @@ var OperatorSubscriber = class extends Subscriber {
       super.unsubscribe();
       !closed && ((_a = this.onFinalize) === null || _a === void 0 ? void 0 : _a.call(this));
     }
-  }
-};
-
-// node_modules/rxjs/dist/esm/internal/operators/refCount.js
-function refCount() {
-  return operate((source, subscriber) => {
-    let connection = null;
-    source._refCount++;
-    const refCounter = createOperatorSubscriber(subscriber, void 0, void 0, void 0, () => {
-      if (!source || source._refCount <= 0 || 0 < --source._refCount) {
-        connection = null;
-        return;
-      }
-      const sharedConnection = source._connection;
-      const conn = connection;
-      connection = null;
-      if (sharedConnection && (!conn || sharedConnection === conn)) {
-        sharedConnection.unsubscribe();
-      }
-      subscriber.unsubscribe();
-    });
-    source.subscribe(refCounter);
-    if (!refCounter.closed) {
-      connection = source.connect();
-    }
-  });
-}
-
-// node_modules/rxjs/dist/esm/internal/observable/ConnectableObservable.js
-var ConnectableObservable = class extends Observable {
-  constructor(source, subjectFactory) {
-    super();
-    this.source = source;
-    this.subjectFactory = subjectFactory;
-    this._subject = null;
-    this._refCount = 0;
-    this._connection = null;
-    if (hasLift(source)) {
-      this.lift = source.lift;
-    }
-  }
-  _subscribe(subscriber) {
-    return this.getSubject().subscribe(subscriber);
-  }
-  getSubject() {
-    const subject = this._subject;
-    if (!subject || subject.isStopped) {
-      this._subject = this.subjectFactory();
-    }
-    return this._subject;
-  }
-  _teardown() {
-    this._refCount = 0;
-    const {
-      _connection
-    } = this;
-    this._subject = this._connection = null;
-    _connection === null || _connection === void 0 ? void 0 : _connection.unsubscribe();
-  }
-  connect() {
-    let connection = this._connection;
-    if (!connection) {
-      connection = this._connection = new Subscription();
-      const subject = this.getSubject();
-      connection.add(this.source.subscribe(createOperatorSubscriber(subject, void 0, () => {
-        this._teardown();
-        subject.complete();
-      }, (err) => {
-        this._teardown();
-        subject.error(err);
-      }, () => this._teardown())));
-      if (connection.closed) {
-        this._connection = null;
-        connection = Subscription.EMPTY;
-      }
-    }
-    return connection;
-  }
-  refCount() {
-    return refCount()(this);
   }
 };
 
@@ -3614,11 +3531,11 @@ var ReplaySubject = class extends Subject {
     _bufferSize < Infinity && adjustedBufferSize < _buffer.length && _buffer.splice(0, _buffer.length - adjustedBufferSize);
     if (!_infiniteTimeWindow) {
       const now = _timestampProvider.now();
-      let last4 = 0;
+      let last2 = 0;
       for (let i = 1; i < _buffer.length && _buffer[i] <= now; i += 2) {
-        last4 = i;
+        last2 = i;
       }
-      last4 && _buffer.splice(0, last4 + 1);
+      last2 && _buffer.splice(0, last2 + 1);
     }
   }
 };
@@ -4063,18 +3980,6 @@ function of(...args) {
   return from(args, scheduler2);
 }
 
-// node_modules/rxjs/dist/esm/internal/observable/throwError.js
-function throwError(errorOrErrorFactory, scheduler2) {
-  const errorFactory = isFunction(errorOrErrorFactory) ? errorOrErrorFactory : () => errorOrErrorFactory;
-  const init = (subscriber) => subscriber.error(errorFactory());
-  return new Observable(scheduler2 ? (subscriber) => scheduler2.schedule(init, 0, subscriber) : init);
-}
-
-// node_modules/rxjs/dist/esm/internal/util/isObservable.js
-function isObservable(obj) {
-  return !!obj && (obj instanceof Observable || isFunction(obj.lift) && isFunction(obj.subscribe));
-}
-
 // node_modules/rxjs/dist/esm/internal/util/EmptyError.js
 var EmptyError = createErrorClass((_super) => function EmptyErrorImpl() {
   _super(this);
@@ -4141,60 +4046,6 @@ function isPOJO(obj) {
 // node_modules/rxjs/dist/esm/internal/util/createObject.js
 function createObject(keys, values) {
   return keys.reduce((result, key, i) => (result[key] = values[i], result), {});
-}
-
-// node_modules/rxjs/dist/esm/internal/observable/combineLatest.js
-function combineLatest(...args) {
-  const scheduler2 = popScheduler(args);
-  const resultSelector = popResultSelector(args);
-  const {
-    args: observables,
-    keys
-  } = argsArgArrayOrObject(args);
-  if (observables.length === 0) {
-    return from([], scheduler2);
-  }
-  const result = new Observable(combineLatestInit(observables, scheduler2, keys ? (values) => createObject(keys, values) : identity));
-  return resultSelector ? result.pipe(mapOneOrManyArgs(resultSelector)) : result;
-}
-function combineLatestInit(observables, scheduler2, valueTransform = identity) {
-  return (subscriber) => {
-    maybeSchedule(scheduler2, () => {
-      const {
-        length
-      } = observables;
-      const values = new Array(length);
-      let active = length;
-      let remainingFirstValues = length;
-      for (let i = 0; i < length; i++) {
-        maybeSchedule(scheduler2, () => {
-          const source = from(observables[i], scheduler2);
-          let hasFirstValue = false;
-          source.subscribe(createOperatorSubscriber(subscriber, (value) => {
-            values[i] = value;
-            if (!hasFirstValue) {
-              hasFirstValue = true;
-              remainingFirstValues--;
-            }
-            if (!remainingFirstValues) {
-              subscriber.next(valueTransform(values.slice()));
-            }
-          }, () => {
-            if (!--active) {
-              subscriber.complete();
-            }
-          }));
-        }, subscriber);
-      }
-    }, subscriber);
-  };
-}
-function maybeSchedule(scheduler2, execute, subscription) {
-  if (scheduler2) {
-    executeSchedule(subscription, scheduler2, execute);
-  } else {
-    execute();
-  }
 }
 
 // node_modules/rxjs/dist/esm/internal/operators/mergeInternals.js
@@ -4265,23 +4116,6 @@ function mergeAll(concurrent = Infinity) {
   return mergeMap(identity, concurrent);
 }
 
-// node_modules/rxjs/dist/esm/internal/operators/concatAll.js
-function concatAll() {
-  return mergeAll(1);
-}
-
-// node_modules/rxjs/dist/esm/internal/observable/concat.js
-function concat(...args) {
-  return concatAll()(from(args, popScheduler(args)));
-}
-
-// node_modules/rxjs/dist/esm/internal/observable/defer.js
-function defer(observableFactory) {
-  return new Observable((subscriber) => {
-    innerFrom(observableFactory()).subscribe(subscriber);
-  });
-}
-
 // node_modules/rxjs/dist/esm/internal/observable/forkJoin.js
 function forkJoin(...args) {
   const resultSelector = popResultSelector(args);
@@ -4337,47 +4171,6 @@ function filter(predicate, thisArg) {
   });
 }
 
-// node_modules/rxjs/dist/esm/internal/operators/catchError.js
-function catchError(selector) {
-  return operate((source, subscriber) => {
-    let innerSub = null;
-    let syncUnsub = false;
-    let handledResult;
-    innerSub = source.subscribe(createOperatorSubscriber(subscriber, void 0, void 0, (err) => {
-      handledResult = innerFrom(selector(err, catchError(selector)(source)));
-      if (innerSub) {
-        innerSub.unsubscribe();
-        innerSub = null;
-        handledResult.subscribe(subscriber);
-      } else {
-        syncUnsub = true;
-      }
-    }));
-    if (syncUnsub) {
-      innerSub.unsubscribe();
-      innerSub = null;
-      handledResult.subscribe(subscriber);
-    }
-  });
-}
-
-// node_modules/rxjs/dist/esm/internal/operators/scanInternals.js
-function scanInternals(accumulator, seed, hasSeed, emitOnNext, emitBeforeComplete) {
-  return (source, subscriber) => {
-    let hasState = hasSeed;
-    let state = seed;
-    let index = 0;
-    source.subscribe(createOperatorSubscriber(subscriber, (value) => {
-      const i = index++;
-      state = hasState ? accumulator(state, value, i) : (hasState = true, value);
-      emitOnNext && subscriber.next(state);
-    }, emitBeforeComplete && (() => {
-      hasState && subscriber.next(state);
-      subscriber.complete();
-    })));
-  };
-}
-
 // node_modules/rxjs/dist/esm/internal/operators/concatMap.js
 function concatMap(project, resultSelector) {
   return isFunction(resultSelector) ? mergeMap(project, resultSelector, 1) : mergeMap(project, 1);
@@ -4414,11 +4207,6 @@ function take(count) {
   });
 }
 
-// node_modules/rxjs/dist/esm/internal/operators/mapTo.js
-function mapTo(value) {
-  return map(() => value);
-}
-
 // node_modules/rxjs/dist/esm/internal/operators/throwIfEmpty.js
 function throwIfEmpty(errorFactory = defaultErrorFactory) {
   return operate((source, subscriber) => {
@@ -4450,43 +4238,6 @@ function first(predicate, defaultValue) {
   return (source) => source.pipe(predicate ? filter((v, i) => predicate(v, i, source)) : identity, take(1), hasDefaultValue ? defaultIfEmpty(defaultValue) : throwIfEmpty(() => new EmptyError()));
 }
 
-// node_modules/rxjs/dist/esm/internal/operators/takeLast.js
-function takeLast(count) {
-  return count <= 0 ? () => EMPTY : operate((source, subscriber) => {
-    let buffer = [];
-    source.subscribe(createOperatorSubscriber(subscriber, (value) => {
-      buffer.push(value);
-      count < buffer.length && buffer.shift();
-    }, () => {
-      for (const value of buffer) {
-        subscriber.next(value);
-      }
-      subscriber.complete();
-    }, void 0, () => {
-      buffer = null;
-    }));
-  });
-}
-
-// node_modules/rxjs/dist/esm/internal/operators/last.js
-function last2(predicate, defaultValue) {
-  const hasDefaultValue = arguments.length >= 2;
-  return (source) => source.pipe(predicate ? filter((v, i) => predicate(v, i, source)) : identity, takeLast(1), hasDefaultValue ? defaultIfEmpty(defaultValue) : throwIfEmpty(() => new EmptyError()));
-}
-
-// node_modules/rxjs/dist/esm/internal/operators/scan.js
-function scan(accumulator, seed) {
-  return operate(scanInternals(accumulator, seed, arguments.length >= 2, true));
-}
-
-// node_modules/rxjs/dist/esm/internal/operators/startWith.js
-function startWith(...values) {
-  const scheduler2 = popScheduler(values);
-  return operate((source, subscriber) => {
-    (scheduler2 ? concat(values, source, scheduler2) : concat(values, source)).subscribe(subscriber);
-  });
-}
-
 // node_modules/rxjs/dist/esm/internal/operators/switchMap.js
 function switchMap(project, resultSelector) {
   return operate((source, subscriber) => {
@@ -4507,49 +4258,6 @@ function switchMap(project, resultSelector) {
       checkComplete();
     }));
   });
-}
-
-// node_modules/rxjs/dist/esm/internal/operators/takeUntil.js
-function takeUntil(notifier) {
-  return operate((source, subscriber) => {
-    innerFrom(notifier).subscribe(createOperatorSubscriber(subscriber, () => subscriber.complete(), noop));
-    !subscriber.closed && source.subscribe(subscriber);
-  });
-}
-
-// node_modules/rxjs/dist/esm/internal/operators/tap.js
-function tap(observerOrNext, error, complete) {
-  const tapObserver = isFunction(observerOrNext) || error || complete ? {
-    next: observerOrNext,
-    error,
-    complete
-  } : observerOrNext;
-  return tapObserver ? operate((source, subscriber) => {
-    var _a;
-    (_a = tapObserver.subscribe) === null || _a === void 0 ? void 0 : _a.call(tapObserver);
-    let isUnsub = true;
-    source.subscribe(createOperatorSubscriber(subscriber, (value) => {
-      var _a2;
-      (_a2 = tapObserver.next) === null || _a2 === void 0 ? void 0 : _a2.call(tapObserver, value);
-      subscriber.next(value);
-    }, () => {
-      var _a2;
-      isUnsub = false;
-      (_a2 = tapObserver.complete) === null || _a2 === void 0 ? void 0 : _a2.call(tapObserver);
-      subscriber.complete();
-    }, (err) => {
-      var _a2;
-      isUnsub = false;
-      (_a2 = tapObserver.error) === null || _a2 === void 0 ? void 0 : _a2.call(tapObserver, err);
-      subscriber.error(err);
-    }, () => {
-      var _a2, _b;
-      if (isUnsub) {
-        (_a2 = tapObserver.unsubscribe) === null || _a2 === void 0 ? void 0 : _a2.call(tapObserver);
-      }
-      (_b = tapObserver.finalize) === null || _b === void 0 ? void 0 : _b.call(tapObserver);
-    }));
-  }) : identity;
 }
 
 // node_modules/@angular/core/fesm2022/core.mjs
@@ -4815,7 +4523,7 @@ function isForwardRef(fn) {
 }
 function assertNumber(actual, msg) {
   if (!(typeof actual === "number")) {
-    throwError2(msg, typeof actual, "number", "===");
+    throwError(msg, typeof actual, "number", "===");
   }
 }
 function assertNumberInRange(actual, minInclusive, maxInclusive) {
@@ -4825,86 +4533,86 @@ function assertNumberInRange(actual, minInclusive, maxInclusive) {
 }
 function assertString(actual, msg) {
   if (!(typeof actual === "string")) {
-    throwError2(msg, actual === null ? "null" : typeof actual, "string", "===");
+    throwError(msg, actual === null ? "null" : typeof actual, "string", "===");
   }
 }
 function assertFunction(actual, msg) {
   if (!(typeof actual === "function")) {
-    throwError2(msg, actual === null ? "null" : typeof actual, "function", "===");
+    throwError(msg, actual === null ? "null" : typeof actual, "function", "===");
   }
 }
 function assertEqual(actual, expected, msg) {
   if (!(actual == expected)) {
-    throwError2(msg, actual, expected, "==");
+    throwError(msg, actual, expected, "==");
   }
 }
 function assertNotEqual(actual, expected, msg) {
   if (!(actual != expected)) {
-    throwError2(msg, actual, expected, "!=");
+    throwError(msg, actual, expected, "!=");
   }
 }
 function assertSame(actual, expected, msg) {
   if (!(actual === expected)) {
-    throwError2(msg, actual, expected, "===");
+    throwError(msg, actual, expected, "===");
   }
 }
 function assertNotSame(actual, expected, msg) {
   if (!(actual !== expected)) {
-    throwError2(msg, actual, expected, "!==");
+    throwError(msg, actual, expected, "!==");
   }
 }
 function assertLessThan(actual, expected, msg) {
   if (!(actual < expected)) {
-    throwError2(msg, actual, expected, "<");
+    throwError(msg, actual, expected, "<");
   }
 }
 function assertLessThanOrEqual(actual, expected, msg) {
   if (!(actual <= expected)) {
-    throwError2(msg, actual, expected, "<=");
+    throwError(msg, actual, expected, "<=");
   }
 }
 function assertGreaterThan(actual, expected, msg) {
   if (!(actual > expected)) {
-    throwError2(msg, actual, expected, ">");
+    throwError(msg, actual, expected, ">");
   }
 }
 function assertGreaterThanOrEqual(actual, expected, msg) {
   if (!(actual >= expected)) {
-    throwError2(msg, actual, expected, ">=");
+    throwError(msg, actual, expected, ">=");
   }
 }
 function assertDefined(actual, msg) {
   if (actual == null) {
-    throwError2(msg, actual, null, "!=");
+    throwError(msg, actual, null, "!=");
   }
 }
-function throwError2(msg, actual, expected, comparison) {
+function throwError(msg, actual, expected, comparison) {
   throw new Error(`ASSERTION ERROR: ${msg}` + (comparison == null ? "" : ` [Expected=> ${expected} ${comparison} ${actual} <=Actual]`));
 }
 function assertDomNode(node) {
   if (!(node instanceof Node)) {
-    throwError2(`The provided value must be an instance of a DOM Node but got ${stringify(node)}`);
+    throwError(`The provided value must be an instance of a DOM Node but got ${stringify(node)}`);
   }
 }
 function assertElement(node) {
   if (!(node instanceof Element)) {
-    throwError2(`The provided value must be an element but got ${stringify(node)}`);
+    throwError(`The provided value must be an element but got ${stringify(node)}`);
   }
 }
 function assertIndexInRange(arr, index) {
   assertDefined(arr, "Array must be defined.");
   const maxLen = arr.length;
   if (index < 0 || index >= maxLen) {
-    throwError2(`Index expected to be less than ${maxLen} but got ${index}`);
+    throwError(`Index expected to be less than ${maxLen} but got ${index}`);
   }
 }
 function assertOneOf(value, ...validValues) {
   if (validValues.indexOf(value) !== -1) return true;
-  throwError2(`Expected value to be one of ${JSON.stringify(validValues)} but was ${JSON.stringify(value)}.`);
+  throwError(`Expected value to be one of ${JSON.stringify(validValues)} but was ${JSON.stringify(value)}.`);
 }
 function assertNotReactive(fn) {
   if (getActiveConsumer() !== null) {
-    throwError2(`${fn}() should never be called in a reactive context.`);
+    throwError(`${fn}() should never be called in a reactive context.`);
   }
 }
 function \u0275\u0275defineInjectable(opts) {
@@ -4923,9 +4631,6 @@ function \u0275\u0275defineInjector(options) {
 }
 function getInjectableDef(type) {
   return getOwnDefinition(type, NG_PROV_DEF) || getOwnDefinition(type, NG_INJECTABLE_DEF);
-}
-function isInjectable(type) {
-  return getInjectableDef(type) !== null;
 }
 function getOwnDefinition(type, field) {
   return type.hasOwnProperty(field) ? type[field] : null;
@@ -4989,28 +4694,28 @@ var InjectionToken = class {
 };
 var _injectorProfilerContext;
 function getInjectorProfilerContext() {
-  !ngDevMode && throwError2("getInjectorProfilerContext should never be called in production mode");
+  !ngDevMode && throwError("getInjectorProfilerContext should never be called in production mode");
   return _injectorProfilerContext;
 }
 function setInjectorProfilerContext(context2) {
-  !ngDevMode && throwError2("setInjectorProfilerContext should never be called in production mode");
+  !ngDevMode && throwError("setInjectorProfilerContext should never be called in production mode");
   const previous = _injectorProfilerContext;
   _injectorProfilerContext = context2;
   return previous;
 }
 var injectorProfilerCallback = null;
 var setInjectorProfiler = (injectorProfiler2) => {
-  !ngDevMode && throwError2("setInjectorProfiler should never be called in production mode");
+  !ngDevMode && throwError("setInjectorProfiler should never be called in production mode");
   injectorProfilerCallback = injectorProfiler2;
 };
 function injectorProfiler(event) {
-  !ngDevMode && throwError2("Injector profiler should never be called in production mode");
+  !ngDevMode && throwError("Injector profiler should never be called in production mode");
   if (injectorProfilerCallback != null) {
     injectorProfilerCallback(event);
   }
 }
 function emitProviderConfiguredEvent(eventProvider, isViewProvider = false) {
-  !ngDevMode && throwError2("Injector profiler should never be called in production mode");
+  !ngDevMode && throwError("Injector profiler should never be called in production mode");
   let token;
   if (typeof eventProvider === "function") {
     token = eventProvider;
@@ -5034,7 +4739,7 @@ function emitProviderConfiguredEvent(eventProvider, isViewProvider = false) {
   });
 }
 function emitInstanceCreatedByInjectorEvent(instance) {
-  !ngDevMode && throwError2("Injector profiler should never be called in production mode");
+  !ngDevMode && throwError("Injector profiler should never be called in production mode");
   injectorProfiler({
     type: 1,
     context: getInjectorProfilerContext(),
@@ -5044,7 +4749,7 @@ function emitInstanceCreatedByInjectorEvent(instance) {
   });
 }
 function emitInjectEvent(token, value, flags) {
-  !ngDevMode && throwError2("Injector profiler should never be called in production mode");
+  !ngDevMode && throwError("Injector profiler should never be called in production mode");
   injectorProfiler({
     type: 0,
     context: getInjectorProfilerContext(),
@@ -5056,7 +4761,7 @@ function emitInjectEvent(token, value, flags) {
   });
 }
 function runInInjectorProfilerContext(injector, token, callback) {
-  !ngDevMode && throwError2("runInInjectorProfilerContext should never be called in production mode");
+  !ngDevMode && throwError("runInInjectorProfilerContext should never be called in production mode");
   const prevInjectContext = setInjectorProfilerContext({
     injector,
     token
@@ -6895,28 +6600,28 @@ function assertTNodeForTView(tNode, tView) {
       return;
     }
   }
-  throwError2("This TNode does not belong to this TView.");
+  throwError("This TNode does not belong to this TView.");
 }
 function assertTNode(tNode) {
   assertDefined(tNode, "TNode must be defined");
   if (!(tNode && typeof tNode === "object" && tNode.hasOwnProperty("directiveStylingLast"))) {
-    throwError2("Not of type TNode, got: " + tNode);
+    throwError("Not of type TNode, got: " + tNode);
   }
 }
 function assertTIcu(tIcu) {
   assertDefined(tIcu, "Expected TIcu to be defined");
   if (!(typeof tIcu.currentCaseLViewIndex === "number")) {
-    throwError2("Object is not of TIcu type.");
+    throwError("Object is not of TIcu type.");
   }
 }
 function assertComponentType(actual, msg = "Type passed in is not ComponentType, it does not have '\u0275cmp' property.") {
   if (!getComponentDef(actual)) {
-    throwError2(msg);
+    throwError(msg);
   }
 }
 function assertNgModuleType(actual, msg = "Type passed in is not NgModuleType, it does not have '\u0275mod' property.") {
   if (!getNgModuleDef(actual)) {
-    throwError2(msg);
+    throwError(msg);
   }
 }
 function assertHasParent(tNode) {
@@ -6942,7 +6647,7 @@ function assertFirstUpdatePass(tView, errMessage) {
 }
 function assertDirectiveDef(obj) {
   if (obj.type === void 0 || obj.selectors == void 0 || obj.inputs === void 0) {
-    throwError2(`Expected a DirectiveDef/ComponentDef and this object does not seem to have the expected shape.`);
+    throwError(`Expected a DirectiveDef/ComponentDef and this object does not seem to have the expected shape.`);
   }
 }
 function assertIndexInDeclRange(tView, index) {
@@ -6954,7 +6659,7 @@ function assertIndexInExpandoRange(lView, index) {
 }
 function assertBetween(lower, upper, index) {
   if (!(lower <= index && index < upper)) {
-    throwError2(`Index out of range (expecting ${lower} <= ${index} < ${upper})`);
+    throwError(`Index out of range (expecting ${lower} <= ${index} < ${upper})`);
   }
 }
 function assertProjectionSlots(lView, errMessage) {
@@ -7288,15 +6993,15 @@ function getContextLView() {
   return contextLView;
 }
 function isInCheckNoChangesMode() {
-  !ngDevMode && throwError2("Must never be called in production mode");
+  !ngDevMode && throwError("Must never be called in production mode");
   return _checkNoChangesMode !== CheckNoChangesMode.Off;
 }
 function isExhaustiveCheckNoChanges() {
-  !ngDevMode && throwError2("Must never be called in production mode");
+  !ngDevMode && throwError("Must never be called in production mode");
   return _checkNoChangesMode === CheckNoChangesMode.Exhaustive;
 }
 function setIsInCheckNoChangesMode(mode) {
-  !ngDevMode && throwError2("Must never be called in production mode");
+  !ngDevMode && throwError("Must never be called in production mode");
   _checkNoChangesMode = mode;
 }
 function isRefreshingViews() {
@@ -7667,12 +7372,12 @@ function hasStyleInput(tNode) {
 function assertTNodeType(tNode, expectedTypes, message) {
   assertDefined(tNode, "should be called with a TNode");
   if ((tNode.type & expectedTypes) === 0) {
-    throwError2(message || `Expected [${toTNodeTypeAsString(expectedTypes)}] but got ${toTNodeTypeAsString(tNode.type)}.`);
+    throwError(message || `Expected [${toTNodeTypeAsString(expectedTypes)}] but got ${toTNodeTypeAsString(tNode.type)}.`);
   }
 }
 function assertPureTNodeType(type) {
   if (!(type === 2 || type === 1 || type === 4 || type === 8 || type === 32 || type === 16 || type === 64 || type === 128)) {
-    throwError2(`Expected TNodeType to have only a single type selected, but got ${toTNodeTypeAsString(type)}.`);
+    throwError(`Expected TNodeType to have only a single type selected, but got ${toTNodeTypeAsString(type)}.`);
   }
 }
 var NOT_FOUND_CHECK_ONLY_ELEMENT_INJECTOR = {};
@@ -9954,12 +9659,12 @@ function clobberedElementError(node) {
 var SURROGATE_PAIR_REGEXP = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
 var NON_ALPHANUMERIC_REGEXP = /([^\#-~ |!])/g;
 function encodeEntities(value) {
-  return value.replace(/&/g, "&amp;").replace(SURROGATE_PAIR_REGEXP, function(match2) {
-    const hi = match2.charCodeAt(0);
-    const low = match2.charCodeAt(1);
+  return value.replace(/&/g, "&amp;").replace(SURROGATE_PAIR_REGEXP, function(match) {
+    const hi = match.charCodeAt(0);
+    const low = match.charCodeAt(1);
     return "&#" + ((hi - 55296) * 1024 + (low - 56320) + 65536) + ";";
-  }).replace(NON_ALPHANUMERIC_REGEXP, function(match2) {
-    return "&#" + match2.charCodeAt(0) + ";";
+  }).replace(NON_ALPHANUMERIC_REGEXP, function(match) {
+    return "&#" + match.charCodeAt(0) + ";";
   }).replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 var inertBodyHelper;
@@ -10219,19 +9924,19 @@ function reportUnknownPropertyError(message) {
   }
 }
 function getDeclarationComponentDef(lView) {
-  !ngDevMode && throwError2("Must never be called in production mode");
+  !ngDevMode && throwError("Must never be called in production mode");
   const declarationLView = lView[DECLARATION_COMPONENT_VIEW];
   const context2 = declarationLView[CONTEXT];
   if (!context2) return null;
   return context2.constructor ? getComponentDef(context2.constructor) : null;
 }
 function isHostComponentStandalone(lView) {
-  !ngDevMode && throwError2("Must never be called in production mode");
+  !ngDevMode && throwError("Must never be called in production mode");
   const componentDef = getDeclarationComponentDef(lView);
   return !!componentDef?.standalone;
 }
 function getTemplateLocationDetails(lView) {
-  !ngDevMode && throwError2("Must never be called in production mode");
+  !ngDevMode && throwError("Must never be called in production mode");
   const hostComponentDef = getDeclarationComponentDef(lView);
   const componentClassName = hostComponentDef?.type?.name;
   return componentClassName ? ` (used in the '${componentClassName}' component template)` : "";
@@ -11013,7 +10718,7 @@ function processHostBindingOpCodes(tView, lView) {
     setSelectedIndex(-1);
   }
 }
-function createLView(parentLView, tView, context2, flags, host, tHostNode, environment2, renderer, injector, embeddedViewInjector, hydrationInfo) {
+function createLView(parentLView, tView, context2, flags, host, tHostNode, environment, renderer, injector, embeddedViewInjector, hydrationInfo) {
   const lView = tView.blueprint.slice();
   lView[HOST] = host;
   lView[FLAGS] = flags | 4 | 128 | 8 | 64;
@@ -11024,7 +10729,7 @@ function createLView(parentLView, tView, context2, flags, host, tHostNode, envir
   ngDevMode && tView.declTNode && parentLView && assertTNodeForLView(tView.declTNode, parentLView);
   lView[PARENT] = lView[DECLARATION_VIEW] = parentLView;
   lView[CONTEXT] = context2;
-  lView[ENVIRONMENT] = environment2 || parentLView && parentLView[ENVIRONMENT];
+  lView[ENVIRONMENT] = environment || parentLView && parentLView[ENVIRONMENT];
   ngDevMode && assertDefined(lView[ENVIRONMENT], "LViewEnvironment is required");
   lView[RENDERER] = renderer || parentLView && parentLView[RENDERER];
   ngDevMode && assertDefined(lView[RENDERER], "Renderer is required");
@@ -12066,8 +11771,8 @@ function viewShouldHaveReactiveConsumer(tView) {
 }
 var MAXIMUM_REFRESH_RERUNS$1 = 100;
 function detectChangesInternal(lView, notifyErrorHandler = true, mode = 0) {
-  const environment2 = lView[ENVIRONMENT];
-  const rendererFactory = environment2.rendererFactory;
+  const environment = lView[ENVIRONMENT];
+  const rendererFactory = environment.rendererFactory;
   const checkNoChangesMode = !!ngDevMode && isInCheckNoChangesMode();
   if (!checkNoChangesMode) {
     rendererFactory.begin?.();
@@ -12082,7 +11787,7 @@ function detectChangesInternal(lView, notifyErrorHandler = true, mode = 0) {
   } finally {
     if (!checkNoChangesMode) {
       rendererFactory.end?.();
-      environment2.inlineEffectRunner?.flush();
+      environment.inlineEffectRunner?.flush();
     }
   }
 }
@@ -12736,7 +12441,7 @@ function getTIcu(tView, index) {
   const value = tView.data[index];
   if (value === null || typeof value === "string") return null;
   if (ngDevMode && !(value.hasOwnProperty("tView") || value.hasOwnProperty("currentCaseLViewIndex"))) {
-    throwError2("We expect to get 'null'|'TIcu'|'TIcuContainer', but got: " + value);
+    throwError("We expect to get 'null'|'TIcu'|'TIcuContainer', but got: " + value);
   }
   const tIcu = value.hasOwnProperty("currentCaseLViewIndex") ? value : value.value;
   ngDevMode && assertTIcu(tIcu);
@@ -13285,7 +12990,7 @@ var ComponentFactory = class extends ComponentFactory$1 {
       }
       const sanitizer = rootViewInjector.get(Sanitizer, null);
       const changeDetectionScheduler = rootViewInjector.get(ChangeDetectionScheduler, null);
-      const environment2 = {
+      const environment = {
         rendererFactory,
         sanitizer,
         // We don't use inline effects (yet).
@@ -13311,7 +13016,7 @@ var ComponentFactory = class extends ComponentFactory$1 {
         );
       }
       const rootTView = createTView(0, null, null, 1, 0, null, null, null, null, null, null);
-      const rootLView = createLView(null, rootTView, null, rootFlags, null, null, environment2, hostRenderer, rootViewInjector, null, hydrationInfo);
+      const rootLView = createLView(null, rootTView, null, rootFlags, null, null, environment, hostRenderer, rootViewInjector, null, hydrationInfo);
       enterView(rootLView);
       let component;
       let tElementNode;
@@ -13330,7 +13035,7 @@ var ComponentFactory = class extends ComponentFactory$1 {
           rootDirectives = [rootComponentDef];
         }
         const hostTNode = createRootComponentTNode(rootLView, hostRNode);
-        componentView = createRootComponentView(hostTNode, hostRNode, rootComponentDef, rootDirectives, rootLView, environment2, hostRenderer);
+        componentView = createRootComponentView(hostTNode, hostRNode, rootComponentDef, rootDirectives, rootLView, environment, hostRenderer);
         tElementNode = getTNode(rootTView, HEADER_OFFSET);
         if (hostRNode) {
           setRootNodeAttributes(hostRenderer, rootComponentDef, hostRNode, rootSelectorOrNode);
@@ -13414,21 +13119,21 @@ function createRootComponentTNode(lView, rNode) {
   lView[index] = rNode;
   return getOrCreateTNode(tView, index, 2, "#host", null);
 }
-function createRootComponentView(tNode, hostRNode, rootComponentDef, rootDirectives, rootView, environment2, hostRenderer) {
+function createRootComponentView(tNode, hostRNode, rootComponentDef, rootDirectives, rootView, environment, hostRenderer) {
   const tView = rootView[TVIEW];
   applyRootComponentStyling(rootDirectives, tNode, hostRNode, hostRenderer);
   let hydrationInfo = null;
   if (hostRNode !== null) {
     hydrationInfo = retrieveHydrationInfo(hostRNode, rootView[INJECTOR]);
   }
-  const viewRenderer = environment2.rendererFactory.createRenderer(hostRNode, rootComponentDef);
+  const viewRenderer = environment.rendererFactory.createRenderer(hostRNode, rootComponentDef);
   let lViewFlags = 16;
   if (rootComponentDef.signals) {
     lViewFlags = 4096;
   } else if (rootComponentDef.onPush) {
     lViewFlags = 64;
   }
-  const componentView = createLView(rootView, getOrCreateComponentTView(rootComponentDef), null, lViewFlags, rootView[tNode.index], tNode, environment2, viewRenderer, null, null, hydrationInfo);
+  const componentView = createLView(rootView, getOrCreateComponentTView(rootComponentDef), null, lViewFlags, rootView[tNode.index], tNode, environment, viewRenderer, null, null, hydrationInfo);
   if (tView.firstCreatePass) {
     markAsComponentHost(tView, tNode, rootDirectives.length - 1);
   }
@@ -13474,7 +13179,7 @@ function createRootComponent(componentView, rootComponentDef, rootDirectives, ho
 }
 function setRootNodeAttributes(hostRenderer, componentDef, hostRNode, rootSelectorOrNode) {
   if (rootSelectorOrNode) {
-    setUpAttributes(hostRenderer, hostRNode, ["ng-version", "18.2.8"]);
+    setUpAttributes(hostRenderer, hostRNode, ["ng-version", "18.2.13"]);
   } else {
     const {
       attrs,
@@ -13580,7 +13285,7 @@ var R3ViewContainerRef = class ViewContainerRef2 extends VE_ViewContainerRef {
       }
       const options = indexOrOptions || {};
       if (ngDevMode && options.environmentInjector && options.ngModuleRef) {
-        throwError2(`Cannot pass both environmentInjector and ngModuleRef options to createComponent().`);
+        throwError(`Cannot pass both environmentInjector and ngModuleRef options to createComponent().`);
       }
       index = options.index;
       injector = options.injector;
@@ -13943,7 +13648,7 @@ function createSpecialToken(lView, tNode, read) {
     );
     return createContainerRef(tNode, lView);
   } else {
-    ngDevMode && throwError2(`Special token to read should be one of ElementRef, TemplateRef or ViewContainerRef but got ${stringify(read)}.`);
+    ngDevMode && throwError(`Special token to read should be one of ElementRef, TemplateRef or ViewContainerRef but got ${stringify(read)}.`);
   }
 }
 function materializeViewResults(tView, lView, tQuery, queryIndex) {
@@ -14539,22 +14244,14 @@ function \u0275\u0275CopyDefinitionFeature(definition) {
 }
 function \u0275\u0275HostDirectivesFeature(rawHostDirectives) {
   const feature = (definition) => {
-    const resolved = (Array.isArray(rawHostDirectives) ? rawHostDirectives : rawHostDirectives()).map((dir) => {
-      return typeof dir === "function" ? {
-        directive: resolveForwardRef(dir),
-        inputs: EMPTY_OBJ,
-        outputs: EMPTY_OBJ
-      } : {
-        directive: resolveForwardRef(dir.directive),
-        inputs: bindingArrayToMap(dir.inputs),
-        outputs: bindingArrayToMap(dir.outputs)
-      };
-    });
+    const isEager = Array.isArray(rawHostDirectives);
     if (definition.hostDirectives === null) {
       definition.findHostDirectiveDefs = findHostDirectiveDefs;
-      definition.hostDirectives = resolved;
+      definition.hostDirectives = isEager ? rawHostDirectives.map(createHostDirectiveDef) : [rawHostDirectives];
+    } else if (isEager) {
+      definition.hostDirectives.unshift(...rawHostDirectives.map(createHostDirectiveDef));
     } else {
-      definition.hostDirectives.unshift(...resolved);
+      definition.hostDirectives.unshift(rawHostDirectives);
     }
   };
   feature.ngInherit = true;
@@ -14562,17 +14259,38 @@ function \u0275\u0275HostDirectivesFeature(rawHostDirectives) {
 }
 function findHostDirectiveDefs(currentDef, matchedDefs, hostDirectiveDefs) {
   if (currentDef.hostDirectives !== null) {
-    for (const hostDirectiveConfig of currentDef.hostDirectives) {
-      const hostDirectiveDef = getDirectiveDef(hostDirectiveConfig.directive);
-      if (typeof ngDevMode === "undefined" || ngDevMode) {
-        validateHostDirective(hostDirectiveConfig, hostDirectiveDef);
+    for (const configOrFn of currentDef.hostDirectives) {
+      if (typeof configOrFn === "function") {
+        const resolved = configOrFn();
+        for (const config2 of resolved) {
+          trackHostDirectiveDef(createHostDirectiveDef(config2), matchedDefs, hostDirectiveDefs);
+        }
+      } else {
+        trackHostDirectiveDef(configOrFn, matchedDefs, hostDirectiveDefs);
       }
-      patchDeclaredInputs(hostDirectiveDef.declaredInputs, hostDirectiveConfig.inputs);
-      findHostDirectiveDefs(hostDirectiveDef, matchedDefs, hostDirectiveDefs);
-      hostDirectiveDefs.set(hostDirectiveDef, hostDirectiveConfig);
-      matchedDefs.push(hostDirectiveDef);
     }
   }
+}
+function trackHostDirectiveDef(def, matchedDefs, hostDirectiveDefs) {
+  const hostDirectiveDef = getDirectiveDef(def.directive);
+  if (typeof ngDevMode === "undefined" || ngDevMode) {
+    validateHostDirective(def, hostDirectiveDef);
+  }
+  patchDeclaredInputs(hostDirectiveDef.declaredInputs, def.inputs);
+  findHostDirectiveDefs(hostDirectiveDef, matchedDefs, hostDirectiveDefs);
+  hostDirectiveDefs.set(hostDirectiveDef, def);
+  matchedDefs.push(hostDirectiveDef);
+}
+function createHostDirectiveDef(config2) {
+  return typeof config2 === "function" ? {
+    directive: resolveForwardRef(config2),
+    inputs: EMPTY_OBJ,
+    outputs: EMPTY_OBJ
+  } : {
+    directive: resolveForwardRef(config2.directive),
+    inputs: bindingArrayToMap(config2.inputs),
+    outputs: bindingArrayToMap(config2.outputs)
+  };
 }
 function bindingArrayToMap(bindings) {
   if (bindings === void 0 || bindings.length === 0) {
@@ -15158,7 +14876,7 @@ function getTemplateIndexForState(newState, hostLView, tNode) {
     case DeferBlockState.Placeholder:
       return tDetails.placeholderTmplIndex;
     default:
-      ngDevMode && throwError2(`Unexpected defer block state: ${newState}`);
+      ngDevMode && throwError(`Unexpected defer block state: ${newState}`);
       return null;
   }
 }
@@ -16068,7 +15786,7 @@ function triggerDeferBlock(lView, tNode) {
       break;
     default:
       if (ngDevMode) {
-        throwError2("Unknown defer block state");
+        throwError("Unknown defer block state");
       }
   }
 }
@@ -16532,7 +16250,7 @@ function consumeQuotedText(text, quoteCharCode, startIndex, endIndex) {
 }
 function malformedStyleError(text, expecting, index) {
   ngDevMode && assertEqual(typeof text === "string", true, "String expected here");
-  throw throwError2(`Malformed style at location ${index} in string '` + text.substring(0, index) + "[>>" + text.substring(index, index + 1) + "<<]" + text.slice(index + 1) + `'. Expecting '${expecting}'.`);
+  throw throwError(`Malformed style at location ${index} in string '` + text.substring(0, index) + "[>>" + text.substring(index, index + 1) + "<<]" + text.slice(index + 1) + `'. Expecting '${expecting}'.`);
 }
 function \u0275\u0275property(propName, value, sanitizer) {
   const lView = getLView();
@@ -16740,7 +16458,7 @@ function toStylingKeyValueArray(keyValueArraySet2, stringParser, value) {
   } else if (typeof unwrappedValue === "string") {
     stringParser(styleKeyValueArray, unwrappedValue);
   } else {
-    ngDevMode && throwError2("Unsupported styling type " + typeof unwrappedValue + ": " + unwrappedValue);
+    ngDevMode && throwError("Unsupported styling type " + typeof unwrappedValue + ": " + unwrappedValue);
   }
   return styleKeyValueArray;
 }
@@ -17131,7 +16849,9 @@ var UniqueValueMultiKeyMap = class {
   set(key, value) {
     if (this.kvMap.has(key)) {
       let prevValue = this.kvMap.get(key);
-      ngDevMode && assertNotSame(prevValue, value, `Detected a duplicated value ${value} for the key ${key}`);
+      if (ngDevMode && prevValue === value) {
+        throw new Error(`Detected a duplicated value ${value} for the key ${key}`);
+      }
       if (this._vMap === void 0) {
         this._vMap = /* @__PURE__ */ new Map();
       }
@@ -17589,14 +17309,14 @@ var localeEn = ["en", [["a", "p"], ["AM", "PM"], u], [["AM", "PM"], u, u], [["S"
 var LOCALE_DATA = {};
 function findLocaleData(locale) {
   const normalizedLocale = normalizeLocale(locale);
-  let match2 = getLocaleData(normalizedLocale);
-  if (match2) {
-    return match2;
+  let match = getLocaleData(normalizedLocale);
+  if (match) {
+    return match;
   }
   const parentLocale = normalizedLocale.split("-")[0];
-  match2 = getLocaleData(parentLocale);
-  if (match2) {
-    return match2;
+  match = getLocaleData(parentLocale);
+  if (match) {
+    return match;
   }
   if (parentLocale === "en") {
     return localeEn;
@@ -17808,7 +17528,7 @@ function applyMutableOpCodes(tView, mutableOpCodes, lView, anchorRNode) {
           }
           break;
         default:
-          ngDevMode && throwError2(`Unable to determine the type of mutate operation for "${opCode}"`);
+          ngDevMode && throwError(`Unable to determine the type of mutate operation for "${opCode}"`);
       }
     }
   }
@@ -18279,19 +17999,19 @@ function toMaskBit(bindingIndex) {
   return 1 << Math.min(bindingIndex, 31);
 }
 function removeInnerTemplateTranslation(message) {
-  let match2;
+  let match;
   let res = "";
   let index = 0;
   let inTemplate = false;
   let tagMatched;
-  while ((match2 = SUBTEMPLATE_REGEXP.exec(message)) !== null) {
+  while ((match = SUBTEMPLATE_REGEXP.exec(message)) !== null) {
     if (!inTemplate) {
-      res += message.substring(index, match2.index + match2[0].length);
-      tagMatched = match2[1];
+      res += message.substring(index, match.index + match[0].length);
+      tagMatched = match[1];
       inTemplate = true;
     } else {
-      if (match2[0] === `${MARKER}/*${tagMatched}${MARKER}`) {
-        index = match2.index;
+      if (match[0] === `${MARKER}/*${tagMatched}${MARKER}`) {
+        index = match.index;
         inTemplate = false;
       }
     }
@@ -18393,10 +18113,10 @@ function i18nParseTextIntoPartsAndICU(pattern) {
   const results = [];
   const braces = /[{}]/g;
   braces.lastIndex = 0;
-  let match2;
-  while (match2 = braces.exec(pattern)) {
-    const pos = match2.index;
-    if (match2[0] == "}") {
+  let match;
+  while (match = braces.exec(pattern)) {
+    const pos = match.index;
+    if (match[0] == "}") {
       braceStack.pop();
       if (braceStack.length == 0) {
         const block = pattern.substring(prevPos, pos);
@@ -18567,8 +18287,8 @@ function i18nPostprocess(message, replacements = {}) {
       const placeholders = matches[content] || [];
       if (!placeholders.length) {
         content.split("|").forEach((placeholder2) => {
-          const match2 = placeholder2.match(PP_TEMPLATE_ID_REGEXP);
-          const templateId2 = match2 ? parseInt(match2[1], 10) : ROOT_TEMPLATE_ID;
+          const match = placeholder2.match(PP_TEMPLATE_ID_REGEXP);
+          const templateId2 = match ? parseInt(match[1], 10) : ROOT_TEMPLATE_ID;
           const isCloseTemplateTag2 = PP_CLOSE_TEMPLATE_REGEXP.test(placeholder2);
           placeholders.push([templateId2, isCloseTemplateTag2, placeholder2]);
         });
@@ -18598,21 +18318,21 @@ function i18nPostprocess(message, replacements = {}) {
   if (!Object.keys(replacements).length) {
     return result;
   }
-  result = result.replace(PP_ICU_VARS_REGEXP, (match2, start, key, _type, _idx, end) => {
-    return replacements.hasOwnProperty(key) ? `${start}${replacements[key]}${end}` : match2;
+  result = result.replace(PP_ICU_VARS_REGEXP, (match, start, key, _type, _idx, end) => {
+    return replacements.hasOwnProperty(key) ? `${start}${replacements[key]}${end}` : match;
   });
-  result = result.replace(PP_ICU_PLACEHOLDERS_REGEXP, (match2, key) => {
-    return replacements.hasOwnProperty(key) ? replacements[key] : match2;
+  result = result.replace(PP_ICU_PLACEHOLDERS_REGEXP, (match, key) => {
+    return replacements.hasOwnProperty(key) ? replacements[key] : match;
   });
-  result = result.replace(PP_ICUS_REGEXP, (match2, key) => {
+  result = result.replace(PP_ICUS_REGEXP, (match, key) => {
     if (replacements.hasOwnProperty(key)) {
       const list = replacements[key];
       if (!list.length) {
-        throw new Error(`i18n postprocess: unmatched ICU - ${match2} with key: ${key}`);
+        throw new Error(`i18n postprocess: unmatched ICU - ${match} with key: ${key}`);
       }
       return list.shift();
     }
-    return match2;
+    return match;
   });
   return result;
 }
@@ -19646,7 +19366,7 @@ function \u0275\u0275pipe(index, pipeName) {
 function getPipeDef(name, registry) {
   if (registry) {
     if (ngDevMode) {
-      const pipes = registry.filter((pipe2) => pipe2.name === name);
+      const pipes = registry.filter((pipe) => pipe.name === name);
       if (pipes.length > 1) {
         console.warn(formatRuntimeError(313, getMultipleMatchingPipesMessage(name)));
       }
@@ -20238,7 +19958,7 @@ function setScopeOnDeclaredComponents(moduleType, ngModule) {
 }
 function patchComponentDefWithScope(componentDef, transitiveScopes) {
   componentDef.directiveDefs = () => Array.from(transitiveScopes.compilation.directives).map((dir) => dir.hasOwnProperty(NG_COMP_DEF) ? getComponentDef(dir) : getDirectiveDef(dir)).filter((def) => !!def);
-  componentDef.pipeDefs = () => Array.from(transitiveScopes.compilation.pipes).map((pipe2) => getPipeDef$1(pipe2));
+  componentDef.pipeDefs = () => Array.from(transitiveScopes.compilation.pipes).map((pipe) => getPipeDef$1(pipe));
   componentDef.schemas = transitiveScopes.schemas;
   componentDef.tView = null;
 }
@@ -20505,10 +20225,10 @@ function getStandaloneDefFunctions(type, imports) {
           seen.add(dep);
           if (!!getNgModuleDef(dep)) {
             const scope = transitiveScopesFor(dep);
-            for (const pipe2 of scope.exported.pipes) {
-              const def = getPipeDef$1(pipe2);
-              if (def && !seen.has(pipe2)) {
-                seen.add(pipe2);
+            for (const pipe of scope.exported.pipes) {
+              const def = getPipeDef$1(pipe);
+              if (def && !seen.has(pipe)) {
+                seen.add(pipe);
                 cachedPipeDefs.push(def);
               }
             }
@@ -20819,7 +20539,7 @@ var Version = class {
     this.patch = parts.slice(2).join(".");
   }
 };
-var VERSION = new Version("18.2.8");
+var VERSION = new Version("18.2.13");
 var Console = class _Console {
   log(message) {
     console.log(message);
@@ -20885,7 +20605,7 @@ function handleInjectorProfilerEvent(injectorProfilerEvent) {
 function handleInjectEvent(context2, data) {
   const diResolver = getDIResolver(context2.injector);
   if (diResolver === null) {
-    throwError2("An Inject event must be run within an injection context.");
+    throwError("An Inject event must be run within an injection context.");
   }
   const diResolverToInstantiatedToken = frameworkDIDebugData.resolverToTokenToDependencies;
   if (!diResolverToInstantiatedToken.has(diResolver)) {
@@ -20923,7 +20643,7 @@ function handleInjectEvent(context2, data) {
 }
 function getNodeInjectorContext(injector) {
   if (!(injector instanceof NodeInjector)) {
-    throwError2("getNodeInjectorContext must be called with a NodeInjector");
+    throwError("getNodeInjectorContext must be called with a NodeInjector");
   }
   const lView = getNodeInjectorLView(injector);
   const tNode = getNodeInjectorTNode(injector);
@@ -20941,7 +20661,7 @@ function handleInstanceCreatedByInjectorEvent(context2, data) {
     value
   } = data;
   if (getDIResolver(context2.injector) === null) {
-    throwError2("An InjectorCreatedInstance event must be run within an injection context.");
+    throwError("An InjectorCreatedInstance event must be run within an injection context.");
   }
   let standaloneComponent = void 0;
   if (typeof value === "object") {
@@ -20979,7 +20699,7 @@ function handleProviderConfiguredEvent(context2, data) {
     diResolver = context2.injector;
   }
   if (diResolver === null) {
-    throwError2("A ProviderConfigured event must be run within an injection context.");
+    throwError("A ProviderConfigured event must be run within an injection context.");
   }
   if (!resolverToProviders.has(diResolver)) {
     resolverToProviders.set(diResolver, []);
@@ -21199,7 +20919,7 @@ function getInjectorProviders(injector) {
   } else if (injector instanceof EnvironmentInjector) {
     return getEnvironmentInjectorProviders(injector);
   }
-  throwError2("getInjectorProviders only supports NodeInjector and EnvironmentInjector");
+  throwError("getInjectorProviders only supports NodeInjector and EnvironmentInjector");
 }
 function getInjectorMetadata(injector) {
   if (injector instanceof NodeInjector) {
@@ -21238,7 +20958,7 @@ function getInjectorResolutionPathHelper(injector, resolutionPath) {
       if (firstInjector instanceof NodeInjector) {
         const moduleInjector = getModuleInjectorOfNodeInjector(firstInjector);
         if (moduleInjector === null) {
-          throwError2("NodeInjector must have some connection to the module injector tree");
+          throwError("NodeInjector must have some connection to the module injector tree");
         }
         resolutionPath.push(moduleInjector);
         getInjectorResolutionPathHelper(moduleInjector, resolutionPath);
@@ -21269,7 +20989,7 @@ function getInjectorParent(injector) {
   } else if (injector instanceof ChainedInjector) {
     return injector.parentInjector;
   } else {
-    throwError2("getInjectorParent only support injectors of type R3Injector, NodeInjector, NullInjector");
+    throwError("getInjectorParent only support injectors of type R3Injector, NodeInjector, NullInjector");
   }
   const parentLocation = getParentInjectorLocation(tNode, lView);
   if (hasParentInjector(parentLocation)) {
@@ -21295,12 +21015,12 @@ function getModuleInjectorOfNodeInjector(injector) {
   if (injector instanceof NodeInjector) {
     lView = getNodeInjectorLView(injector);
   } else {
-    throwError2("getModuleInjectorOfNodeInjector must be called with a NodeInjector");
+    throwError("getModuleInjectorOfNodeInjector must be called with a NodeInjector");
   }
   const inj = lView[INJECTOR];
   const moduleInjector = inj instanceof ChainedInjector ? inj.parentInjector : inj.parent;
   if (!moduleInjector) {
-    throwError2("NodeInjector must have some connection to the module injector tree");
+    throwError("NodeInjector must have some connection to the module injector tree");
   }
   return moduleInjector;
 }
@@ -23998,34 +23718,6 @@ var ZoneAwareEffectScheduler = class {
     }
   }
 };
-function reflectComponentType(component) {
-  const componentDef = getComponentDef(component);
-  if (!componentDef) return null;
-  const factory = new ComponentFactory(componentDef);
-  return {
-    get selector() {
-      return factory.selector;
-    },
-    get type() {
-      return factory.componentType;
-    },
-    get inputs() {
-      return factory.inputs;
-    },
-    get outputs() {
-      return factory.outputs;
-    },
-    get ngContentSelectors() {
-      return factory.ngContentSelectors;
-    },
-    get isStandalone() {
-      return componentDef.standalone;
-    },
-    get isSignal() {
-      return componentDef.signals;
-    }
-  };
-}
 if (typeof ngDevMode !== "undefined" && ngDevMode) {
   _global.$localize ??= function() {
     throw new Error("It looks like your application or one of its dependencies is using i18n.\nAngular 9 introduced a global `$localize()` function that needs to be loaded.\nPlease run `ng add @angular/localize` from the Angular CLI.\n(For non-CLI projects, add `import '@angular/localize/init';` to your `polyfills.ts` file.\nFor server-side rendering applications add the import to your `main.server.ts` file.)");
@@ -24200,8 +23892,8 @@ function joinWithSlash(start, end) {
   return start + "/" + end;
 }
 function stripTrailingSlash(url) {
-  const match2 = url.match(/#|\?|$/);
-  const pathEndIdx = match2 && match2.index || url.length;
+  const match = url.match(/#|\?|$/);
+  const pathEndIdx = match && match.index || url.length;
   const droppedSlashIdx = pathEndIdx - (url[pathEndIdx - 1] === "/" ? 1 : 0);
   return url.slice(0, droppedSlashIdx) + url.slice(pathEndIdx);
 }
@@ -25058,11 +24750,11 @@ function formatDate(value, format, locale, timezone) {
   const namedFormat = getNamedFormat(locale, format);
   format = namedFormat || format;
   let parts = [];
-  let match2;
+  let match;
   while (format) {
-    match2 = DATE_FORMATS_SPLIT.exec(format);
-    if (match2) {
-      parts = parts.concat(match2.slice(1));
+    match = DATE_FORMATS_SPLIT.exec(format);
+    if (match) {
+      parts = parts.concat(match.slice(1));
       const part = parts.pop();
       if (!part) {
         break;
@@ -25151,8 +24843,8 @@ function getNamedFormat(locale, format) {
 }
 function formatDateTime(str, opt_values) {
   if (opt_values) {
-    str = str.replace(/\{([^}]+)}/g, function(match2, key) {
-      return opt_values != null && key in opt_values ? opt_values[key] : match2;
+    str = str.replace(/\{([^}]+)}/g, function(match, key) {
+      return opt_values != null && key in opt_values ? opt_values[key] : match;
     });
   }
   return str;
@@ -25563,9 +25255,9 @@ function toDate(value) {
     if (!isNaN(value - parsedNb)) {
       return new Date(parsedNb);
     }
-    let match2;
-    if (match2 = value.match(ISO8601_DATE_REGEX)) {
-      return isoStringToDate(match2);
+    let match;
+    if (match = value.match(ISO8601_DATE_REGEX)) {
+      return isoStringToDate(match);
     }
   }
   const date = new Date(value);
@@ -25574,21 +25266,21 @@ function toDate(value) {
   }
   return date;
 }
-function isoStringToDate(match2) {
+function isoStringToDate(match) {
   const date = /* @__PURE__ */ new Date(0);
   let tzHour = 0;
   let tzMin = 0;
-  const dateSetter = match2[8] ? date.setUTCFullYear : date.setFullYear;
-  const timeSetter = match2[8] ? date.setUTCHours : date.setHours;
-  if (match2[9]) {
-    tzHour = Number(match2[9] + match2[10]);
-    tzMin = Number(match2[9] + match2[11]);
+  const dateSetter = match[8] ? date.setUTCFullYear : date.setFullYear;
+  const timeSetter = match[8] ? date.setUTCHours : date.setHours;
+  if (match[9]) {
+    tzHour = Number(match[9] + match[10]);
+    tzMin = Number(match[9] + match[11]);
   }
-  dateSetter.call(date, Number(match2[1]), Number(match2[2]) - 1, Number(match2[3]));
-  const h = Number(match2[4] || 0) - tzHour;
-  const m = Number(match2[5] || 0) - tzMin;
-  const s = Number(match2[6] || 0);
-  const ms = Math.floor(parseFloat("0." + (match2[7] || 0)) * 1e3);
+  dateSetter.call(date, Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  const h = Number(match[4] || 0) - tzHour;
+  const m = Number(match[5] || 0) - tzMin;
+  const s = Number(match[6] || 0);
+  const ms = Math.floor(parseFloat("0." + (match[7] || 0)) * 1e3);
   timeSetter.call(date, h, m, s, ms);
   return date;
 }
@@ -27556,39 +27248,6 @@ var CurrencyPipe = class _CurrencyPipe {
     this._locale = _locale;
     this._defaultCurrencyCode = _defaultCurrencyCode;
   }
-  /**
-   *
-   * @param value The number to be formatted as currency.
-   * @param currencyCode The [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currency code,
-   * such as `USD` for the US dollar and `EUR` for the euro. The default currency code can be
-   * configured using the `DEFAULT_CURRENCY_CODE` injection token.
-   * @param display The format for the currency indicator. One of the following:
-   *   - `code`: Show the code (such as `USD`).
-   *   - `symbol`(default): Show the symbol (such as `$`).
-   *   - `symbol-narrow`: Use the narrow symbol for locales that have two symbols for their
-   * currency.
-   * For example, the Canadian dollar CAD has the symbol `CA$` and the symbol-narrow `$`. If the
-   * locale has no narrow symbol, uses the standard symbol for the locale.
-   *   - String: Use the given string value instead of a code or a symbol.
-   * For example, an empty string will suppress the currency & symbol.
-   *   - Boolean (marked deprecated in v5): `true` for symbol and false for `code`.
-   *
-   * @param digitsInfo Decimal representation options, specified by a string
-   * in the following format:<br>
-   * <code>{minIntegerDigits}.{minFractionDigits}-{maxFractionDigits}</code>.
-   *   - `minIntegerDigits`: The minimum number of integer digits before the decimal point.
-   * Default is `1`.
-   *   - `minFractionDigits`: The minimum number of digits after the decimal point.
-   * Default is `2`.
-   *   - `maxFractionDigits`: The maximum number of digits after the decimal point.
-   * Default is `2`.
-   * If not provided, the number will be formatted with the proper amount of digits,
-   * depending on what the [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) specifies.
-   * For example, the Canadian dollar has 2 digits, whereas the Chilean peso has none.
-   * @param locale A locale code for the locale format rules to use.
-   * When not supplied, uses the value of `LOCALE_ID`, which is `en-US` by default.
-   * See [Setting your app locale](guide/i18n/locale-id).
-   */
   transform(value, currencyCode = this._defaultCurrencyCode, display = "symbol", digitsInfo, locale) {
     if (!isValue(value)) return null;
     locale ||= this._locale;
@@ -27728,7 +27387,7 @@ function isPlatformBrowser2(platformId) {
 function isPlatformServer(platformId) {
   return platformId === PLATFORM_SERVER_ID;
 }
-var VERSION2 = new Version("18.2.8");
+var VERSION2 = new Version("18.2.13");
 var ViewportScroller = class _ViewportScroller {
   static {
     this.\u0275prov = \u0275\u0275defineInjectable({
@@ -32625,5414 +32284,7 @@ var HydrationFeatureKind;
   HydrationFeatureKind2[HydrationFeatureKind2["I18nSupport"] = 2] = "I18nSupport";
   HydrationFeatureKind2[HydrationFeatureKind2["EventReplay"] = 3] = "EventReplay";
 })(HydrationFeatureKind || (HydrationFeatureKind = {}));
-var VERSION3 = new Version("18.2.8");
-
-// node_modules/@angular/router/fesm2022/router.mjs
-var PRIMARY_OUTLET = "primary";
-var RouteTitleKey = /* @__PURE__ */ Symbol("RouteTitle");
-var ParamsAsMap = class {
-  constructor(params) {
-    this.params = params || {};
-  }
-  has(name) {
-    return Object.prototype.hasOwnProperty.call(this.params, name);
-  }
-  get(name) {
-    if (this.has(name)) {
-      const v = this.params[name];
-      return Array.isArray(v) ? v[0] : v;
-    }
-    return null;
-  }
-  getAll(name) {
-    if (this.has(name)) {
-      const v = this.params[name];
-      return Array.isArray(v) ? v : [v];
-    }
-    return [];
-  }
-  get keys() {
-    return Object.keys(this.params);
-  }
-};
-function convertToParamMap(params) {
-  return new ParamsAsMap(params);
-}
-function defaultUrlMatcher(segments, segmentGroup, route) {
-  const parts = route.path.split("/");
-  if (parts.length > segments.length) {
-    return null;
-  }
-  if (route.pathMatch === "full" && (segmentGroup.hasChildren() || parts.length < segments.length)) {
-    return null;
-  }
-  const posParams = {};
-  for (let index = 0; index < parts.length; index++) {
-    const part = parts[index];
-    const segment = segments[index];
-    const isParameter = part[0] === ":";
-    if (isParameter) {
-      posParams[part.substring(1)] = segment;
-    } else if (part !== segment.path) {
-      return null;
-    }
-  }
-  return {
-    consumed: segments.slice(0, parts.length),
-    posParams
-  };
-}
-function shallowEqualArrays(a, b) {
-  if (a.length !== b.length) return false;
-  for (let i = 0; i < a.length; ++i) {
-    if (!shallowEqual(a[i], b[i])) return false;
-  }
-  return true;
-}
-function shallowEqual(a, b) {
-  const k1 = a ? getDataKeys(a) : void 0;
-  const k2 = b ? getDataKeys(b) : void 0;
-  if (!k1 || !k2 || k1.length != k2.length) {
-    return false;
-  }
-  let key;
-  for (let i = 0; i < k1.length; i++) {
-    key = k1[i];
-    if (!equalArraysOrString(a[key], b[key])) {
-      return false;
-    }
-  }
-  return true;
-}
-function getDataKeys(obj) {
-  return [...Object.keys(obj), ...Object.getOwnPropertySymbols(obj)];
-}
-function equalArraysOrString(a, b) {
-  if (Array.isArray(a) && Array.isArray(b)) {
-    if (a.length !== b.length) return false;
-    const aSorted = [...a].sort();
-    const bSorted = [...b].sort();
-    return aSorted.every((val, index) => bSorted[index] === val);
-  } else {
-    return a === b;
-  }
-}
-function last3(a) {
-  return a.length > 0 ? a[a.length - 1] : null;
-}
-function wrapIntoObservable(value) {
-  if (isObservable(value)) {
-    return value;
-  }
-  if (isPromise2(value)) {
-    return from(Promise.resolve(value));
-  }
-  return of(value);
-}
-var pathCompareMap = {
-  "exact": equalSegmentGroups,
-  "subset": containsSegmentGroup
-};
-var paramCompareMap = {
-  "exact": equalParams,
-  "subset": containsParams,
-  "ignored": () => true
-};
-function containsTree(container, containee, options) {
-  return pathCompareMap[options.paths](container.root, containee.root, options.matrixParams) && paramCompareMap[options.queryParams](container.queryParams, containee.queryParams) && !(options.fragment === "exact" && container.fragment !== containee.fragment);
-}
-function equalParams(container, containee) {
-  return shallowEqual(container, containee);
-}
-function equalSegmentGroups(container, containee, matrixParams) {
-  if (!equalPath(container.segments, containee.segments)) return false;
-  if (!matrixParamsMatch(container.segments, containee.segments, matrixParams)) {
-    return false;
-  }
-  if (container.numberOfChildren !== containee.numberOfChildren) return false;
-  for (const c in containee.children) {
-    if (!container.children[c]) return false;
-    if (!equalSegmentGroups(container.children[c], containee.children[c], matrixParams)) return false;
-  }
-  return true;
-}
-function containsParams(container, containee) {
-  return Object.keys(containee).length <= Object.keys(container).length && Object.keys(containee).every((key) => equalArraysOrString(container[key], containee[key]));
-}
-function containsSegmentGroup(container, containee, matrixParams) {
-  return containsSegmentGroupHelper(container, containee, containee.segments, matrixParams);
-}
-function containsSegmentGroupHelper(container, containee, containeePaths, matrixParams) {
-  if (container.segments.length > containeePaths.length) {
-    const current = container.segments.slice(0, containeePaths.length);
-    if (!equalPath(current, containeePaths)) return false;
-    if (containee.hasChildren()) return false;
-    if (!matrixParamsMatch(current, containeePaths, matrixParams)) return false;
-    return true;
-  } else if (container.segments.length === containeePaths.length) {
-    if (!equalPath(container.segments, containeePaths)) return false;
-    if (!matrixParamsMatch(container.segments, containeePaths, matrixParams)) return false;
-    for (const c in containee.children) {
-      if (!container.children[c]) return false;
-      if (!containsSegmentGroup(container.children[c], containee.children[c], matrixParams)) {
-        return false;
-      }
-    }
-    return true;
-  } else {
-    const current = containeePaths.slice(0, container.segments.length);
-    const next = containeePaths.slice(container.segments.length);
-    if (!equalPath(container.segments, current)) return false;
-    if (!matrixParamsMatch(container.segments, current, matrixParams)) return false;
-    if (!container.children[PRIMARY_OUTLET]) return false;
-    return containsSegmentGroupHelper(container.children[PRIMARY_OUTLET], containee, next, matrixParams);
-  }
-}
-function matrixParamsMatch(containerPaths, containeePaths, options) {
-  return containeePaths.every((containeeSegment, i) => {
-    return paramCompareMap[options](containerPaths[i].parameters, containeeSegment.parameters);
-  });
-}
-var UrlTree = class {
-  constructor(root = new UrlSegmentGroup([], {}), queryParams = {}, fragment = null) {
-    this.root = root;
-    this.queryParams = queryParams;
-    this.fragment = fragment;
-    if (typeof ngDevMode === "undefined" || ngDevMode) {
-      if (root.segments.length > 0) {
-        throw new RuntimeError(4015, "The root `UrlSegmentGroup` should not contain `segments`. Instead, these segments belong in the `children` so they can be associated with a named outlet.");
-      }
-    }
-  }
-  get queryParamMap() {
-    this._queryParamMap ??= convertToParamMap(this.queryParams);
-    return this._queryParamMap;
-  }
-  /** @docsNotRequired */
-  toString() {
-    return DEFAULT_SERIALIZER.serialize(this);
-  }
-};
-var UrlSegmentGroup = class {
-  constructor(segments, children) {
-    this.segments = segments;
-    this.children = children;
-    this.parent = null;
-    Object.values(children).forEach((v) => v.parent = this);
-  }
-  /** Whether the segment has child segments */
-  hasChildren() {
-    return this.numberOfChildren > 0;
-  }
-  /** Number of child segments */
-  get numberOfChildren() {
-    return Object.keys(this.children).length;
-  }
-  /** @docsNotRequired */
-  toString() {
-    return serializePaths(this);
-  }
-};
-var UrlSegment = class {
-  constructor(path, parameters) {
-    this.path = path;
-    this.parameters = parameters;
-  }
-  get parameterMap() {
-    this._parameterMap ??= convertToParamMap(this.parameters);
-    return this._parameterMap;
-  }
-  /** @docsNotRequired */
-  toString() {
-    return serializePath(this);
-  }
-};
-function equalSegments(as, bs) {
-  return equalPath(as, bs) && as.every((a, i) => shallowEqual(a.parameters, bs[i].parameters));
-}
-function equalPath(as, bs) {
-  if (as.length !== bs.length) return false;
-  return as.every((a, i) => a.path === bs[i].path);
-}
-function mapChildrenIntoArray(segment, fn) {
-  let res = [];
-  Object.entries(segment.children).forEach(([childOutlet, child]) => {
-    if (childOutlet === PRIMARY_OUTLET) {
-      res = res.concat(fn(child, childOutlet));
-    }
-  });
-  Object.entries(segment.children).forEach(([childOutlet, child]) => {
-    if (childOutlet !== PRIMARY_OUTLET) {
-      res = res.concat(fn(child, childOutlet));
-    }
-  });
-  return res;
-}
-var UrlSerializer = class _UrlSerializer {
-  static {
-    this.\u0275fac = function UrlSerializer_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _UrlSerializer)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _UrlSerializer,
-      factory: () => (() => new DefaultUrlSerializer())(),
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(UrlSerializer, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: () => new DefaultUrlSerializer()
-    }]
-  }], null, null);
-})();
-var DefaultUrlSerializer = class {
-  /** Parses a url into a `UrlTree` */
-  parse(url) {
-    const p = new UrlParser(url);
-    return new UrlTree(p.parseRootSegment(), p.parseQueryParams(), p.parseFragment());
-  }
-  /** Converts a `UrlTree` into a url */
-  serialize(tree2) {
-    const segment = `/${serializeSegment(tree2.root, true)}`;
-    const query = serializeQueryParams(tree2.queryParams);
-    const fragment = typeof tree2.fragment === `string` ? `#${encodeUriFragment(tree2.fragment)}` : "";
-    return `${segment}${query}${fragment}`;
-  }
-};
-var DEFAULT_SERIALIZER = new DefaultUrlSerializer();
-function serializePaths(segment) {
-  return segment.segments.map((p) => serializePath(p)).join("/");
-}
-function serializeSegment(segment, root) {
-  if (!segment.hasChildren()) {
-    return serializePaths(segment);
-  }
-  if (root) {
-    const primary = segment.children[PRIMARY_OUTLET] ? serializeSegment(segment.children[PRIMARY_OUTLET], false) : "";
-    const children = [];
-    Object.entries(segment.children).forEach(([k, v]) => {
-      if (k !== PRIMARY_OUTLET) {
-        children.push(`${k}:${serializeSegment(v, false)}`);
-      }
-    });
-    return children.length > 0 ? `${primary}(${children.join("//")})` : primary;
-  } else {
-    const children = mapChildrenIntoArray(segment, (v, k) => {
-      if (k === PRIMARY_OUTLET) {
-        return [serializeSegment(segment.children[PRIMARY_OUTLET], false)];
-      }
-      return [`${k}:${serializeSegment(v, false)}`];
-    });
-    if (Object.keys(segment.children).length === 1 && segment.children[PRIMARY_OUTLET] != null) {
-      return `${serializePaths(segment)}/${children[0]}`;
-    }
-    return `${serializePaths(segment)}/(${children.join("//")})`;
-  }
-}
-function encodeUriString(s) {
-  return encodeURIComponent(s).replace(/%40/g, "@").replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",");
-}
-function encodeUriQuery(s) {
-  return encodeUriString(s).replace(/%3B/gi, ";");
-}
-function encodeUriFragment(s) {
-  return encodeURI(s);
-}
-function encodeUriSegment(s) {
-  return encodeUriString(s).replace(/\(/g, "%28").replace(/\)/g, "%29").replace(/%26/gi, "&");
-}
-function decode(s) {
-  return decodeURIComponent(s);
-}
-function decodeQuery(s) {
-  return decode(s.replace(/\+/g, "%20"));
-}
-function serializePath(path) {
-  return `${encodeUriSegment(path.path)}${serializeMatrixParams(path.parameters)}`;
-}
-function serializeMatrixParams(params) {
-  return Object.entries(params).map(([key, value]) => `;${encodeUriSegment(key)}=${encodeUriSegment(value)}`).join("");
-}
-function serializeQueryParams(params) {
-  const strParams = Object.entries(params).map(([name, value]) => {
-    return Array.isArray(value) ? value.map((v) => `${encodeUriQuery(name)}=${encodeUriQuery(v)}`).join("&") : `${encodeUriQuery(name)}=${encodeUriQuery(value)}`;
-  }).filter((s) => s);
-  return strParams.length ? `?${strParams.join("&")}` : "";
-}
-var SEGMENT_RE = /^[^\/()?;#]+/;
-function matchSegments(str) {
-  const match2 = str.match(SEGMENT_RE);
-  return match2 ? match2[0] : "";
-}
-var MATRIX_PARAM_SEGMENT_RE = /^[^\/()?;=#]+/;
-function matchMatrixKeySegments(str) {
-  const match2 = str.match(MATRIX_PARAM_SEGMENT_RE);
-  return match2 ? match2[0] : "";
-}
-var QUERY_PARAM_RE = /^[^=?&#]+/;
-function matchQueryParams(str) {
-  const match2 = str.match(QUERY_PARAM_RE);
-  return match2 ? match2[0] : "";
-}
-var QUERY_PARAM_VALUE_RE = /^[^&#]+/;
-function matchUrlQueryParamValue(str) {
-  const match2 = str.match(QUERY_PARAM_VALUE_RE);
-  return match2 ? match2[0] : "";
-}
-var UrlParser = class {
-  constructor(url) {
-    this.url = url;
-    this.remaining = url;
-  }
-  parseRootSegment() {
-    this.consumeOptional("/");
-    if (this.remaining === "" || this.peekStartsWith("?") || this.peekStartsWith("#")) {
-      return new UrlSegmentGroup([], {});
-    }
-    return new UrlSegmentGroup([], this.parseChildren());
-  }
-  parseQueryParams() {
-    const params = {};
-    if (this.consumeOptional("?")) {
-      do {
-        this.parseQueryParam(params);
-      } while (this.consumeOptional("&"));
-    }
-    return params;
-  }
-  parseFragment() {
-    return this.consumeOptional("#") ? decodeURIComponent(this.remaining) : null;
-  }
-  parseChildren() {
-    if (this.remaining === "") {
-      return {};
-    }
-    this.consumeOptional("/");
-    const segments = [];
-    if (!this.peekStartsWith("(")) {
-      segments.push(this.parseSegment());
-    }
-    while (this.peekStartsWith("/") && !this.peekStartsWith("//") && !this.peekStartsWith("/(")) {
-      this.capture("/");
-      segments.push(this.parseSegment());
-    }
-    let children = {};
-    if (this.peekStartsWith("/(")) {
-      this.capture("/");
-      children = this.parseParens(true);
-    }
-    let res = {};
-    if (this.peekStartsWith("(")) {
-      res = this.parseParens(false);
-    }
-    if (segments.length > 0 || Object.keys(children).length > 0) {
-      res[PRIMARY_OUTLET] = new UrlSegmentGroup(segments, children);
-    }
-    return res;
-  }
-  // parse a segment with its matrix parameters
-  // ie `name;k1=v1;k2`
-  parseSegment() {
-    const path = matchSegments(this.remaining);
-    if (path === "" && this.peekStartsWith(";")) {
-      throw new RuntimeError(4009, (typeof ngDevMode === "undefined" || ngDevMode) && `Empty path url segment cannot have parameters: '${this.remaining}'.`);
-    }
-    this.capture(path);
-    return new UrlSegment(decode(path), this.parseMatrixParams());
-  }
-  parseMatrixParams() {
-    const params = {};
-    while (this.consumeOptional(";")) {
-      this.parseParam(params);
-    }
-    return params;
-  }
-  parseParam(params) {
-    const key = matchMatrixKeySegments(this.remaining);
-    if (!key) {
-      return;
-    }
-    this.capture(key);
-    let value = "";
-    if (this.consumeOptional("=")) {
-      const valueMatch = matchSegments(this.remaining);
-      if (valueMatch) {
-        value = valueMatch;
-        this.capture(value);
-      }
-    }
-    params[decode(key)] = decode(value);
-  }
-  // Parse a single query parameter `name[=value]`
-  parseQueryParam(params) {
-    const key = matchQueryParams(this.remaining);
-    if (!key) {
-      return;
-    }
-    this.capture(key);
-    let value = "";
-    if (this.consumeOptional("=")) {
-      const valueMatch = matchUrlQueryParamValue(this.remaining);
-      if (valueMatch) {
-        value = valueMatch;
-        this.capture(value);
-      }
-    }
-    const decodedKey = decodeQuery(key);
-    const decodedVal = decodeQuery(value);
-    if (params.hasOwnProperty(decodedKey)) {
-      let currentVal = params[decodedKey];
-      if (!Array.isArray(currentVal)) {
-        currentVal = [currentVal];
-        params[decodedKey] = currentVal;
-      }
-      currentVal.push(decodedVal);
-    } else {
-      params[decodedKey] = decodedVal;
-    }
-  }
-  // parse `(a/b//outlet_name:c/d)`
-  parseParens(allowPrimary) {
-    const segments = {};
-    this.capture("(");
-    while (!this.consumeOptional(")") && this.remaining.length > 0) {
-      const path = matchSegments(this.remaining);
-      const next = this.remaining[path.length];
-      if (next !== "/" && next !== ")" && next !== ";") {
-        throw new RuntimeError(4010, (typeof ngDevMode === "undefined" || ngDevMode) && `Cannot parse url '${this.url}'`);
-      }
-      let outletName = void 0;
-      if (path.indexOf(":") > -1) {
-        outletName = path.slice(0, path.indexOf(":"));
-        this.capture(outletName);
-        this.capture(":");
-      } else if (allowPrimary) {
-        outletName = PRIMARY_OUTLET;
-      }
-      const children = this.parseChildren();
-      segments[outletName] = Object.keys(children).length === 1 ? children[PRIMARY_OUTLET] : new UrlSegmentGroup([], children);
-      this.consumeOptional("//");
-    }
-    return segments;
-  }
-  peekStartsWith(str) {
-    return this.remaining.startsWith(str);
-  }
-  // Consumes the prefix when it is present and returns whether it has been consumed
-  consumeOptional(str) {
-    if (this.peekStartsWith(str)) {
-      this.remaining = this.remaining.substring(str.length);
-      return true;
-    }
-    return false;
-  }
-  capture(str) {
-    if (!this.consumeOptional(str)) {
-      throw new RuntimeError(4011, (typeof ngDevMode === "undefined" || ngDevMode) && `Expected "${str}".`);
-    }
-  }
-};
-function createRoot(rootCandidate) {
-  return rootCandidate.segments.length > 0 ? new UrlSegmentGroup([], {
-    [PRIMARY_OUTLET]: rootCandidate
-  }) : rootCandidate;
-}
-function squashSegmentGroup(segmentGroup) {
-  const newChildren = {};
-  for (const [childOutlet, child] of Object.entries(segmentGroup.children)) {
-    const childCandidate = squashSegmentGroup(child);
-    if (childOutlet === PRIMARY_OUTLET && childCandidate.segments.length === 0 && childCandidate.hasChildren()) {
-      for (const [grandChildOutlet, grandChild] of Object.entries(childCandidate.children)) {
-        newChildren[grandChildOutlet] = grandChild;
-      }
-    } else if (childCandidate.segments.length > 0 || childCandidate.hasChildren()) {
-      newChildren[childOutlet] = childCandidate;
-    }
-  }
-  const s = new UrlSegmentGroup(segmentGroup.segments, newChildren);
-  return mergeTrivialChildren(s);
-}
-function mergeTrivialChildren(s) {
-  if (s.numberOfChildren === 1 && s.children[PRIMARY_OUTLET]) {
-    const c = s.children[PRIMARY_OUTLET];
-    return new UrlSegmentGroup(s.segments.concat(c.segments), c.children);
-  }
-  return s;
-}
-function isUrlTree(v) {
-  return v instanceof UrlTree;
-}
-function createUrlTreeFromSnapshot(relativeTo, commands, queryParams = null, fragment = null) {
-  const relativeToUrlSegmentGroup = createSegmentGroupFromRoute(relativeTo);
-  return createUrlTreeFromSegmentGroup(relativeToUrlSegmentGroup, commands, queryParams, fragment);
-}
-function createSegmentGroupFromRoute(route) {
-  let targetGroup;
-  function createSegmentGroupFromRouteRecursive(currentRoute) {
-    const childOutlets = {};
-    for (const childSnapshot of currentRoute.children) {
-      const root = createSegmentGroupFromRouteRecursive(childSnapshot);
-      childOutlets[childSnapshot.outlet] = root;
-    }
-    const segmentGroup = new UrlSegmentGroup(currentRoute.url, childOutlets);
-    if (currentRoute === route) {
-      targetGroup = segmentGroup;
-    }
-    return segmentGroup;
-  }
-  const rootCandidate = createSegmentGroupFromRouteRecursive(route.root);
-  const rootSegmentGroup = createRoot(rootCandidate);
-  return targetGroup ?? rootSegmentGroup;
-}
-function createUrlTreeFromSegmentGroup(relativeTo, commands, queryParams, fragment) {
-  let root = relativeTo;
-  while (root.parent) {
-    root = root.parent;
-  }
-  if (commands.length === 0) {
-    return tree(root, root, root, queryParams, fragment);
-  }
-  const nav = computeNavigation(commands);
-  if (nav.toRoot()) {
-    return tree(root, root, new UrlSegmentGroup([], {}), queryParams, fragment);
-  }
-  const position = findStartingPositionForTargetGroup(nav, root, relativeTo);
-  const newSegmentGroup = position.processChildren ? updateSegmentGroupChildren(position.segmentGroup, position.index, nav.commands) : updateSegmentGroup(position.segmentGroup, position.index, nav.commands);
-  return tree(root, position.segmentGroup, newSegmentGroup, queryParams, fragment);
-}
-function isMatrixParams(command) {
-  return typeof command === "object" && command != null && !command.outlets && !command.segmentPath;
-}
-function isCommandWithOutlets(command) {
-  return typeof command === "object" && command != null && command.outlets;
-}
-function tree(oldRoot, oldSegmentGroup, newSegmentGroup, queryParams, fragment) {
-  let qp = {};
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([name, value]) => {
-      qp[name] = Array.isArray(value) ? value.map((v) => `${v}`) : `${value}`;
-    });
-  }
-  let rootCandidate;
-  if (oldRoot === oldSegmentGroup) {
-    rootCandidate = newSegmentGroup;
-  } else {
-    rootCandidate = replaceSegment(oldRoot, oldSegmentGroup, newSegmentGroup);
-  }
-  const newRoot = createRoot(squashSegmentGroup(rootCandidate));
-  return new UrlTree(newRoot, qp, fragment);
-}
-function replaceSegment(current, oldSegment, newSegment) {
-  const children = {};
-  Object.entries(current.children).forEach(([outletName, c]) => {
-    if (c === oldSegment) {
-      children[outletName] = newSegment;
-    } else {
-      children[outletName] = replaceSegment(c, oldSegment, newSegment);
-    }
-  });
-  return new UrlSegmentGroup(current.segments, children);
-}
-var Navigation = class {
-  constructor(isAbsolute, numberOfDoubleDots, commands) {
-    this.isAbsolute = isAbsolute;
-    this.numberOfDoubleDots = numberOfDoubleDots;
-    this.commands = commands;
-    if (isAbsolute && commands.length > 0 && isMatrixParams(commands[0])) {
-      throw new RuntimeError(4003, (typeof ngDevMode === "undefined" || ngDevMode) && "Root segment cannot have matrix parameters");
-    }
-    const cmdWithOutlet = commands.find(isCommandWithOutlets);
-    if (cmdWithOutlet && cmdWithOutlet !== last3(commands)) {
-      throw new RuntimeError(4004, (typeof ngDevMode === "undefined" || ngDevMode) && "{outlets:{}} has to be the last command");
-    }
-  }
-  toRoot() {
-    return this.isAbsolute && this.commands.length === 1 && this.commands[0] == "/";
-  }
-};
-function computeNavigation(commands) {
-  if (typeof commands[0] === "string" && commands.length === 1 && commands[0] === "/") {
-    return new Navigation(true, 0, commands);
-  }
-  let numberOfDoubleDots = 0;
-  let isAbsolute = false;
-  const res = commands.reduce((res2, cmd, cmdIdx) => {
-    if (typeof cmd === "object" && cmd != null) {
-      if (cmd.outlets) {
-        const outlets = {};
-        Object.entries(cmd.outlets).forEach(([name, commands2]) => {
-          outlets[name] = typeof commands2 === "string" ? commands2.split("/") : commands2;
-        });
-        return [...res2, {
-          outlets
-        }];
-      }
-      if (cmd.segmentPath) {
-        return [...res2, cmd.segmentPath];
-      }
-    }
-    if (!(typeof cmd === "string")) {
-      return [...res2, cmd];
-    }
-    if (cmdIdx === 0) {
-      cmd.split("/").forEach((urlPart, partIndex) => {
-        if (partIndex == 0 && urlPart === ".") {
-        } else if (partIndex == 0 && urlPart === "") {
-          isAbsolute = true;
-        } else if (urlPart === "..") {
-          numberOfDoubleDots++;
-        } else if (urlPart != "") {
-          res2.push(urlPart);
-        }
-      });
-      return res2;
-    }
-    return [...res2, cmd];
-  }, []);
-  return new Navigation(isAbsolute, numberOfDoubleDots, res);
-}
-var Position = class {
-  constructor(segmentGroup, processChildren, index) {
-    this.segmentGroup = segmentGroup;
-    this.processChildren = processChildren;
-    this.index = index;
-  }
-};
-function findStartingPositionForTargetGroup(nav, root, target) {
-  if (nav.isAbsolute) {
-    return new Position(root, true, 0);
-  }
-  if (!target) {
-    return new Position(root, false, NaN);
-  }
-  if (target.parent === null) {
-    return new Position(target, true, 0);
-  }
-  const modifier = isMatrixParams(nav.commands[0]) ? 0 : 1;
-  const index = target.segments.length - 1 + modifier;
-  return createPositionApplyingDoubleDots(target, index, nav.numberOfDoubleDots);
-}
-function createPositionApplyingDoubleDots(group, index, numberOfDoubleDots) {
-  let g = group;
-  let ci = index;
-  let dd = numberOfDoubleDots;
-  while (dd > ci) {
-    dd -= ci;
-    g = g.parent;
-    if (!g) {
-      throw new RuntimeError(4005, (typeof ngDevMode === "undefined" || ngDevMode) && "Invalid number of '../'");
-    }
-    ci = g.segments.length;
-  }
-  return new Position(g, false, ci - dd);
-}
-function getOutlets(commands) {
-  if (isCommandWithOutlets(commands[0])) {
-    return commands[0].outlets;
-  }
-  return {
-    [PRIMARY_OUTLET]: commands
-  };
-}
-function updateSegmentGroup(segmentGroup, startIndex, commands) {
-  segmentGroup ??= new UrlSegmentGroup([], {});
-  if (segmentGroup.segments.length === 0 && segmentGroup.hasChildren()) {
-    return updateSegmentGroupChildren(segmentGroup, startIndex, commands);
-  }
-  const m = prefixedWith(segmentGroup, startIndex, commands);
-  const slicedCommands = commands.slice(m.commandIndex);
-  if (m.match && m.pathIndex < segmentGroup.segments.length) {
-    const g = new UrlSegmentGroup(segmentGroup.segments.slice(0, m.pathIndex), {});
-    g.children[PRIMARY_OUTLET] = new UrlSegmentGroup(segmentGroup.segments.slice(m.pathIndex), segmentGroup.children);
-    return updateSegmentGroupChildren(g, 0, slicedCommands);
-  } else if (m.match && slicedCommands.length === 0) {
-    return new UrlSegmentGroup(segmentGroup.segments, {});
-  } else if (m.match && !segmentGroup.hasChildren()) {
-    return createNewSegmentGroup(segmentGroup, startIndex, commands);
-  } else if (m.match) {
-    return updateSegmentGroupChildren(segmentGroup, 0, slicedCommands);
-  } else {
-    return createNewSegmentGroup(segmentGroup, startIndex, commands);
-  }
-}
-function updateSegmentGroupChildren(segmentGroup, startIndex, commands) {
-  if (commands.length === 0) {
-    return new UrlSegmentGroup(segmentGroup.segments, {});
-  } else {
-    const outlets = getOutlets(commands);
-    const children = {};
-    if (Object.keys(outlets).some((o) => o !== PRIMARY_OUTLET) && segmentGroup.children[PRIMARY_OUTLET] && segmentGroup.numberOfChildren === 1 && segmentGroup.children[PRIMARY_OUTLET].segments.length === 0) {
-      const childrenOfEmptyChild = updateSegmentGroupChildren(segmentGroup.children[PRIMARY_OUTLET], startIndex, commands);
-      return new UrlSegmentGroup(segmentGroup.segments, childrenOfEmptyChild.children);
-    }
-    Object.entries(outlets).forEach(([outlet, commands2]) => {
-      if (typeof commands2 === "string") {
-        commands2 = [commands2];
-      }
-      if (commands2 !== null) {
-        children[outlet] = updateSegmentGroup(segmentGroup.children[outlet], startIndex, commands2);
-      }
-    });
-    Object.entries(segmentGroup.children).forEach(([childOutlet, child]) => {
-      if (outlets[childOutlet] === void 0) {
-        children[childOutlet] = child;
-      }
-    });
-    return new UrlSegmentGroup(segmentGroup.segments, children);
-  }
-}
-function prefixedWith(segmentGroup, startIndex, commands) {
-  let currentCommandIndex = 0;
-  let currentPathIndex = startIndex;
-  const noMatch2 = {
-    match: false,
-    pathIndex: 0,
-    commandIndex: 0
-  };
-  while (currentPathIndex < segmentGroup.segments.length) {
-    if (currentCommandIndex >= commands.length) return noMatch2;
-    const path = segmentGroup.segments[currentPathIndex];
-    const command = commands[currentCommandIndex];
-    if (isCommandWithOutlets(command)) {
-      break;
-    }
-    const curr = `${command}`;
-    const next = currentCommandIndex < commands.length - 1 ? commands[currentCommandIndex + 1] : null;
-    if (currentPathIndex > 0 && curr === void 0) break;
-    if (curr && next && typeof next === "object" && next.outlets === void 0) {
-      if (!compare(curr, next, path)) return noMatch2;
-      currentCommandIndex += 2;
-    } else {
-      if (!compare(curr, {}, path)) return noMatch2;
-      currentCommandIndex++;
-    }
-    currentPathIndex++;
-  }
-  return {
-    match: true,
-    pathIndex: currentPathIndex,
-    commandIndex: currentCommandIndex
-  };
-}
-function createNewSegmentGroup(segmentGroup, startIndex, commands) {
-  const paths = segmentGroup.segments.slice(0, startIndex);
-  let i = 0;
-  while (i < commands.length) {
-    const command = commands[i];
-    if (isCommandWithOutlets(command)) {
-      const children = createNewSegmentChildren(command.outlets);
-      return new UrlSegmentGroup(paths, children);
-    }
-    if (i === 0 && isMatrixParams(commands[0])) {
-      const p = segmentGroup.segments[startIndex];
-      paths.push(new UrlSegment(p.path, stringify2(commands[0])));
-      i++;
-      continue;
-    }
-    const curr = isCommandWithOutlets(command) ? command.outlets[PRIMARY_OUTLET] : `${command}`;
-    const next = i < commands.length - 1 ? commands[i + 1] : null;
-    if (curr && next && isMatrixParams(next)) {
-      paths.push(new UrlSegment(curr, stringify2(next)));
-      i += 2;
-    } else {
-      paths.push(new UrlSegment(curr, {}));
-      i++;
-    }
-  }
-  return new UrlSegmentGroup(paths, {});
-}
-function createNewSegmentChildren(outlets) {
-  const children = {};
-  Object.entries(outlets).forEach(([outlet, commands]) => {
-    if (typeof commands === "string") {
-      commands = [commands];
-    }
-    if (commands !== null) {
-      children[outlet] = createNewSegmentGroup(new UrlSegmentGroup([], {}), 0, commands);
-    }
-  });
-  return children;
-}
-function stringify2(params) {
-  const res = {};
-  Object.entries(params).forEach(([k, v]) => res[k] = `${v}`);
-  return res;
-}
-function compare(path, params, segment) {
-  return path == segment.path && shallowEqual(params, segment.parameters);
-}
-var IMPERATIVE_NAVIGATION = "imperative";
-var EventType;
-(function(EventType2) {
-  EventType2[EventType2["NavigationStart"] = 0] = "NavigationStart";
-  EventType2[EventType2["NavigationEnd"] = 1] = "NavigationEnd";
-  EventType2[EventType2["NavigationCancel"] = 2] = "NavigationCancel";
-  EventType2[EventType2["NavigationError"] = 3] = "NavigationError";
-  EventType2[EventType2["RoutesRecognized"] = 4] = "RoutesRecognized";
-  EventType2[EventType2["ResolveStart"] = 5] = "ResolveStart";
-  EventType2[EventType2["ResolveEnd"] = 6] = "ResolveEnd";
-  EventType2[EventType2["GuardsCheckStart"] = 7] = "GuardsCheckStart";
-  EventType2[EventType2["GuardsCheckEnd"] = 8] = "GuardsCheckEnd";
-  EventType2[EventType2["RouteConfigLoadStart"] = 9] = "RouteConfigLoadStart";
-  EventType2[EventType2["RouteConfigLoadEnd"] = 10] = "RouteConfigLoadEnd";
-  EventType2[EventType2["ChildActivationStart"] = 11] = "ChildActivationStart";
-  EventType2[EventType2["ChildActivationEnd"] = 12] = "ChildActivationEnd";
-  EventType2[EventType2["ActivationStart"] = 13] = "ActivationStart";
-  EventType2[EventType2["ActivationEnd"] = 14] = "ActivationEnd";
-  EventType2[EventType2["Scroll"] = 15] = "Scroll";
-  EventType2[EventType2["NavigationSkipped"] = 16] = "NavigationSkipped";
-})(EventType || (EventType = {}));
-var RouterEvent = class {
-  constructor(id, url) {
-    this.id = id;
-    this.url = url;
-  }
-};
-var NavigationStart = class extends RouterEvent {
-  constructor(id, url, navigationTrigger = "imperative", restoredState = null) {
-    super(id, url);
-    this.type = EventType.NavigationStart;
-    this.navigationTrigger = navigationTrigger;
-    this.restoredState = restoredState;
-  }
-  /** @docsNotRequired */
-  toString() {
-    return `NavigationStart(id: ${this.id}, url: '${this.url}')`;
-  }
-};
-var NavigationEnd = class extends RouterEvent {
-  constructor(id, url, urlAfterRedirects) {
-    super(id, url);
-    this.urlAfterRedirects = urlAfterRedirects;
-    this.type = EventType.NavigationEnd;
-  }
-  /** @docsNotRequired */
-  toString() {
-    return `NavigationEnd(id: ${this.id}, url: '${this.url}', urlAfterRedirects: '${this.urlAfterRedirects}')`;
-  }
-};
-var NavigationCancellationCode;
-(function(NavigationCancellationCode2) {
-  NavigationCancellationCode2[NavigationCancellationCode2["Redirect"] = 0] = "Redirect";
-  NavigationCancellationCode2[NavigationCancellationCode2["SupersededByNewNavigation"] = 1] = "SupersededByNewNavigation";
-  NavigationCancellationCode2[NavigationCancellationCode2["NoDataFromResolver"] = 2] = "NoDataFromResolver";
-  NavigationCancellationCode2[NavigationCancellationCode2["GuardRejected"] = 3] = "GuardRejected";
-})(NavigationCancellationCode || (NavigationCancellationCode = {}));
-var NavigationSkippedCode;
-(function(NavigationSkippedCode2) {
-  NavigationSkippedCode2[NavigationSkippedCode2["IgnoredSameUrlNavigation"] = 0] = "IgnoredSameUrlNavigation";
-  NavigationSkippedCode2[NavigationSkippedCode2["IgnoredByUrlHandlingStrategy"] = 1] = "IgnoredByUrlHandlingStrategy";
-})(NavigationSkippedCode || (NavigationSkippedCode = {}));
-var NavigationCancel = class extends RouterEvent {
-  constructor(id, url, reason, code) {
-    super(id, url);
-    this.reason = reason;
-    this.code = code;
-    this.type = EventType.NavigationCancel;
-  }
-  /** @docsNotRequired */
-  toString() {
-    return `NavigationCancel(id: ${this.id}, url: '${this.url}')`;
-  }
-};
-var NavigationSkipped = class extends RouterEvent {
-  constructor(id, url, reason, code) {
-    super(id, url);
-    this.reason = reason;
-    this.code = code;
-    this.type = EventType.NavigationSkipped;
-  }
-};
-var NavigationError = class extends RouterEvent {
-  constructor(id, url, error, target) {
-    super(id, url);
-    this.error = error;
-    this.target = target;
-    this.type = EventType.NavigationError;
-  }
-  /** @docsNotRequired */
-  toString() {
-    return `NavigationError(id: ${this.id}, url: '${this.url}', error: ${this.error})`;
-  }
-};
-var RoutesRecognized = class extends RouterEvent {
-  constructor(id, url, urlAfterRedirects, state) {
-    super(id, url);
-    this.urlAfterRedirects = urlAfterRedirects;
-    this.state = state;
-    this.type = EventType.RoutesRecognized;
-  }
-  /** @docsNotRequired */
-  toString() {
-    return `RoutesRecognized(id: ${this.id}, url: '${this.url}', urlAfterRedirects: '${this.urlAfterRedirects}', state: ${this.state})`;
-  }
-};
-var GuardsCheckStart = class extends RouterEvent {
-  constructor(id, url, urlAfterRedirects, state) {
-    super(id, url);
-    this.urlAfterRedirects = urlAfterRedirects;
-    this.state = state;
-    this.type = EventType.GuardsCheckStart;
-  }
-  toString() {
-    return `GuardsCheckStart(id: ${this.id}, url: '${this.url}', urlAfterRedirects: '${this.urlAfterRedirects}', state: ${this.state})`;
-  }
-};
-var GuardsCheckEnd = class extends RouterEvent {
-  constructor(id, url, urlAfterRedirects, state, shouldActivate) {
-    super(id, url);
-    this.urlAfterRedirects = urlAfterRedirects;
-    this.state = state;
-    this.shouldActivate = shouldActivate;
-    this.type = EventType.GuardsCheckEnd;
-  }
-  toString() {
-    return `GuardsCheckEnd(id: ${this.id}, url: '${this.url}', urlAfterRedirects: '${this.urlAfterRedirects}', state: ${this.state}, shouldActivate: ${this.shouldActivate})`;
-  }
-};
-var ResolveStart = class extends RouterEvent {
-  constructor(id, url, urlAfterRedirects, state) {
-    super(id, url);
-    this.urlAfterRedirects = urlAfterRedirects;
-    this.state = state;
-    this.type = EventType.ResolveStart;
-  }
-  toString() {
-    return `ResolveStart(id: ${this.id}, url: '${this.url}', urlAfterRedirects: '${this.urlAfterRedirects}', state: ${this.state})`;
-  }
-};
-var ResolveEnd = class extends RouterEvent {
-  constructor(id, url, urlAfterRedirects, state) {
-    super(id, url);
-    this.urlAfterRedirects = urlAfterRedirects;
-    this.state = state;
-    this.type = EventType.ResolveEnd;
-  }
-  toString() {
-    return `ResolveEnd(id: ${this.id}, url: '${this.url}', urlAfterRedirects: '${this.urlAfterRedirects}', state: ${this.state})`;
-  }
-};
-var RouteConfigLoadStart = class {
-  constructor(route) {
-    this.route = route;
-    this.type = EventType.RouteConfigLoadStart;
-  }
-  toString() {
-    return `RouteConfigLoadStart(path: ${this.route.path})`;
-  }
-};
-var RouteConfigLoadEnd = class {
-  constructor(route) {
-    this.route = route;
-    this.type = EventType.RouteConfigLoadEnd;
-  }
-  toString() {
-    return `RouteConfigLoadEnd(path: ${this.route.path})`;
-  }
-};
-var ChildActivationStart = class {
-  constructor(snapshot) {
-    this.snapshot = snapshot;
-    this.type = EventType.ChildActivationStart;
-  }
-  toString() {
-    const path = this.snapshot.routeConfig && this.snapshot.routeConfig.path || "";
-    return `ChildActivationStart(path: '${path}')`;
-  }
-};
-var ChildActivationEnd = class {
-  constructor(snapshot) {
-    this.snapshot = snapshot;
-    this.type = EventType.ChildActivationEnd;
-  }
-  toString() {
-    const path = this.snapshot.routeConfig && this.snapshot.routeConfig.path || "";
-    return `ChildActivationEnd(path: '${path}')`;
-  }
-};
-var ActivationStart = class {
-  constructor(snapshot) {
-    this.snapshot = snapshot;
-    this.type = EventType.ActivationStart;
-  }
-  toString() {
-    const path = this.snapshot.routeConfig && this.snapshot.routeConfig.path || "";
-    return `ActivationStart(path: '${path}')`;
-  }
-};
-var ActivationEnd = class {
-  constructor(snapshot) {
-    this.snapshot = snapshot;
-    this.type = EventType.ActivationEnd;
-  }
-  toString() {
-    const path = this.snapshot.routeConfig && this.snapshot.routeConfig.path || "";
-    return `ActivationEnd(path: '${path}')`;
-  }
-};
-var Scroll = class {
-  constructor(routerEvent, position, anchor) {
-    this.routerEvent = routerEvent;
-    this.position = position;
-    this.anchor = anchor;
-    this.type = EventType.Scroll;
-  }
-  toString() {
-    const pos = this.position ? `${this.position[0]}, ${this.position[1]}` : null;
-    return `Scroll(anchor: '${this.anchor}', position: '${pos}')`;
-  }
-};
-var BeforeActivateRoutes = class {
-};
-var RedirectRequest = class {
-  constructor(url, navigationBehaviorOptions) {
-    this.url = url;
-    this.navigationBehaviorOptions = navigationBehaviorOptions;
-  }
-};
-function stringifyEvent(routerEvent) {
-  switch (routerEvent.type) {
-    case EventType.ActivationEnd:
-      return `ActivationEnd(path: '${routerEvent.snapshot.routeConfig?.path || ""}')`;
-    case EventType.ActivationStart:
-      return `ActivationStart(path: '${routerEvent.snapshot.routeConfig?.path || ""}')`;
-    case EventType.ChildActivationEnd:
-      return `ChildActivationEnd(path: '${routerEvent.snapshot.routeConfig?.path || ""}')`;
-    case EventType.ChildActivationStart:
-      return `ChildActivationStart(path: '${routerEvent.snapshot.routeConfig?.path || ""}')`;
-    case EventType.GuardsCheckEnd:
-      return `GuardsCheckEnd(id: ${routerEvent.id}, url: '${routerEvent.url}', urlAfterRedirects: '${routerEvent.urlAfterRedirects}', state: ${routerEvent.state}, shouldActivate: ${routerEvent.shouldActivate})`;
-    case EventType.GuardsCheckStart:
-      return `GuardsCheckStart(id: ${routerEvent.id}, url: '${routerEvent.url}', urlAfterRedirects: '${routerEvent.urlAfterRedirects}', state: ${routerEvent.state})`;
-    case EventType.NavigationCancel:
-      return `NavigationCancel(id: ${routerEvent.id}, url: '${routerEvent.url}')`;
-    case EventType.NavigationSkipped:
-      return `NavigationSkipped(id: ${routerEvent.id}, url: '${routerEvent.url}')`;
-    case EventType.NavigationEnd:
-      return `NavigationEnd(id: ${routerEvent.id}, url: '${routerEvent.url}', urlAfterRedirects: '${routerEvent.urlAfterRedirects}')`;
-    case EventType.NavigationError:
-      return `NavigationError(id: ${routerEvent.id}, url: '${routerEvent.url}', error: ${routerEvent.error})`;
-    case EventType.NavigationStart:
-      return `NavigationStart(id: ${routerEvent.id}, url: '${routerEvent.url}')`;
-    case EventType.ResolveEnd:
-      return `ResolveEnd(id: ${routerEvent.id}, url: '${routerEvent.url}', urlAfterRedirects: '${routerEvent.urlAfterRedirects}', state: ${routerEvent.state})`;
-    case EventType.ResolveStart:
-      return `ResolveStart(id: ${routerEvent.id}, url: '${routerEvent.url}', urlAfterRedirects: '${routerEvent.urlAfterRedirects}', state: ${routerEvent.state})`;
-    case EventType.RouteConfigLoadEnd:
-      return `RouteConfigLoadEnd(path: ${routerEvent.route.path})`;
-    case EventType.RouteConfigLoadStart:
-      return `RouteConfigLoadStart(path: ${routerEvent.route.path})`;
-    case EventType.RoutesRecognized:
-      return `RoutesRecognized(id: ${routerEvent.id}, url: '${routerEvent.url}', urlAfterRedirects: '${routerEvent.urlAfterRedirects}', state: ${routerEvent.state})`;
-    case EventType.Scroll:
-      const pos = routerEvent.position ? `${routerEvent.position[0]}, ${routerEvent.position[1]}` : null;
-      return `Scroll(anchor: '${routerEvent.anchor}', position: '${pos}')`;
-  }
-}
-function getOrCreateRouteInjectorIfNeeded(route, currentInjector) {
-  if (route.providers && !route._injector) {
-    route._injector = createEnvironmentInjector(route.providers, currentInjector, `Route: ${route.path}`);
-  }
-  return route._injector ?? currentInjector;
-}
-function validateConfig(config2, parentPath = "", requireStandaloneComponents = false) {
-  for (let i = 0; i < config2.length; i++) {
-    const route = config2[i];
-    const fullPath = getFullPath(parentPath, route);
-    validateNode(route, fullPath, requireStandaloneComponents);
-  }
-}
-function assertStandalone(fullPath, component) {
-  if (component && isNgModule(component)) {
-    throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}'. You are using 'loadComponent' with a module, but it must be used with standalone components. Use 'loadChildren' instead.`);
-  } else if (component && !isStandalone(component)) {
-    throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}'. The component must be standalone.`);
-  }
-}
-function validateNode(route, fullPath, requireStandaloneComponents) {
-  if (typeof ngDevMode === "undefined" || ngDevMode) {
-    if (!route) {
-      throw new RuntimeError(4014, `
-      Invalid configuration of route '${fullPath}': Encountered undefined route.
-      The reason might be an extra comma.
-
-      Example:
-      const routes: Routes = [
-        { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-        { path: 'dashboard',  component: DashboardComponent },, << two commas
-        { path: 'detail/:id', component: HeroDetailComponent }
-      ];
-    `);
-    }
-    if (Array.isArray(route)) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': Array cannot be specified`);
-    }
-    if (!route.redirectTo && !route.component && !route.loadComponent && !route.children && !route.loadChildren && route.outlet && route.outlet !== PRIMARY_OUTLET) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': a componentless route without children or loadChildren cannot have a named outlet set`);
-    }
-    if (route.redirectTo && route.children) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and children cannot be used together`);
-    }
-    if (route.redirectTo && route.loadChildren) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and loadChildren cannot be used together`);
-    }
-    if (route.children && route.loadChildren) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': children and loadChildren cannot be used together`);
-    }
-    if (route.redirectTo && (route.component || route.loadComponent)) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and component/loadComponent cannot be used together`);
-    }
-    if (route.component && route.loadComponent) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': component and loadComponent cannot be used together`);
-    }
-    if (route.redirectTo && route.canActivate) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': redirectTo and canActivate cannot be used together. Redirects happen before activation so canActivate will never be executed.`);
-    }
-    if (route.path && route.matcher) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': path and matcher cannot be used together`);
-    }
-    if (route.redirectTo === void 0 && !route.component && !route.loadComponent && !route.children && !route.loadChildren) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}'. One of the following must be provided: component, loadComponent, redirectTo, children or loadChildren`);
-    }
-    if (route.path === void 0 && route.matcher === void 0) {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': routes must have either a path or a matcher specified`);
-    }
-    if (typeof route.path === "string" && route.path.charAt(0) === "/") {
-      throw new RuntimeError(4014, `Invalid configuration of route '${fullPath}': path cannot start with a slash`);
-    }
-    if (route.path === "" && route.redirectTo !== void 0 && route.pathMatch === void 0) {
-      const exp = `The default value of 'pathMatch' is 'prefix', but often the intent is to use 'full'.`;
-      throw new RuntimeError(4014, `Invalid configuration of route '{path: "${fullPath}", redirectTo: "${route.redirectTo}"}': please provide 'pathMatch'. ${exp}`);
-    }
-    if (requireStandaloneComponents) {
-      assertStandalone(fullPath, route.component);
-    }
-  }
-  if (route.children) {
-    validateConfig(route.children, fullPath, requireStandaloneComponents);
-  }
-}
-function getFullPath(parentPath, currentRoute) {
-  if (!currentRoute) {
-    return parentPath;
-  }
-  if (!parentPath && !currentRoute.path) {
-    return "";
-  } else if (parentPath && !currentRoute.path) {
-    return `${parentPath}/`;
-  } else if (!parentPath && currentRoute.path) {
-    return currentRoute.path;
-  } else {
-    return `${parentPath}/${currentRoute.path}`;
-  }
-}
-function getOutlet(route) {
-  return route.outlet || PRIMARY_OUTLET;
-}
-function sortByMatchingOutlets(routes2, outletName) {
-  const sortedConfig = routes2.filter((r) => getOutlet(r) === outletName);
-  sortedConfig.push(...routes2.filter((r) => getOutlet(r) !== outletName));
-  return sortedConfig;
-}
-function getClosestRouteInjector(snapshot) {
-  if (!snapshot) return null;
-  if (snapshot.routeConfig?._injector) {
-    return snapshot.routeConfig._injector;
-  }
-  for (let s = snapshot.parent; s; s = s.parent) {
-    const route = s.routeConfig;
-    if (route?._loadedInjector) return route._loadedInjector;
-    if (route?._injector) return route._injector;
-  }
-  return null;
-}
-var OutletContext = class {
-  get injector() {
-    return getClosestRouteInjector(this.route?.snapshot) ?? this.rootInjector;
-  }
-  // TODO(atscott): Only here to avoid a "breaking" change in a patch/minor. Remove in v19.
-  set injector(_) {
-  }
-  constructor(rootInjector) {
-    this.rootInjector = rootInjector;
-    this.outlet = null;
-    this.route = null;
-    this.children = new ChildrenOutletContexts(this.rootInjector);
-    this.attachRef = null;
-  }
-};
-var ChildrenOutletContexts = class _ChildrenOutletContexts {
-  /** @nodoc */
-  constructor(rootInjector) {
-    this.rootInjector = rootInjector;
-    this.contexts = /* @__PURE__ */ new Map();
-  }
-  /** Called when a `RouterOutlet` directive is instantiated */
-  onChildOutletCreated(childName, outlet) {
-    const context2 = this.getOrCreateContext(childName);
-    context2.outlet = outlet;
-    this.contexts.set(childName, context2);
-  }
-  /**
-   * Called when a `RouterOutlet` directive is destroyed.
-   * We need to keep the context as the outlet could be destroyed inside a NgIf and might be
-   * re-created later.
-   */
-  onChildOutletDestroyed(childName) {
-    const context2 = this.getContext(childName);
-    if (context2) {
-      context2.outlet = null;
-      context2.attachRef = null;
-    }
-  }
-  /**
-   * Called when the corresponding route is deactivated during navigation.
-   * Because the component get destroyed, all children outlet are destroyed.
-   */
-  onOutletDeactivated() {
-    const contexts = this.contexts;
-    this.contexts = /* @__PURE__ */ new Map();
-    return contexts;
-  }
-  onOutletReAttached(contexts) {
-    this.contexts = contexts;
-  }
-  getOrCreateContext(childName) {
-    let context2 = this.getContext(childName);
-    if (!context2) {
-      context2 = new OutletContext(this.rootInjector);
-      this.contexts.set(childName, context2);
-    }
-    return context2;
-  }
-  getContext(childName) {
-    return this.contexts.get(childName) || null;
-  }
-  static {
-    this.\u0275fac = function ChildrenOutletContexts_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _ChildrenOutletContexts)(\u0275\u0275inject(EnvironmentInjector));
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _ChildrenOutletContexts,
-      factory: _ChildrenOutletContexts.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ChildrenOutletContexts, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: EnvironmentInjector
-  }], null);
-})();
-var Tree = class {
-  constructor(root) {
-    this._root = root;
-  }
-  get root() {
-    return this._root.value;
-  }
-  /**
-   * @internal
-   */
-  parent(t) {
-    const p = this.pathFromRoot(t);
-    return p.length > 1 ? p[p.length - 2] : null;
-  }
-  /**
-   * @internal
-   */
-  children(t) {
-    const n = findNode(t, this._root);
-    return n ? n.children.map((t2) => t2.value) : [];
-  }
-  /**
-   * @internal
-   */
-  firstChild(t) {
-    const n = findNode(t, this._root);
-    return n && n.children.length > 0 ? n.children[0].value : null;
-  }
-  /**
-   * @internal
-   */
-  siblings(t) {
-    const p = findPath(t, this._root);
-    if (p.length < 2) return [];
-    const c = p[p.length - 2].children.map((c2) => c2.value);
-    return c.filter((cc) => cc !== t);
-  }
-  /**
-   * @internal
-   */
-  pathFromRoot(t) {
-    return findPath(t, this._root).map((s) => s.value);
-  }
-};
-function findNode(value, node) {
-  if (value === node.value) return node;
-  for (const child of node.children) {
-    const node2 = findNode(value, child);
-    if (node2) return node2;
-  }
-  return null;
-}
-function findPath(value, node) {
-  if (value === node.value) return [node];
-  for (const child of node.children) {
-    const path = findPath(value, child);
-    if (path.length) {
-      path.unshift(node);
-      return path;
-    }
-  }
-  return [];
-}
-var TreeNode = class {
-  constructor(value, children) {
-    this.value = value;
-    this.children = children;
-  }
-  toString() {
-    return `TreeNode(${this.value})`;
-  }
-};
-function nodeChildrenAsMap(node) {
-  const map2 = {};
-  if (node) {
-    node.children.forEach((child) => map2[child.value.outlet] = child);
-  }
-  return map2;
-}
-var RouterState = class extends Tree {
-  /** @internal */
-  constructor(root, snapshot) {
-    super(root);
-    this.snapshot = snapshot;
-    setRouterState(this, root);
-  }
-  toString() {
-    return this.snapshot.toString();
-  }
-};
-function createEmptyState(rootComponent) {
-  const snapshot = createEmptyStateSnapshot(rootComponent);
-  const emptyUrl = new BehaviorSubject([new UrlSegment("", {})]);
-  const emptyParams = new BehaviorSubject({});
-  const emptyData = new BehaviorSubject({});
-  const emptyQueryParams = new BehaviorSubject({});
-  const fragment = new BehaviorSubject("");
-  const activated = new ActivatedRoute(emptyUrl, emptyParams, emptyQueryParams, fragment, emptyData, PRIMARY_OUTLET, rootComponent, snapshot.root);
-  activated.snapshot = snapshot.root;
-  return new RouterState(new TreeNode(activated, []), snapshot);
-}
-function createEmptyStateSnapshot(rootComponent) {
-  const emptyParams = {};
-  const emptyData = {};
-  const emptyQueryParams = {};
-  const fragment = "";
-  const activated = new ActivatedRouteSnapshot([], emptyParams, emptyQueryParams, fragment, emptyData, PRIMARY_OUTLET, rootComponent, null, {});
-  return new RouterStateSnapshot("", new TreeNode(activated, []));
-}
-var ActivatedRoute = class {
-  /** @internal */
-  constructor(urlSubject, paramsSubject, queryParamsSubject, fragmentSubject, dataSubject, outlet, component, futureSnapshot) {
-    this.urlSubject = urlSubject;
-    this.paramsSubject = paramsSubject;
-    this.queryParamsSubject = queryParamsSubject;
-    this.fragmentSubject = fragmentSubject;
-    this.dataSubject = dataSubject;
-    this.outlet = outlet;
-    this.component = component;
-    this._futureSnapshot = futureSnapshot;
-    this.title = this.dataSubject?.pipe(map((d) => d[RouteTitleKey])) ?? of(void 0);
-    this.url = urlSubject;
-    this.params = paramsSubject;
-    this.queryParams = queryParamsSubject;
-    this.fragment = fragmentSubject;
-    this.data = dataSubject;
-  }
-  /** The configuration used to match this route. */
-  get routeConfig() {
-    return this._futureSnapshot.routeConfig;
-  }
-  /** The root of the router state. */
-  get root() {
-    return this._routerState.root;
-  }
-  /** The parent of this route in the router state tree. */
-  get parent() {
-    return this._routerState.parent(this);
-  }
-  /** The first child of this route in the router state tree. */
-  get firstChild() {
-    return this._routerState.firstChild(this);
-  }
-  /** The children of this route in the router state tree. */
-  get children() {
-    return this._routerState.children(this);
-  }
-  /** The path from the root of the router state tree to this route. */
-  get pathFromRoot() {
-    return this._routerState.pathFromRoot(this);
-  }
-  /**
-   * An Observable that contains a map of the required and optional parameters
-   * specific to the route.
-   * The map supports retrieving single and multiple values from the same parameter.
-   */
-  get paramMap() {
-    this._paramMap ??= this.params.pipe(map((p) => convertToParamMap(p)));
-    return this._paramMap;
-  }
-  /**
-   * An Observable that contains a map of the query parameters available to all routes.
-   * The map supports retrieving single and multiple values from the query parameter.
-   */
-  get queryParamMap() {
-    this._queryParamMap ??= this.queryParams.pipe(map((p) => convertToParamMap(p)));
-    return this._queryParamMap;
-  }
-  toString() {
-    return this.snapshot ? this.snapshot.toString() : `Future(${this._futureSnapshot})`;
-  }
-};
-function getInherited(route, parent, paramsInheritanceStrategy = "emptyOnly") {
-  let inherited;
-  const {
-    routeConfig
-  } = route;
-  if (parent !== null && (paramsInheritanceStrategy === "always" || // inherit parent data if route is empty path
-  routeConfig?.path === "" || // inherit parent data if parent was componentless
-  !parent.component && !parent.routeConfig?.loadComponent)) {
-    inherited = {
-      params: __spreadValues(__spreadValues({}, parent.params), route.params),
-      data: __spreadValues(__spreadValues({}, parent.data), route.data),
-      resolve: __spreadValues(__spreadValues(__spreadValues(__spreadValues({}, route.data), parent.data), routeConfig?.data), route._resolvedData)
-    };
-  } else {
-    inherited = {
-      params: __spreadValues({}, route.params),
-      data: __spreadValues({}, route.data),
-      resolve: __spreadValues(__spreadValues({}, route.data), route._resolvedData ?? {})
-    };
-  }
-  if (routeConfig && hasStaticTitle(routeConfig)) {
-    inherited.resolve[RouteTitleKey] = routeConfig.title;
-  }
-  return inherited;
-}
-var ActivatedRouteSnapshot = class {
-  /** The resolved route title */
-  get title() {
-    return this.data?.[RouteTitleKey];
-  }
-  /** @internal */
-  constructor(url, params, queryParams, fragment, data, outlet, component, routeConfig, resolve) {
-    this.url = url;
-    this.params = params;
-    this.queryParams = queryParams;
-    this.fragment = fragment;
-    this.data = data;
-    this.outlet = outlet;
-    this.component = component;
-    this.routeConfig = routeConfig;
-    this._resolve = resolve;
-  }
-  /** The root of the router state */
-  get root() {
-    return this._routerState.root;
-  }
-  /** The parent of this route in the router state tree */
-  get parent() {
-    return this._routerState.parent(this);
-  }
-  /** The first child of this route in the router state tree */
-  get firstChild() {
-    return this._routerState.firstChild(this);
-  }
-  /** The children of this route in the router state tree */
-  get children() {
-    return this._routerState.children(this);
-  }
-  /** The path from the root of the router state tree to this route */
-  get pathFromRoot() {
-    return this._routerState.pathFromRoot(this);
-  }
-  get paramMap() {
-    this._paramMap ??= convertToParamMap(this.params);
-    return this._paramMap;
-  }
-  get queryParamMap() {
-    this._queryParamMap ??= convertToParamMap(this.queryParams);
-    return this._queryParamMap;
-  }
-  toString() {
-    const url = this.url.map((segment) => segment.toString()).join("/");
-    const matched = this.routeConfig ? this.routeConfig.path : "";
-    return `Route(url:'${url}', path:'${matched}')`;
-  }
-};
-var RouterStateSnapshot = class extends Tree {
-  /** @internal */
-  constructor(url, root) {
-    super(root);
-    this.url = url;
-    setRouterState(this, root);
-  }
-  toString() {
-    return serializeNode(this._root);
-  }
-};
-function setRouterState(state, node) {
-  node.value._routerState = state;
-  node.children.forEach((c) => setRouterState(state, c));
-}
-function serializeNode(node) {
-  const c = node.children.length > 0 ? ` { ${node.children.map(serializeNode).join(", ")} } ` : "";
-  return `${node.value}${c}`;
-}
-function advanceActivatedRoute(route) {
-  if (route.snapshot) {
-    const currentSnapshot = route.snapshot;
-    const nextSnapshot = route._futureSnapshot;
-    route.snapshot = nextSnapshot;
-    if (!shallowEqual(currentSnapshot.queryParams, nextSnapshot.queryParams)) {
-      route.queryParamsSubject.next(nextSnapshot.queryParams);
-    }
-    if (currentSnapshot.fragment !== nextSnapshot.fragment) {
-      route.fragmentSubject.next(nextSnapshot.fragment);
-    }
-    if (!shallowEqual(currentSnapshot.params, nextSnapshot.params)) {
-      route.paramsSubject.next(nextSnapshot.params);
-    }
-    if (!shallowEqualArrays(currentSnapshot.url, nextSnapshot.url)) {
-      route.urlSubject.next(nextSnapshot.url);
-    }
-    if (!shallowEqual(currentSnapshot.data, nextSnapshot.data)) {
-      route.dataSubject.next(nextSnapshot.data);
-    }
-  } else {
-    route.snapshot = route._futureSnapshot;
-    route.dataSubject.next(route._futureSnapshot.data);
-  }
-}
-function equalParamsAndUrlSegments(a, b) {
-  const equalUrlParams = shallowEqual(a.params, b.params) && equalSegments(a.url, b.url);
-  const parentsMismatch = !a.parent !== !b.parent;
-  return equalUrlParams && !parentsMismatch && (!a.parent || equalParamsAndUrlSegments(a.parent, b.parent));
-}
-function hasStaticTitle(config2) {
-  return typeof config2.title === "string" || config2.title === null;
-}
-var RouterOutlet = class _RouterOutlet {
-  constructor() {
-    this.activated = null;
-    this._activatedRoute = null;
-    this.name = PRIMARY_OUTLET;
-    this.activateEvents = new EventEmitter();
-    this.deactivateEvents = new EventEmitter();
-    this.attachEvents = new EventEmitter();
-    this.detachEvents = new EventEmitter();
-    this.parentContexts = inject(ChildrenOutletContexts);
-    this.location = inject(ViewContainerRef);
-    this.changeDetector = inject(ChangeDetectorRef);
-    this.inputBinder = inject(INPUT_BINDER, {
-      optional: true
-    });
-    this.supportsBindingToComponentInputs = true;
-  }
-  /** @internal */
-  get activatedComponentRef() {
-    return this.activated;
-  }
-  /** @nodoc */
-  ngOnChanges(changes) {
-    if (changes["name"]) {
-      const {
-        firstChange,
-        previousValue
-      } = changes["name"];
-      if (firstChange) {
-        return;
-      }
-      if (this.isTrackedInParentContexts(previousValue)) {
-        this.deactivate();
-        this.parentContexts.onChildOutletDestroyed(previousValue);
-      }
-      this.initializeOutletWithName();
-    }
-  }
-  /** @nodoc */
-  ngOnDestroy() {
-    if (this.isTrackedInParentContexts(this.name)) {
-      this.parentContexts.onChildOutletDestroyed(this.name);
-    }
-    this.inputBinder?.unsubscribeFromRouteData(this);
-  }
-  isTrackedInParentContexts(outletName) {
-    return this.parentContexts.getContext(outletName)?.outlet === this;
-  }
-  /** @nodoc */
-  ngOnInit() {
-    this.initializeOutletWithName();
-  }
-  initializeOutletWithName() {
-    this.parentContexts.onChildOutletCreated(this.name, this);
-    if (this.activated) {
-      return;
-    }
-    const context2 = this.parentContexts.getContext(this.name);
-    if (context2?.route) {
-      if (context2.attachRef) {
-        this.attach(context2.attachRef, context2.route);
-      } else {
-        this.activateWith(context2.route, context2.injector);
-      }
-    }
-  }
-  get isActivated() {
-    return !!this.activated;
-  }
-  /**
-   * @returns The currently activated component instance.
-   * @throws An error if the outlet is not activated.
-   */
-  get component() {
-    if (!this.activated) throw new RuntimeError(4012, (typeof ngDevMode === "undefined" || ngDevMode) && "Outlet is not activated");
-    return this.activated.instance;
-  }
-  get activatedRoute() {
-    if (!this.activated) throw new RuntimeError(4012, (typeof ngDevMode === "undefined" || ngDevMode) && "Outlet is not activated");
-    return this._activatedRoute;
-  }
-  get activatedRouteData() {
-    if (this._activatedRoute) {
-      return this._activatedRoute.snapshot.data;
-    }
-    return {};
-  }
-  /**
-   * Called when the `RouteReuseStrategy` instructs to detach the subtree
-   */
-  detach() {
-    if (!this.activated) throw new RuntimeError(4012, (typeof ngDevMode === "undefined" || ngDevMode) && "Outlet is not activated");
-    this.location.detach();
-    const cmp = this.activated;
-    this.activated = null;
-    this._activatedRoute = null;
-    this.detachEvents.emit(cmp.instance);
-    return cmp;
-  }
-  /**
-   * Called when the `RouteReuseStrategy` instructs to re-attach a previously detached subtree
-   */
-  attach(ref, activatedRoute) {
-    this.activated = ref;
-    this._activatedRoute = activatedRoute;
-    this.location.insert(ref.hostView);
-    this.inputBinder?.bindActivatedRouteToOutletComponent(this);
-    this.attachEvents.emit(ref.instance);
-  }
-  deactivate() {
-    if (this.activated) {
-      const c = this.component;
-      this.activated.destroy();
-      this.activated = null;
-      this._activatedRoute = null;
-      this.deactivateEvents.emit(c);
-    }
-  }
-  activateWith(activatedRoute, environmentInjector) {
-    if (this.isActivated) {
-      throw new RuntimeError(4013, (typeof ngDevMode === "undefined" || ngDevMode) && "Cannot activate an already activated outlet");
-    }
-    this._activatedRoute = activatedRoute;
-    const location2 = this.location;
-    const snapshot = activatedRoute.snapshot;
-    const component = snapshot.component;
-    const childContexts = this.parentContexts.getOrCreateContext(this.name).children;
-    const injector = new OutletInjector(activatedRoute, childContexts, location2.injector);
-    this.activated = location2.createComponent(component, {
-      index: location2.length,
-      injector,
-      environmentInjector
-    });
-    this.changeDetector.markForCheck();
-    this.inputBinder?.bindActivatedRouteToOutletComponent(this);
-    this.activateEvents.emit(this.activated.instance);
-  }
-  static {
-    this.\u0275fac = function RouterOutlet_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterOutlet)();
-    };
-  }
-  static {
-    this.\u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-      type: _RouterOutlet,
-      selectors: [["router-outlet"]],
-      inputs: {
-        name: "name"
-      },
-      outputs: {
-        activateEvents: "activate",
-        deactivateEvents: "deactivate",
-        attachEvents: "attach",
-        detachEvents: "detach"
-      },
-      exportAs: ["outlet"],
-      standalone: true,
-      features: [\u0275\u0275NgOnChangesFeature]
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RouterOutlet, [{
-    type: Directive,
-    args: [{
-      selector: "router-outlet",
-      exportAs: "outlet",
-      standalone: true
-    }]
-  }], null, {
-    name: [{
-      type: Input
-    }],
-    activateEvents: [{
-      type: Output,
-      args: ["activate"]
-    }],
-    deactivateEvents: [{
-      type: Output,
-      args: ["deactivate"]
-    }],
-    attachEvents: [{
-      type: Output,
-      args: ["attach"]
-    }],
-    detachEvents: [{
-      type: Output,
-      args: ["detach"]
-    }]
-  });
-})();
-var OutletInjector = class _OutletInjector {
-  /**
-   * This injector has a special handing for the `ActivatedRoute` and
-   * `ChildrenOutletContexts` tokens: it returns corresponding values for those
-   * tokens dynamically. This behavior is different from the regular injector logic,
-   * when we initialize and store a value, which is later returned for all inject
-   * requests.
-   *
-   * In some cases (e.g. when using `@defer`), this dynamic behavior requires special
-   * handling. This function allows to identify an instance of the `OutletInjector` and
-   * create an instance of it without referring to the class itself (so this logic can
-   * be invoked from the `core` package). This helps to retain dynamic behavior for the
-   * mentioned tokens.
-   *
-   * Note: it's a temporary solution and we should explore how to support this case better.
-   */
-  __ngOutletInjector(parentInjector) {
-    return new _OutletInjector(this.route, this.childContexts, parentInjector);
-  }
-  constructor(route, childContexts, parent) {
-    this.route = route;
-    this.childContexts = childContexts;
-    this.parent = parent;
-  }
-  get(token, notFoundValue) {
-    if (token === ActivatedRoute) {
-      return this.route;
-    }
-    if (token === ChildrenOutletContexts) {
-      return this.childContexts;
-    }
-    return this.parent.get(token, notFoundValue);
-  }
-};
-var INPUT_BINDER = new InjectionToken("");
-var RoutedComponentInputBinder = class _RoutedComponentInputBinder {
-  constructor() {
-    this.outletDataSubscriptions = /* @__PURE__ */ new Map();
-  }
-  bindActivatedRouteToOutletComponent(outlet) {
-    this.unsubscribeFromRouteData(outlet);
-    this.subscribeToRouteData(outlet);
-  }
-  unsubscribeFromRouteData(outlet) {
-    this.outletDataSubscriptions.get(outlet)?.unsubscribe();
-    this.outletDataSubscriptions.delete(outlet);
-  }
-  subscribeToRouteData(outlet) {
-    const {
-      activatedRoute
-    } = outlet;
-    const dataSubscription = combineLatest([activatedRoute.queryParams, activatedRoute.params, activatedRoute.data]).pipe(switchMap(([queryParams, params, data], index) => {
-      data = __spreadValues(__spreadValues(__spreadValues({}, queryParams), params), data);
-      if (index === 0) {
-        return of(data);
-      }
-      return Promise.resolve(data);
-    })).subscribe((data) => {
-      if (!outlet.isActivated || !outlet.activatedComponentRef || outlet.activatedRoute !== activatedRoute || activatedRoute.component === null) {
-        this.unsubscribeFromRouteData(outlet);
-        return;
-      }
-      const mirror = reflectComponentType(activatedRoute.component);
-      if (!mirror) {
-        this.unsubscribeFromRouteData(outlet);
-        return;
-      }
-      for (const {
-        templateName
-      } of mirror.inputs) {
-        outlet.activatedComponentRef.setInput(templateName, data[templateName]);
-      }
-    });
-    this.outletDataSubscriptions.set(outlet, dataSubscription);
-  }
-  static {
-    this.\u0275fac = function RoutedComponentInputBinder_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RoutedComponentInputBinder)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _RoutedComponentInputBinder,
-      factory: _RoutedComponentInputBinder.\u0275fac
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RoutedComponentInputBinder, [{
-    type: Injectable
-  }], null, null);
-})();
-function createRouterState(routeReuseStrategy, curr, prevState) {
-  const root = createNode(routeReuseStrategy, curr._root, prevState ? prevState._root : void 0);
-  return new RouterState(root, curr);
-}
-function createNode(routeReuseStrategy, curr, prevState) {
-  if (prevState && routeReuseStrategy.shouldReuseRoute(curr.value, prevState.value.snapshot)) {
-    const value = prevState.value;
-    value._futureSnapshot = curr.value;
-    const children = createOrReuseChildren(routeReuseStrategy, curr, prevState);
-    return new TreeNode(value, children);
-  } else {
-    if (routeReuseStrategy.shouldAttach(curr.value)) {
-      const detachedRouteHandle = routeReuseStrategy.retrieve(curr.value);
-      if (detachedRouteHandle !== null) {
-        const tree2 = detachedRouteHandle.route;
-        tree2.value._futureSnapshot = curr.value;
-        tree2.children = curr.children.map((c) => createNode(routeReuseStrategy, c));
-        return tree2;
-      }
-    }
-    const value = createActivatedRoute(curr.value);
-    const children = curr.children.map((c) => createNode(routeReuseStrategy, c));
-    return new TreeNode(value, children);
-  }
-}
-function createOrReuseChildren(routeReuseStrategy, curr, prevState) {
-  return curr.children.map((child) => {
-    for (const p of prevState.children) {
-      if (routeReuseStrategy.shouldReuseRoute(child.value, p.value.snapshot)) {
-        return createNode(routeReuseStrategy, child, p);
-      }
-    }
-    return createNode(routeReuseStrategy, child);
-  });
-}
-function createActivatedRoute(c) {
-  return new ActivatedRoute(new BehaviorSubject(c.url), new BehaviorSubject(c.params), new BehaviorSubject(c.queryParams), new BehaviorSubject(c.fragment), new BehaviorSubject(c.data), c.outlet, c.component, c);
-}
-var RedirectCommand = class {
-  constructor(redirectTo, navigationBehaviorOptions) {
-    this.redirectTo = redirectTo;
-    this.navigationBehaviorOptions = navigationBehaviorOptions;
-  }
-};
-var NAVIGATION_CANCELING_ERROR = "ngNavigationCancelingError";
-function redirectingNavigationError(urlSerializer, redirect) {
-  const {
-    redirectTo,
-    navigationBehaviorOptions
-  } = isUrlTree(redirect) ? {
-    redirectTo: redirect,
-    navigationBehaviorOptions: void 0
-  } : redirect;
-  const error = navigationCancelingError(ngDevMode && `Redirecting to "${urlSerializer.serialize(redirectTo)}"`, NavigationCancellationCode.Redirect);
-  error.url = redirectTo;
-  error.navigationBehaviorOptions = navigationBehaviorOptions;
-  return error;
-}
-function navigationCancelingError(message, code) {
-  const error = new Error(`NavigationCancelingError: ${message || ""}`);
-  error[NAVIGATION_CANCELING_ERROR] = true;
-  error.cancellationCode = code;
-  return error;
-}
-function isRedirectingNavigationCancelingError(error) {
-  return isNavigationCancelingError(error) && isUrlTree(error.url);
-}
-function isNavigationCancelingError(error) {
-  return !!error && error[NAVIGATION_CANCELING_ERROR];
-}
-var warnedAboutUnsupportedInputBinding = false;
-var activateRoutes = (rootContexts, routeReuseStrategy, forwardEvent, inputBindingEnabled) => map((t) => {
-  new ActivateRoutes(routeReuseStrategy, t.targetRouterState, t.currentRouterState, forwardEvent, inputBindingEnabled).activate(rootContexts);
-  return t;
-});
-var ActivateRoutes = class {
-  constructor(routeReuseStrategy, futureState, currState, forwardEvent, inputBindingEnabled) {
-    this.routeReuseStrategy = routeReuseStrategy;
-    this.futureState = futureState;
-    this.currState = currState;
-    this.forwardEvent = forwardEvent;
-    this.inputBindingEnabled = inputBindingEnabled;
-  }
-  activate(parentContexts) {
-    const futureRoot = this.futureState._root;
-    const currRoot = this.currState ? this.currState._root : null;
-    this.deactivateChildRoutes(futureRoot, currRoot, parentContexts);
-    advanceActivatedRoute(this.futureState.root);
-    this.activateChildRoutes(futureRoot, currRoot, parentContexts);
-  }
-  // De-activate the child route that are not re-used for the future state
-  deactivateChildRoutes(futureNode, currNode, contexts) {
-    const children = nodeChildrenAsMap(currNode);
-    futureNode.children.forEach((futureChild) => {
-      const childOutletName = futureChild.value.outlet;
-      this.deactivateRoutes(futureChild, children[childOutletName], contexts);
-      delete children[childOutletName];
-    });
-    Object.values(children).forEach((v) => {
-      this.deactivateRouteAndItsChildren(v, contexts);
-    });
-  }
-  deactivateRoutes(futureNode, currNode, parentContext) {
-    const future = futureNode.value;
-    const curr = currNode ? currNode.value : null;
-    if (future === curr) {
-      if (future.component) {
-        const context2 = parentContext.getContext(future.outlet);
-        if (context2) {
-          this.deactivateChildRoutes(futureNode, currNode, context2.children);
-        }
-      } else {
-        this.deactivateChildRoutes(futureNode, currNode, parentContext);
-      }
-    } else {
-      if (curr) {
-        this.deactivateRouteAndItsChildren(currNode, parentContext);
-      }
-    }
-  }
-  deactivateRouteAndItsChildren(route, parentContexts) {
-    if (route.value.component && this.routeReuseStrategy.shouldDetach(route.value.snapshot)) {
-      this.detachAndStoreRouteSubtree(route, parentContexts);
-    } else {
-      this.deactivateRouteAndOutlet(route, parentContexts);
-    }
-  }
-  detachAndStoreRouteSubtree(route, parentContexts) {
-    const context2 = parentContexts.getContext(route.value.outlet);
-    const contexts = context2 && route.value.component ? context2.children : parentContexts;
-    const children = nodeChildrenAsMap(route);
-    for (const treeNode of Object.values(children)) {
-      this.deactivateRouteAndItsChildren(treeNode, contexts);
-    }
-    if (context2 && context2.outlet) {
-      const componentRef = context2.outlet.detach();
-      const contexts2 = context2.children.onOutletDeactivated();
-      this.routeReuseStrategy.store(route.value.snapshot, {
-        componentRef,
-        route,
-        contexts: contexts2
-      });
-    }
-  }
-  deactivateRouteAndOutlet(route, parentContexts) {
-    const context2 = parentContexts.getContext(route.value.outlet);
-    const contexts = context2 && route.value.component ? context2.children : parentContexts;
-    const children = nodeChildrenAsMap(route);
-    for (const treeNode of Object.values(children)) {
-      this.deactivateRouteAndItsChildren(treeNode, contexts);
-    }
-    if (context2) {
-      if (context2.outlet) {
-        context2.outlet.deactivate();
-        context2.children.onOutletDeactivated();
-      }
-      context2.attachRef = null;
-      context2.route = null;
-    }
-  }
-  activateChildRoutes(futureNode, currNode, contexts) {
-    const children = nodeChildrenAsMap(currNode);
-    futureNode.children.forEach((c) => {
-      this.activateRoutes(c, children[c.value.outlet], contexts);
-      this.forwardEvent(new ActivationEnd(c.value.snapshot));
-    });
-    if (futureNode.children.length) {
-      this.forwardEvent(new ChildActivationEnd(futureNode.value.snapshot));
-    }
-  }
-  activateRoutes(futureNode, currNode, parentContexts) {
-    const future = futureNode.value;
-    const curr = currNode ? currNode.value : null;
-    advanceActivatedRoute(future);
-    if (future === curr) {
-      if (future.component) {
-        const context2 = parentContexts.getOrCreateContext(future.outlet);
-        this.activateChildRoutes(futureNode, currNode, context2.children);
-      } else {
-        this.activateChildRoutes(futureNode, currNode, parentContexts);
-      }
-    } else {
-      if (future.component) {
-        const context2 = parentContexts.getOrCreateContext(future.outlet);
-        if (this.routeReuseStrategy.shouldAttach(future.snapshot)) {
-          const stored = this.routeReuseStrategy.retrieve(future.snapshot);
-          this.routeReuseStrategy.store(future.snapshot, null);
-          context2.children.onOutletReAttached(stored.contexts);
-          context2.attachRef = stored.componentRef;
-          context2.route = stored.route.value;
-          if (context2.outlet) {
-            context2.outlet.attach(stored.componentRef, stored.route.value);
-          }
-          advanceActivatedRoute(stored.route.value);
-          this.activateChildRoutes(futureNode, null, context2.children);
-        } else {
-          context2.attachRef = null;
-          context2.route = future;
-          if (context2.outlet) {
-            context2.outlet.activateWith(future, context2.injector);
-          }
-          this.activateChildRoutes(futureNode, null, context2.children);
-        }
-      } else {
-        this.activateChildRoutes(futureNode, null, parentContexts);
-      }
-    }
-    if (typeof ngDevMode === "undefined" || ngDevMode) {
-      const context2 = parentContexts.getOrCreateContext(future.outlet);
-      const outlet = context2.outlet;
-      if (outlet && this.inputBindingEnabled && !outlet.supportsBindingToComponentInputs && !warnedAboutUnsupportedInputBinding) {
-        console.warn(`'withComponentInputBinding' feature is enabled but this application is using an outlet that may not support binding to component inputs.`);
-        warnedAboutUnsupportedInputBinding = true;
-      }
-    }
-  }
-};
-var CanActivate = class {
-  constructor(path) {
-    this.path = path;
-    this.route = this.path[this.path.length - 1];
-  }
-};
-var CanDeactivate = class {
-  constructor(component, route) {
-    this.component = component;
-    this.route = route;
-  }
-};
-function getAllRouteGuards(future, curr, parentContexts) {
-  const futureRoot = future._root;
-  const currRoot = curr ? curr._root : null;
-  return getChildRouteGuards(futureRoot, currRoot, parentContexts, [futureRoot.value]);
-}
-function getCanActivateChild(p) {
-  const canActivateChild = p.routeConfig ? p.routeConfig.canActivateChild : null;
-  if (!canActivateChild || canActivateChild.length === 0) return null;
-  return {
-    node: p,
-    guards: canActivateChild
-  };
-}
-function getTokenOrFunctionIdentity(tokenOrFunction, injector) {
-  const NOT_FOUND2 = Symbol();
-  const result = injector.get(tokenOrFunction, NOT_FOUND2);
-  if (result === NOT_FOUND2) {
-    if (typeof tokenOrFunction === "function" && !isInjectable(tokenOrFunction)) {
-      return tokenOrFunction;
-    } else {
-      return injector.get(tokenOrFunction);
-    }
-  }
-  return result;
-}
-function getChildRouteGuards(futureNode, currNode, contexts, futurePath, checks = {
-  canDeactivateChecks: [],
-  canActivateChecks: []
-}) {
-  const prevChildren = nodeChildrenAsMap(currNode);
-  futureNode.children.forEach((c) => {
-    getRouteGuards(c, prevChildren[c.value.outlet], contexts, futurePath.concat([c.value]), checks);
-    delete prevChildren[c.value.outlet];
-  });
-  Object.entries(prevChildren).forEach(([k, v]) => deactivateRouteAndItsChildren(v, contexts.getContext(k), checks));
-  return checks;
-}
-function getRouteGuards(futureNode, currNode, parentContexts, futurePath, checks = {
-  canDeactivateChecks: [],
-  canActivateChecks: []
-}) {
-  const future = futureNode.value;
-  const curr = currNode ? currNode.value : null;
-  const context2 = parentContexts ? parentContexts.getContext(futureNode.value.outlet) : null;
-  if (curr && future.routeConfig === curr.routeConfig) {
-    const shouldRun = shouldRunGuardsAndResolvers(curr, future, future.routeConfig.runGuardsAndResolvers);
-    if (shouldRun) {
-      checks.canActivateChecks.push(new CanActivate(futurePath));
-    } else {
-      future.data = curr.data;
-      future._resolvedData = curr._resolvedData;
-    }
-    if (future.component) {
-      getChildRouteGuards(futureNode, currNode, context2 ? context2.children : null, futurePath, checks);
-    } else {
-      getChildRouteGuards(futureNode, currNode, parentContexts, futurePath, checks);
-    }
-    if (shouldRun && context2 && context2.outlet && context2.outlet.isActivated) {
-      checks.canDeactivateChecks.push(new CanDeactivate(context2.outlet.component, curr));
-    }
-  } else {
-    if (curr) {
-      deactivateRouteAndItsChildren(currNode, context2, checks);
-    }
-    checks.canActivateChecks.push(new CanActivate(futurePath));
-    if (future.component) {
-      getChildRouteGuards(futureNode, null, context2 ? context2.children : null, futurePath, checks);
-    } else {
-      getChildRouteGuards(futureNode, null, parentContexts, futurePath, checks);
-    }
-  }
-  return checks;
-}
-function shouldRunGuardsAndResolvers(curr, future, mode) {
-  if (typeof mode === "function") {
-    return mode(curr, future);
-  }
-  switch (mode) {
-    case "pathParamsChange":
-      return !equalPath(curr.url, future.url);
-    case "pathParamsOrQueryParamsChange":
-      return !equalPath(curr.url, future.url) || !shallowEqual(curr.queryParams, future.queryParams);
-    case "always":
-      return true;
-    case "paramsOrQueryParamsChange":
-      return !equalParamsAndUrlSegments(curr, future) || !shallowEqual(curr.queryParams, future.queryParams);
-    case "paramsChange":
-    default:
-      return !equalParamsAndUrlSegments(curr, future);
-  }
-}
-function deactivateRouteAndItsChildren(route, context2, checks) {
-  const children = nodeChildrenAsMap(route);
-  const r = route.value;
-  Object.entries(children).forEach(([childName, node]) => {
-    if (!r.component) {
-      deactivateRouteAndItsChildren(node, context2, checks);
-    } else if (context2) {
-      deactivateRouteAndItsChildren(node, context2.children.getContext(childName), checks);
-    } else {
-      deactivateRouteAndItsChildren(node, null, checks);
-    }
-  });
-  if (!r.component) {
-    checks.canDeactivateChecks.push(new CanDeactivate(null, r));
-  } else if (context2 && context2.outlet && context2.outlet.isActivated) {
-    checks.canDeactivateChecks.push(new CanDeactivate(context2.outlet.component, r));
-  } else {
-    checks.canDeactivateChecks.push(new CanDeactivate(null, r));
-  }
-}
-function isFunction2(v) {
-  return typeof v === "function";
-}
-function isBoolean(v) {
-  return typeof v === "boolean";
-}
-function isCanLoad(guard) {
-  return guard && isFunction2(guard.canLoad);
-}
-function isCanActivate(guard) {
-  return guard && isFunction2(guard.canActivate);
-}
-function isCanActivateChild(guard) {
-  return guard && isFunction2(guard.canActivateChild);
-}
-function isCanDeactivate(guard) {
-  return guard && isFunction2(guard.canDeactivate);
-}
-function isCanMatch(guard) {
-  return guard && isFunction2(guard.canMatch);
-}
-function isEmptyError(e) {
-  return e instanceof EmptyError || e?.name === "EmptyError";
-}
-var INITIAL_VALUE = /* @__PURE__ */ Symbol("INITIAL_VALUE");
-function prioritizedGuardValue() {
-  return switchMap((obs) => {
-    return combineLatest(obs.map((o) => o.pipe(take(1), startWith(INITIAL_VALUE)))).pipe(map((results) => {
-      for (const result of results) {
-        if (result === true) {
-          continue;
-        } else if (result === INITIAL_VALUE) {
-          return INITIAL_VALUE;
-        } else if (result === false || isRedirect(result)) {
-          return result;
-        }
-      }
-      return true;
-    }), filter((item) => item !== INITIAL_VALUE), take(1));
-  });
-}
-function isRedirect(val) {
-  return isUrlTree(val) || val instanceof RedirectCommand;
-}
-function checkGuards(injector, forwardEvent) {
-  return mergeMap((t) => {
-    const {
-      targetSnapshot,
-      currentSnapshot,
-      guards: {
-        canActivateChecks,
-        canDeactivateChecks
-      }
-    } = t;
-    if (canDeactivateChecks.length === 0 && canActivateChecks.length === 0) {
-      return of(__spreadProps(__spreadValues({}, t), {
-        guardsResult: true
-      }));
-    }
-    return runCanDeactivateChecks(canDeactivateChecks, targetSnapshot, currentSnapshot, injector).pipe(mergeMap((canDeactivate) => {
-      return canDeactivate && isBoolean(canDeactivate) ? runCanActivateChecks(targetSnapshot, canActivateChecks, injector, forwardEvent) : of(canDeactivate);
-    }), map((guardsResult) => __spreadProps(__spreadValues({}, t), {
-      guardsResult
-    })));
-  });
-}
-function runCanDeactivateChecks(checks, futureRSS, currRSS, injector) {
-  return from(checks).pipe(mergeMap((check) => runCanDeactivate(check.component, check.route, currRSS, futureRSS, injector)), first((result) => {
-    return result !== true;
-  }, true));
-}
-function runCanActivateChecks(futureSnapshot, checks, injector, forwardEvent) {
-  return from(checks).pipe(concatMap((check) => {
-    return concat(fireChildActivationStart(check.route.parent, forwardEvent), fireActivationStart(check.route, forwardEvent), runCanActivateChild(futureSnapshot, check.path, injector), runCanActivate(futureSnapshot, check.route, injector));
-  }), first((result) => {
-    return result !== true;
-  }, true));
-}
-function fireActivationStart(snapshot, forwardEvent) {
-  if (snapshot !== null && forwardEvent) {
-    forwardEvent(new ActivationStart(snapshot));
-  }
-  return of(true);
-}
-function fireChildActivationStart(snapshot, forwardEvent) {
-  if (snapshot !== null && forwardEvent) {
-    forwardEvent(new ChildActivationStart(snapshot));
-  }
-  return of(true);
-}
-function runCanActivate(futureRSS, futureARS, injector) {
-  const canActivate = futureARS.routeConfig ? futureARS.routeConfig.canActivate : null;
-  if (!canActivate || canActivate.length === 0) return of(true);
-  const canActivateObservables = canActivate.map((canActivate2) => {
-    return defer(() => {
-      const closestInjector = getClosestRouteInjector(futureARS) ?? injector;
-      const guard = getTokenOrFunctionIdentity(canActivate2, closestInjector);
-      const guardVal = isCanActivate(guard) ? guard.canActivate(futureARS, futureRSS) : runInInjectionContext(closestInjector, () => guard(futureARS, futureRSS));
-      return wrapIntoObservable(guardVal).pipe(first());
-    });
-  });
-  return of(canActivateObservables).pipe(prioritizedGuardValue());
-}
-function runCanActivateChild(futureRSS, path, injector) {
-  const futureARS = path[path.length - 1];
-  const canActivateChildGuards = path.slice(0, path.length - 1).reverse().map((p) => getCanActivateChild(p)).filter((_) => _ !== null);
-  const canActivateChildGuardsMapped = canActivateChildGuards.map((d) => {
-    return defer(() => {
-      const guardsMapped = d.guards.map((canActivateChild) => {
-        const closestInjector = getClosestRouteInjector(d.node) ?? injector;
-        const guard = getTokenOrFunctionIdentity(canActivateChild, closestInjector);
-        const guardVal = isCanActivateChild(guard) ? guard.canActivateChild(futureARS, futureRSS) : runInInjectionContext(closestInjector, () => guard(futureARS, futureRSS));
-        return wrapIntoObservable(guardVal).pipe(first());
-      });
-      return of(guardsMapped).pipe(prioritizedGuardValue());
-    });
-  });
-  return of(canActivateChildGuardsMapped).pipe(prioritizedGuardValue());
-}
-function runCanDeactivate(component, currARS, currRSS, futureRSS, injector) {
-  const canDeactivate = currARS && currARS.routeConfig ? currARS.routeConfig.canDeactivate : null;
-  if (!canDeactivate || canDeactivate.length === 0) return of(true);
-  const canDeactivateObservables = canDeactivate.map((c) => {
-    const closestInjector = getClosestRouteInjector(currARS) ?? injector;
-    const guard = getTokenOrFunctionIdentity(c, closestInjector);
-    const guardVal = isCanDeactivate(guard) ? guard.canDeactivate(component, currARS, currRSS, futureRSS) : runInInjectionContext(closestInjector, () => guard(component, currARS, currRSS, futureRSS));
-    return wrapIntoObservable(guardVal).pipe(first());
-  });
-  return of(canDeactivateObservables).pipe(prioritizedGuardValue());
-}
-function runCanLoadGuards(injector, route, segments, urlSerializer) {
-  const canLoad = route.canLoad;
-  if (canLoad === void 0 || canLoad.length === 0) {
-    return of(true);
-  }
-  const canLoadObservables = canLoad.map((injectionToken) => {
-    const guard = getTokenOrFunctionIdentity(injectionToken, injector);
-    const guardVal = isCanLoad(guard) ? guard.canLoad(route, segments) : runInInjectionContext(injector, () => guard(route, segments));
-    return wrapIntoObservable(guardVal);
-  });
-  return of(canLoadObservables).pipe(prioritizedGuardValue(), redirectIfUrlTree(urlSerializer));
-}
-function redirectIfUrlTree(urlSerializer) {
-  return pipe(tap((result) => {
-    if (typeof result === "boolean") return;
-    throw redirectingNavigationError(urlSerializer, result);
-  }), map((result) => result === true));
-}
-function runCanMatchGuards(injector, route, segments, urlSerializer) {
-  const canMatch = route.canMatch;
-  if (!canMatch || canMatch.length === 0) return of(true);
-  const canMatchObservables = canMatch.map((injectionToken) => {
-    const guard = getTokenOrFunctionIdentity(injectionToken, injector);
-    const guardVal = isCanMatch(guard) ? guard.canMatch(route, segments) : runInInjectionContext(injector, () => guard(route, segments));
-    return wrapIntoObservable(guardVal);
-  });
-  return of(canMatchObservables).pipe(prioritizedGuardValue(), redirectIfUrlTree(urlSerializer));
-}
-var NoMatch = class {
-  constructor(segmentGroup) {
-    this.segmentGroup = segmentGroup || null;
-  }
-};
-var AbsoluteRedirect = class extends Error {
-  constructor(urlTree) {
-    super();
-    this.urlTree = urlTree;
-  }
-};
-function noMatch$1(segmentGroup) {
-  return throwError(new NoMatch(segmentGroup));
-}
-function namedOutletsRedirect(redirectTo) {
-  return throwError(new RuntimeError(4e3, (typeof ngDevMode === "undefined" || ngDevMode) && `Only absolute redirects can have named outlets. redirectTo: '${redirectTo}'`));
-}
-function canLoadFails(route) {
-  return throwError(navigationCancelingError((typeof ngDevMode === "undefined" || ngDevMode) && `Cannot load children because the guard of the route "path: '${route.path}'" returned false`, NavigationCancellationCode.GuardRejected));
-}
-var ApplyRedirects = class {
-  constructor(urlSerializer, urlTree) {
-    this.urlSerializer = urlSerializer;
-    this.urlTree = urlTree;
-  }
-  lineralizeSegments(route, urlTree) {
-    let res = [];
-    let c = urlTree.root;
-    while (true) {
-      res = res.concat(c.segments);
-      if (c.numberOfChildren === 0) {
-        return of(res);
-      }
-      if (c.numberOfChildren > 1 || !c.children[PRIMARY_OUTLET]) {
-        return namedOutletsRedirect(`${route.redirectTo}`);
-      }
-      c = c.children[PRIMARY_OUTLET];
-    }
-  }
-  applyRedirectCommands(segments, redirectTo, posParams, currentSnapshot, injector) {
-    if (typeof redirectTo !== "string") {
-      const redirectToFn = redirectTo;
-      const {
-        queryParams,
-        fragment,
-        routeConfig,
-        url,
-        outlet,
-        params,
-        data,
-        title
-      } = currentSnapshot;
-      const newRedirect = runInInjectionContext(injector, () => redirectToFn({
-        params,
-        data,
-        queryParams,
-        fragment,
-        routeConfig,
-        url,
-        outlet,
-        title
-      }));
-      if (newRedirect instanceof UrlTree) {
-        throw new AbsoluteRedirect(newRedirect);
-      }
-      redirectTo = newRedirect;
-    }
-    const newTree = this.applyRedirectCreateUrlTree(redirectTo, this.urlSerializer.parse(redirectTo), segments, posParams);
-    if (redirectTo[0] === "/") {
-      throw new AbsoluteRedirect(newTree);
-    }
-    return newTree;
-  }
-  applyRedirectCreateUrlTree(redirectTo, urlTree, segments, posParams) {
-    const newRoot = this.createSegmentGroup(redirectTo, urlTree.root, segments, posParams);
-    return new UrlTree(newRoot, this.createQueryParams(urlTree.queryParams, this.urlTree.queryParams), urlTree.fragment);
-  }
-  createQueryParams(redirectToParams, actualParams) {
-    const res = {};
-    Object.entries(redirectToParams).forEach(([k, v]) => {
-      const copySourceValue = typeof v === "string" && v[0] === ":";
-      if (copySourceValue) {
-        const sourceName = v.substring(1);
-        res[k] = actualParams[sourceName];
-      } else {
-        res[k] = v;
-      }
-    });
-    return res;
-  }
-  createSegmentGroup(redirectTo, group, segments, posParams) {
-    const updatedSegments = this.createSegments(redirectTo, group.segments, segments, posParams);
-    let children = {};
-    Object.entries(group.children).forEach(([name, child]) => {
-      children[name] = this.createSegmentGroup(redirectTo, child, segments, posParams);
-    });
-    return new UrlSegmentGroup(updatedSegments, children);
-  }
-  createSegments(redirectTo, redirectToSegments, actualSegments, posParams) {
-    return redirectToSegments.map((s) => s.path[0] === ":" ? this.findPosParam(redirectTo, s, posParams) : this.findOrReturn(s, actualSegments));
-  }
-  findPosParam(redirectTo, redirectToUrlSegment, posParams) {
-    const pos = posParams[redirectToUrlSegment.path.substring(1)];
-    if (!pos) throw new RuntimeError(4001, (typeof ngDevMode === "undefined" || ngDevMode) && `Cannot redirect to '${redirectTo}'. Cannot find '${redirectToUrlSegment.path}'.`);
-    return pos;
-  }
-  findOrReturn(redirectToUrlSegment, actualSegments) {
-    let idx = 0;
-    for (const s of actualSegments) {
-      if (s.path === redirectToUrlSegment.path) {
-        actualSegments.splice(idx);
-        return s;
-      }
-      idx++;
-    }
-    return redirectToUrlSegment;
-  }
-};
-var noMatch = {
-  matched: false,
-  consumedSegments: [],
-  remainingSegments: [],
-  parameters: {},
-  positionalParamSegments: {}
-};
-function matchWithChecks(segmentGroup, route, segments, injector, urlSerializer) {
-  const result = match(segmentGroup, route, segments);
-  if (!result.matched) {
-    return of(result);
-  }
-  injector = getOrCreateRouteInjectorIfNeeded(route, injector);
-  return runCanMatchGuards(injector, route, segments, urlSerializer).pipe(map((v) => v === true ? result : __spreadValues({}, noMatch)));
-}
-function match(segmentGroup, route, segments) {
-  if (route.path === "**") {
-    return createWildcardMatchResult(segments);
-  }
-  if (route.path === "") {
-    if (route.pathMatch === "full" && (segmentGroup.hasChildren() || segments.length > 0)) {
-      return __spreadValues({}, noMatch);
-    }
-    return {
-      matched: true,
-      consumedSegments: [],
-      remainingSegments: segments,
-      parameters: {},
-      positionalParamSegments: {}
-    };
-  }
-  const matcher = route.matcher || defaultUrlMatcher;
-  const res = matcher(segments, segmentGroup, route);
-  if (!res) return __spreadValues({}, noMatch);
-  const posParams = {};
-  Object.entries(res.posParams ?? {}).forEach(([k, v]) => {
-    posParams[k] = v.path;
-  });
-  const parameters = res.consumed.length > 0 ? __spreadValues(__spreadValues({}, posParams), res.consumed[res.consumed.length - 1].parameters) : posParams;
-  return {
-    matched: true,
-    consumedSegments: res.consumed,
-    remainingSegments: segments.slice(res.consumed.length),
-    // TODO(atscott): investigate combining parameters and positionalParamSegments
-    parameters,
-    positionalParamSegments: res.posParams ?? {}
-  };
-}
-function createWildcardMatchResult(segments) {
-  return {
-    matched: true,
-    parameters: segments.length > 0 ? last3(segments).parameters : {},
-    consumedSegments: segments,
-    remainingSegments: [],
-    positionalParamSegments: {}
-  };
-}
-function split(segmentGroup, consumedSegments, slicedSegments, config2) {
-  if (slicedSegments.length > 0 && containsEmptyPathMatchesWithNamedOutlets(segmentGroup, slicedSegments, config2)) {
-    const s2 = new UrlSegmentGroup(consumedSegments, createChildrenForEmptyPaths(config2, new UrlSegmentGroup(slicedSegments, segmentGroup.children)));
-    return {
-      segmentGroup: s2,
-      slicedSegments: []
-    };
-  }
-  if (slicedSegments.length === 0 && containsEmptyPathMatches(segmentGroup, slicedSegments, config2)) {
-    const s2 = new UrlSegmentGroup(segmentGroup.segments, addEmptyPathsToChildrenIfNeeded(segmentGroup, slicedSegments, config2, segmentGroup.children));
-    return {
-      segmentGroup: s2,
-      slicedSegments
-    };
-  }
-  const s = new UrlSegmentGroup(segmentGroup.segments, segmentGroup.children);
-  return {
-    segmentGroup: s,
-    slicedSegments
-  };
-}
-function addEmptyPathsToChildrenIfNeeded(segmentGroup, slicedSegments, routes2, children) {
-  const res = {};
-  for (const r of routes2) {
-    if (emptyPathMatch(segmentGroup, slicedSegments, r) && !children[getOutlet(r)]) {
-      const s = new UrlSegmentGroup([], {});
-      res[getOutlet(r)] = s;
-    }
-  }
-  return __spreadValues(__spreadValues({}, children), res);
-}
-function createChildrenForEmptyPaths(routes2, primarySegment) {
-  const res = {};
-  res[PRIMARY_OUTLET] = primarySegment;
-  for (const r of routes2) {
-    if (r.path === "" && getOutlet(r) !== PRIMARY_OUTLET) {
-      const s = new UrlSegmentGroup([], {});
-      res[getOutlet(r)] = s;
-    }
-  }
-  return res;
-}
-function containsEmptyPathMatchesWithNamedOutlets(segmentGroup, slicedSegments, routes2) {
-  return routes2.some((r) => emptyPathMatch(segmentGroup, slicedSegments, r) && getOutlet(r) !== PRIMARY_OUTLET);
-}
-function containsEmptyPathMatches(segmentGroup, slicedSegments, routes2) {
-  return routes2.some((r) => emptyPathMatch(segmentGroup, slicedSegments, r));
-}
-function emptyPathMatch(segmentGroup, slicedSegments, r) {
-  if ((segmentGroup.hasChildren() || slicedSegments.length > 0) && r.pathMatch === "full") {
-    return false;
-  }
-  return r.path === "";
-}
-function noLeftoversInUrl(segmentGroup, segments, outlet) {
-  return segments.length === 0 && !segmentGroup.children[outlet];
-}
-var NoLeftoversInUrl = class {
-};
-function recognize$1(injector, configLoader, rootComponentType, config2, urlTree, urlSerializer, paramsInheritanceStrategy = "emptyOnly") {
-  return new Recognizer(injector, configLoader, rootComponentType, config2, urlTree, paramsInheritanceStrategy, urlSerializer).recognize();
-}
-var MAX_ALLOWED_REDIRECTS = 31;
-var Recognizer = class {
-  constructor(injector, configLoader, rootComponentType, config2, urlTree, paramsInheritanceStrategy, urlSerializer) {
-    this.injector = injector;
-    this.configLoader = configLoader;
-    this.rootComponentType = rootComponentType;
-    this.config = config2;
-    this.urlTree = urlTree;
-    this.paramsInheritanceStrategy = paramsInheritanceStrategy;
-    this.urlSerializer = urlSerializer;
-    this.applyRedirects = new ApplyRedirects(this.urlSerializer, this.urlTree);
-    this.absoluteRedirectCount = 0;
-    this.allowRedirects = true;
-  }
-  noMatchError(e) {
-    return new RuntimeError(4002, typeof ngDevMode === "undefined" || ngDevMode ? `Cannot match any routes. URL Segment: '${e.segmentGroup}'` : `'${e.segmentGroup}'`);
-  }
-  recognize() {
-    const rootSegmentGroup = split(this.urlTree.root, [], [], this.config).segmentGroup;
-    return this.match(rootSegmentGroup).pipe(map(({
-      children,
-      rootSnapshot
-    }) => {
-      const rootNode = new TreeNode(rootSnapshot, children);
-      const routeState = new RouterStateSnapshot("", rootNode);
-      const tree2 = createUrlTreeFromSnapshot(rootSnapshot, [], this.urlTree.queryParams, this.urlTree.fragment);
-      tree2.queryParams = this.urlTree.queryParams;
-      routeState.url = this.urlSerializer.serialize(tree2);
-      return {
-        state: routeState,
-        tree: tree2
-      };
-    }));
-  }
-  match(rootSegmentGroup) {
-    const rootSnapshot = new ActivatedRouteSnapshot([], Object.freeze({}), Object.freeze(__spreadValues({}, this.urlTree.queryParams)), this.urlTree.fragment, Object.freeze({}), PRIMARY_OUTLET, this.rootComponentType, null, {});
-    return this.processSegmentGroup(this.injector, this.config, rootSegmentGroup, PRIMARY_OUTLET, rootSnapshot).pipe(map((children) => {
-      return {
-        children,
-        rootSnapshot
-      };
-    }), catchError((e) => {
-      if (e instanceof AbsoluteRedirect) {
-        this.urlTree = e.urlTree;
-        return this.match(e.urlTree.root);
-      }
-      if (e instanceof NoMatch) {
-        throw this.noMatchError(e);
-      }
-      throw e;
-    }));
-  }
-  processSegmentGroup(injector, config2, segmentGroup, outlet, parentRoute) {
-    if (segmentGroup.segments.length === 0 && segmentGroup.hasChildren()) {
-      return this.processChildren(injector, config2, segmentGroup, parentRoute);
-    }
-    return this.processSegment(injector, config2, segmentGroup, segmentGroup.segments, outlet, true, parentRoute).pipe(map((child) => child instanceof TreeNode ? [child] : []));
-  }
-  /**
-   * Matches every child outlet in the `segmentGroup` to a `Route` in the config. Returns `null` if
-   * we cannot find a match for _any_ of the children.
-   *
-   * @param config - The `Routes` to match against
-   * @param segmentGroup - The `UrlSegmentGroup` whose children need to be matched against the
-   *     config.
-   */
-  processChildren(injector, config2, segmentGroup, parentRoute) {
-    const childOutlets = [];
-    for (const child of Object.keys(segmentGroup.children)) {
-      if (child === "primary") {
-        childOutlets.unshift(child);
-      } else {
-        childOutlets.push(child);
-      }
-    }
-    return from(childOutlets).pipe(concatMap((childOutlet) => {
-      const child = segmentGroup.children[childOutlet];
-      const sortedConfig = sortByMatchingOutlets(config2, childOutlet);
-      return this.processSegmentGroup(injector, sortedConfig, child, childOutlet, parentRoute);
-    }), scan((children, outletChildren) => {
-      children.push(...outletChildren);
-      return children;
-    }), defaultIfEmpty(null), last2(), mergeMap((children) => {
-      if (children === null) return noMatch$1(segmentGroup);
-      const mergedChildren = mergeEmptyPathMatches(children);
-      if (typeof ngDevMode === "undefined" || ngDevMode) {
-        checkOutletNameUniqueness(mergedChildren);
-      }
-      sortActivatedRouteSnapshots(mergedChildren);
-      return of(mergedChildren);
-    }));
-  }
-  processSegment(injector, routes2, segmentGroup, segments, outlet, allowRedirects, parentRoute) {
-    return from(routes2).pipe(concatMap((r) => {
-      return this.processSegmentAgainstRoute(r._injector ?? injector, routes2, r, segmentGroup, segments, outlet, allowRedirects, parentRoute).pipe(catchError((e) => {
-        if (e instanceof NoMatch) {
-          return of(null);
-        }
-        throw e;
-      }));
-    }), first((x) => !!x), catchError((e) => {
-      if (isEmptyError(e)) {
-        if (noLeftoversInUrl(segmentGroup, segments, outlet)) {
-          return of(new NoLeftoversInUrl());
-        }
-        return noMatch$1(segmentGroup);
-      }
-      throw e;
-    }));
-  }
-  processSegmentAgainstRoute(injector, routes2, route, rawSegment, segments, outlet, allowRedirects, parentRoute) {
-    if (getOutlet(route) !== outlet && (outlet === PRIMARY_OUTLET || !emptyPathMatch(rawSegment, segments, route))) {
-      return noMatch$1(rawSegment);
-    }
-    if (route.redirectTo === void 0) {
-      return this.matchSegmentAgainstRoute(injector, rawSegment, route, segments, outlet, parentRoute);
-    }
-    if (this.allowRedirects && allowRedirects) {
-      return this.expandSegmentAgainstRouteUsingRedirect(injector, rawSegment, routes2, route, segments, outlet, parentRoute);
-    }
-    return noMatch$1(rawSegment);
-  }
-  expandSegmentAgainstRouteUsingRedirect(injector, segmentGroup, routes2, route, segments, outlet, parentRoute) {
-    const {
-      matched,
-      parameters,
-      consumedSegments,
-      positionalParamSegments,
-      remainingSegments
-    } = match(segmentGroup, route, segments);
-    if (!matched) return noMatch$1(segmentGroup);
-    if (typeof route.redirectTo === "string" && route.redirectTo[0] === "/") {
-      this.absoluteRedirectCount++;
-      if (this.absoluteRedirectCount > MAX_ALLOWED_REDIRECTS) {
-        if (ngDevMode) {
-          throw new RuntimeError(4016, `Detected possible infinite redirect when redirecting from '${this.urlTree}' to '${route.redirectTo}'.
-This is currently a dev mode only error but will become a call stack size exceeded error in production in a future major version.`);
-        }
-        this.allowRedirects = false;
-      }
-    }
-    const currentSnapshot = new ActivatedRouteSnapshot(segments, parameters, Object.freeze(__spreadValues({}, this.urlTree.queryParams)), this.urlTree.fragment, getData(route), getOutlet(route), route.component ?? route._loadedComponent ?? null, route, getResolve(route));
-    const inherited = getInherited(currentSnapshot, parentRoute, this.paramsInheritanceStrategy);
-    currentSnapshot.params = Object.freeze(inherited.params);
-    currentSnapshot.data = Object.freeze(inherited.data);
-    const newTree = this.applyRedirects.applyRedirectCommands(consumedSegments, route.redirectTo, positionalParamSegments, currentSnapshot, injector);
-    return this.applyRedirects.lineralizeSegments(route, newTree).pipe(mergeMap((newSegments) => {
-      return this.processSegment(injector, routes2, segmentGroup, newSegments.concat(remainingSegments), outlet, false, parentRoute);
-    }));
-  }
-  matchSegmentAgainstRoute(injector, rawSegment, route, segments, outlet, parentRoute) {
-    const matchResult = matchWithChecks(rawSegment, route, segments, injector, this.urlSerializer);
-    if (route.path === "**") {
-      rawSegment.children = {};
-    }
-    return matchResult.pipe(switchMap((result) => {
-      if (!result.matched) {
-        return noMatch$1(rawSegment);
-      }
-      injector = route._injector ?? injector;
-      return this.getChildConfig(injector, route, segments).pipe(switchMap(({
-        routes: childConfig
-      }) => {
-        const childInjector = route._loadedInjector ?? injector;
-        const {
-          parameters,
-          consumedSegments,
-          remainingSegments
-        } = result;
-        const snapshot = new ActivatedRouteSnapshot(consumedSegments, parameters, Object.freeze(__spreadValues({}, this.urlTree.queryParams)), this.urlTree.fragment, getData(route), getOutlet(route), route.component ?? route._loadedComponent ?? null, route, getResolve(route));
-        const inherited = getInherited(snapshot, parentRoute, this.paramsInheritanceStrategy);
-        snapshot.params = Object.freeze(inherited.params);
-        snapshot.data = Object.freeze(inherited.data);
-        const {
-          segmentGroup,
-          slicedSegments
-        } = split(rawSegment, consumedSegments, remainingSegments, childConfig);
-        if (slicedSegments.length === 0 && segmentGroup.hasChildren()) {
-          return this.processChildren(childInjector, childConfig, segmentGroup, snapshot).pipe(map((children) => {
-            return new TreeNode(snapshot, children);
-          }));
-        }
-        if (childConfig.length === 0 && slicedSegments.length === 0) {
-          return of(new TreeNode(snapshot, []));
-        }
-        const matchedOnOutlet = getOutlet(route) === outlet;
-        return this.processSegment(childInjector, childConfig, segmentGroup, slicedSegments, matchedOnOutlet ? PRIMARY_OUTLET : outlet, true, snapshot).pipe(map((child) => {
-          return new TreeNode(snapshot, child instanceof TreeNode ? [child] : []);
-        }));
-      }));
-    }));
-  }
-  getChildConfig(injector, route, segments) {
-    if (route.children) {
-      return of({
-        routes: route.children,
-        injector
-      });
-    }
-    if (route.loadChildren) {
-      if (route._loadedRoutes !== void 0) {
-        return of({
-          routes: route._loadedRoutes,
-          injector: route._loadedInjector
-        });
-      }
-      return runCanLoadGuards(injector, route, segments, this.urlSerializer).pipe(mergeMap((shouldLoadResult) => {
-        if (shouldLoadResult) {
-          return this.configLoader.loadChildren(injector, route).pipe(tap((cfg) => {
-            route._loadedRoutes = cfg.routes;
-            route._loadedInjector = cfg.injector;
-          }));
-        }
-        return canLoadFails(route);
-      }));
-    }
-    return of({
-      routes: [],
-      injector
-    });
-  }
-};
-function sortActivatedRouteSnapshots(nodes) {
-  nodes.sort((a, b) => {
-    if (a.value.outlet === PRIMARY_OUTLET) return -1;
-    if (b.value.outlet === PRIMARY_OUTLET) return 1;
-    return a.value.outlet.localeCompare(b.value.outlet);
-  });
-}
-function hasEmptyPathConfig(node) {
-  const config2 = node.value.routeConfig;
-  return config2 && config2.path === "";
-}
-function mergeEmptyPathMatches(nodes) {
-  const result = [];
-  const mergedNodes = /* @__PURE__ */ new Set();
-  for (const node of nodes) {
-    if (!hasEmptyPathConfig(node)) {
-      result.push(node);
-      continue;
-    }
-    const duplicateEmptyPathNode = result.find((resultNode) => node.value.routeConfig === resultNode.value.routeConfig);
-    if (duplicateEmptyPathNode !== void 0) {
-      duplicateEmptyPathNode.children.push(...node.children);
-      mergedNodes.add(duplicateEmptyPathNode);
-    } else {
-      result.push(node);
-    }
-  }
-  for (const mergedNode of mergedNodes) {
-    const mergedChildren = mergeEmptyPathMatches(mergedNode.children);
-    result.push(new TreeNode(mergedNode.value, mergedChildren));
-  }
-  return result.filter((n) => !mergedNodes.has(n));
-}
-function checkOutletNameUniqueness(nodes) {
-  const names = {};
-  nodes.forEach((n) => {
-    const routeWithSameOutletName = names[n.value.outlet];
-    if (routeWithSameOutletName) {
-      const p = routeWithSameOutletName.url.map((s) => s.toString()).join("/");
-      const c = n.value.url.map((s) => s.toString()).join("/");
-      throw new RuntimeError(4006, (typeof ngDevMode === "undefined" || ngDevMode) && `Two segments cannot have the same outlet name: '${p}' and '${c}'.`);
-    }
-    names[n.value.outlet] = n.value;
-  });
-}
-function getData(route) {
-  return route.data || {};
-}
-function getResolve(route) {
-  return route.resolve || {};
-}
-function recognize(injector, configLoader, rootComponentType, config2, serializer, paramsInheritanceStrategy) {
-  return mergeMap((t) => recognize$1(injector, configLoader, rootComponentType, config2, t.extractedUrl, serializer, paramsInheritanceStrategy).pipe(map(({
-    state: targetSnapshot,
-    tree: urlAfterRedirects
-  }) => {
-    return __spreadProps(__spreadValues({}, t), {
-      targetSnapshot,
-      urlAfterRedirects
-    });
-  })));
-}
-function resolveData(paramsInheritanceStrategy, injector) {
-  return mergeMap((t) => {
-    const {
-      targetSnapshot,
-      guards: {
-        canActivateChecks
-      }
-    } = t;
-    if (!canActivateChecks.length) {
-      return of(t);
-    }
-    const routesWithResolversToRun = new Set(canActivateChecks.map((check) => check.route));
-    const routesNeedingDataUpdates = /* @__PURE__ */ new Set();
-    for (const route of routesWithResolversToRun) {
-      if (routesNeedingDataUpdates.has(route)) {
-        continue;
-      }
-      for (const newRoute of flattenRouteTree(route)) {
-        routesNeedingDataUpdates.add(newRoute);
-      }
-    }
-    let routesProcessed = 0;
-    return from(routesNeedingDataUpdates).pipe(concatMap((route) => {
-      if (routesWithResolversToRun.has(route)) {
-        return runResolve(route, targetSnapshot, paramsInheritanceStrategy, injector);
-      } else {
-        route.data = getInherited(route, route.parent, paramsInheritanceStrategy).resolve;
-        return of(void 0);
-      }
-    }), tap(() => routesProcessed++), takeLast(1), mergeMap((_) => routesProcessed === routesNeedingDataUpdates.size ? of(t) : EMPTY));
-  });
-}
-function flattenRouteTree(route) {
-  const descendants = route.children.map((child) => flattenRouteTree(child)).flat();
-  return [route, ...descendants];
-}
-function runResolve(futureARS, futureRSS, paramsInheritanceStrategy, injector) {
-  const config2 = futureARS.routeConfig;
-  const resolve = futureARS._resolve;
-  if (config2?.title !== void 0 && !hasStaticTitle(config2)) {
-    resolve[RouteTitleKey] = config2.title;
-  }
-  return resolveNode(resolve, futureARS, futureRSS, injector).pipe(map((resolvedData) => {
-    futureARS._resolvedData = resolvedData;
-    futureARS.data = getInherited(futureARS, futureARS.parent, paramsInheritanceStrategy).resolve;
-    return null;
-  }));
-}
-function resolveNode(resolve, futureARS, futureRSS, injector) {
-  const keys = getDataKeys(resolve);
-  if (keys.length === 0) {
-    return of({});
-  }
-  const data = {};
-  return from(keys).pipe(mergeMap((key) => getResolver(resolve[key], futureARS, futureRSS, injector).pipe(first(), tap((value) => {
-    if (value instanceof RedirectCommand) {
-      throw redirectingNavigationError(new DefaultUrlSerializer(), value);
-    }
-    data[key] = value;
-  }))), takeLast(1), mapTo(data), catchError((e) => isEmptyError(e) ? EMPTY : throwError(e)));
-}
-function getResolver(injectionToken, futureARS, futureRSS, injector) {
-  const closestInjector = getClosestRouteInjector(futureARS) ?? injector;
-  const resolver = getTokenOrFunctionIdentity(injectionToken, closestInjector);
-  const resolverValue = resolver.resolve ? resolver.resolve(futureARS, futureRSS) : runInInjectionContext(closestInjector, () => resolver(futureARS, futureRSS));
-  return wrapIntoObservable(resolverValue);
-}
-function switchTap(next) {
-  return switchMap((v) => {
-    const nextResult = next(v);
-    if (nextResult) {
-      return from(nextResult).pipe(map(() => v));
-    }
-    return of(v);
-  });
-}
-var TitleStrategy = class _TitleStrategy {
-  /**
-   * @returns The `title` of the deepest primary route.
-   */
-  buildTitle(snapshot) {
-    let pageTitle;
-    let route = snapshot.root;
-    while (route !== void 0) {
-      pageTitle = this.getResolvedTitleForRoute(route) ?? pageTitle;
-      route = route.children.find((child) => child.outlet === PRIMARY_OUTLET);
-    }
-    return pageTitle;
-  }
-  /**
-   * Given an `ActivatedRouteSnapshot`, returns the final value of the
-   * `Route.title` property, which can either be a static string or a resolved value.
-   */
-  getResolvedTitleForRoute(snapshot) {
-    return snapshot.data[RouteTitleKey];
-  }
-  static {
-    this.\u0275fac = function TitleStrategy_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _TitleStrategy)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _TitleStrategy,
-      factory: () => (() => inject(DefaultTitleStrategy))(),
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TitleStrategy, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: () => inject(DefaultTitleStrategy)
-    }]
-  }], null, null);
-})();
-var DefaultTitleStrategy = class _DefaultTitleStrategy extends TitleStrategy {
-  constructor(title) {
-    super();
-    this.title = title;
-  }
-  /**
-   * Sets the title of the browser to the given value.
-   *
-   * @param title The `pageTitle` from the deepest primary route.
-   */
-  updateTitle(snapshot) {
-    const title = this.buildTitle(snapshot);
-    if (title !== void 0) {
-      this.title.setTitle(title);
-    }
-  }
-  static {
-    this.\u0275fac = function DefaultTitleStrategy_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _DefaultTitleStrategy)(\u0275\u0275inject(Title));
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _DefaultTitleStrategy,
-      factory: _DefaultTitleStrategy.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DefaultTitleStrategy, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: Title
-  }], null);
-})();
-var ROUTER_CONFIGURATION = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "router config" : "", {
-  providedIn: "root",
-  factory: () => ({})
-});
-var \u0275EmptyOutletComponent = class _\u0275EmptyOutletComponent {
-  static {
-    this.\u0275fac = function \u0275EmptyOutletComponent_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _\u0275EmptyOutletComponent)();
-    };
-  }
-  static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({
-      type: _\u0275EmptyOutletComponent,
-      selectors: [["ng-component"]],
-      standalone: true,
-      features: [\u0275\u0275StandaloneFeature],
-      decls: 1,
-      vars: 0,
-      template: function _EmptyOutletComponent_Template(rf, ctx) {
-        if (rf & 1) {
-          \u0275\u0275element(0, "router-outlet");
-        }
-      },
-      dependencies: [RouterOutlet],
-      encapsulation: 2
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(\u0275EmptyOutletComponent, [{
-    type: Component,
-    args: [{
-      template: `<router-outlet></router-outlet>`,
-      imports: [RouterOutlet],
-      standalone: true
-    }]
-  }], null, null);
-})();
-function standardizeConfig(r) {
-  const children = r.children && r.children.map(standardizeConfig);
-  const c = children ? __spreadProps(__spreadValues({}, r), {
-    children
-  }) : __spreadValues({}, r);
-  if (!c.component && !c.loadComponent && (children || c.loadChildren) && c.outlet && c.outlet !== PRIMARY_OUTLET) {
-    c.component = \u0275EmptyOutletComponent;
-  }
-  return c;
-}
-var ROUTES = new InjectionToken(ngDevMode ? "ROUTES" : "");
-var RouterConfigLoader = class _RouterConfigLoader {
-  constructor() {
-    this.componentLoaders = /* @__PURE__ */ new WeakMap();
-    this.childrenLoaders = /* @__PURE__ */ new WeakMap();
-    this.compiler = inject(Compiler);
-  }
-  loadComponent(route) {
-    if (this.componentLoaders.get(route)) {
-      return this.componentLoaders.get(route);
-    } else if (route._loadedComponent) {
-      return of(route._loadedComponent);
-    }
-    if (this.onLoadStartListener) {
-      this.onLoadStartListener(route);
-    }
-    const loadRunner = wrapIntoObservable(route.loadComponent()).pipe(map(maybeUnwrapDefaultExport), tap((component) => {
-      if (this.onLoadEndListener) {
-        this.onLoadEndListener(route);
-      }
-      (typeof ngDevMode === "undefined" || ngDevMode) && assertStandalone(route.path ?? "", component);
-      route._loadedComponent = component;
-    }), finalize(() => {
-      this.componentLoaders.delete(route);
-    }));
-    const loader2 = new ConnectableObservable(loadRunner, () => new Subject()).pipe(refCount());
-    this.componentLoaders.set(route, loader2);
-    return loader2;
-  }
-  loadChildren(parentInjector, route) {
-    if (this.childrenLoaders.get(route)) {
-      return this.childrenLoaders.get(route);
-    } else if (route._loadedRoutes) {
-      return of({
-        routes: route._loadedRoutes,
-        injector: route._loadedInjector
-      });
-    }
-    if (this.onLoadStartListener) {
-      this.onLoadStartListener(route);
-    }
-    const moduleFactoryOrRoutes$ = loadChildren(route, this.compiler, parentInjector, this.onLoadEndListener);
-    const loadRunner = moduleFactoryOrRoutes$.pipe(finalize(() => {
-      this.childrenLoaders.delete(route);
-    }));
-    const loader2 = new ConnectableObservable(loadRunner, () => new Subject()).pipe(refCount());
-    this.childrenLoaders.set(route, loader2);
-    return loader2;
-  }
-  static {
-    this.\u0275fac = function RouterConfigLoader_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterConfigLoader)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _RouterConfigLoader,
-      factory: _RouterConfigLoader.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RouterConfigLoader, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-function loadChildren(route, compiler, parentInjector, onLoadEndListener) {
-  return wrapIntoObservable(route.loadChildren()).pipe(map(maybeUnwrapDefaultExport), mergeMap((t) => {
-    if (t instanceof NgModuleFactory$1 || Array.isArray(t)) {
-      return of(t);
-    } else {
-      return from(compiler.compileModuleAsync(t));
-    }
-  }), map((factoryOrRoutes) => {
-    if (onLoadEndListener) {
-      onLoadEndListener(route);
-    }
-    let injector;
-    let rawRoutes;
-    let requireStandaloneComponents = false;
-    if (Array.isArray(factoryOrRoutes)) {
-      rawRoutes = factoryOrRoutes;
-      requireStandaloneComponents = true;
-    } else {
-      injector = factoryOrRoutes.create(parentInjector).injector;
-      rawRoutes = injector.get(ROUTES, [], {
-        optional: true,
-        self: true
-      }).flat();
-    }
-    const routes2 = rawRoutes.map(standardizeConfig);
-    (typeof ngDevMode === "undefined" || ngDevMode) && validateConfig(routes2, route.path, requireStandaloneComponents);
-    return {
-      routes: routes2,
-      injector
-    };
-  }));
-}
-function isWrappedDefaultExport(value) {
-  return value && typeof value === "object" && "default" in value;
-}
-function maybeUnwrapDefaultExport(input2) {
-  return isWrappedDefaultExport(input2) ? input2["default"] : input2;
-}
-var UrlHandlingStrategy = class _UrlHandlingStrategy {
-  static {
-    this.\u0275fac = function UrlHandlingStrategy_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _UrlHandlingStrategy)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _UrlHandlingStrategy,
-      factory: () => (() => inject(DefaultUrlHandlingStrategy))(),
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(UrlHandlingStrategy, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: () => inject(DefaultUrlHandlingStrategy)
-    }]
-  }], null, null);
-})();
-var DefaultUrlHandlingStrategy = class _DefaultUrlHandlingStrategy {
-  shouldProcessUrl(url) {
-    return true;
-  }
-  extract(url) {
-    return url;
-  }
-  merge(newUrlPart, wholeUrl) {
-    return newUrlPart;
-  }
-  static {
-    this.\u0275fac = function DefaultUrlHandlingStrategy_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _DefaultUrlHandlingStrategy)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _DefaultUrlHandlingStrategy,
-      factory: _DefaultUrlHandlingStrategy.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DefaultUrlHandlingStrategy, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-var CREATE_VIEW_TRANSITION = new InjectionToken(ngDevMode ? "view transition helper" : "");
-var VIEW_TRANSITION_OPTIONS = new InjectionToken(ngDevMode ? "view transition options" : "");
-function createViewTransition(injector, from2, to) {
-  const transitionOptions = injector.get(VIEW_TRANSITION_OPTIONS);
-  const document2 = injector.get(DOCUMENT2);
-  return injector.get(NgZone).runOutsideAngular(() => {
-    if (!document2.startViewTransition || transitionOptions.skipNextTransition) {
-      transitionOptions.skipNextTransition = false;
-      return new Promise((resolve) => setTimeout(resolve));
-    }
-    let resolveViewTransitionStarted;
-    const viewTransitionStarted = new Promise((resolve) => {
-      resolveViewTransitionStarted = resolve;
-    });
-    const transition = document2.startViewTransition(() => {
-      resolveViewTransitionStarted();
-      return createRenderPromise(injector);
-    });
-    const {
-      onViewTransitionCreated
-    } = transitionOptions;
-    if (onViewTransitionCreated) {
-      runInInjectionContext(injector, () => onViewTransitionCreated({
-        transition,
-        from: from2,
-        to
-      }));
-    }
-    return viewTransitionStarted;
-  });
-}
-function createRenderPromise(injector) {
-  return new Promise((resolve) => {
-    afterNextRender({
-      read: () => setTimeout(resolve)
-    }, {
-      injector
-    });
-  });
-}
-var NAVIGATION_ERROR_HANDLER = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "navigation error handler" : "");
-var NavigationTransitions = class _NavigationTransitions {
-  get hasRequestedNavigation() {
-    return this.navigationId !== 0;
-  }
-  constructor() {
-    this.currentNavigation = null;
-    this.currentTransition = null;
-    this.lastSuccessfulNavigation = null;
-    this.events = new Subject();
-    this.transitionAbortSubject = new Subject();
-    this.configLoader = inject(RouterConfigLoader);
-    this.environmentInjector = inject(EnvironmentInjector);
-    this.urlSerializer = inject(UrlSerializer);
-    this.rootContexts = inject(ChildrenOutletContexts);
-    this.location = inject(Location);
-    this.inputBindingEnabled = inject(INPUT_BINDER, {
-      optional: true
-    }) !== null;
-    this.titleStrategy = inject(TitleStrategy);
-    this.options = inject(ROUTER_CONFIGURATION, {
-      optional: true
-    }) || {};
-    this.paramsInheritanceStrategy = this.options.paramsInheritanceStrategy || "emptyOnly";
-    this.urlHandlingStrategy = inject(UrlHandlingStrategy);
-    this.createViewTransition = inject(CREATE_VIEW_TRANSITION, {
-      optional: true
-    });
-    this.navigationErrorHandler = inject(NAVIGATION_ERROR_HANDLER, {
-      optional: true
-    });
-    this.navigationId = 0;
-    this.afterPreactivation = () => of(void 0);
-    this.rootComponentType = null;
-    const onLoadStart = (r) => this.events.next(new RouteConfigLoadStart(r));
-    const onLoadEnd = (r) => this.events.next(new RouteConfigLoadEnd(r));
-    this.configLoader.onLoadEndListener = onLoadEnd;
-    this.configLoader.onLoadStartListener = onLoadStart;
-  }
-  complete() {
-    this.transitions?.complete();
-  }
-  handleNavigationRequest(request) {
-    const id = ++this.navigationId;
-    this.transitions?.next(__spreadProps(__spreadValues(__spreadValues({}, this.transitions.value), request), {
-      id
-    }));
-  }
-  setupNavigations(router, initialUrlTree, initialRouterState) {
-    this.transitions = new BehaviorSubject({
-      id: 0,
-      currentUrlTree: initialUrlTree,
-      currentRawUrl: initialUrlTree,
-      extractedUrl: this.urlHandlingStrategy.extract(initialUrlTree),
-      urlAfterRedirects: this.urlHandlingStrategy.extract(initialUrlTree),
-      rawUrl: initialUrlTree,
-      extras: {},
-      resolve: () => {
-      },
-      reject: () => {
-      },
-      promise: Promise.resolve(true),
-      source: IMPERATIVE_NAVIGATION,
-      restoredState: null,
-      currentSnapshot: initialRouterState.snapshot,
-      targetSnapshot: null,
-      currentRouterState: initialRouterState,
-      targetRouterState: null,
-      guards: {
-        canActivateChecks: [],
-        canDeactivateChecks: []
-      },
-      guardsResult: null
-    });
-    return this.transitions.pipe(
-      filter((t) => t.id !== 0),
-      // Extract URL
-      map((t) => __spreadProps(__spreadValues({}, t), {
-        extractedUrl: this.urlHandlingStrategy.extract(t.rawUrl)
-      })),
-      // Using switchMap so we cancel executing navigations when a new one comes in
-      switchMap((overallTransitionState) => {
-        let completed = false;
-        let errored = false;
-        return of(overallTransitionState).pipe(
-          switchMap((t) => {
-            if (this.navigationId > overallTransitionState.id) {
-              const cancellationReason = typeof ngDevMode === "undefined" || ngDevMode ? `Navigation ID ${overallTransitionState.id} is not equal to the current navigation id ${this.navigationId}` : "";
-              this.cancelNavigationTransition(overallTransitionState, cancellationReason, NavigationCancellationCode.SupersededByNewNavigation);
-              return EMPTY;
-            }
-            this.currentTransition = overallTransitionState;
-            this.currentNavigation = {
-              id: t.id,
-              initialUrl: t.rawUrl,
-              extractedUrl: t.extractedUrl,
-              targetBrowserUrl: typeof t.extras.browserUrl === "string" ? this.urlSerializer.parse(t.extras.browserUrl) : t.extras.browserUrl,
-              trigger: t.source,
-              extras: t.extras,
-              previousNavigation: !this.lastSuccessfulNavigation ? null : __spreadProps(__spreadValues({}, this.lastSuccessfulNavigation), {
-                previousNavigation: null
-              })
-            };
-            const urlTransition = !router.navigated || this.isUpdatingInternalState() || this.isUpdatedBrowserUrl();
-            const onSameUrlNavigation = t.extras.onSameUrlNavigation ?? router.onSameUrlNavigation;
-            if (!urlTransition && onSameUrlNavigation !== "reload") {
-              const reason = typeof ngDevMode === "undefined" || ngDevMode ? `Navigation to ${t.rawUrl} was ignored because it is the same as the current Router URL.` : "";
-              this.events.next(new NavigationSkipped(t.id, this.urlSerializer.serialize(t.rawUrl), reason, NavigationSkippedCode.IgnoredSameUrlNavigation));
-              t.resolve(false);
-              return EMPTY;
-            }
-            if (this.urlHandlingStrategy.shouldProcessUrl(t.rawUrl)) {
-              return of(t).pipe(
-                // Fire NavigationStart event
-                switchMap((t2) => {
-                  const transition = this.transitions?.getValue();
-                  this.events.next(new NavigationStart(t2.id, this.urlSerializer.serialize(t2.extractedUrl), t2.source, t2.restoredState));
-                  if (transition !== this.transitions?.getValue()) {
-                    return EMPTY;
-                  }
-                  return Promise.resolve(t2);
-                }),
-                // Recognize
-                recognize(this.environmentInjector, this.configLoader, this.rootComponentType, router.config, this.urlSerializer, this.paramsInheritanceStrategy),
-                // Update URL if in `eager` update mode
-                tap((t2) => {
-                  overallTransitionState.targetSnapshot = t2.targetSnapshot;
-                  overallTransitionState.urlAfterRedirects = t2.urlAfterRedirects;
-                  this.currentNavigation = __spreadProps(__spreadValues({}, this.currentNavigation), {
-                    finalUrl: t2.urlAfterRedirects
-                  });
-                  const routesRecognized = new RoutesRecognized(t2.id, this.urlSerializer.serialize(t2.extractedUrl), this.urlSerializer.serialize(t2.urlAfterRedirects), t2.targetSnapshot);
-                  this.events.next(routesRecognized);
-                })
-              );
-            } else if (urlTransition && this.urlHandlingStrategy.shouldProcessUrl(t.currentRawUrl)) {
-              const {
-                id,
-                extractedUrl,
-                source,
-                restoredState,
-                extras
-              } = t;
-              const navStart = new NavigationStart(id, this.urlSerializer.serialize(extractedUrl), source, restoredState);
-              this.events.next(navStart);
-              const targetSnapshot = createEmptyState(this.rootComponentType).snapshot;
-              this.currentTransition = overallTransitionState = __spreadProps(__spreadValues({}, t), {
-                targetSnapshot,
-                urlAfterRedirects: extractedUrl,
-                extras: __spreadProps(__spreadValues({}, extras), {
-                  skipLocationChange: false,
-                  replaceUrl: false
-                })
-              });
-              this.currentNavigation.finalUrl = extractedUrl;
-              return of(overallTransitionState);
-            } else {
-              const reason = typeof ngDevMode === "undefined" || ngDevMode ? `Navigation was ignored because the UrlHandlingStrategy indicated neither the current URL ${t.currentRawUrl} nor target URL ${t.rawUrl} should be processed.` : "";
-              this.events.next(new NavigationSkipped(t.id, this.urlSerializer.serialize(t.extractedUrl), reason, NavigationSkippedCode.IgnoredByUrlHandlingStrategy));
-              t.resolve(false);
-              return EMPTY;
-            }
-          }),
-          // --- GUARDS ---
-          tap((t) => {
-            const guardsStart = new GuardsCheckStart(t.id, this.urlSerializer.serialize(t.extractedUrl), this.urlSerializer.serialize(t.urlAfterRedirects), t.targetSnapshot);
-            this.events.next(guardsStart);
-          }),
-          map((t) => {
-            this.currentTransition = overallTransitionState = __spreadProps(__spreadValues({}, t), {
-              guards: getAllRouteGuards(t.targetSnapshot, t.currentSnapshot, this.rootContexts)
-            });
-            return overallTransitionState;
-          }),
-          checkGuards(this.environmentInjector, (evt) => this.events.next(evt)),
-          tap((t) => {
-            overallTransitionState.guardsResult = t.guardsResult;
-            if (t.guardsResult && typeof t.guardsResult !== "boolean") {
-              throw redirectingNavigationError(this.urlSerializer, t.guardsResult);
-            }
-            const guardsEnd = new GuardsCheckEnd(t.id, this.urlSerializer.serialize(t.extractedUrl), this.urlSerializer.serialize(t.urlAfterRedirects), t.targetSnapshot, !!t.guardsResult);
-            this.events.next(guardsEnd);
-          }),
-          filter((t) => {
-            if (!t.guardsResult) {
-              this.cancelNavigationTransition(t, "", NavigationCancellationCode.GuardRejected);
-              return false;
-            }
-            return true;
-          }),
-          // --- RESOLVE ---
-          switchTap((t) => {
-            if (t.guards.canActivateChecks.length) {
-              return of(t).pipe(tap((t2) => {
-                const resolveStart = new ResolveStart(t2.id, this.urlSerializer.serialize(t2.extractedUrl), this.urlSerializer.serialize(t2.urlAfterRedirects), t2.targetSnapshot);
-                this.events.next(resolveStart);
-              }), switchMap((t2) => {
-                let dataResolved = false;
-                return of(t2).pipe(resolveData(this.paramsInheritanceStrategy, this.environmentInjector), tap({
-                  next: () => dataResolved = true,
-                  complete: () => {
-                    if (!dataResolved) {
-                      this.cancelNavigationTransition(t2, typeof ngDevMode === "undefined" || ngDevMode ? `At least one route resolver didn't emit any value.` : "", NavigationCancellationCode.NoDataFromResolver);
-                    }
-                  }
-                }));
-              }), tap((t2) => {
-                const resolveEnd = new ResolveEnd(t2.id, this.urlSerializer.serialize(t2.extractedUrl), this.urlSerializer.serialize(t2.urlAfterRedirects), t2.targetSnapshot);
-                this.events.next(resolveEnd);
-              }));
-            }
-            return void 0;
-          }),
-          // --- LOAD COMPONENTS ---
-          switchTap((t) => {
-            const loadComponents = (route) => {
-              const loaders = [];
-              if (route.routeConfig?.loadComponent && !route.routeConfig._loadedComponent) {
-                loaders.push(this.configLoader.loadComponent(route.routeConfig).pipe(tap((loadedComponent) => {
-                  route.component = loadedComponent;
-                }), map(() => void 0)));
-              }
-              for (const child of route.children) {
-                loaders.push(...loadComponents(child));
-              }
-              return loaders;
-            };
-            return combineLatest(loadComponents(t.targetSnapshot.root)).pipe(defaultIfEmpty(null), take(1));
-          }),
-          switchTap(() => this.afterPreactivation()),
-          switchMap(() => {
-            const {
-              currentSnapshot,
-              targetSnapshot
-            } = overallTransitionState;
-            const viewTransitionStarted = this.createViewTransition?.(this.environmentInjector, currentSnapshot.root, targetSnapshot.root);
-            return viewTransitionStarted ? from(viewTransitionStarted).pipe(map(() => overallTransitionState)) : of(overallTransitionState);
-          }),
-          map((t) => {
-            const targetRouterState = createRouterState(router.routeReuseStrategy, t.targetSnapshot, t.currentRouterState);
-            this.currentTransition = overallTransitionState = __spreadProps(__spreadValues({}, t), {
-              targetRouterState
-            });
-            this.currentNavigation.targetRouterState = targetRouterState;
-            return overallTransitionState;
-          }),
-          tap(() => {
-            this.events.next(new BeforeActivateRoutes());
-          }),
-          activateRoutes(this.rootContexts, router.routeReuseStrategy, (evt) => this.events.next(evt), this.inputBindingEnabled),
-          // Ensure that if some observable used to drive the transition doesn't
-          // complete, the navigation still finalizes This should never happen, but
-          // this is done as a safety measure to avoid surfacing this error (#49567).
-          take(1),
-          tap({
-            next: (t) => {
-              completed = true;
-              this.lastSuccessfulNavigation = this.currentNavigation;
-              this.events.next(new NavigationEnd(t.id, this.urlSerializer.serialize(t.extractedUrl), this.urlSerializer.serialize(t.urlAfterRedirects)));
-              this.titleStrategy?.updateTitle(t.targetRouterState.snapshot);
-              t.resolve(true);
-            },
-            complete: () => {
-              completed = true;
-            }
-          }),
-          // There used to be a lot more logic happening directly within the
-          // transition Observable. Some of this logic has been refactored out to
-          // other places but there may still be errors that happen there. This gives
-          // us a way to cancel the transition from the outside. This may also be
-          // required in the future to support something like the abort signal of the
-          // Navigation API where the navigation gets aborted from outside the
-          // transition.
-          takeUntil(this.transitionAbortSubject.pipe(tap((err) => {
-            throw err;
-          }))),
-          finalize(() => {
-            if (!completed && !errored) {
-              const cancelationReason = typeof ngDevMode === "undefined" || ngDevMode ? `Navigation ID ${overallTransitionState.id} is not equal to the current navigation id ${this.navigationId}` : "";
-              this.cancelNavigationTransition(overallTransitionState, cancelationReason, NavigationCancellationCode.SupersededByNewNavigation);
-            }
-            if (this.currentTransition?.id === overallTransitionState.id) {
-              this.currentNavigation = null;
-              this.currentTransition = null;
-            }
-          }),
-          catchError((e) => {
-            errored = true;
-            if (isNavigationCancelingError(e)) {
-              this.events.next(new NavigationCancel(overallTransitionState.id, this.urlSerializer.serialize(overallTransitionState.extractedUrl), e.message, e.cancellationCode));
-              if (!isRedirectingNavigationCancelingError(e)) {
-                overallTransitionState.resolve(false);
-              } else {
-                this.events.next(new RedirectRequest(e.url, e.navigationBehaviorOptions));
-              }
-            } else {
-              const navigationError = new NavigationError(overallTransitionState.id, this.urlSerializer.serialize(overallTransitionState.extractedUrl), e, overallTransitionState.targetSnapshot ?? void 0);
-              try {
-                const navigationErrorHandlerResult = runInInjectionContext(this.environmentInjector, () => this.navigationErrorHandler?.(navigationError));
-                if (navigationErrorHandlerResult instanceof RedirectCommand) {
-                  const {
-                    message,
-                    cancellationCode
-                  } = redirectingNavigationError(this.urlSerializer, navigationErrorHandlerResult);
-                  this.events.next(new NavigationCancel(overallTransitionState.id, this.urlSerializer.serialize(overallTransitionState.extractedUrl), message, cancellationCode));
-                  this.events.next(new RedirectRequest(navigationErrorHandlerResult.redirectTo, navigationErrorHandlerResult.navigationBehaviorOptions));
-                } else {
-                  this.events.next(navigationError);
-                  const errorHandlerResult = router.errorHandler(e);
-                  overallTransitionState.resolve(!!errorHandlerResult);
-                }
-              } catch (ee) {
-                if (this.options.resolveNavigationPromiseOnError) {
-                  overallTransitionState.resolve(false);
-                } else {
-                  overallTransitionState.reject(ee);
-                }
-              }
-            }
-            return EMPTY;
-          })
-        );
-      })
-    );
-  }
-  cancelNavigationTransition(t, reason, code) {
-    const navCancel = new NavigationCancel(t.id, this.urlSerializer.serialize(t.extractedUrl), reason, code);
-    this.events.next(navCancel);
-    t.resolve(false);
-  }
-  /**
-   * @returns Whether we're navigating to somewhere that is not what the Router is
-   * currently set to.
-   */
-  isUpdatingInternalState() {
-    return this.currentTransition?.extractedUrl.toString() !== this.currentTransition?.currentUrlTree.toString();
-  }
-  /**
-   * @returns Whether we're updating the browser URL to something new (navigation is going
-   * to somewhere not displayed in the URL bar and we will update the URL
-   * bar if navigation succeeds).
-   */
-  isUpdatedBrowserUrl() {
-    const currentBrowserUrl = this.urlHandlingStrategy.extract(this.urlSerializer.parse(this.location.path(true)));
-    const targetBrowserUrl = this.currentNavigation?.targetBrowserUrl ?? this.currentNavigation?.extractedUrl;
-    return currentBrowserUrl.toString() !== targetBrowserUrl?.toString() && !this.currentNavigation?.extras.skipLocationChange;
-  }
-  static {
-    this.\u0275fac = function NavigationTransitions_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _NavigationTransitions)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _NavigationTransitions,
-      factory: _NavigationTransitions.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NavigationTransitions, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [], null);
-})();
-function isBrowserTriggeredNavigation(source) {
-  return source !== IMPERATIVE_NAVIGATION;
-}
-var RouteReuseStrategy = class _RouteReuseStrategy {
-  static {
-    this.\u0275fac = function RouteReuseStrategy_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouteReuseStrategy)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _RouteReuseStrategy,
-      factory: () => (() => inject(DefaultRouteReuseStrategy))(),
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RouteReuseStrategy, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: () => inject(DefaultRouteReuseStrategy)
-    }]
-  }], null, null);
-})();
-var BaseRouteReuseStrategy = class {
-  /**
-   * Whether the given route should detach for later reuse.
-   * Always returns false for `BaseRouteReuseStrategy`.
-   * */
-  shouldDetach(route) {
-    return false;
-  }
-  /**
-   * A no-op; the route is never stored since this strategy never detaches routes for later re-use.
-   */
-  store(route, detachedTree) {
-  }
-  /** Returns `false`, meaning the route (and its subtree) is never reattached */
-  shouldAttach(route) {
-    return false;
-  }
-  /** Returns `null` because this strategy does not store routes for later re-use. */
-  retrieve(route) {
-    return null;
-  }
-  /**
-   * Determines if a route should be reused.
-   * This strategy returns `true` when the future route config and current route config are
-   * identical.
-   */
-  shouldReuseRoute(future, curr) {
-    return future.routeConfig === curr.routeConfig;
-  }
-};
-var DefaultRouteReuseStrategy = class _DefaultRouteReuseStrategy extends BaseRouteReuseStrategy {
-  static {
-    this.\u0275fac = /* @__PURE__ */ (() => {
-      let \u0275DefaultRouteReuseStrategy_BaseFactory;
-      return function DefaultRouteReuseStrategy_Factory(__ngFactoryType__) {
-        return (\u0275DefaultRouteReuseStrategy_BaseFactory || (\u0275DefaultRouteReuseStrategy_BaseFactory = \u0275\u0275getInheritedFactory(_DefaultRouteReuseStrategy)))(__ngFactoryType__ || _DefaultRouteReuseStrategy);
-      };
-    })();
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _DefaultRouteReuseStrategy,
-      factory: _DefaultRouteReuseStrategy.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DefaultRouteReuseStrategy, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-var StateManager = class _StateManager {
-  static {
-    this.\u0275fac = function StateManager_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _StateManager)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _StateManager,
-      factory: () => (() => inject(HistoryStateManager))(),
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(StateManager, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root",
-      useFactory: () => inject(HistoryStateManager)
-    }]
-  }], null, null);
-})();
-var HistoryStateManager = class _HistoryStateManager extends StateManager {
-  constructor() {
-    super(...arguments);
-    this.location = inject(Location);
-    this.urlSerializer = inject(UrlSerializer);
-    this.options = inject(ROUTER_CONFIGURATION, {
-      optional: true
-    }) || {};
-    this.canceledNavigationResolution = this.options.canceledNavigationResolution || "replace";
-    this.urlHandlingStrategy = inject(UrlHandlingStrategy);
-    this.urlUpdateStrategy = this.options.urlUpdateStrategy || "deferred";
-    this.currentUrlTree = new UrlTree();
-    this.rawUrlTree = this.currentUrlTree;
-    this.currentPageId = 0;
-    this.lastSuccessfulId = -1;
-    this.routerState = createEmptyState(null);
-    this.stateMemento = this.createStateMemento();
-  }
-  getCurrentUrlTree() {
-    return this.currentUrlTree;
-  }
-  getRawUrlTree() {
-    return this.rawUrlTree;
-  }
-  restoredState() {
-    return this.location.getState();
-  }
-  /**
-   * The ɵrouterPageId of whatever page is currently active in the browser history. This is
-   * important for computing the target page id for new navigations because we need to ensure each
-   * page id in the browser history is 1 more than the previous entry.
-   */
-  get browserPageId() {
-    if (this.canceledNavigationResolution !== "computed") {
-      return this.currentPageId;
-    }
-    return this.restoredState()?.\u0275routerPageId ?? this.currentPageId;
-  }
-  getRouterState() {
-    return this.routerState;
-  }
-  createStateMemento() {
-    return {
-      rawUrlTree: this.rawUrlTree,
-      currentUrlTree: this.currentUrlTree,
-      routerState: this.routerState
-    };
-  }
-  registerNonRouterCurrentEntryChangeListener(listener) {
-    return this.location.subscribe((event) => {
-      if (event["type"] === "popstate") {
-        listener(event["url"], event.state);
-      }
-    });
-  }
-  handleRouterEvent(e, currentTransition) {
-    if (e instanceof NavigationStart) {
-      this.stateMemento = this.createStateMemento();
-    } else if (e instanceof NavigationSkipped) {
-      this.rawUrlTree = currentTransition.initialUrl;
-    } else if (e instanceof RoutesRecognized) {
-      if (this.urlUpdateStrategy === "eager") {
-        if (!currentTransition.extras.skipLocationChange) {
-          const rawUrl = this.urlHandlingStrategy.merge(currentTransition.finalUrl, currentTransition.initialUrl);
-          this.setBrowserUrl(currentTransition.targetBrowserUrl ?? rawUrl, currentTransition);
-        }
-      }
-    } else if (e instanceof BeforeActivateRoutes) {
-      this.currentUrlTree = currentTransition.finalUrl;
-      this.rawUrlTree = this.urlHandlingStrategy.merge(currentTransition.finalUrl, currentTransition.initialUrl);
-      this.routerState = currentTransition.targetRouterState;
-      if (this.urlUpdateStrategy === "deferred" && !currentTransition.extras.skipLocationChange) {
-        this.setBrowserUrl(currentTransition.targetBrowserUrl ?? this.rawUrlTree, currentTransition);
-      }
-    } else if (e instanceof NavigationCancel && (e.code === NavigationCancellationCode.GuardRejected || e.code === NavigationCancellationCode.NoDataFromResolver)) {
-      this.restoreHistory(currentTransition);
-    } else if (e instanceof NavigationError) {
-      this.restoreHistory(currentTransition, true);
-    } else if (e instanceof NavigationEnd) {
-      this.lastSuccessfulId = e.id;
-      this.currentPageId = this.browserPageId;
-    }
-  }
-  setBrowserUrl(url, transition) {
-    const path = url instanceof UrlTree ? this.urlSerializer.serialize(url) : url;
-    if (this.location.isCurrentPathEqualTo(path) || !!transition.extras.replaceUrl) {
-      const currentBrowserPageId = this.browserPageId;
-      const state = __spreadValues(__spreadValues({}, transition.extras.state), this.generateNgRouterState(transition.id, currentBrowserPageId));
-      this.location.replaceState(path, "", state);
-    } else {
-      const state = __spreadValues(__spreadValues({}, transition.extras.state), this.generateNgRouterState(transition.id, this.browserPageId + 1));
-      this.location.go(path, "", state);
-    }
-  }
-  /**
-   * Performs the necessary rollback action to restore the browser URL to the
-   * state before the transition.
-   */
-  restoreHistory(navigation, restoringFromCaughtError = false) {
-    if (this.canceledNavigationResolution === "computed") {
-      const currentBrowserPageId = this.browserPageId;
-      const targetPagePosition = this.currentPageId - currentBrowserPageId;
-      if (targetPagePosition !== 0) {
-        this.location.historyGo(targetPagePosition);
-      } else if (this.currentUrlTree === navigation.finalUrl && targetPagePosition === 0) {
-        this.resetState(navigation);
-        this.resetUrlToCurrentUrlTree();
-      } else {
-      }
-    } else if (this.canceledNavigationResolution === "replace") {
-      if (restoringFromCaughtError) {
-        this.resetState(navigation);
-      }
-      this.resetUrlToCurrentUrlTree();
-    }
-  }
-  resetState(navigation) {
-    this.routerState = this.stateMemento.routerState;
-    this.currentUrlTree = this.stateMemento.currentUrlTree;
-    this.rawUrlTree = this.urlHandlingStrategy.merge(this.currentUrlTree, navigation.finalUrl ?? this.rawUrlTree);
-  }
-  resetUrlToCurrentUrlTree() {
-    this.location.replaceState(this.urlSerializer.serialize(this.rawUrlTree), "", this.generateNgRouterState(this.lastSuccessfulId, this.currentPageId));
-  }
-  generateNgRouterState(navigationId, routerPageId) {
-    if (this.canceledNavigationResolution === "computed") {
-      return {
-        navigationId,
-        \u0275routerPageId: routerPageId
-      };
-    }
-    return {
-      navigationId
-    };
-  }
-  static {
-    this.\u0275fac = /* @__PURE__ */ (() => {
-      let \u0275HistoryStateManager_BaseFactory;
-      return function HistoryStateManager_Factory(__ngFactoryType__) {
-        return (\u0275HistoryStateManager_BaseFactory || (\u0275HistoryStateManager_BaseFactory = \u0275\u0275getInheritedFactory(_HistoryStateManager)))(__ngFactoryType__ || _HistoryStateManager);
-      };
-    })();
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _HistoryStateManager,
-      factory: _HistoryStateManager.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HistoryStateManager, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-var NavigationResult;
-(function(NavigationResult2) {
-  NavigationResult2[NavigationResult2["COMPLETE"] = 0] = "COMPLETE";
-  NavigationResult2[NavigationResult2["FAILED"] = 1] = "FAILED";
-  NavigationResult2[NavigationResult2["REDIRECTING"] = 2] = "REDIRECTING";
-})(NavigationResult || (NavigationResult = {}));
-function afterNextNavigation(router, action) {
-  router.events.pipe(filter((e) => e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError || e instanceof NavigationSkipped), map((e) => {
-    if (e instanceof NavigationEnd || e instanceof NavigationSkipped) {
-      return NavigationResult.COMPLETE;
-    }
-    const redirecting = e instanceof NavigationCancel ? e.code === NavigationCancellationCode.Redirect || e.code === NavigationCancellationCode.SupersededByNewNavigation : false;
-    return redirecting ? NavigationResult.REDIRECTING : NavigationResult.FAILED;
-  }), filter((result) => result !== NavigationResult.REDIRECTING), take(1)).subscribe(() => {
-    action();
-  });
-}
-function defaultErrorHandler2(error) {
-  throw error;
-}
-var exactMatchOptions = {
-  paths: "exact",
-  fragment: "ignored",
-  matrixParams: "ignored",
-  queryParams: "exact"
-};
-var subsetMatchOptions = {
-  paths: "subset",
-  fragment: "ignored",
-  matrixParams: "ignored",
-  queryParams: "subset"
-};
-var Router = class _Router {
-  get currentUrlTree() {
-    return this.stateManager.getCurrentUrlTree();
-  }
-  get rawUrlTree() {
-    return this.stateManager.getRawUrlTree();
-  }
-  /**
-   * An event stream for routing events.
-   */
-  get events() {
-    return this._events;
-  }
-  /**
-   * The current state of routing in this NgModule.
-   */
-  get routerState() {
-    return this.stateManager.getRouterState();
-  }
-  constructor() {
-    this.disposed = false;
-    this.console = inject(Console);
-    this.stateManager = inject(StateManager);
-    this.options = inject(ROUTER_CONFIGURATION, {
-      optional: true
-    }) || {};
-    this.pendingTasks = inject(PendingTasks);
-    this.urlUpdateStrategy = this.options.urlUpdateStrategy || "deferred";
-    this.navigationTransitions = inject(NavigationTransitions);
-    this.urlSerializer = inject(UrlSerializer);
-    this.location = inject(Location);
-    this.urlHandlingStrategy = inject(UrlHandlingStrategy);
-    this._events = new Subject();
-    this.errorHandler = this.options.errorHandler || defaultErrorHandler2;
-    this.navigated = false;
-    this.routeReuseStrategy = inject(RouteReuseStrategy);
-    this.onSameUrlNavigation = this.options.onSameUrlNavigation || "ignore";
-    this.config = inject(ROUTES, {
-      optional: true
-    })?.flat() ?? [];
-    this.componentInputBindingEnabled = !!inject(INPUT_BINDER, {
-      optional: true
-    });
-    this.eventsSubscription = new Subscription();
-    this.resetConfig(this.config);
-    this.navigationTransitions.setupNavigations(this, this.currentUrlTree, this.routerState).subscribe({
-      error: (e) => {
-        this.console.warn(ngDevMode ? `Unhandled Navigation Error: ${e}` : e);
-      }
-    });
-    this.subscribeToNavigationEvents();
-  }
-  subscribeToNavigationEvents() {
-    const subscription = this.navigationTransitions.events.subscribe((e) => {
-      try {
-        const currentTransition = this.navigationTransitions.currentTransition;
-        const currentNavigation = this.navigationTransitions.currentNavigation;
-        if (currentTransition !== null && currentNavigation !== null) {
-          this.stateManager.handleRouterEvent(e, currentNavigation);
-          if (e instanceof NavigationCancel && e.code !== NavigationCancellationCode.Redirect && e.code !== NavigationCancellationCode.SupersededByNewNavigation) {
-            this.navigated = true;
-          } else if (e instanceof NavigationEnd) {
-            this.navigated = true;
-          } else if (e instanceof RedirectRequest) {
-            const opts = e.navigationBehaviorOptions;
-            const mergedTree = this.urlHandlingStrategy.merge(e.url, currentTransition.currentRawUrl);
-            const extras = __spreadValues({
-              browserUrl: currentTransition.extras.browserUrl,
-              info: currentTransition.extras.info,
-              skipLocationChange: currentTransition.extras.skipLocationChange,
-              // The URL is already updated at this point if we have 'eager' URL
-              // updates or if the navigation was triggered by the browser (back
-              // button, URL bar, etc). We want to replace that item in history
-              // if the navigation is rejected.
-              replaceUrl: currentTransition.extras.replaceUrl || this.urlUpdateStrategy === "eager" || isBrowserTriggeredNavigation(currentTransition.source)
-            }, opts);
-            this.scheduleNavigation(mergedTree, IMPERATIVE_NAVIGATION, null, extras, {
-              resolve: currentTransition.resolve,
-              reject: currentTransition.reject,
-              promise: currentTransition.promise
-            });
-          }
-        }
-        if (isPublicRouterEvent(e)) {
-          this._events.next(e);
-        }
-      } catch (e2) {
-        this.navigationTransitions.transitionAbortSubject.next(e2);
-      }
-    });
-    this.eventsSubscription.add(subscription);
-  }
-  /** @internal */
-  resetRootComponentType(rootComponentType) {
-    this.routerState.root.component = rootComponentType;
-    this.navigationTransitions.rootComponentType = rootComponentType;
-  }
-  /**
-   * Sets up the location change listener and performs the initial navigation.
-   */
-  initialNavigation() {
-    this.setUpLocationChangeListener();
-    if (!this.navigationTransitions.hasRequestedNavigation) {
-      this.navigateToSyncWithBrowser(this.location.path(true), IMPERATIVE_NAVIGATION, this.stateManager.restoredState());
-    }
-  }
-  /**
-   * Sets up the location change listener. This listener detects navigations triggered from outside
-   * the Router (the browser back/forward buttons, for example) and schedules a corresponding Router
-   * navigation so that the correct events, guards, etc. are triggered.
-   */
-  setUpLocationChangeListener() {
-    this.nonRouterCurrentEntryChangeSubscription ??= this.stateManager.registerNonRouterCurrentEntryChangeListener((url, state) => {
-      setTimeout(() => {
-        this.navigateToSyncWithBrowser(url, "popstate", state);
-      }, 0);
-    });
-  }
-  /**
-   * Schedules a router navigation to synchronize Router state with the browser state.
-   *
-   * This is done as a response to a popstate event and the initial navigation. These
-   * two scenarios represent times when the browser URL/state has been updated and
-   * the Router needs to respond to ensure its internal state matches.
-   */
-  navigateToSyncWithBrowser(url, source, state) {
-    const extras = {
-      replaceUrl: true
-    };
-    const restoredState = state?.navigationId ? state : null;
-    if (state) {
-      const stateCopy = __spreadValues({}, state);
-      delete stateCopy.navigationId;
-      delete stateCopy.\u0275routerPageId;
-      if (Object.keys(stateCopy).length !== 0) {
-        extras.state = stateCopy;
-      }
-    }
-    const urlTree = this.parseUrl(url);
-    this.scheduleNavigation(urlTree, source, restoredState, extras);
-  }
-  /** The current URL. */
-  get url() {
-    return this.serializeUrl(this.currentUrlTree);
-  }
-  /**
-   * Returns the current `Navigation` object when the router is navigating,
-   * and `null` when idle.
-   */
-  getCurrentNavigation() {
-    return this.navigationTransitions.currentNavigation;
-  }
-  /**
-   * The `Navigation` object of the most recent navigation to succeed and `null` if there
-   *     has not been a successful navigation yet.
-   */
-  get lastSuccessfulNavigation() {
-    return this.navigationTransitions.lastSuccessfulNavigation;
-  }
-  /**
-   * Resets the route configuration used for navigation and generating links.
-   *
-   * @param config The route array for the new configuration.
-   *
-   * @usageNotes
-   *
-   * ```
-   * router.resetConfig([
-   *  { path: 'team/:id', component: TeamCmp, children: [
-   *    { path: 'simple', component: SimpleCmp },
-   *    { path: 'user/:name', component: UserCmp }
-   *  ]}
-   * ]);
-   * ```
-   */
-  resetConfig(config2) {
-    (typeof ngDevMode === "undefined" || ngDevMode) && validateConfig(config2);
-    this.config = config2.map(standardizeConfig);
-    this.navigated = false;
-  }
-  /** @nodoc */
-  ngOnDestroy() {
-    this.dispose();
-  }
-  /** Disposes of the router. */
-  dispose() {
-    this.navigationTransitions.complete();
-    if (this.nonRouterCurrentEntryChangeSubscription) {
-      this.nonRouterCurrentEntryChangeSubscription.unsubscribe();
-      this.nonRouterCurrentEntryChangeSubscription = void 0;
-    }
-    this.disposed = true;
-    this.eventsSubscription.unsubscribe();
-  }
-  /**
-   * Appends URL segments to the current URL tree to create a new URL tree.
-   *
-   * @param commands An array of URL fragments with which to construct the new URL tree.
-   * If the path is static, can be the literal URL string. For a dynamic path, pass an array of path
-   * segments, followed by the parameters for each segment.
-   * The fragments are applied to the current URL tree or the one provided  in the `relativeTo`
-   * property of the options object, if supplied.
-   * @param navigationExtras Options that control the navigation strategy.
-   * @returns The new URL tree.
-   *
-   * @usageNotes
-   *
-   * ```
-   * // create /team/33/user/11
-   * router.createUrlTree(['/team', 33, 'user', 11]);
-   *
-   * // create /team/33;expand=true/user/11
-   * router.createUrlTree(['/team', 33, {expand: true}, 'user', 11]);
-   *
-   * // you can collapse static segments like this (this works only with the first passed-in value):
-   * router.createUrlTree(['/team/33/user', userId]);
-   *
-   * // If the first segment can contain slashes, and you do not want the router to split it,
-   * // you can do the following:
-   * router.createUrlTree([{segmentPath: '/one/two'}]);
-   *
-   * // create /team/33/(user/11//right:chat)
-   * router.createUrlTree(['/team', 33, {outlets: {primary: 'user/11', right: 'chat'}}]);
-   *
-   * // remove the right secondary node
-   * router.createUrlTree(['/team', 33, {outlets: {primary: 'user/11', right: null}}]);
-   *
-   * // assuming the current url is `/team/33/user/11` and the route points to `user/11`
-   *
-   * // navigate to /team/33/user/11/details
-   * router.createUrlTree(['details'], {relativeTo: route});
-   *
-   * // navigate to /team/33/user/22
-   * router.createUrlTree(['../22'], {relativeTo: route});
-   *
-   * // navigate to /team/44/user/22
-   * router.createUrlTree(['../../team/44/user/22'], {relativeTo: route});
-   *
-   * Note that a value of `null` or `undefined` for `relativeTo` indicates that the
-   * tree should be created relative to the root.
-   * ```
-   */
-  createUrlTree(commands, navigationExtras = {}) {
-    const {
-      relativeTo,
-      queryParams,
-      fragment,
-      queryParamsHandling,
-      preserveFragment
-    } = navigationExtras;
-    const f = preserveFragment ? this.currentUrlTree.fragment : fragment;
-    let q = null;
-    switch (queryParamsHandling ?? this.options.defaultQueryParamsHandling) {
-      case "merge":
-        q = __spreadValues(__spreadValues({}, this.currentUrlTree.queryParams), queryParams);
-        break;
-      case "preserve":
-        q = this.currentUrlTree.queryParams;
-        break;
-      default:
-        q = queryParams || null;
-    }
-    if (q !== null) {
-      q = this.removeEmptyProps(q);
-    }
-    let relativeToUrlSegmentGroup;
-    try {
-      const relativeToSnapshot = relativeTo ? relativeTo.snapshot : this.routerState.snapshot.root;
-      relativeToUrlSegmentGroup = createSegmentGroupFromRoute(relativeToSnapshot);
-    } catch (e) {
-      if (typeof commands[0] !== "string" || commands[0][0] !== "/") {
-        commands = [];
-      }
-      relativeToUrlSegmentGroup = this.currentUrlTree.root;
-    }
-    return createUrlTreeFromSegmentGroup(relativeToUrlSegmentGroup, commands, q, f ?? null);
-  }
-  /**
-   * Navigates to a view using an absolute route path.
-   *
-   * @param url An absolute path for a defined route. The function does not apply any delta to the
-   *     current URL.
-   * @param extras An object containing properties that modify the navigation strategy.
-   *
-   * @returns A Promise that resolves to 'true' when navigation succeeds,
-   * to 'false' when navigation fails, or is rejected on error.
-   *
-   * @usageNotes
-   *
-   * The following calls request navigation to an absolute path.
-   *
-   * ```
-   * router.navigateByUrl("/team/33/user/11");
-   *
-   * // Navigate without updating the URL
-   * router.navigateByUrl("/team/33/user/11", { skipLocationChange: true });
-   * ```
-   *
-   * @see [Routing and Navigation guide](guide/routing/common-router-tasks)
-   *
-   */
-  navigateByUrl(url, extras = {
-    skipLocationChange: false
-  }) {
-    const urlTree = isUrlTree(url) ? url : this.parseUrl(url);
-    const mergedTree = this.urlHandlingStrategy.merge(urlTree, this.rawUrlTree);
-    return this.scheduleNavigation(mergedTree, IMPERATIVE_NAVIGATION, null, extras);
-  }
-  /**
-   * Navigate based on the provided array of commands and a starting point.
-   * If no starting route is provided, the navigation is absolute.
-   *
-   * @param commands An array of URL fragments with which to construct the target URL.
-   * If the path is static, can be the literal URL string. For a dynamic path, pass an array of path
-   * segments, followed by the parameters for each segment.
-   * The fragments are applied to the current URL or the one provided  in the `relativeTo` property
-   * of the options object, if supplied.
-   * @param extras An options object that determines how the URL should be constructed or
-   *     interpreted.
-   *
-   * @returns A Promise that resolves to `true` when navigation succeeds, or `false` when navigation
-   *     fails. The Promise is rejected when an error occurs if `resolveNavigationPromiseOnError` is
-   * not `true`.
-   *
-   * @usageNotes
-   *
-   * The following calls request navigation to a dynamic route path relative to the current URL.
-   *
-   * ```
-   * router.navigate(['team', 33, 'user', 11], {relativeTo: route});
-   *
-   * // Navigate without updating the URL, overriding the default behavior
-   * router.navigate(['team', 33, 'user', 11], {relativeTo: route, skipLocationChange: true});
-   * ```
-   *
-   * @see [Routing and Navigation guide](guide/routing/common-router-tasks)
-   *
-   */
-  navigate(commands, extras = {
-    skipLocationChange: false
-  }) {
-    validateCommands(commands);
-    return this.navigateByUrl(this.createUrlTree(commands, extras), extras);
-  }
-  /** Serializes a `UrlTree` into a string */
-  serializeUrl(url) {
-    return this.urlSerializer.serialize(url);
-  }
-  /** Parses a string into a `UrlTree` */
-  parseUrl(url) {
-    try {
-      return this.urlSerializer.parse(url);
-    } catch {
-      return this.urlSerializer.parse("/");
-    }
-  }
-  isActive(url, matchOptions) {
-    let options;
-    if (matchOptions === true) {
-      options = __spreadValues({}, exactMatchOptions);
-    } else if (matchOptions === false) {
-      options = __spreadValues({}, subsetMatchOptions);
-    } else {
-      options = matchOptions;
-    }
-    if (isUrlTree(url)) {
-      return containsTree(this.currentUrlTree, url, options);
-    }
-    const urlTree = this.parseUrl(url);
-    return containsTree(this.currentUrlTree, urlTree, options);
-  }
-  removeEmptyProps(params) {
-    return Object.entries(params).reduce((result, [key, value]) => {
-      if (value !== null && value !== void 0) {
-        result[key] = value;
-      }
-      return result;
-    }, {});
-  }
-  scheduleNavigation(rawUrl, source, restoredState, extras, priorPromise) {
-    if (this.disposed) {
-      return Promise.resolve(false);
-    }
-    let resolve;
-    let reject;
-    let promise;
-    if (priorPromise) {
-      resolve = priorPromise.resolve;
-      reject = priorPromise.reject;
-      promise = priorPromise.promise;
-    } else {
-      promise = new Promise((res, rej) => {
-        resolve = res;
-        reject = rej;
-      });
-    }
-    const taskId = this.pendingTasks.add();
-    afterNextNavigation(this, () => {
-      queueMicrotask(() => this.pendingTasks.remove(taskId));
-    });
-    this.navigationTransitions.handleNavigationRequest({
-      source,
-      restoredState,
-      currentUrlTree: this.currentUrlTree,
-      currentRawUrl: this.currentUrlTree,
-      rawUrl,
-      extras,
-      resolve,
-      reject,
-      promise,
-      currentSnapshot: this.routerState.snapshot,
-      currentRouterState: this.routerState
-    });
-    return promise.catch((e) => {
-      return Promise.reject(e);
-    });
-  }
-  static {
-    this.\u0275fac = function Router_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _Router)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _Router,
-      factory: _Router.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Router, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [], null);
-})();
-function validateCommands(commands) {
-  for (let i = 0; i < commands.length; i++) {
-    const cmd = commands[i];
-    if (cmd == null) {
-      throw new RuntimeError(4008, (typeof ngDevMode === "undefined" || ngDevMode) && `The requested path contains ${cmd} segment at index ${i}`);
-    }
-  }
-}
-function isPublicRouterEvent(e) {
-  return !(e instanceof BeforeActivateRoutes) && !(e instanceof RedirectRequest);
-}
-var RouterLink = class _RouterLink {
-  constructor(router, route, tabIndexAttribute, renderer, el, locationStrategy) {
-    this.router = router;
-    this.route = route;
-    this.tabIndexAttribute = tabIndexAttribute;
-    this.renderer = renderer;
-    this.el = el;
-    this.locationStrategy = locationStrategy;
-    this.href = null;
-    this.onChanges = new Subject();
-    this.preserveFragment = false;
-    this.skipLocationChange = false;
-    this.replaceUrl = false;
-    this.routerLinkInput = null;
-    const tagName = el.nativeElement.tagName?.toLowerCase();
-    this.isAnchorElement = tagName === "a" || tagName === "area";
-    if (this.isAnchorElement) {
-      this.subscription = router.events.subscribe((s) => {
-        if (s instanceof NavigationEnd) {
-          this.updateHref();
-        }
-      });
-    } else {
-      this.setTabIndexIfNotOnNativeEl("0");
-    }
-  }
-  /**
-   * Modifies the tab index if there was not a tabindex attribute on the element during
-   * instantiation.
-   */
-  setTabIndexIfNotOnNativeEl(newTabIndex) {
-    if (this.tabIndexAttribute != null || this.isAnchorElement) {
-      return;
-    }
-    this.applyAttributeValue("tabindex", newTabIndex);
-  }
-  /** @nodoc */
-  // TODO(atscott): Remove changes parameter in major version as a breaking change.
-  ngOnChanges(changes) {
-    if (ngDevMode && isUrlTree(this.routerLinkInput) && (this.fragment !== void 0 || this.queryParams || this.queryParamsHandling || this.preserveFragment || this.relativeTo)) {
-      throw new RuntimeError(4016, "Cannot configure queryParams or fragment when using a UrlTree as the routerLink input value.");
-    }
-    if (this.isAnchorElement) {
-      this.updateHref();
-    }
-    this.onChanges.next(this);
-  }
-  /**
-   * Commands to pass to {@link Router#createUrlTree} or a `UrlTree`.
-   *   - **array**: commands to pass to {@link Router#createUrlTree}.
-   *   - **string**: shorthand for array of commands with just the string, i.e. `['/route']`
-   *   - **UrlTree**: a `UrlTree` for this link rather than creating one from the commands
-   *     and other inputs that correspond to properties of `UrlCreationOptions`.
-   *   - **null|undefined**: effectively disables the `routerLink`
-   * @see {@link Router#createUrlTree}
-   */
-  set routerLink(commandsOrUrlTree) {
-    if (commandsOrUrlTree == null) {
-      this.routerLinkInput = null;
-      this.setTabIndexIfNotOnNativeEl(null);
-    } else {
-      if (isUrlTree(commandsOrUrlTree)) {
-        this.routerLinkInput = commandsOrUrlTree;
-      } else {
-        this.routerLinkInput = Array.isArray(commandsOrUrlTree) ? commandsOrUrlTree : [commandsOrUrlTree];
-      }
-      this.setTabIndexIfNotOnNativeEl("0");
-    }
-  }
-  /** @nodoc */
-  onClick(button, ctrlKey, shiftKey, altKey, metaKey) {
-    const urlTree = this.urlTree;
-    if (urlTree === null) {
-      return true;
-    }
-    if (this.isAnchorElement) {
-      if (button !== 0 || ctrlKey || shiftKey || altKey || metaKey) {
-        return true;
-      }
-      if (typeof this.target === "string" && this.target != "_self") {
-        return true;
-      }
-    }
-    const extras = {
-      skipLocationChange: this.skipLocationChange,
-      replaceUrl: this.replaceUrl,
-      state: this.state,
-      info: this.info
-    };
-    this.router.navigateByUrl(urlTree, extras);
-    return !this.isAnchorElement;
-  }
-  /** @nodoc */
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
-  }
-  updateHref() {
-    const urlTree = this.urlTree;
-    this.href = urlTree !== null && this.locationStrategy ? this.locationStrategy?.prepareExternalUrl(this.router.serializeUrl(urlTree)) : null;
-    const sanitizedValue = this.href === null ? null : (
-      // This class represents a directive that can be added to both `<a>` elements,
-      // as well as other elements. As a result, we can't define security context at
-      // compile time. So the security context is deferred to runtime.
-      // The `ɵɵsanitizeUrlOrResourceUrl` selects the necessary sanitizer function
-      // based on the tag and property names. The logic mimics the one from
-      // `packages/compiler/src/schema/dom_security_schema.ts`, which is used at compile time.
-      //
-      // Note: we should investigate whether we can switch to using `@HostBinding('attr.href')`
-      // instead of applying a value via a renderer, after a final merge of the
-      // `RouterLinkWithHref` directive.
-      \u0275\u0275sanitizeUrlOrResourceUrl(this.href, this.el.nativeElement.tagName.toLowerCase(), "href")
-    );
-    this.applyAttributeValue("href", sanitizedValue);
-  }
-  applyAttributeValue(attrName, attrValue) {
-    const renderer = this.renderer;
-    const nativeElement = this.el.nativeElement;
-    if (attrValue !== null) {
-      renderer.setAttribute(nativeElement, attrName, attrValue);
-    } else {
-      renderer.removeAttribute(nativeElement, attrName);
-    }
-  }
-  get urlTree() {
-    if (this.routerLinkInput === null) {
-      return null;
-    } else if (isUrlTree(this.routerLinkInput)) {
-      return this.routerLinkInput;
-    }
-    return this.router.createUrlTree(this.routerLinkInput, {
-      // If the `relativeTo` input is not defined, we want to use `this.route` by default.
-      // Otherwise, we should use the value provided by the user in the input.
-      relativeTo: this.relativeTo !== void 0 ? this.relativeTo : this.route,
-      queryParams: this.queryParams,
-      fragment: this.fragment,
-      queryParamsHandling: this.queryParamsHandling,
-      preserveFragment: this.preserveFragment
-    });
-  }
-  static {
-    this.\u0275fac = function RouterLink_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterLink)(\u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ActivatedRoute), \u0275\u0275injectAttribute("tabindex"), \u0275\u0275directiveInject(Renderer2), \u0275\u0275directiveInject(ElementRef), \u0275\u0275directiveInject(LocationStrategy));
-    };
-  }
-  static {
-    this.\u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-      type: _RouterLink,
-      selectors: [["", "routerLink", ""]],
-      hostVars: 1,
-      hostBindings: function RouterLink_HostBindings(rf, ctx) {
-        if (rf & 1) {
-          \u0275\u0275listener("click", function RouterLink_click_HostBindingHandler($event) {
-            return ctx.onClick($event.button, $event.ctrlKey, $event.shiftKey, $event.altKey, $event.metaKey);
-          });
-        }
-        if (rf & 2) {
-          \u0275\u0275attribute("target", ctx.target);
-        }
-      },
-      inputs: {
-        target: "target",
-        queryParams: "queryParams",
-        fragment: "fragment",
-        queryParamsHandling: "queryParamsHandling",
-        state: "state",
-        info: "info",
-        relativeTo: "relativeTo",
-        preserveFragment: [2, "preserveFragment", "preserveFragment", booleanAttribute],
-        skipLocationChange: [2, "skipLocationChange", "skipLocationChange", booleanAttribute],
-        replaceUrl: [2, "replaceUrl", "replaceUrl", booleanAttribute],
-        routerLink: "routerLink"
-      },
-      standalone: true,
-      features: [\u0275\u0275InputTransformsFeature, \u0275\u0275NgOnChangesFeature]
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RouterLink, [{
-    type: Directive,
-    args: [{
-      selector: "[routerLink]",
-      standalone: true
-    }]
-  }], () => [{
-    type: Router
-  }, {
-    type: ActivatedRoute
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Attribute,
-      args: ["tabindex"]
-    }]
-  }, {
-    type: Renderer2
-  }, {
-    type: ElementRef
-  }, {
-    type: LocationStrategy
-  }], {
-    target: [{
-      type: HostBinding,
-      args: ["attr.target"]
-    }, {
-      type: Input
-    }],
-    queryParams: [{
-      type: Input
-    }],
-    fragment: [{
-      type: Input
-    }],
-    queryParamsHandling: [{
-      type: Input
-    }],
-    state: [{
-      type: Input
-    }],
-    info: [{
-      type: Input
-    }],
-    relativeTo: [{
-      type: Input
-    }],
-    preserveFragment: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    skipLocationChange: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    replaceUrl: [{
-      type: Input,
-      args: [{
-        transform: booleanAttribute
-      }]
-    }],
-    routerLink: [{
-      type: Input
-    }],
-    onClick: [{
-      type: HostListener,
-      args: ["click", ["$event.button", "$event.ctrlKey", "$event.shiftKey", "$event.altKey", "$event.metaKey"]]
-    }]
-  });
-})();
-var RouterLinkActive = class _RouterLinkActive {
-  get isActive() {
-    return this._isActive;
-  }
-  constructor(router, element, renderer, cdr, link) {
-    this.router = router;
-    this.element = element;
-    this.renderer = renderer;
-    this.cdr = cdr;
-    this.link = link;
-    this.classes = [];
-    this._isActive = false;
-    this.routerLinkActiveOptions = {
-      exact: false
-    };
-    this.isActiveChange = new EventEmitter();
-    this.routerEventsSubscription = router.events.subscribe((s) => {
-      if (s instanceof NavigationEnd) {
-        this.update();
-      }
-    });
-  }
-  /** @nodoc */
-  ngAfterContentInit() {
-    of(this.links.changes, of(null)).pipe(mergeAll()).subscribe((_) => {
-      this.update();
-      this.subscribeToEachLinkOnChanges();
-    });
-  }
-  subscribeToEachLinkOnChanges() {
-    this.linkInputChangesSubscription?.unsubscribe();
-    const allLinkChanges = [...this.links.toArray(), this.link].filter((link) => !!link).map((link) => link.onChanges);
-    this.linkInputChangesSubscription = from(allLinkChanges).pipe(mergeAll()).subscribe((link) => {
-      if (this._isActive !== this.isLinkActive(this.router)(link)) {
-        this.update();
-      }
-    });
-  }
-  set routerLinkActive(data) {
-    const classes = Array.isArray(data) ? data : data.split(" ");
-    this.classes = classes.filter((c) => !!c);
-  }
-  /** @nodoc */
-  ngOnChanges(changes) {
-    this.update();
-  }
-  /** @nodoc */
-  ngOnDestroy() {
-    this.routerEventsSubscription.unsubscribe();
-    this.linkInputChangesSubscription?.unsubscribe();
-  }
-  update() {
-    if (!this.links || !this.router.navigated) return;
-    queueMicrotask(() => {
-      const hasActiveLinks = this.hasActiveLinks();
-      this.classes.forEach((c) => {
-        if (hasActiveLinks) {
-          this.renderer.addClass(this.element.nativeElement, c);
-        } else {
-          this.renderer.removeClass(this.element.nativeElement, c);
-        }
-      });
-      if (hasActiveLinks && this.ariaCurrentWhenActive !== void 0) {
-        this.renderer.setAttribute(this.element.nativeElement, "aria-current", this.ariaCurrentWhenActive.toString());
-      } else {
-        this.renderer.removeAttribute(this.element.nativeElement, "aria-current");
-      }
-      if (this._isActive !== hasActiveLinks) {
-        this._isActive = hasActiveLinks;
-        this.cdr.markForCheck();
-        this.isActiveChange.emit(hasActiveLinks);
-      }
-    });
-  }
-  isLinkActive(router) {
-    const options = isActiveMatchOptions(this.routerLinkActiveOptions) ? this.routerLinkActiveOptions : (
-      // While the types should disallow `undefined` here, it's possible without strict inputs
-      this.routerLinkActiveOptions.exact || false
-    );
-    return (link) => {
-      const urlTree = link.urlTree;
-      return urlTree ? router.isActive(urlTree, options) : false;
-    };
-  }
-  hasActiveLinks() {
-    const isActiveCheckFn = this.isLinkActive(this.router);
-    return this.link && isActiveCheckFn(this.link) || this.links.some(isActiveCheckFn);
-  }
-  static {
-    this.\u0275fac = function RouterLinkActive_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterLinkActive)(\u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(ElementRef), \u0275\u0275directiveInject(Renderer2), \u0275\u0275directiveInject(ChangeDetectorRef), \u0275\u0275directiveInject(RouterLink, 8));
-    };
-  }
-  static {
-    this.\u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-      type: _RouterLinkActive,
-      selectors: [["", "routerLinkActive", ""]],
-      contentQueries: function RouterLinkActive_ContentQueries(rf, ctx, dirIndex) {
-        if (rf & 1) {
-          \u0275\u0275contentQuery(dirIndex, RouterLink, 5);
-        }
-        if (rf & 2) {
-          let _t;
-          \u0275\u0275queryRefresh(_t = \u0275\u0275loadQuery()) && (ctx.links = _t);
-        }
-      },
-      inputs: {
-        routerLinkActiveOptions: "routerLinkActiveOptions",
-        ariaCurrentWhenActive: "ariaCurrentWhenActive",
-        routerLinkActive: "routerLinkActive"
-      },
-      outputs: {
-        isActiveChange: "isActiveChange"
-      },
-      exportAs: ["routerLinkActive"],
-      standalone: true,
-      features: [\u0275\u0275NgOnChangesFeature]
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RouterLinkActive, [{
-    type: Directive,
-    args: [{
-      selector: "[routerLinkActive]",
-      exportAs: "routerLinkActive",
-      standalone: true
-    }]
-  }], () => [{
-    type: Router
-  }, {
-    type: ElementRef
-  }, {
-    type: Renderer2
-  }, {
-    type: ChangeDetectorRef
-  }, {
-    type: RouterLink,
-    decorators: [{
-      type: Optional
-    }]
-  }], {
-    links: [{
-      type: ContentChildren,
-      args: [RouterLink, {
-        descendants: true
-      }]
-    }],
-    routerLinkActiveOptions: [{
-      type: Input
-    }],
-    ariaCurrentWhenActive: [{
-      type: Input
-    }],
-    isActiveChange: [{
-      type: Output
-    }],
-    routerLinkActive: [{
-      type: Input
-    }]
-  });
-})();
-function isActiveMatchOptions(options) {
-  return !!options.paths;
-}
-var PreloadingStrategy = class {
-};
-var PreloadAllModules = class _PreloadAllModules {
-  preload(route, fn) {
-    return fn().pipe(catchError(() => of(null)));
-  }
-  static {
-    this.\u0275fac = function PreloadAllModules_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _PreloadAllModules)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _PreloadAllModules,
-      factory: _PreloadAllModules.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PreloadAllModules, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-var NoPreloading = class _NoPreloading {
-  preload(route, fn) {
-    return of(null);
-  }
-  static {
-    this.\u0275fac = function NoPreloading_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _NoPreloading)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _NoPreloading,
-      factory: _NoPreloading.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NoPreloading, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-var RouterPreloader = class _RouterPreloader {
-  constructor(router, compiler, injector, preloadingStrategy, loader2) {
-    this.router = router;
-    this.injector = injector;
-    this.preloadingStrategy = preloadingStrategy;
-    this.loader = loader2;
-  }
-  setUpPreloading() {
-    this.subscription = this.router.events.pipe(filter((e) => e instanceof NavigationEnd), concatMap(() => this.preload())).subscribe(() => {
-    });
-  }
-  preload() {
-    return this.processRoutes(this.injector, this.router.config);
-  }
-  /** @nodoc */
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-  processRoutes(injector, routes2) {
-    const res = [];
-    for (const route of routes2) {
-      if (route.providers && !route._injector) {
-        route._injector = createEnvironmentInjector(route.providers, injector, `Route: ${route.path}`);
-      }
-      const injectorForCurrentRoute = route._injector ?? injector;
-      const injectorForChildren = route._loadedInjector ?? injectorForCurrentRoute;
-      if (route.loadChildren && !route._loadedRoutes && route.canLoad === void 0 || route.loadComponent && !route._loadedComponent) {
-        res.push(this.preloadConfig(injectorForCurrentRoute, route));
-      }
-      if (route.children || route._loadedRoutes) {
-        res.push(this.processRoutes(injectorForChildren, route.children ?? route._loadedRoutes));
-      }
-    }
-    return from(res).pipe(mergeAll());
-  }
-  preloadConfig(injector, route) {
-    return this.preloadingStrategy.preload(route, () => {
-      let loadedChildren$;
-      if (route.loadChildren && route.canLoad === void 0) {
-        loadedChildren$ = this.loader.loadChildren(injector, route);
-      } else {
-        loadedChildren$ = of(null);
-      }
-      const recursiveLoadChildren$ = loadedChildren$.pipe(mergeMap((config2) => {
-        if (config2 === null) {
-          return of(void 0);
-        }
-        route._loadedRoutes = config2.routes;
-        route._loadedInjector = config2.injector;
-        return this.processRoutes(config2.injector ?? injector, config2.routes);
-      }));
-      if (route.loadComponent && !route._loadedComponent) {
-        const loadComponent$ = this.loader.loadComponent(route);
-        return from([recursiveLoadChildren$, loadComponent$]).pipe(mergeAll());
-      } else {
-        return recursiveLoadChildren$;
-      }
-    });
-  }
-  static {
-    this.\u0275fac = function RouterPreloader_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterPreloader)(\u0275\u0275inject(Router), \u0275\u0275inject(Compiler), \u0275\u0275inject(EnvironmentInjector), \u0275\u0275inject(PreloadingStrategy), \u0275\u0275inject(RouterConfigLoader));
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _RouterPreloader,
-      factory: _RouterPreloader.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RouterPreloader, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: Router
-  }, {
-    type: Compiler
-  }, {
-    type: EnvironmentInjector
-  }, {
-    type: PreloadingStrategy
-  }, {
-    type: RouterConfigLoader
-  }], null);
-})();
-var ROUTER_SCROLLER = new InjectionToken("");
-var RouterScroller = class _RouterScroller {
-  /** @nodoc */
-  constructor(urlSerializer, transitions, viewportScroller, zone, options = {}) {
-    this.urlSerializer = urlSerializer;
-    this.transitions = transitions;
-    this.viewportScroller = viewportScroller;
-    this.zone = zone;
-    this.options = options;
-    this.lastId = 0;
-    this.lastSource = "imperative";
-    this.restoredId = 0;
-    this.store = {};
-    options.scrollPositionRestoration ||= "disabled";
-    options.anchorScrolling ||= "disabled";
-  }
-  init() {
-    if (this.options.scrollPositionRestoration !== "disabled") {
-      this.viewportScroller.setHistoryScrollRestoration("manual");
-    }
-    this.routerEventsSubscription = this.createScrollEvents();
-    this.scrollEventsSubscription = this.consumeScrollEvents();
-  }
-  createScrollEvents() {
-    return this.transitions.events.subscribe((e) => {
-      if (e instanceof NavigationStart) {
-        this.store[this.lastId] = this.viewportScroller.getScrollPosition();
-        this.lastSource = e.navigationTrigger;
-        this.restoredId = e.restoredState ? e.restoredState.navigationId : 0;
-      } else if (e instanceof NavigationEnd) {
-        this.lastId = e.id;
-        this.scheduleScrollEvent(e, this.urlSerializer.parse(e.urlAfterRedirects).fragment);
-      } else if (e instanceof NavigationSkipped && e.code === NavigationSkippedCode.IgnoredSameUrlNavigation) {
-        this.lastSource = void 0;
-        this.restoredId = 0;
-        this.scheduleScrollEvent(e, this.urlSerializer.parse(e.url).fragment);
-      }
-    });
-  }
-  consumeScrollEvents() {
-    return this.transitions.events.subscribe((e) => {
-      if (!(e instanceof Scroll)) return;
-      if (e.position) {
-        if (this.options.scrollPositionRestoration === "top") {
-          this.viewportScroller.scrollToPosition([0, 0]);
-        } else if (this.options.scrollPositionRestoration === "enabled") {
-          this.viewportScroller.scrollToPosition(e.position);
-        }
-      } else {
-        if (e.anchor && this.options.anchorScrolling === "enabled") {
-          this.viewportScroller.scrollToAnchor(e.anchor);
-        } else if (this.options.scrollPositionRestoration !== "disabled") {
-          this.viewportScroller.scrollToPosition([0, 0]);
-        }
-      }
-    });
-  }
-  scheduleScrollEvent(routerEvent, anchor) {
-    this.zone.runOutsideAngular(() => {
-      setTimeout(() => {
-        this.zone.run(() => {
-          this.transitions.events.next(new Scroll(routerEvent, this.lastSource === "popstate" ? this.store[this.restoredId] : null, anchor));
-        });
-      }, 0);
-    });
-  }
-  /** @nodoc */
-  ngOnDestroy() {
-    this.routerEventsSubscription?.unsubscribe();
-    this.scrollEventsSubscription?.unsubscribe();
-  }
-  static {
-    this.\u0275fac = function RouterScroller_Factory(__ngFactoryType__) {
-      \u0275\u0275invalidFactory();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _RouterScroller,
-      factory: _RouterScroller.\u0275fac
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RouterScroller, [{
-    type: Injectable
-  }], () => [{
-    type: UrlSerializer
-  }, {
-    type: NavigationTransitions
-  }, {
-    type: ViewportScroller
-  }, {
-    type: NgZone
-  }, {
-    type: void 0
-  }], null);
-})();
-function rootRoute(router) {
-  return router.routerState.root;
-}
-function routerFeature(kind, providers) {
-  return {
-    \u0275kind: kind,
-    \u0275providers: providers
-  };
-}
-var ROUTER_IS_PROVIDED = new InjectionToken("", {
-  providedIn: "root",
-  factory: () => false
-});
-function getBootstrapListener() {
-  const injector = inject(Injector);
-  return (bootstrappedComponentRef) => {
-    const ref = injector.get(ApplicationRef);
-    if (bootstrappedComponentRef !== ref.components[0]) {
-      return;
-    }
-    const router = injector.get(Router);
-    const bootstrapDone = injector.get(BOOTSTRAP_DONE);
-    if (injector.get(INITIAL_NAVIGATION) === 1) {
-      router.initialNavigation();
-    }
-    injector.get(ROUTER_PRELOADER, null, InjectFlags.Optional)?.setUpPreloading();
-    injector.get(ROUTER_SCROLLER, null, InjectFlags.Optional)?.init();
-    router.resetRootComponentType(ref.componentTypes[0]);
-    if (!bootstrapDone.closed) {
-      bootstrapDone.next();
-      bootstrapDone.complete();
-      bootstrapDone.unsubscribe();
-    }
-  };
-}
-var BOOTSTRAP_DONE = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "bootstrap done indicator" : "", {
-  factory: () => {
-    return new Subject();
-  }
-});
-var INITIAL_NAVIGATION = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "initial navigation" : "", {
-  providedIn: "root",
-  factory: () => 1
-  /* InitialNavigation.EnabledNonBlocking */
-});
-function withEnabledBlockingInitialNavigation() {
-  const providers = [{
-    provide: INITIAL_NAVIGATION,
-    useValue: 0
-    /* InitialNavigation.EnabledBlocking */
-  }, {
-    provide: APP_INITIALIZER,
-    multi: true,
-    deps: [Injector],
-    useFactory: (injector) => {
-      const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve());
-      return () => {
-        return locationInitialized.then(() => {
-          return new Promise((resolve) => {
-            const router = injector.get(Router);
-            const bootstrapDone = injector.get(BOOTSTRAP_DONE);
-            afterNextNavigation(router, () => {
-              resolve(true);
-            });
-            injector.get(NavigationTransitions).afterPreactivation = () => {
-              resolve(true);
-              return bootstrapDone.closed ? of(void 0) : bootstrapDone;
-            };
-            router.initialNavigation();
-          });
-        });
-      };
-    }
-  }];
-  return routerFeature(2, providers);
-}
-function withDisabledInitialNavigation() {
-  const providers = [{
-    provide: APP_INITIALIZER,
-    multi: true,
-    useFactory: () => {
-      const router = inject(Router);
-      return () => {
-        router.setUpLocationChangeListener();
-      };
-    }
-  }, {
-    provide: INITIAL_NAVIGATION,
-    useValue: 2
-    /* InitialNavigation.Disabled */
-  }];
-  return routerFeature(3, providers);
-}
-function withDebugTracing() {
-  let providers = [];
-  if (typeof ngDevMode === "undefined" || ngDevMode) {
-    providers = [{
-      provide: ENVIRONMENT_INITIALIZER,
-      multi: true,
-      useFactory: () => {
-        const router = inject(Router);
-        return () => router.events.subscribe((e) => {
-          console.group?.(`Router Event: ${e.constructor.name}`);
-          console.log(stringifyEvent(e));
-          console.log(e);
-          console.groupEnd?.();
-        });
-      }
-    }];
-  } else {
-    providers = [];
-  }
-  return routerFeature(1, providers);
-}
-var ROUTER_PRELOADER = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "router preloader" : "");
-function withPreloading(preloadingStrategy) {
-  const providers = [{
-    provide: ROUTER_PRELOADER,
-    useExisting: RouterPreloader
-  }, {
-    provide: PreloadingStrategy,
-    useExisting: preloadingStrategy
-  }];
-  return routerFeature(0, providers);
-}
-function withComponentInputBinding() {
-  const providers = [RoutedComponentInputBinder, {
-    provide: INPUT_BINDER,
-    useExisting: RoutedComponentInputBinder
-  }];
-  return routerFeature(8, providers);
-}
-function withViewTransitions(options) {
-  const providers = [{
-    provide: CREATE_VIEW_TRANSITION,
-    useValue: createViewTransition
-  }, {
-    provide: VIEW_TRANSITION_OPTIONS,
-    useValue: __spreadValues({
-      skipNextTransition: !!options?.skipInitialTransition
-    }, options)
-  }];
-  return routerFeature(9, providers);
-}
-var ROUTER_DIRECTIVES = [RouterOutlet, RouterLink, RouterLinkActive, \u0275EmptyOutletComponent];
-var ROUTER_FORROOT_GUARD = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "router duplicate forRoot guard" : "ROUTER_FORROOT_GUARD");
-var ROUTER_PROVIDERS = [
-  Location,
-  {
-    provide: UrlSerializer,
-    useClass: DefaultUrlSerializer
-  },
-  Router,
-  ChildrenOutletContexts,
-  {
-    provide: ActivatedRoute,
-    useFactory: rootRoute,
-    deps: [Router]
-  },
-  RouterConfigLoader,
-  // Only used to warn when `provideRoutes` is used without `RouterModule` or `provideRouter`. Can
-  // be removed when `provideRoutes` is removed.
-  typeof ngDevMode === "undefined" || ngDevMode ? {
-    provide: ROUTER_IS_PROVIDED,
-    useValue: true
-  } : []
-];
-var RouterModule = class _RouterModule {
-  constructor(guard) {
-  }
-  /**
-   * Creates and configures a module with all the router providers and directives.
-   * Optionally sets up an application listener to perform an initial navigation.
-   *
-   * When registering the NgModule at the root, import as follows:
-   *
-   * ```
-   * @NgModule({
-   *   imports: [RouterModule.forRoot(ROUTES)]
-   * })
-   * class MyNgModule {}
-   * ```
-   *
-   * @param routes An array of `Route` objects that define the navigation paths for the application.
-   * @param config An `ExtraOptions` configuration object that controls how navigation is performed.
-   * @return The new `NgModule`.
-   *
-   */
-  static forRoot(routes2, config2) {
-    return {
-      ngModule: _RouterModule,
-      providers: [ROUTER_PROVIDERS, typeof ngDevMode === "undefined" || ngDevMode ? config2?.enableTracing ? withDebugTracing().\u0275providers : [] : [], {
-        provide: ROUTES,
-        multi: true,
-        useValue: routes2
-      }, {
-        provide: ROUTER_FORROOT_GUARD,
-        useFactory: provideForRootGuard,
-        deps: [[Router, new Optional(), new SkipSelf()]]
-      }, {
-        provide: ROUTER_CONFIGURATION,
-        useValue: config2 ? config2 : {}
-      }, config2?.useHash ? provideHashLocationStrategy() : providePathLocationStrategy(), provideRouterScroller(), config2?.preloadingStrategy ? withPreloading(config2.preloadingStrategy).\u0275providers : [], config2?.initialNavigation ? provideInitialNavigation(config2) : [], config2?.bindToComponentInputs ? withComponentInputBinding().\u0275providers : [], config2?.enableViewTransitions ? withViewTransitions().\u0275providers : [], provideRouterInitializer()]
-    };
-  }
-  /**
-   * Creates a module with all the router directives and a provider registering routes,
-   * without creating a new Router service.
-   * When registering for submodules and lazy-loaded submodules, create the NgModule as follows:
-   *
-   * ```
-   * @NgModule({
-   *   imports: [RouterModule.forChild(ROUTES)]
-   * })
-   * class MyNgModule {}
-   * ```
-   *
-   * @param routes An array of `Route` objects that define the navigation paths for the submodule.
-   * @return The new NgModule.
-   *
-   */
-  static forChild(routes2) {
-    return {
-      ngModule: _RouterModule,
-      providers: [{
-        provide: ROUTES,
-        multi: true,
-        useValue: routes2
-      }]
-    };
-  }
-  static {
-    this.\u0275fac = function RouterModule_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _RouterModule)(\u0275\u0275inject(ROUTER_FORROOT_GUARD, 8));
-    };
-  }
-  static {
-    this.\u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-      type: _RouterModule
-    });
-  }
-  static {
-    this.\u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({});
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RouterModule, [{
-    type: NgModule,
-    args: [{
-      imports: ROUTER_DIRECTIVES,
-      exports: ROUTER_DIRECTIVES
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Inject,
-      args: [ROUTER_FORROOT_GUARD]
-    }]
-  }], null);
-})();
-function provideRouterScroller() {
-  return {
-    provide: ROUTER_SCROLLER,
-    useFactory: () => {
-      const viewportScroller = inject(ViewportScroller);
-      const zone = inject(NgZone);
-      const config2 = inject(ROUTER_CONFIGURATION);
-      const transitions = inject(NavigationTransitions);
-      const urlSerializer = inject(UrlSerializer);
-      if (config2.scrollOffset) {
-        viewportScroller.setOffset(config2.scrollOffset);
-      }
-      return new RouterScroller(urlSerializer, transitions, viewportScroller, zone, config2);
-    }
-  };
-}
-function provideHashLocationStrategy() {
-  return {
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  };
-}
-function providePathLocationStrategy() {
-  return {
-    provide: LocationStrategy,
-    useClass: PathLocationStrategy
-  };
-}
-function provideForRootGuard(router) {
-  if ((typeof ngDevMode === "undefined" || ngDevMode) && router) {
-    throw new RuntimeError(4007, `The Router was provided more than once. This can happen if 'forRoot' is used outside of the root injector. Lazy loaded modules should use RouterModule.forChild() instead.`);
-  }
-  return "guarded";
-}
-function provideInitialNavigation(config2) {
-  return [config2.initialNavigation === "disabled" ? withDisabledInitialNavigation().\u0275providers : [], config2.initialNavigation === "enabledBlocking" ? withEnabledBlockingInitialNavigation().\u0275providers : []];
-}
-var ROUTER_INITIALIZER = new InjectionToken(typeof ngDevMode === "undefined" || ngDevMode ? "Router Initializer" : "");
-function provideRouterInitializer() {
-  return [
-    // ROUTER_INITIALIZER token should be removed. It's public API but shouldn't be. We can just
-    // have `getBootstrapListener` directly attached to APP_BOOTSTRAP_LISTENER.
-    {
-      provide: ROUTER_INITIALIZER,
-      useFactory: getBootstrapListener
-    },
-    {
-      provide: APP_BOOTSTRAP_LISTENER,
-      multi: true,
-      useExisting: ROUTER_INITIALIZER
-    }
-  ];
-}
-var VERSION4 = new Version("18.2.8");
+var VERSION3 = new Version("18.2.13");
 
 // node_modules/@angular/forms/fesm2022/forms.mjs
 var BaseControlValueAccessor = class _BaseControlValueAccessor {
@@ -44312,7 +38564,7 @@ var UntypedFormBuilder = class _UntypedFormBuilder extends FormBuilder {
     }]
   }], null, null);
 })();
-var VERSION5 = new Version("18.2.8");
+var VERSION4 = new Version("18.2.13");
 var FormsModule = class _FormsModule {
   /**
    * @description
@@ -45147,6 +39399,36 @@ var CANADA_STATE_VALUES = [
   "Saskatchewan",
   "Yukon Territories"
 ];
+var INDIA_STATE_VALUES = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal"
+];
 var MEXICO_STATE_VALUES = [
   "Aguascalientes",
   "Baja California",
@@ -45206,12 +39488,69 @@ var ENV_VAR = isStaging ? {
   FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/3b5603b0-22d1-4884-90ea-f2f4cad233cb/webflowleadtrigger",
   RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
   GTM_SITE_KEY: "6LeaFGMqAAAAAJh6Nnj4lPdL7lkcREg13PcHzInK",
+  URL: "https://revature-dev.webflow.io",
   ENV: "staging"
 } : {
   FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/8aa3e26d-f754-4b76-92d4-fd755c4c7c9e/webflowleadtrigger",
   RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
   GTM_SITE_KEY: "6LcSglgqAAAAAHhuq6vBM6MzbjNnheGj-l1lS-lO",
+  URL: "https://revature.com",
   ENV: "production"
+};
+
+// src/app/common/shared.service.ts
+var SharedService = class _SharedService {
+  constructor() {
+  }
+  hasSuspiciousContent(formValues) {
+    const combinedValues = Object.values(formValues).join(" ").toLowerCase();
+    const suspiciousKeywords = [
+      "<script",
+      "<\/script",
+      "<iframe",
+      "<object",
+      "onclick",
+      "onerror",
+      "onload",
+      "<>",
+      "</>",
+      "onmouseover",
+      "drop table",
+      "select *",
+      "insert into",
+      "javascript:",
+      "<embed",
+      "onclick=",
+      "onerror=",
+      "onload=",
+      "onmouseover=",
+      "onfocus=",
+      "alert(",
+      "eval(",
+      "document.cookie",
+      "--",
+      "/*",
+      "*/",
+      ";--",
+      "union select",
+      "delete from",
+      "update set",
+      "<img",
+      "<svg",
+      "<xml",
+      "<meta"
+    ];
+    const hasSuspiciousKeyword = suspiciousKeywords.some((keyword) => combinedValues.includes(keyword));
+    if (hasSuspiciousKeyword) {
+      alert("Warning: Suspicious content detected in the form. Verify your input");
+      return true;
+    }
+    return false;
+  }
+  static \u0275fac = function SharedService_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _SharedService)();
+  };
+  static \u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _SharedService, factory: _SharedService.\u0275fac, providedIn: "root" });
 };
 
 // src/app/common/no-whitespace.directive.ts
@@ -45239,6 +39578,7 @@ var NoWhitespaceDirective = class _NoWhitespaceDirective {
 };
 
 // src/app/sourcing-form/sourcing-form.component.ts
+var _c0 = () => ["SPC_Experienced_Hire", "SPC_Cont_Spec_NoExp"];
 function SourcingFormComponent_div_11_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 125);
@@ -45343,7 +39683,14 @@ function SourcingFormComponent_div_138_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r1.form.get("marketingProgram")) == null ? null : tmp_2_0.touched) && ((tmp_2_0 = ctx_r1.form.get("marketingProgram")) == null ? null : tmp_2_0.invalid));
   }
 }
-function SourcingFormComponent_div_143_div_6_Template(rf, ctx) {
+function SourcingFormComponent_div_143_span_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 3);
+    \u0275\u0275text(1, "*");
+    \u0275\u0275elementEnd();
+  }
+}
+function SourcingFormComponent_div_143_div_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 125);
     \u0275\u0275text(1, " Sourced For Opportunity is required ");
@@ -45354,24 +39701,26 @@ function SourcingFormComponent_div_143_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 1)(1, "label", 2);
     \u0275\u0275text(2, " Sourced For Opportunity:");
-    \u0275\u0275elementStart(3, "span", 3);
-    \u0275\u0275text(4, "*");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275element(5, "input", 129);
-    \u0275\u0275template(6, SourcingFormComponent_div_143_div_6_Template, 2, 0, "div", 8);
+    \u0275\u0275template(3, SourcingFormComponent_div_143_span_3_Template, 2, 0, "span", 129);
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(4, "input", 130);
+    \u0275\u0275template(5, SourcingFormComponent_div_143_div_5_Template, 2, 0, "div", 8);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     let tmp_1_0;
+    let tmp_2_0;
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(6);
-    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r1.form.get("sourcedForOpp")) == null ? null : tmp_1_0.touched) && ((tmp_1_0 = ctx_r1.form.get("sourcedForOpp")) == null ? null : tmp_1_0.invalid));
+    \u0275\u0275advance(3);
+    \u0275\u0275property("ngIf", \u0275\u0275pureFunction0(2, _c0).includes((tmp_1_0 = ctx_r1.form.get("marketingProgram")) == null ? null : tmp_1_0.value));
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r1.form.get("sourcedForOpp")) == null ? null : tmp_2_0.touched) && ((tmp_2_0 = ctx_r1.form.get("sourcedForOpp")) == null ? null : tmp_2_0.invalid));
   }
 }
 function SourcingFormComponent_div_151_div_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 132);
+    \u0275\u0275elementStart(0, "div", 133);
     \u0275\u0275listener("mousedown", function SourcingFormComponent_div_151_div_1_Template_div_mousedown_0_listener($event) {
       const major_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -45388,8 +39737,8 @@ function SourcingFormComponent_div_151_div_1_Template(rf, ctx) {
 }
 function SourcingFormComponent_div_151_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 130);
-    \u0275\u0275template(1, SourcingFormComponent_div_151_div_1_Template, 2, 1, "div", 131);
+    \u0275\u0275elementStart(0, "div", 131);
+    \u0275\u0275template(1, SourcingFormComponent_div_151_div_1_Template, 2, 1, "div", 132);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -45435,7 +39784,7 @@ function SourcingFormComponent_div_169_Template(rf, ctx) {
 function SourcingFormComponent_div_177_div_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 132);
+    \u0275\u0275elementStart(0, "div", 133);
     \u0275\u0275listener("mousedown", function SourcingFormComponent_div_177_div_1_Template_div_mousedown_0_listener($event) {
       const school_r7 = \u0275\u0275restoreView(_r6).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -45452,8 +39801,8 @@ function SourcingFormComponent_div_177_div_1_Template(rf, ctx) {
 }
 function SourcingFormComponent_div_177_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 130);
-    \u0275\u0275template(1, SourcingFormComponent_div_177_div_1_Template, 2, 1, "div", 131);
+    \u0275\u0275elementStart(0, "div", 131);
+    \u0275\u0275template(1, SourcingFormComponent_div_177_div_1_Template, 2, 1, "div", 132);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -45517,28 +39866,29 @@ function SourcingFormComponent_div_320_Template(rf, ctx) {
     \u0275\u0275elementStart(4, "span", 3);
     \u0275\u0275text(5, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(6, "input", 133);
+    \u0275\u0275element(6, "input", 134);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(7, "div", 1)(8, "label", 2);
     \u0275\u0275text(9, " 10th Grade:");
     \u0275\u0275elementStart(10, "span", 3);
     \u0275\u0275text(11, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(12, "input", 134);
+    \u0275\u0275element(12, "input", 135);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(13, "div", 1)(14, "label", 2);
     \u0275\u0275text(15, " 12th Grade:");
     \u0275\u0275elementStart(16, "span", 3);
     \u0275\u0275text(17, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(18, "input", 135);
+    \u0275\u0275element(18, "input", 136);
     \u0275\u0275elementEnd()();
   }
 }
 var SourcingFormComponent = class _SourcingFormComponent {
-  constructor(fb, http) {
+  constructor(fb, http, sharedService) {
     this.fb = fb;
     this.http = http;
+    this.sharedService = sharedService;
     this.initForm();
   }
   form;
@@ -45687,8 +40037,8 @@ var SourcingFormComponent = class _SourcingFormComponent {
       case "India":
         this.workAuthorizationValues = WORK_AUTH_VALUES;
         this.showIndiaFields = true;
-        this.marketingPrograms = ["India"];
-        this.states = US_STATE_VALUES;
+        this.marketingPrograms = ["India", "India Experienced Hire"];
+        this.states = INDIA_STATE_VALUES;
         this.schools = US_SCHOOLS;
         break;
       default:
@@ -45705,8 +40055,8 @@ var SourcingFormComponent = class _SourcingFormComponent {
     }
   }
   handleMarketingProgramChange(program) {
-    this.showOpportunityField = ["SPC_Experienced_Hire", "SPC_Cont_Spec_NoExp"].includes(program);
-    if (this.showOpportunityField) {
+    this.showOpportunityField = ["SPC_Experienced_Hire", "SPC_Cont_Spec_NoExp", "India Experienced Hire"].includes(program);
+    if (this.showOpportunityField && ["SPC_Experienced_Hire", "SPC_Cont_Spec_NoExp"].includes(program)) {
       this.form.get("sourcedForOpp")?.setValidators(Validators.required);
     } else {
       this.form.get("sourcedForOpp")?.clearValidators();
@@ -45840,7 +40190,7 @@ var SourcingFormComponent = class _SourcingFormComponent {
   onSubmit() {
     return __async(this, null, function* () {
       const recaptchaResponse = this.form.controls["validCaptacha"];
-      if (this.hasSuspiciousContent(this.form.value)) {
+      if (this.sharedService.hasSuspiciousContent(this.form.value)) {
         return;
       }
       if (this.form.invalid) {
@@ -45880,40 +40230,10 @@ var SourcingFormComponent = class _SourcingFormComponent {
       }
     });
   }
-  hasSuspiciousContent(formValues) {
-    const combinedValues = Object.values(formValues).join(" ").toLowerCase();
-    const suspiciousKeywords = [
-      "<script",
-      "<\/script",
-      "<iframe",
-      "<object",
-      "embed",
-      "onclick",
-      "onerror",
-      "onload",
-      "<>",
-      "</>",
-      "onmouseover",
-      "drop table",
-      "select *",
-      "insert into",
-      "--",
-      "/*",
-      "*/",
-      "iframe",
-      "script"
-    ];
-    const hasSuspiciousKeyword = suspiciousKeywords.some((keyword) => combinedValues.includes(keyword));
-    if (hasSuspiciousKeyword) {
-      alert("Warning: Suspicious content detected in the form. Verify your input");
-      return true;
-    }
-    return false;
-  }
   static \u0275fac = function SourcingFormComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _SourcingFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient));
+    return new (__ngFactoryType__ || _SourcingFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(SharedService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _SourcingFormComponent, selectors: [["app-sourcing-form"]], decls: 335, vars: 30, consts: [[3, "ngSubmit", "formGroup"], [1, "form-group"], [1, "form-label"], [1, "required"], [1, "legend-container"], ["type", "file", "accept", ".pdf,.doc,.docx,.rtf,.txt", 1, "form-field", "form-file-input", 3, "change", "disabled"], [2, "color", "white", "font-size", "18px"], ["src", "https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png", 2, "width", "30px", "height", "30px", "margin-right", "10px"], ["class", "form-error-message", 4, "ngIf"], ["noWhitespace", "", "formControlName", "firstName", "placeholder", "First Name", "maxlength", "100", 1, "form-field"], ["noWhitespace", "", "formControlName", "lastName", "placeholder", "Last Name", "maxlength", "100", 1, "form-field"], ["formControlName", "personSource", 1, "form-field"], ["value", ""], ["value", "CareerBuilder (Sourced)"], ["value", "Craigslist (Sourced)"], ["value", "Dice (Applied)"], ["value", "Dice (Sourced)"], ["value", "Indeed (Applied)"], ["value", "Indeed (Sourced)"], ["value", "Internships.com (Sourced)"], ["value", "LinkedIn (email-sourced)"], ["value", "LinkedIn (Sourced)"], ["value", "LinkedIn (Response)"], ["value", "LinkedIn (Applied)"], ["value", "Monster (Sourced)"], ["value", "Nexxt Hiring (Sourced)"], ["value", "Purple briefcase (Sourced)"], ["value", "Resume Book (Sourced)"], ["value", "Resume library (Sourced)"], ["value", "Snap Recruit (Sourced)"], ["value", "SmartRecruiters (Sourced)"], ["value", "Stack Overflow (Sourced)"], ["value", "Symplicity (Sourced)"], ["value", "WayUp (Sourced)"], ["value", "Zillion Resumes (Sourced)"], ["value", "Handshake (Sourced)"], ["value", "Other Job Boards (Sourced)"], ["value", "College Job Posting (Sourced)"], ["value", "Handshake (Applied)"], ["value", "Campus Event (Applied)"], ["value", "Campus Recruitment (Sourced)"], ["value", "Monster (Applied)"], ["value", "Hiretual (Applied)"], ["value", "Hiretual (Sourced)"], ["value", "SignalHire (Sourced)"], ["value", "Simplyhired (Applied)"], ["value", "ZipRecruiter (Sourced)"], ["value", "Other"], ["class", "form-group", 4, "ngIf"], ["noWhitespace", "", "formControlName", "phone", "type", "tel", "maxlength", "10", "placeholder", "Mobile Number", 1, "form-field"], ["noWhitespace", "", "formControlName", "email", "type", "email", "placeholder", "Email Address", "maxlength", "255", 1, "form-field"], ["formControlName", "country", 1, "form-field"], ["value", "United States"], ["value", "Mexico"], ["value", "Canada"], ["value", "India"], ["noWhitespace", "", "formControlName", "appliedJobTitle", "placeholder", "Last Applied Job Title", "maxlength", "255", 1, "form-field"], [1, "autocomplete-container"], ["placeholder", "Major", 1, "form-field", 3, "input", "focus", "blur", "formControlName"], ["class", "autocomplete-items", 4, "ngIf"], ["formControlName", "graduationDate", "type", "date", 1, "form-field"], ["formControlName", "workAuthorization", 1, "form-field"], [3, "value", 4, "ngFor", "ngForOf"], ["placeholder", "School", 1, "form-field", 3, "input", "focus", "blur", "formControlName"], ["formControlName", "levelOfEducation", 1, "form-field"], ["value", "Bachelor's Degree"], ["value", "Master's Degree"], ["value", "Associate's Degree"], ["value", "High School"], ["formControlName", "sourcedBy", 1, "form-field"], ["value", "Anisha"], ["value", "Ashwini G"], ["value", "Bala Subramanian"], ["value", "Bhavani"], ["value", "Dhashvini"], ["value", "Durga"], ["value", "Harish Kumar"], ["value", "Harishwaran Gandhi"], ["value", "Johnson"], ["value", "Prashanthi"], ["value", "Priyanga"], ["value", "Raja Pushparaj"], ["value", "Sankar Meikandan"], ["value", "Swetha Sridharan"], ["value", "Vignesh S."], ["value", "Nivetha"], ["value", "Thoubeek"], ["value", "Madhula"], ["value", "Mahalakshmi"], ["value", "Lokesh"], ["value", "Rakshini"], ["value", "Sanofar"], ["value", "Rebecca"], ["value", "Vendor"], ["value", "Bianca"], ["value", "Syed"], ["value", "Dinesh R"], ["value", "Vishnu Karthik"], ["value", "Vijay Adithya"], ["value", "Sanjeev Sudhan"], ["value", "Aysha Rukshana"], ["value", "Sahaya Vijin"], ["formControlName", "address", "rows", "2", "placeholder", "Address", "maxlength", "2000", 1, "form-field", "form-textarea"], ["noWhitespace", "", "formControlName", "city", "placeholder", "City", "maxlength", "255", 1, "form-field"], ["formControlName", "state", 1, "form-field"], ["noWhitespace", "", "formControlName", "zip", "maxlength", "5", "placeholder", "Postal Code", 1, "form-field"], ["formControlName", "gender", 1, "form-field"], ["value", "Male"], ["value", "Female"], ["value", "Chose Not to Disclose"], ["formControlName", "programmingExperience", 1, "form-field"], ["value", "No"], ["value", "0-1 year"], ["value", "1-3 years"], ["value", "3-5 years"], ["value", "5+ years"], [4, "ngIf"], ["id", "veteranRadioButtons", 1, "form-group"], [1, "two-grid-container"], [1, "custom-radio"], ["type", "radio", "formControlName", "veteran", "value", "false", "id", "no"], ["for", "no"], ["type", "radio", "formControlName", "veteran", "value", "true", "id", "yes"], ["for", "yes"], ["type", "submit", 1, "sourcing-form-button", 3, "disabled"], [1, "form-error-message"], ["noWhitespace", "", "formControlName", "otherLeadSource", "placeholder", "Other Lead Source", "maxlength", "30", 1, "form-field"], ["formControlName", "marketingProgram", 1, "form-field"], [3, "value"], ["noWhitespace", "", "formControlName", "sourcedForOpp", "placeholder", "Sourced For Opportunity", "maxlength", "18", 1, "form-field"], [1, "autocomplete-items"], ["class", "autocomplete-item", 3, "mousedown", 4, "ngFor", "ngForOf"], [1, "autocomplete-item", 3, "mousedown"], ["formControlName", "majorGrade", "type", "number", "placeholder", "Major Grade", "maxlength", "200", 1, "form-field"], ["formControlName", "tenthGrade", "type", "number", "placeholder", "10th Grade", "maxlength", "200", 1, "form-field"], ["formControlName", "twelfthGrade", "type", "number", "placeholder", "12th Grade", "maxlength", "200", 1, "form-field"]], template: function SourcingFormComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _SourcingFormComponent, selectors: [["app-sourcing-form"]], decls: 335, vars: 30, consts: [[3, "ngSubmit", "formGroup"], [1, "form-group"], [1, "form-label"], [1, "required"], [1, "legend-container"], ["type", "file", "accept", ".pdf,.doc,.docx,.rtf,.txt", 1, "form-field", "form-file-input", 3, "change", "disabled"], [2, "color", "white", "font-size", "18px"], ["src", "https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png", 2, "width", "30px", "height", "30px", "margin-right", "10px"], ["class", "form-error-message", 4, "ngIf"], ["noWhitespace", "", "formControlName", "firstName", "placeholder", "First Name", "maxlength", "100", 1, "form-field"], ["noWhitespace", "", "formControlName", "lastName", "placeholder", "Last Name", "maxlength", "100", 1, "form-field"], ["formControlName", "personSource", 1, "form-field"], ["value", ""], ["value", "CareerBuilder (Sourced)"], ["value", "Craigslist (Sourced)"], ["value", "Dice (Applied)"], ["value", "Dice (Sourced)"], ["value", "Indeed (Applied)"], ["value", "Indeed (Sourced)"], ["value", "Internships.com (Sourced)"], ["value", "LinkedIn (email-sourced)"], ["value", "LinkedIn (Sourced)"], ["value", "LinkedIn (Response)"], ["value", "LinkedIn (Applied)"], ["value", "Monster (Sourced)"], ["value", "Nexxt Hiring (Sourced)"], ["value", "Purple briefcase (Sourced)"], ["value", "Resume Book (Sourced)"], ["value", "Resume library (Sourced)"], ["value", "Snap Recruit (Sourced)"], ["value", "SmartRecruiters (Sourced)"], ["value", "Stack Overflow (Sourced)"], ["value", "Symplicity (Sourced)"], ["value", "WayUp (Sourced)"], ["value", "Zillion Resumes (Sourced)"], ["value", "Handshake (Sourced)"], ["value", "Other Job Boards (Sourced)"], ["value", "College Job Posting (Sourced)"], ["value", "Handshake (Applied)"], ["value", "Campus Event (Applied)"], ["value", "Campus Recruitment (Sourced)"], ["value", "Monster (Applied)"], ["value", "Hiretual (Applied)"], ["value", "Hiretual (Sourced)"], ["value", "SignalHire (Sourced)"], ["value", "Simplyhired (Applied)"], ["value", "ZipRecruiter (Sourced)"], ["value", "Other"], ["class", "form-group", 4, "ngIf"], ["noWhitespace", "", "formControlName", "phone", "type", "tel", "maxlength", "10", "placeholder", "Mobile Number", 1, "form-field"], ["noWhitespace", "", "formControlName", "email", "type", "email", "placeholder", "Email Address", "maxlength", "255", 1, "form-field"], ["formControlName", "country", 1, "form-field"], ["value", "United States"], ["value", "Mexico"], ["value", "Canada"], ["value", "India"], ["noWhitespace", "", "formControlName", "appliedJobTitle", "placeholder", "Last Applied Job Title", "maxlength", "255", 1, "form-field"], [1, "autocomplete-container"], ["placeholder", "Major", 1, "form-field", 3, "input", "focus", "blur", "formControlName"], ["class", "autocomplete-items", 4, "ngIf"], ["formControlName", "graduationDate", "type", "date", 1, "form-field"], ["formControlName", "workAuthorization", 1, "form-field"], [3, "value", 4, "ngFor", "ngForOf"], ["placeholder", "School", 1, "form-field", 3, "input", "focus", "blur", "formControlName"], ["formControlName", "levelOfEducation", 1, "form-field"], ["value", "Bachelor's Degree"], ["value", "Master's Degree"], ["value", "Associate's Degree"], ["value", "High School"], ["formControlName", "sourcedBy", 1, "form-field"], ["value", "Anisha"], ["value", "Ashwini G"], ["value", "Bala Subramanian"], ["value", "Bhavani"], ["value", "Dhashvini"], ["value", "Durga"], ["value", "Harish Kumar"], ["value", "Harishwaran Gandhi"], ["value", "Johnson"], ["value", "Prashanthi"], ["value", "Priyanga"], ["value", "Raja Pushparaj"], ["value", "Sankar Meikandan"], ["value", "Swetha Sridharan"], ["value", "Vignesh S."], ["value", "Nivetha"], ["value", "Thoubeek"], ["value", "Madhula"], ["value", "Mahalakshmi"], ["value", "Lokesh"], ["value", "Rakshini"], ["value", "Sanofar"], ["value", "Rebecca"], ["value", "Vendor"], ["value", "Bianca"], ["value", "Syed"], ["value", "Dinesh R"], ["value", "Vishnu Karthik"], ["value", "Vijay Adithya"], ["value", "Sanjeev Sudhan"], ["value", "Aysha Rukshana"], ["value", "Sahaya Vijin"], ["formControlName", "address", "rows", "2", "placeholder", "Address", "maxlength", "2000", 1, "form-field", "form-textarea"], ["noWhitespace", "", "formControlName", "city", "placeholder", "City", "maxlength", "255", 1, "form-field"], ["formControlName", "state", 1, "form-field"], ["noWhitespace", "", "formControlName", "zip", "maxlength", "5", "placeholder", "Postal Code", 1, "form-field"], ["formControlName", "gender", 1, "form-field"], ["value", "Male"], ["value", "Female"], ["value", "Chose Not to Disclose"], ["formControlName", "programmingExperience", 1, "form-field"], ["value", "No"], ["value", "0-1 year"], ["value", "1-3 years"], ["value", "3-5 years"], ["value", "5+ years"], [4, "ngIf"], ["id", "veteranRadioButtons", 1, "form-group"], [1, "two-grid-container"], [1, "custom-radio"], ["type", "radio", "formControlName", "veteran", "value", "false", "id", "no"], ["for", "no"], ["type", "radio", "formControlName", "veteran", "value", "true", "id", "yes"], ["for", "yes"], ["type", "submit", 1, "sourcing-form-button", 3, "disabled"], [1, "form-error-message"], ["noWhitespace", "", "formControlName", "otherLeadSource", "placeholder", "Other Lead Source", "maxlength", "30", 1, "form-field"], ["formControlName", "marketingProgram", 1, "form-field"], [3, "value"], ["class", "required", 4, "ngIf"], ["noWhitespace", "", "formControlName", "sourcedForOpp", "placeholder", "Sourced For Opportunity", "maxlength", "18", 1, "form-field"], [1, "autocomplete-items"], ["class", "autocomplete-item", 3, "mousedown", 4, "ngFor", "ngForOf"], [1, "autocomplete-item", 3, "mousedown"], ["formControlName", "majorGrade", "type", "number", "placeholder", "Major Grade", "maxlength", "200", 1, "form-field"], ["formControlName", "tenthGrade", "type", "number", "placeholder", "10th Grade", "maxlength", "200", 1, "form-field"], ["formControlName", "twelfthGrade", "type", "number", "placeholder", "12th Grade", "maxlength", "200", 1, "form-field"]], template: function SourcingFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function SourcingFormComponent_Template_form_ngSubmit_0_listener() {
@@ -46113,7 +40433,7 @@ var SourcingFormComponent = class _SourcingFormComponent {
       \u0275\u0275elementEnd();
       \u0275\u0275element(142, "input", 56);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(143, SourcingFormComponent_div_143_Template, 7, 1, "div", 48);
+      \u0275\u0275template(143, SourcingFormComponent_div_143_Template, 6, 3, "div", 48);
       \u0275\u0275elementStart(144, "div", 1)(145, "label", 2);
       \u0275\u0275text(146, " Major:");
       \u0275\u0275elementStart(147, "span", 3);
@@ -46461,1107 +40781,401 @@ var SourcingFormComponent = class _SourcingFormComponent {
   }, dependencies: [NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, MaxLengthValidator, FormGroupDirective, FormControlName, NoWhitespaceDirective], styles: ["\n\n.form-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n}\n.form-group[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n}\n.required[_ngcontent-%COMP%] {\n  color: #ff0000;\n  margin-right: 4px;\n}\n.autocomplete-container[_ngcontent-%COMP%] {\n  position: relative;\n  display: inline-block;\n  width: 99.4%;\n}\n.autocomplete-container[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.autocomplete-items[_ngcontent-%COMP%] {\n  position: absolute;\n  border-radius: 7px;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\n  background: #fff;\n  z-index: 2;\n  max-height: 300px;\n  overflow: auto;\n  padding: 10px;\n  width: 99%;\n  cursor: pointer;\n  color: #161616;\n}\n.autocomplete-item[_ngcontent-%COMP%]:hover, \n.autocomplete-item.active[_ngcontent-%COMP%] {\n  background-color: #eee;\n}\nbutton[_ngcontent-%COMP%]:disabled {\n  cursor: not-allowed;\n}\noption[_ngcontent-%COMP%] {\n  color: black;\n}\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\ninput[type=date][_ngcontent-%COMP%]::-webkit-calendar-picker-indicator {\n  filter: invert(1);\n}\n.legend-container[_ngcontent-%COMP%] {\n  position: relative;\n}\n.form-file-input[_ngcontent-%COMP%] {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  cursor: pointer;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  height: 40px;\n  text-align: center;\n  line-height: 40px;\n  cursor: pointer;\n  border-radius: 7px;\n  border: 1px solid white;\n  color: white;\n  margin-bottom: 0px;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: white;\n  color: black;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}"] });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SourcingFormComponent, { className: "SourcingFormComponent", filePath: "src\\app\\sourcing-form\\sourcing-form.component.ts", lineNumber: 11 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(SourcingFormComponent, { className: "SourcingFormComponent" });
 })();
 
-// src/app/recruitment-form/recruitment-form.component.ts
-function RecruitmentFormComponent_div_11_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Resume is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_18_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " First name is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_25_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Last name is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_106_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Person Source is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_107_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 1)(1, "label", 2);
-    \u0275\u0275text(2, " Other Lead Source:");
-    \u0275\u0275elementStart(3, "span", 3);
-    \u0275\u0275text(4, "*");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275element(5, "input", 107);
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_115_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Please enter a valid phone number ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_122_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Please enter a valid email address ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_139_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Operating Country is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_140_option_8_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 109);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const program_r1 = ctx.$implicit;
-    \u0275\u0275property("value", program_r1);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", program_r1, " ");
-  }
-}
-function RecruitmentFormComponent_div_140_div_9_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Marketing Program is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_140_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 1)(1, "label", 2);
-    \u0275\u0275text(2, " Marketing Program:");
-    \u0275\u0275elementStart(3, "span", 3);
-    \u0275\u0275text(4, "*");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(5, "select", 108)(6, "option", 12);
-    \u0275\u0275text(7, "Select...");
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(8, RecruitmentFormComponent_div_140_option_8_Template, 2, 2, "option", 62);
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(9, RecruitmentFormComponent_div_140_div_9_Template, 2, 0, "div", 8);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(8);
-    \u0275\u0275property("ngForOf", ctx_r1.marketingPrograms);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r1.form.get("marketingProgram")) == null ? null : tmp_2_0.touched) && ((tmp_2_0 = ctx_r1.form.get("marketingProgram")) == null ? null : tmp_2_0.invalid));
-  }
-}
-function RecruitmentFormComponent_div_141_div_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Sourced For Opportunity is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_141_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 1)(1, "label", 2);
-    \u0275\u0275text(2, " Sourced For Opportunity:");
-    \u0275\u0275elementStart(3, "span", 3);
-    \u0275\u0275text(4, "*");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275element(5, "input", 110);
-    \u0275\u0275template(6, RecruitmentFormComponent_div_141_div_6_Template, 2, 0, "div", 8);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(6);
-    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r1.form.get("sourcedForOpp")) == null ? null : tmp_1_0.touched) && ((tmp_1_0 = ctx_r1.form.get("sourcedForOpp")) == null ? null : tmp_1_0.invalid));
-  }
-}
-function RecruitmentFormComponent_div_149_div_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 113);
-    \u0275\u0275listener("mousedown", function RecruitmentFormComponent_div_149_div_1_Template_div_mousedown_0_listener($event) {
-      const major_r4 = \u0275\u0275restoreView(_r3).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.selectAutoCompleteValue($event, "major", major_r4));
-    });
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const major_r4 = ctx.$implicit;
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", major_r4.label, " ");
-  }
-}
-function RecruitmentFormComponent_div_149_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 111);
-    \u0275\u0275template(1, RecruitmentFormComponent_div_149_div_1_Template, 2, 1, "div", 112);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngForOf", ctx_r1.filteredMajors);
-  }
-}
-function RecruitmentFormComponent_div_150_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Major is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_157_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Graduation Date is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_option_166_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 109);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const workAuth_r5 = ctx.$implicit;
-    \u0275\u0275property("value", workAuth_r5);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(workAuth_r5);
-  }
-}
-function RecruitmentFormComponent_div_167_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Work Authorization is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_175_div_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 113);
-    \u0275\u0275listener("mousedown", function RecruitmentFormComponent_div_175_div_1_Template_div_mousedown_0_listener($event) {
-      const school_r7 = \u0275\u0275restoreView(_r6).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.selectAutoCompleteValue($event, "school", school_r7));
-    });
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const school_r7 = ctx.$implicit;
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", school_r7.label, " ");
-  }
-}
-function RecruitmentFormComponent_div_175_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 111);
-    \u0275\u0275template(1, RecruitmentFormComponent_div_175_div_1_Template, 2, 1, "div", 112);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngForOf", ctx_r1.filteredSchools);
-  }
-}
-function RecruitmentFormComponent_div_176_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " School is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_193_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Education Level is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_div_226_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " Sourced By is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function RecruitmentFormComponent_option_235_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 109);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const state_r8 = ctx.$implicit;
-    \u0275\u0275property("value", state_r8);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(state_r8);
-  }
-}
-function RecruitmentFormComponent_div_236_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 106);
-    \u0275\u0275text(1, " State is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-var RecruitmentFormComponent = class _RecruitmentFormComponent {
-  constructor(fb, http) {
-    this.fb = fb;
-    this.http = http;
-    this.initForm();
-  }
-  form;
-  filteredMajors = [];
-  filteredSchools = [];
-  showOtherLeadSource = false;
-  showOpportunityField = false;
-  showCaptcha = true;
-  resumeUploading = false;
-  formAuditValue = {
-    school: {
-      label: "",
-      value: ""
-    },
-    major: {
-      label: "",
-      value: ""
+// node_modules/@angular/elements/fesm2022/elements.mjs
+var scheduler = {
+  /**
+   * Schedule a callback to be called after some delay.
+   *
+   * Returns a function that when executed will cancel the scheduled function.
+   */
+  schedule(taskFn, delay) {
+    const id = setTimeout(taskFn, delay);
+    return () => clearTimeout(id);
+  },
+  /**
+   * Schedule a callback to be called before the next render.
+   * (If `window.requestAnimationFrame()` is not available, use `scheduler.schedule()` instead.)
+   *
+   * Returns a function that when executed will cancel the scheduled function.
+   */
+  scheduleBeforeRender(taskFn) {
+    if (typeof window === "undefined") {
+      return scheduler.schedule(taskFn, 0);
     }
-  };
-  workAuthorizationValues = WORK_AUTH_VALUES;
-  schools = US_SCHOOLS;
-  marketingPrograms = [];
-  states = [];
-  resumeDocumentName = "Computer";
-  focusedControl = {
-    school: false,
-    major: false
-  };
-  ngOnInit() {
-    this.setupFormSubscriptions();
-    this.filterMajors(null);
-    this.filterSchools(null);
-  }
-  recaptchaSuccessCallback(response) {
-    this.form.get("validCaptacha")?.setValue(response ? true : false);
-  }
-  initForm() {
-    this.form = this.fb.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      personSource: ["", Validators.required],
-      otherLeadSource: [""],
-      phone: ["", [Validators.required, Validators.pattern("^[0-9]{10}$")]],
-      email: ["", [Validators.required, this.validateEmail]],
-      country: ["", Validators.required],
-      marketingProgram: ["", Validators.required],
-      sourcedForOpp: [""],
-      major: ["", Validators.required],
-      majorID: ["", Validators.required],
-      school: ["", Validators.required],
-      schoolID: ["", Validators.required],
-      graduationDate: ["", Validators.required],
-      workAuthorization: ["", Validators.required],
-      levelOfEducation: ["", Validators.required],
-      sourcedBy: [""],
-      state: ["", Validators.required],
-      recruitedBy: [""],
-      resumeURL: ["", Validators.required],
-      leadDate: [(/* @__PURE__ */ new Date()).toISOString()],
-      validCaptacha: [""],
-      veteran: ["false"],
-      leadType: ["Recruiting"]
-    });
-  }
-  validateEmail(control) {
-    if (control.value === null || control.value === "") {
-      return null;
+    if (typeof window.requestAnimationFrame === "undefined") {
+      const frameMs = 16;
+      return scheduler.schedule(taskFn, frameMs);
     }
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]+$/;
-    return emailPattern.test(control.value) ? null : { invalidEmail: true };
+    const id = window.requestAnimationFrame(taskFn);
+    return () => window.cancelAnimationFrame(id);
   }
-  setupFormSubscriptions() {
-    this.form.get("personSource")?.valueChanges.subscribe((value) => {
-      this.showOtherLeadSource = value === "Other";
-      if (value === "Other") {
-        this.form.get("otherLeadSource")?.setValidators(Validators.required);
-      } else {
-        this.form.get("otherLeadSource")?.clearValidators();
-      }
-      this.form.get("otherLeadSource")?.updateValueAndValidity();
-    });
-    this.form.get("country")?.valueChanges.subscribe((value) => {
-      this.handleCountryChange(value);
-    });
-    this.form.get("marketingProgram")?.valueChanges.subscribe((value) => {
-      this.handleMarketingProgramChange(value);
-    });
-    this.form.get("firstName")?.valueChanges.subscribe((value) => {
-      const formattedValue = this.capitalizeFirstLetter(value);
-      if (value !== formattedValue) {
-        this.form.get("firstName")?.setValue(formattedValue, { emitEvent: false });
-      }
-    });
-    this.form.get("lastName")?.valueChanges.subscribe((value) => {
-      const formattedValue = this.capitalizeFirstLetter(value);
-      if (value !== formattedValue) {
-        this.form.get("lastName")?.setValue(formattedValue, { emitEvent: false });
-      }
-    });
+};
+function camelToDashCase(input2) {
+  return input2.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
+}
+function isElement(node) {
+  return !!node && node.nodeType === Node.ELEMENT_NODE;
+}
+function isFunction2(value) {
+  return typeof value === "function";
+}
+var _matches;
+function matchesSelector(el, selector) {
+  if (!_matches) {
+    const elProto = Element.prototype;
+    _matches = elProto.matches || elProto.matchesSelector || elProto.mozMatchesSelector || elProto.msMatchesSelector || elProto.oMatchesSelector || elProto.webkitMatchesSelector;
   }
-  capitalizeFirstLetter(value) {
-    if (!value)
-      return value;
-    return value.charAt(0).toUpperCase() + value.slice(1);
-  }
-  handleCountryChange(country) {
-    this.showOpportunityField = false;
-    this.form.patchValue({
-      marketingProgram: "",
-      sourcedForOpp: "",
-      state: "",
-      schoolID: "",
-      school: ""
-    });
-    if (!country) {
-      this.workAuthorizationValues = WORK_AUTH_VALUES;
-      this.marketingPrograms = [];
-      this.states = [];
-      return;
-    }
-    switch (country) {
-      case "United States":
-        this.workAuthorizationValues = ["U.S. Citizen", "Green Card", "Permanent Resident", "EAD", "H1B", "OPT", "CPT", "F1", "L1", "H4", "TN", "DACA", "Other", "Yes"];
-        this.marketingPrograms = ["SPC_Experienced_Hire", "General-Entry Level"];
-        this.states = US_STATE_VALUES;
-        this.schools = US_SCHOOLS;
-        break;
-      case "Mexico":
-        this.workAuthorizationValues = ["Mexican citizen", "Permanent Resident", "Asylee", "Other", "Yes"];
-        this.marketingPrograms = ["SPC_Mexico_HTD"];
-        this.states = MEXICO_STATE_VALUES;
-        this.schools = MEXICO_SCHOOLS;
-        break;
-      case "Canada":
-        this.workAuthorizationValues = ["Canadian Citizen", "Canadian Permanent Resident", "Other", "Yes"];
-        this.marketingPrograms = ["SPC_Experienced_Hire", "Canada"];
-        this.states = CANADA_STATE_VALUES;
-        this.schools = CANADA_SCHOOLS;
-        break;
-      case "United Kingdom":
-        this.workAuthorizationValues = ["U.S. Citizen", "Green Card", "Canadian Citizen", "Mexican citizen", "Permanent Resident", "Canadian Permanent Resident", "EAD", "H1B", "OPT", "CPT", "F1", "L1", "H4", "TN", "DACA", "Asylee", "Other", "Yes"];
-        this.marketingPrograms = ["Experienced Hire", "United Kingdom"];
-        this.states = US_STATE_VALUES;
-        this.schools = US_SCHOOLS;
-        break;
-      default:
-        this.workAuthorizationValues = WORK_AUTH_VALUES;
-    }
-    this.filterSchools(null);
-  }
-  handleMarketingProgramChange(program) {
-    this.showOpportunityField = ["SPC_Experienced_Hire"].includes(program);
-    if (this.showOpportunityField) {
-      this.form.get("sourcedForOpp")?.setValidators(Validators.required);
-    } else {
-      this.form.get("sourcedForOpp")?.clearValidators();
-      this.form.patchValue({ sourcedForOpp: "" });
-    }
-    this.form.get("sourcedForOpp")?.updateValueAndValidity();
-  }
-  filterMajors(event) {
-    const query = event?.target?.value?.toLowerCase();
-    this.filteredMajors = event ? MAJORS.sort((a, b) => a.label.localeCompare(b.label)).filter((major) => major.label.toLowerCase().includes(query)) : MAJORS.sort((a, b) => a.label.localeCompare(b.label));
-  }
-  filterSchools(event) {
-    const query = event?.target?.value?.toLowerCase();
-    this.filteredSchools = event ? this.schools.sort((a, b) => a.label.localeCompare(b.label)).filter((school) => school.label.toLowerCase().includes(query)) : this.schools.sort((a, b) => a.label.localeCompare(b.label));
-  }
-  selectAutoCompleteValue(event, formControl, ObjectValue) {
-    event.stopPropagation();
-    switch (formControl) {
-      case "major":
-        this.form.patchValue({
-          major: ObjectValue.label,
-          majorID: ObjectValue.value
-        });
-        this.formAuditValue.major = {
-          label: ObjectValue.label,
-          value: ObjectValue.value
-        };
-        break;
-      case "school":
-        this.form.patchValue({
-          school: ObjectValue.label,
-          schoolID: ObjectValue.value
-        });
-        this.formAuditValue.school = {
-          label: ObjectValue.label,
-          value: ObjectValue.value
-        };
-        break;
-    }
-    this.focusedControl[formControl] = false;
-  }
-  setFocusedControl(event, formControl, value) {
-    event.preventDefault();
-    this.focusedControl[formControl] = value;
-    if (formControl === "major") {
-      if (this.formAuditValue.major.label !== this.form.value.major || !this.form.value.majorID) {
-        this.form.get("major")?.setValue("");
-        this.form.get("majorID")?.setValue("");
-      }
-      this.filterMajors(null);
-    } else if (formControl === "school") {
-      if (this.formAuditValue.school.label !== this.form.value.school || !this.form.value.schoolID) {
-        this.form.get("school")?.setValue("");
-        this.form.get("schoolID")?.setValue("");
-      }
-      this.filterSchools(null);
-    }
-  }
-  resetFormState() {
-    this.filteredMajors = [];
-    this.filteredSchools = [];
-    this.showOtherLeadSource = false;
-    this.showOpportunityField = false;
-    this.resumeUploading = false;
-    this.formAuditValue = {
-      school: { label: "", value: "" },
-      major: { label: "", value: "" }
-    };
-    this.schools = US_SCHOOLS;
-    this.marketingPrograms = [];
-    this.states = [];
-    this.resumeDocumentName = "Computer";
-    this.focusedControl = {
-      school: false,
-      major: false
-    };
-    this.initForm();
-  }
-  handleFileUpload(event) {
-    return __async(this, null, function* () {
-      const file = event.target.files[0];
-      if (!file)
-        return;
-      const allowedExtensions = ["pdf", "doc", "docx", "rtf", "txt"];
-      const fileExtension = file.name.split(".").pop()?.toLowerCase();
-      if (!allowedExtensions.includes(fileExtension || "")) {
-        alert("Invalid file type.");
-        return;
-      }
-      if (file.size > 5242880) {
-        alert("File size is too large.");
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = (e) => __async(this, null, function* () {
-        const result = e.target?.result;
-        const rawData = result.split("base64,")[1];
-        this.resumeUploading = true;
-        this.resumeDocumentName = "Uploading...";
-        try {
-          const response = yield this.uploadResume(file.name, rawData);
-          if (response.link) {
-            this.form.patchValue({ resumeURL: response.link });
-          }
-          this.resumeDocumentName = file.name;
-        } catch {
-          this.resumeDocumentName = "Error";
-        } finally {
-          this.resumeUploading = false;
-        }
-      });
-      reader.readAsDataURL(file);
-    });
-  }
-  uploadResume(filename, fileData) {
-    return this.http.post("https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush", {
-      key: "245583662863Rk863369",
-      person: "Sourcer",
-      filename,
-      file: fileData
-    }).toPromise();
-  }
-  onSubmit() {
-    return __async(this, null, function* () {
-      const recaptchaResponse = this.form.controls["validCaptacha"];
-      if (this.hasSuspiciousContent(this.form.value)) {
-        return;
-      }
-      if (this.form.invalid) {
-        if (this.form.invalid) {
-          Object.keys(this.form.controls).forEach((key) => {
-            const control = this.form.get(key);
-            if (control?.invalid) {
-              control.markAsTouched();
-              console.log(key + " is Invalid");
-            }
-          });
-        }
-        return;
-      }
-      const phone = this.form.get("phone")?.value;
-      switch (this.form.get("country")?.value) {
-        case "Mexico":
-          this.form.get("phone")?.setValue("+52" + phone);
-          break;
-        case "United Kingdom":
-          this.form.get("phone")?.setValue("+44" + phone);
-          break;
-      }
-      try {
-        const params = new HttpParams({ fromObject: this.form.value });
-        const response = yield this.http.get(ENV_VAR.FORM_API_ENDPOINT, { params }).subscribe((res) => {
-          if (res.status === "ok") {
-            this.showCaptcha = false;
-            console.log("Form submitted successfully");
-            alert("Form submitted successfully");
-            window.location.reload();
-          }
-        });
-      } catch (error) {
-        console.error("Error submitting form", error);
-      } finally {
-        setTimeout(() => {
-          this.showCaptcha = true;
-        }, 200);
-      }
-    });
-  }
-  hasSuspiciousContent(formValues) {
-    const combinedValues = Object.values(formValues).join(" ").toLowerCase();
-    const suspiciousKeywords = [
-      "<script",
-      "<\/script",
-      "<iframe",
-      "<object",
-      "embed",
-      "onclick",
-      "onerror",
-      "onload",
-      "<>",
-      "</>",
-      "onmouseover",
-      "drop table",
-      "select *",
-      "insert into",
-      "--",
-      "/*",
-      "*/",
-      "iframe",
-      "script"
-    ];
-    const hasSuspiciousKeyword = suspiciousKeywords.some((keyword) => combinedValues.includes(keyword));
-    if (hasSuspiciousKeyword) {
-      alert("Warning: Suspicious content detected in the form. Verify your input");
+  return el.nodeType === Node.ELEMENT_NODE ? _matches.call(el, selector) : false;
+}
+function strictEquals(value1, value2) {
+  return value1 === value2 || value1 !== value1 && value2 !== value2;
+}
+function getDefaultAttributeToPropertyInputs(inputs) {
+  const attributeToPropertyInputs = {};
+  inputs.forEach(({
+    propName,
+    templateName,
+    transform
+  }) => {
+    attributeToPropertyInputs[camelToDashCase(templateName)] = [propName, transform];
+  });
+  return attributeToPropertyInputs;
+}
+function getComponentInputs(component, injector) {
+  const componentFactoryResolver = injector.get(ComponentFactoryResolver$1);
+  const componentFactory = componentFactoryResolver.resolveComponentFactory(component);
+  return componentFactory.inputs;
+}
+function extractProjectableNodes(host, ngContentSelectors) {
+  const nodes = host.childNodes;
+  const projectableNodes = ngContentSelectors.map(() => []);
+  let wildcardIndex = -1;
+  ngContentSelectors.some((selector, i) => {
+    if (selector === "*") {
+      wildcardIndex = i;
       return true;
     }
     return false;
+  });
+  for (let i = 0, ii = nodes.length; i < ii; ++i) {
+    const node = nodes[i];
+    const ngContentIndex = findMatchingIndex(node, ngContentSelectors, wildcardIndex);
+    if (ngContentIndex !== -1) {
+      projectableNodes[ngContentIndex].push(node);
+    }
   }
-  static \u0275fac = function RecruitmentFormComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _RecruitmentFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient));
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _RecruitmentFormComponent, selectors: [["app-recruitment-form"]], decls: 283, vars: 28, consts: [[3, "ngSubmit", "formGroup"], [1, "form-group"], [1, "form-label"], [1, "required"], [1, "legend-container"], ["type", "file", "accept", ".pdf,.doc,.docx,.rtf,.txt", 1, "form-field", "form-file-input", 3, "change", "disabled"], [2, "color", "white", "font-size", "18px"], ["src", "https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png", 2, "width", "30px", "height", "30px", "margin-right", "10px"], ["class", "form-error-message", 4, "ngIf"], ["noWhitespace", "", "formControlName", "firstName", "placeholder", "First Name", "maxlength", "100", 1, "form-field"], ["noWhitespace", "", "formControlName", "lastName", "placeholder", "Last Name", "maxlength", "100", 1, "form-field"], ["formControlName", "personSource", 1, "form-field"], ["value", ""], ["value", "CareerBuilder (Sourced)"], ["value", "Craigslist (Sourced)"], ["value", "Dice (Applied)"], ["value", "Dice (Sourced)"], ["value", "Indeed (Applied)"], ["value", "Indeed (Sourced)"], ["value", "Internships.com (Sourced)"], ["value", "LinkedIn (email-sourced)"], ["value", "LinkedIn (Sourced)"], ["value", "LinkedIn (Response)"], ["value", "LinkedIn (Applied)"], ["value", "Monster (Sourced)"], ["value", "Nexxt Hiring (Sourced)"], ["value", "Purple briefcase (Sourced)"], ["value", "Referral"], ["value", "Resume Book (Sourced)"], ["value", "Resume library (Sourced)"], ["value", "Snap Recruit (Sourced)"], ["value", "SmartRecruiters (Sourced)"], ["value", "Stack Overflow (Sourced)"], ["value", "Symplicity (Sourced)"], ["value", "WayUp (Sourced)"], ["value", "Zillion Resumes (Sourced)"], ["value", "Handshake (Sourced)"], ["value", "Other Job Boards (Sourced)"], ["value", "College Job Posting (Sourced)"], ["value", "Handshake (Applied)"], ["value", "Campus Event (Applied)"], ["value", "Campus Recruitment (Sourced)"], ["value", "Monster (Applied)"], ["value", "Hiretual (Applied)"], ["value", "Hiretual (Sourced)"], ["value", "SignalHire (Sourced)"], ["value", "Simplyhired (Applied)"], ["value", "ZipRecruiter (Sourced)"], ["value", "Other"], ["class", "form-group", 4, "ngIf"], ["noWhitespace", "", "formControlName", "phone", "type", "tel", "maxlength", "10", "placeholder", "Mobile Number", 1, "form-field"], ["noWhitespace", "", "formControlName", "email", "type", "email", "placeholder", "Email Address", "maxlength", "255", 1, "form-field"], ["formControlName", "country", 1, "form-field"], ["value", "United States"], ["value", "Mexico"], ["value", "Canada"], ["value", "United Kingdom"], [1, "autocomplete-container"], ["placeholder", "Major", 1, "form-field", 3, "input", "focus", "blur", "formControlName"], ["class", "autocomplete-items", 4, "ngIf"], ["formControlName", "graduationDate", "type", "date", 1, "form-field"], ["formControlName", "workAuthorization", 1, "form-field"], [3, "value", 4, "ngFor", "ngForOf"], ["placeholder", "School", 1, "form-field", 3, "input", "focus", "blur", "formControlName"], ["formControlName", "levelOfEducation", 1, "form-field"], ["value", "Bachelor's Degree"], ["value", "Master's Degree"], ["value", "Associate's Degree"], ["value", "High School"], ["formControlName", "sourcedBy", 1, "form-field"], ["value", "Bianca Robles"], ["value", "Christopher Gaugh"], ["value", "Edward Hulse"], ["value", "Erik Schultz"], ["value", "Joanna Hendrick"], ["value", "Page Thall-Donovan"], ["value", "Rachna Tyagi"], ["value", "Rebecca James"], ["value", "Shaun Rogers"], ["value", "Syed Aasif"], ["value", "Tom Hodge"], ["value", "Sanjeev Sudhan"], ["value", "Vendor"], ["formControlName", "state", 1, "form-field"], ["formControlName", "recruitedBy", 1, "form-field"], ["value", "0053g000000l6HwAAI"], ["value", "0050P0000085FVGQA2"], ["value", "0050P0000085FOcQAM"], ["value", "0050d000006p8vMAAQ"], ["value", "0050d000006J3vRAAS"], ["value", "0050P0000085FQYQA2"], ["value", "0053g000000lP0QAAU"], ["value", "0050P0000085FVLQA2"], ["value", "0053g000000lP0aAAE"], ["value", "005VS000000WmcbYAC"], ["value", "0050P0000085FO6QAM"], ["value", "005VS000002DJDNYA4"], ["value", "005VS000000Q4xdYAC"], ["id", "veteranRadioButtons", 1, "form-group"], [1, "two-grid-container"], [1, "custom-radio"], ["type", "radio", "formControlName", "veteran", "value", "false", "id", "no"], ["for", "no"], ["type", "radio", "formControlName", "veteran", "value", "true", "id", "yes"], ["for", "yes"], ["type", "submit", 1, "sourcing-form-button", 3, "disabled"], [1, "form-error-message"], ["noWhitespace", "", "formControlName", "otherLeadSource", "placeholder", "Other Lead Source", "maxlength", "30", 1, "form-field"], ["formControlName", "marketingProgram", 1, "form-field"], [3, "value"], ["noWhitespace", "", "formControlName", "sourcedForOpp", "placeholder", "Sourced For Opportunity", "maxlength", "18", 1, "form-field"], [1, "autocomplete-items"], ["class", "autocomplete-item", 3, "mousedown", 4, "ngFor", "ngForOf"], [1, "autocomplete-item", 3, "mousedown"]], template: function RecruitmentFormComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275elementStart(0, "form", 0);
-      \u0275\u0275listener("ngSubmit", function RecruitmentFormComponent_Template_form_ngSubmit_0_listener() {
-        return ctx.onSubmit();
-      });
-      \u0275\u0275elementStart(1, "div", 1)(2, "label", 2);
-      \u0275\u0275text(3, " Upload Resume:");
-      \u0275\u0275elementStart(4, "span", 3);
-      \u0275\u0275text(5, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(6, "label", 4)(7, "input", 5);
-      \u0275\u0275listener("change", function RecruitmentFormComponent_Template_input_change_7_listener($event) {
-        return ctx.handleFileUpload($event);
-      });
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(8, "div", 6);
-      \u0275\u0275element(9, "img", 7);
-      \u0275\u0275text(10);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(11, RecruitmentFormComponent_div_11_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(12, "div", 1)(13, "label", 2);
-      \u0275\u0275text(14, " First Name:");
-      \u0275\u0275elementStart(15, "span", 3);
-      \u0275\u0275text(16, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275element(17, "input", 9);
-      \u0275\u0275template(18, RecruitmentFormComponent_div_18_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(19, "div", 1)(20, "label", 2);
-      \u0275\u0275text(21, " Last Name:");
-      \u0275\u0275elementStart(22, "span", 3);
-      \u0275\u0275text(23, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275element(24, "input", 10);
-      \u0275\u0275template(25, RecruitmentFormComponent_div_25_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(26, "div", 1)(27, "label", 2);
-      \u0275\u0275text(28, " Person Source:");
-      \u0275\u0275elementStart(29, "span", 3);
-      \u0275\u0275text(30, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(31, "select", 11)(32, "option", 12);
-      \u0275\u0275text(33, "Select...");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(34, "option", 13);
-      \u0275\u0275text(35, "CareerBuilder (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(36, "option", 14);
-      \u0275\u0275text(37, "Craigslist (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(38, "option", 15);
-      \u0275\u0275text(39, "Dice (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(40, "option", 16);
-      \u0275\u0275text(41, "Dice (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(42, "option", 17);
-      \u0275\u0275text(43, "Indeed (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(44, "option", 18);
-      \u0275\u0275text(45, "Indeed (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(46, "option", 19);
-      \u0275\u0275text(47, "Internships.com (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(48, "option", 20);
-      \u0275\u0275text(49, "LinkedIn (email-sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(50, "option", 21);
-      \u0275\u0275text(51, "LinkedIn (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(52, "option", 22);
-      \u0275\u0275text(53, "LinkedIn (Response)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(54, "option", 23);
-      \u0275\u0275text(55, "LinkedIn (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(56, "option", 24);
-      \u0275\u0275text(57, "Monster (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(58, "option", 25);
-      \u0275\u0275text(59, "Nexxt Hiring (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(60, "option", 26);
-      \u0275\u0275text(61, "Purple briefcase (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(62, "option", 27);
-      \u0275\u0275text(63, "Referral");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(64, "option", 28);
-      \u0275\u0275text(65, "Resume Book (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(66, "option", 29);
-      \u0275\u0275text(67, "Resume library (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(68, "option", 30);
-      \u0275\u0275text(69, "Snap Recruit (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(70, "option", 31);
-      \u0275\u0275text(71, "SmartRecruiters (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(72, "option", 32);
-      \u0275\u0275text(73, "Stack Overflow (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(74, "option", 33);
-      \u0275\u0275text(75, "Symplicity (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(76, "option", 34);
-      \u0275\u0275text(77, "WayUp (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(78, "option", 35);
-      \u0275\u0275text(79, "Zillion Resumes (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(80, "option", 36);
-      \u0275\u0275text(81, "Handshake (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(82, "option", 37);
-      \u0275\u0275text(83, "Other Job Boards (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(84, "option", 38);
-      \u0275\u0275text(85, "College Job Posting (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(86, "option", 39);
-      \u0275\u0275text(87, "Handshake (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(88, "option", 40);
-      \u0275\u0275text(89, "Campus Event (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(90, "option", 41);
-      \u0275\u0275text(91, "Campus Recruitment (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(92, "option", 42);
-      \u0275\u0275text(93, "Monster (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(94, "option", 43);
-      \u0275\u0275text(95, "Hiretual (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(96, "option", 44);
-      \u0275\u0275text(97, "Hiretual (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(98, "option", 45);
-      \u0275\u0275text(99, "SignalHire (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(100, "option", 46);
-      \u0275\u0275text(101, "Simplyhired (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(102, "option", 47);
-      \u0275\u0275text(103, "ZipRecruiter (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(104, "option", 48);
-      \u0275\u0275text(105, "Other");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(106, RecruitmentFormComponent_div_106_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(107, RecruitmentFormComponent_div_107_Template, 6, 0, "div", 49);
-      \u0275\u0275elementStart(108, "div", 1)(109, "label", 2);
-      \u0275\u0275text(110, " Mobile Number:");
-      \u0275\u0275elementStart(111, "span", 3);
-      \u0275\u0275text(112, "*");
-      \u0275\u0275elementEnd();
-      \u0275\u0275text(113, " (Country Code not required) ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275element(114, "input", 50);
-      \u0275\u0275template(115, RecruitmentFormComponent_div_115_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(116, "div", 1)(117, "label", 2);
-      \u0275\u0275text(118, " Email Address:");
-      \u0275\u0275elementStart(119, "span", 3);
-      \u0275\u0275text(120, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275element(121, "input", 51);
-      \u0275\u0275template(122, RecruitmentFormComponent_div_122_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(123, "div", 1)(124, "label", 2);
-      \u0275\u0275text(125, " Operating Country:");
-      \u0275\u0275elementStart(126, "span", 3);
-      \u0275\u0275text(127, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(128, "select", 52)(129, "option", 12);
-      \u0275\u0275text(130, "Select...");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(131, "option", 53);
-      \u0275\u0275text(132, "United States");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(133, "option", 54);
-      \u0275\u0275text(134, "Mexico");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(135, "option", 55);
-      \u0275\u0275text(136, "Canada");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(137, "option", 56);
-      \u0275\u0275text(138, "United Kingdom");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(139, RecruitmentFormComponent_div_139_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(140, RecruitmentFormComponent_div_140_Template, 10, 2, "div", 49)(141, RecruitmentFormComponent_div_141_Template, 7, 1, "div", 49);
-      \u0275\u0275elementStart(142, "div", 1)(143, "label", 2);
-      \u0275\u0275text(144, " Major:");
-      \u0275\u0275elementStart(145, "span", 3);
-      \u0275\u0275text(146, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(147, "div", 57)(148, "input", 58);
-      \u0275\u0275listener("input", function RecruitmentFormComponent_Template_input_input_148_listener($event) {
-        return ctx.filterMajors($event);
-      })("focus", function RecruitmentFormComponent_Template_input_focus_148_listener() {
-        return ctx.focusedControl["major"] = true;
-      })("blur", function RecruitmentFormComponent_Template_input_blur_148_listener($event) {
-        return ctx.setFocusedControl($event, "major", false);
-      });
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(149, RecruitmentFormComponent_div_149_Template, 2, 1, "div", 59);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(150, RecruitmentFormComponent_div_150_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(151, "div", 1)(152, "label", 2);
-      \u0275\u0275text(153, " Graduation Date:");
-      \u0275\u0275elementStart(154, "span", 3);
-      \u0275\u0275text(155, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275element(156, "input", 60);
-      \u0275\u0275template(157, RecruitmentFormComponent_div_157_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(158, "div", 1)(159, "label", 2);
-      \u0275\u0275text(160, " Work Authorization:");
-      \u0275\u0275elementStart(161, "span", 3);
-      \u0275\u0275text(162, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(163, "select", 61)(164, "option", 12);
-      \u0275\u0275text(165, "Select...");
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(166, RecruitmentFormComponent_option_166_Template, 2, 2, "option", 62);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(167, RecruitmentFormComponent_div_167_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(168, "div", 1)(169, "label", 2);
-      \u0275\u0275text(170, " School:");
-      \u0275\u0275elementStart(171, "span", 3);
-      \u0275\u0275text(172, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(173, "div", 57)(174, "input", 63);
-      \u0275\u0275listener("input", function RecruitmentFormComponent_Template_input_input_174_listener($event) {
-        return ctx.filterSchools($event);
-      })("focus", function RecruitmentFormComponent_Template_input_focus_174_listener() {
-        return ctx.focusedControl["school"] = true;
-      })("blur", function RecruitmentFormComponent_Template_input_blur_174_listener($event) {
-        return ctx.setFocusedControl($event, "school", false);
-      });
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(175, RecruitmentFormComponent_div_175_Template, 2, 1, "div", 59);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(176, RecruitmentFormComponent_div_176_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(177, "div", 1)(178, "label", 2);
-      \u0275\u0275text(179, " Education Level:");
-      \u0275\u0275elementStart(180, "span", 3);
-      \u0275\u0275text(181, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(182, "select", 64)(183, "option", 12);
-      \u0275\u0275text(184, "Select...");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(185, "option", 65);
-      \u0275\u0275text(186, "Bachelor's Degree");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(187, "option", 66);
-      \u0275\u0275text(188, "Master's Degree");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(189, "option", 67);
-      \u0275\u0275text(190, "Associate's Degree");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(191, "option", 68);
-      \u0275\u0275text(192, "High School");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(193, RecruitmentFormComponent_div_193_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(194, "div", 1)(195, "label", 2);
-      \u0275\u0275text(196, " Sourced By: ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(197, "select", 69)(198, "option", 12);
-      \u0275\u0275text(199, "Select...");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(200, "option", 70);
-      \u0275\u0275text(201, "Bianca Robles");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(202, "option", 71);
-      \u0275\u0275text(203, "Christopher Gaugh");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(204, "option", 72);
-      \u0275\u0275text(205, "Edward Hulse");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(206, "option", 73);
-      \u0275\u0275text(207, "Erik Schultz");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(208, "option", 74);
-      \u0275\u0275text(209, "Joanna Hendrick");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(210, "option", 75);
-      \u0275\u0275text(211, "Page Thall-Donovan");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(212, "option", 76);
-      \u0275\u0275text(213, "Rachna Tyagi");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(214, "option", 77);
-      \u0275\u0275text(215, "Rebecca James");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(216, "option", 78);
-      \u0275\u0275text(217, "Shaun Rogers");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(218, "option", 79);
-      \u0275\u0275text(219, "Syed Aasif");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(220, "option", 80);
-      \u0275\u0275text(221, "Tom Hodge");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(222, "option", 81);
-      \u0275\u0275text(223, "Sanjeev Sudhan");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(224, "option", 82);
-      \u0275\u0275text(225, "Vendor");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(226, RecruitmentFormComponent_div_226_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(227, "div", 1)(228, "label", 2);
-      \u0275\u0275text(229, " State:");
-      \u0275\u0275elementStart(230, "span", 3);
-      \u0275\u0275text(231, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(232, "select", 83)(233, "option", 12);
-      \u0275\u0275text(234, "Select...");
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(235, RecruitmentFormComponent_option_235_Template, 2, 2, "option", 62);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(236, RecruitmentFormComponent_div_236_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(237, "div", 1)(238, "label", 2);
-      \u0275\u0275text(239, " Recruiter: ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(240, "select", 84)(241, "option", 12);
-      \u0275\u0275text(242, "Select...");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(243, "option", 85);
-      \u0275\u0275text(244, "Christopher Gaugh");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(245, "option", 86);
-      \u0275\u0275text(246, "Edward Hulse");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(247, "option", 87);
-      \u0275\u0275text(248, "Erik Schultz");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(249, "option", 88);
-      \u0275\u0275text(250, "Joanna Hendrick");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(251, "option", 89);
-      \u0275\u0275text(252, "Page Thall-Donovan");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(253, "option", 90);
-      \u0275\u0275text(254, "Rachna Tyagi");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(255, "option", 91);
-      \u0275\u0275text(256, "Shaun Rogers");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(257, "option", 92);
-      \u0275\u0275text(258, "Tom Hodge");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(259, "option", 93);
-      \u0275\u0275text(260, "Bianca Robles");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(261, "option", 94);
-      \u0275\u0275text(262, "Sanjeev Sudhan");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(263, "option", 95);
-      \u0275\u0275text(264, "Naveen Kumar");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(265, "option", 96);
-      \u0275\u0275text(266, "Delivery Recruiter");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(267, "option", 97);
-      \u0275\u0275text(268, "Vendor");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(269, "div", 98)(270, "label", 2);
-      \u0275\u0275text(271, "Veteran:");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(272, "span", 99)(273, "div", 100);
-      \u0275\u0275element(274, "input", 101);
-      \u0275\u0275elementStart(275, "label", 102);
-      \u0275\u0275text(276, "No");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(277, "div", 100);
-      \u0275\u0275element(278, "input", 103);
-      \u0275\u0275elementStart(279, "label", 104);
-      \u0275\u0275text(280, "Yes");
-      \u0275\u0275elementEnd()()()();
-      \u0275\u0275elementStart(281, "button", 105);
-      \u0275\u0275text(282);
-      \u0275\u0275elementEnd()();
-    }
-    if (rf & 2) {
-      let tmp_3_0;
-      let tmp_4_0;
-      let tmp_5_0;
-      let tmp_6_0;
-      let tmp_8_0;
-      let tmp_9_0;
-      let tmp_10_0;
-      let tmp_14_0;
-      let tmp_15_0;
-      let tmp_16_0;
-      let tmp_18_0;
-      let tmp_20_0;
-      let tmp_21_0;
-      let tmp_22_0;
-      let tmp_23_0;
-      let tmp_25_0;
-      \u0275\u0275property("formGroup", ctx.form);
-      \u0275\u0275advance(7);
-      \u0275\u0275property("disabled", ctx.resumeUploading);
-      \u0275\u0275advance(3);
-      \u0275\u0275textInterpolate1("", ctx.resumeDocumentName || "Computer", " ");
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_3_0 = ctx.form.get("resumeURL")) == null ? null : tmp_3_0.touched) && ((tmp_3_0 = ctx.form.get("resumeURL")) == null ? null : tmp_3_0.invalid));
-      \u0275\u0275advance(7);
-      \u0275\u0275property("ngIf", ((tmp_4_0 = ctx.form.get("firstName")) == null ? null : tmp_4_0.touched) && ((tmp_4_0 = ctx.form.get("firstName")) == null ? null : tmp_4_0.invalid));
-      \u0275\u0275advance(7);
-      \u0275\u0275property("ngIf", ((tmp_5_0 = ctx.form.get("lastName")) == null ? null : tmp_5_0.touched) && ((tmp_5_0 = ctx.form.get("lastName")) == null ? null : tmp_5_0.invalid));
-      \u0275\u0275advance(81);
-      \u0275\u0275property("ngIf", ((tmp_6_0 = ctx.form.get("personSource")) == null ? null : tmp_6_0.touched) && ((tmp_6_0 = ctx.form.get("personSource")) == null ? null : tmp_6_0.invalid));
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.showOtherLeadSource);
-      \u0275\u0275advance(8);
-      \u0275\u0275property("ngIf", ((tmp_8_0 = ctx.form.get("phone")) == null ? null : tmp_8_0.touched) && ((tmp_8_0 = ctx.form.get("phone")) == null ? null : tmp_8_0.invalid));
-      \u0275\u0275advance(7);
-      \u0275\u0275property("ngIf", ((tmp_9_0 = ctx.form.get("email")) == null ? null : tmp_9_0.touched) && ((tmp_9_0 = ctx.form.get("email")) == null ? null : tmp_9_0.invalid));
-      \u0275\u0275advance(17);
-      \u0275\u0275property("ngIf", ((tmp_10_0 = ctx.form.get("country")) == null ? null : tmp_10_0.touched) && ((tmp_10_0 = ctx.form.get("country")) == null ? null : tmp_10_0.invalid));
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.marketingPrograms.length > 0);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.showOpportunityField);
-      \u0275\u0275advance(7);
-      \u0275\u0275property("formControlName", "major");
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.focusedControl.major && ((tmp_14_0 = ctx.form.get("major")) == null ? null : tmp_14_0.value == null ? null : tmp_14_0.value.trim()));
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_15_0 = ctx.form.get("major")) == null ? null : tmp_15_0.touched) && ((tmp_15_0 = ctx.form.get("major")) == null ? null : tmp_15_0.invalid));
-      \u0275\u0275advance(7);
-      \u0275\u0275property("ngIf", ((tmp_16_0 = ctx.form.get("graduationDate")) == null ? null : tmp_16_0.touched) && ((tmp_16_0 = ctx.form.get("graduationDate")) == null ? null : tmp_16_0.invalid));
-      \u0275\u0275advance(9);
-      \u0275\u0275property("ngForOf", ctx.workAuthorizationValues);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_18_0 = ctx.form.get("workAuthorization")) == null ? null : tmp_18_0.touched) && ((tmp_18_0 = ctx.form.get("workAuthorization")) == null ? null : tmp_18_0.invalid));
-      \u0275\u0275advance(7);
-      \u0275\u0275property("formControlName", "school");
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.focusedControl.school && ((tmp_20_0 = ctx.form.get("school")) == null ? null : tmp_20_0.value == null ? null : tmp_20_0.value.trim()));
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_21_0 = ctx.form.get("school")) == null ? null : tmp_21_0.touched) && ((tmp_21_0 = ctx.form.get("school")) == null ? null : tmp_21_0.invalid));
-      \u0275\u0275advance(17);
-      \u0275\u0275property("ngIf", ((tmp_22_0 = ctx.form.get("levelOfEducation")) == null ? null : tmp_22_0.touched) && ((tmp_22_0 = ctx.form.get("levelOfEducation")) == null ? null : tmp_22_0.invalid));
-      \u0275\u0275advance(33);
-      \u0275\u0275property("ngIf", ((tmp_23_0 = ctx.form.get("sourcedBy")) == null ? null : tmp_23_0.touched) && ((tmp_23_0 = ctx.form.get("sourcedBy")) == null ? null : tmp_23_0.invalid));
-      \u0275\u0275advance(9);
-      \u0275\u0275property("ngForOf", ctx.states);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_25_0 = ctx.form.get("state")) == null ? null : tmp_25_0.touched) && ((tmp_25_0 = ctx.form.get("state")) == null ? null : tmp_25_0.invalid));
-      \u0275\u0275advance(45);
-      \u0275\u0275property("disabled", ctx.resumeUploading);
-      \u0275\u0275advance();
-      \u0275\u0275textInterpolate1(" ", ctx.resumeUploading ? "Uploading..." : "Submit", " ");
-    }
-  }, dependencies: [NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, MaxLengthValidator, FormGroupDirective, FormControlName, NoWhitespaceDirective], styles: ["\n\n.form-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n}\n.form-group[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n}\n.required[_ngcontent-%COMP%] {\n  color: #ff0000;\n  margin-right: 4px;\n}\n.autocomplete-container[_ngcontent-%COMP%] {\n  position: relative;\n  display: inline-block;\n  width: 99.4%;\n}\n.autocomplete-container[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.autocomplete-items[_ngcontent-%COMP%] {\n  position: absolute;\n  border-radius: 7px;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\n  background: #fff;\n  z-index: 2;\n  max-height: 300px;\n  overflow: auto;\n  padding: 10px;\n  width: 99%;\n  cursor: pointer;\n  color: #161616;\n}\n.autocomplete-item[_ngcontent-%COMP%]:hover, \n.autocomplete-item.active[_ngcontent-%COMP%] {\n  background-color: #eee;\n}\nbutton[_ngcontent-%COMP%]:disabled {\n  cursor: not-allowed;\n}\noption[_ngcontent-%COMP%] {\n  color: black;\n}\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\ninput[type=date][_ngcontent-%COMP%]::-webkit-calendar-picker-indicator {\n  filter: invert(1);\n}\n.legend-container[_ngcontent-%COMP%] {\n  position: relative;\n}\n.form-file-input[_ngcontent-%COMP%] {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  cursor: pointer;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  height: 40px;\n  text-align: center;\n  line-height: 40px;\n  cursor: pointer;\n  border-radius: 7px;\n  border: 1px solid white;\n  color: white;\n  margin-bottom: 0px;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: white;\n  color: black;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}"] });
+  return projectableNodes;
+}
+function findMatchingIndex(node, selectors, defaultIndex) {
+  let matchingIndex = defaultIndex;
+  if (isElement(node)) {
+    selectors.some((selector, i) => {
+      if (selector !== "*" && matchesSelector(node, selector)) {
+        matchingIndex = i;
+        return true;
+      }
+      return false;
+    });
+  }
+  return matchingIndex;
+}
+var DESTROY_DELAY = 10;
+var ComponentNgElementStrategyFactory = class {
+  constructor(component, injector) {
+    this.componentFactory = injector.get(ComponentFactoryResolver$1).resolveComponentFactory(component);
+  }
+  create(injector) {
+    return new ComponentNgElementStrategy(this.componentFactory, injector);
+  }
 };
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(RecruitmentFormComponent, { className: "RecruitmentFormComponent", filePath: "src\\app\\recruitment-form\\recruitment-form.component.ts", lineNumber: 11 });
-})();
+var ComponentNgElementStrategy = class {
+  constructor(componentFactory, injector) {
+    this.componentFactory = componentFactory;
+    this.injector = injector;
+    this.eventEmitters = new ReplaySubject(1);
+    this.events = this.eventEmitters.pipe(switchMap((emitters) => merge(...emitters)));
+    this.componentRef = null;
+    this.viewChangeDetectorRef = null;
+    this.inputChanges = null;
+    this.hasInputChanges = false;
+    this.implementsOnChanges = false;
+    this.scheduledChangeDetectionFn = null;
+    this.scheduledDestroyFn = null;
+    this.initialInputValues = /* @__PURE__ */ new Map();
+    this.unchangedInputs = new Set(this.componentFactory.inputs.map(({
+      propName
+    }) => propName));
+    this.ngZone = this.injector.get(NgZone);
+    this.elementZone = typeof Zone === "undefined" ? null : this.ngZone.run(() => Zone.current);
+  }
+  /**
+   * Initializes a new component if one has not yet been created and cancels any scheduled
+   * destruction.
+   */
+  connect(element) {
+    this.runInZone(() => {
+      if (this.scheduledDestroyFn !== null) {
+        this.scheduledDestroyFn();
+        this.scheduledDestroyFn = null;
+        return;
+      }
+      if (this.componentRef === null) {
+        this.initializeComponent(element);
+      }
+    });
+  }
+  /**
+   * Schedules the component to be destroyed after some small delay in case the element is just
+   * being moved across the DOM.
+   */
+  disconnect() {
+    this.runInZone(() => {
+      if (this.componentRef === null || this.scheduledDestroyFn !== null) {
+        return;
+      }
+      this.scheduledDestroyFn = scheduler.schedule(() => {
+        if (this.componentRef !== null) {
+          this.componentRef.destroy();
+          this.componentRef = null;
+          this.viewChangeDetectorRef = null;
+        }
+      }, DESTROY_DELAY);
+    });
+  }
+  /**
+   * Returns the component property value. If the component has not yet been created, the value is
+   * retrieved from the cached initialization values.
+   */
+  getInputValue(property) {
+    return this.runInZone(() => {
+      if (this.componentRef === null) {
+        return this.initialInputValues.get(property);
+      }
+      return this.componentRef.instance[property];
+    });
+  }
+  /**
+   * Sets the input value for the property. If the component has not yet been created, the value is
+   * cached and set when the component is created.
+   */
+  setInputValue(property, value, transform) {
+    this.runInZone(() => {
+      if (transform) {
+        value = transform.call(this.componentRef?.instance, value);
+      }
+      if (this.componentRef === null) {
+        this.initialInputValues.set(property, value);
+        return;
+      }
+      if (strictEquals(value, this.getInputValue(property)) && !(value === void 0 && this.unchangedInputs.has(property))) {
+        return;
+      }
+      this.recordInputChange(property, value);
+      this.unchangedInputs.delete(property);
+      this.hasInputChanges = true;
+      this.componentRef.instance[property] = value;
+      this.scheduleDetectChanges();
+    });
+  }
+  /**
+   * Creates a new component through the component factory with the provided element host and
+   * sets up its initial inputs, listens for outputs changes, and runs an initial change detection.
+   */
+  initializeComponent(element) {
+    const childInjector = Injector.create({
+      providers: [],
+      parent: this.injector
+    });
+    const projectableNodes = extractProjectableNodes(element, this.componentFactory.ngContentSelectors);
+    this.componentRef = this.componentFactory.create(childInjector, projectableNodes, element);
+    this.viewChangeDetectorRef = this.componentRef.injector.get(ChangeDetectorRef);
+    this.implementsOnChanges = isFunction2(this.componentRef.instance.ngOnChanges);
+    this.initializeInputs();
+    this.initializeOutputs(this.componentRef);
+    this.detectChanges();
+    const applicationRef = this.injector.get(ApplicationRef);
+    applicationRef.attachView(this.componentRef.hostView);
+  }
+  /** Set any stored initial inputs on the component's properties. */
+  initializeInputs() {
+    this.componentFactory.inputs.forEach(({
+      propName,
+      transform
+    }) => {
+      if (this.initialInputValues.has(propName)) {
+        this.setInputValue(propName, this.initialInputValues.get(propName), transform);
+      }
+    });
+    this.initialInputValues.clear();
+  }
+  /** Sets up listeners for the component's outputs so that the events stream emits the events. */
+  initializeOutputs(componentRef) {
+    const eventEmitters = this.componentFactory.outputs.map(({
+      propName,
+      templateName
+    }) => {
+      const emitter = componentRef.instance[propName];
+      return emitter.pipe(map((value) => ({
+        name: templateName,
+        value
+      })));
+    });
+    this.eventEmitters.next(eventEmitters);
+  }
+  /** Calls ngOnChanges with all the inputs that have changed since the last call. */
+  callNgOnChanges(componentRef) {
+    if (!this.implementsOnChanges || this.inputChanges === null) {
+      return;
+    }
+    const inputChanges = this.inputChanges;
+    this.inputChanges = null;
+    componentRef.instance.ngOnChanges(inputChanges);
+  }
+  /**
+   * Marks the component view for check, if necessary.
+   * (NOTE: This is required when the `ChangeDetectionStrategy` is set to `OnPush`.)
+   */
+  markViewForCheck(viewChangeDetectorRef) {
+    if (this.hasInputChanges) {
+      this.hasInputChanges = false;
+      viewChangeDetectorRef.markForCheck();
+    }
+  }
+  /**
+   * Schedules change detection to run on the component.
+   * Ignores subsequent calls if already scheduled.
+   */
+  scheduleDetectChanges() {
+    if (this.scheduledChangeDetectionFn) {
+      return;
+    }
+    this.scheduledChangeDetectionFn = scheduler.scheduleBeforeRender(() => {
+      this.scheduledChangeDetectionFn = null;
+      this.detectChanges();
+    });
+  }
+  /**
+   * Records input changes so that the component receives SimpleChanges in its onChanges function.
+   */
+  recordInputChange(property, currentValue) {
+    if (!this.implementsOnChanges) {
+      return;
+    }
+    if (this.inputChanges === null) {
+      this.inputChanges = {};
+    }
+    const pendingChange = this.inputChanges[property];
+    if (pendingChange) {
+      pendingChange.currentValue = currentValue;
+      return;
+    }
+    const isFirstChange = this.unchangedInputs.has(property);
+    const previousValue = isFirstChange ? void 0 : this.getInputValue(property);
+    this.inputChanges[property] = new SimpleChange(previousValue, currentValue, isFirstChange);
+  }
+  /** Runs change detection on the component. */
+  detectChanges() {
+    if (this.componentRef === null) {
+      return;
+    }
+    this.callNgOnChanges(this.componentRef);
+    this.markViewForCheck(this.viewChangeDetectorRef);
+    this.componentRef.changeDetectorRef.detectChanges();
+  }
+  /** Runs in the angular zone, if present. */
+  runInZone(fn) {
+    return this.elementZone && Zone.current !== this.elementZone ? this.ngZone.run(fn) : fn();
+  }
+};
+var NgElement = class extends HTMLElement {
+  constructor() {
+    super(...arguments);
+    this.ngElementEventsSubscription = null;
+  }
+};
+function createCustomElement(component, config2) {
+  const inputs = getComponentInputs(component, config2.injector);
+  const strategyFactory = config2.strategyFactory || new ComponentNgElementStrategyFactory(component, config2.injector);
+  const attributeToPropertyInputs = getDefaultAttributeToPropertyInputs(inputs);
+  class NgElementImpl extends NgElement {
+    static {
+      this["observedAttributes"] = Object.keys(attributeToPropertyInputs);
+    }
+    get ngElementStrategy() {
+      if (!this._ngElementStrategy) {
+        const strategy = this._ngElementStrategy = strategyFactory.create(this.injector || config2.injector);
+        inputs.forEach(({
+          propName,
+          transform
+        }) => {
+          if (!this.hasOwnProperty(propName)) {
+            return;
+          }
+          const value = this[propName];
+          delete this[propName];
+          strategy.setInputValue(propName, value, transform);
+        });
+      }
+      return this._ngElementStrategy;
+    }
+    constructor(injector) {
+      super();
+      this.injector = injector;
+    }
+    attributeChangedCallback(attrName, oldValue, newValue, namespace) {
+      const [propName, transform] = attributeToPropertyInputs[attrName];
+      this.ngElementStrategy.setInputValue(propName, newValue, transform);
+    }
+    connectedCallback() {
+      let subscribedToEvents = false;
+      if (this.ngElementStrategy.events) {
+        this.subscribeToEvents();
+        subscribedToEvents = true;
+      }
+      this.ngElementStrategy.connect(this);
+      if (!subscribedToEvents) {
+        this.subscribeToEvents();
+      }
+    }
+    disconnectedCallback() {
+      if (this._ngElementStrategy) {
+        this._ngElementStrategy.disconnect();
+      }
+      if (this.ngElementEventsSubscription) {
+        this.ngElementEventsSubscription.unsubscribe();
+        this.ngElementEventsSubscription = null;
+      }
+    }
+    subscribeToEvents() {
+      this.ngElementEventsSubscription = this.ngElementStrategy.events.subscribe((e) => {
+        const customEvent = new CustomEvent(e.name, {
+          detail: e.value
+        });
+        this.dispatchEvent(customEvent);
+      });
+    }
+  }
+  inputs.forEach(({
+    propName,
+    transform
+  }) => {
+    Object.defineProperty(NgElementImpl.prototype, propName, {
+      get() {
+        return this.ngElementStrategy.getInputValue(propName);
+      },
+      set(newValue) {
+        this.ngElementStrategy.setInputValue(propName, newValue, transform);
+      },
+      configurable: true,
+      enumerable: true
+    });
+  });
+  return NgElementImpl;
+}
+var VERSION5 = new Version("18.2.13");
 
 // node_modules/ng-recaptcha/fesm2022/ng-recaptcha.mjs
 var RECAPTCHA_LANGUAGE = new InjectionToken("recaptcha-language");
@@ -48236,2954 +41850,6 @@ var RecaptchaFormsModule = class _RecaptchaFormsModule {
   }], null, null);
 })();
 
-// src/app/b2c-form/b2c-form.component.ts
-function B2cFormComponent_span_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 58);
-    \u0275\u0275text(1, " First Name is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_span_9_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 58);
-    \u0275\u0275text(1, " Last Name is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_span_15_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Email is required. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_span_15_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Invalid email address ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_span_15_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 58);
-    \u0275\u0275template(1, B2cFormComponent_span_15_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_span_15_span_2_Template, 2, 0, "span", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    let tmp_2_0;
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_1_0 = ctx_r0.form.get("email")) == null ? null : tmp_1_0.errors == null ? null : tmp_1_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_2_0 = ctx_r0.form.get("email")) == null ? null : tmp_2_0.errors == null ? null : tmp_2_0.errors["invalidEmail"]);
-  }
-}
-function B2cFormComponent_span_18_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Phone is required. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_span_18_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Phone number is not valid ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_span_18_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 58);
-    \u0275\u0275template(1, B2cFormComponent_span_18_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_span_18_span_2_Template, 2, 0, "span", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    let tmp_2_0;
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_1_0 = ctx_r0.form.get("phone")) == null ? null : tmp_1_0.errors == null ? null : tmp_1_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_2_0 = ctx_r0.form.get("phone")) == null ? null : tmp_2_0.errors == null ? null : tmp_2_0.errors["invalidPhone"]);
-  }
-}
-function B2cFormComponent_span_35_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 58);
-    \u0275\u0275text(1, " Country is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_1_span_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275text(1, " City is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_1_span_116_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275text(1, " State is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_1_span_119_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " ZIP code is required. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_1_span_119_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " ZIP code needs to be 5 digits. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_1_span_119_span_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " ZIP must be a number. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_1_span_119_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_1_span_119_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_div_36_ng_container_1_span_119_span_2_Template, 2, 0, "span", 39)(3, B2cFormComponent_div_36_ng_container_1_span_119_span_3_Template, 2, 0, "span", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_3_0;
-    let tmp_4_0;
-    let tmp_5_0;
-    const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("zip")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_4_0 = ctx_r0.form.get("zip")) == null ? null : tmp_4_0.errors == null ? null : tmp_4_0.errors["minlength"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_5_0 = ctx_r0.form.get("zip")) == null ? null : tmp_5_0.errors == null ? null : tmp_5_0.errors["pattern"]);
-  }
-}
-function B2cFormComponent_div_36_ng_container_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "span", 9)(2, "fieldset", 3)(3, "legend", 1);
-    \u0275\u0275text(4, "Location");
-    \u0275\u0275elementEnd();
-    \u0275\u0275element(5, "input", 60);
-    \u0275\u0275template(6, B2cFormComponent_div_36_ng_container_1_span_6_Template, 2, 0, "span", 61);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(7, "div", 2)(8, "fieldset", 3)(9, "select", 62)(10, "option", 11);
-    \u0275\u0275text(11, "State");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "option", 63);
-    \u0275\u0275text(13, "AL");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "option", 64);
-    \u0275\u0275text(15, "AK");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "option", 65);
-    \u0275\u0275text(17, "AZ");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "option", 66);
-    \u0275\u0275text(19, "AR");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "option", 67);
-    \u0275\u0275text(21, "CA");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "option", 68);
-    \u0275\u0275text(23, "CO");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "option", 69);
-    \u0275\u0275text(25, "CT");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "option", 70);
-    \u0275\u0275text(27, "DE");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "option", 71);
-    \u0275\u0275text(29, "DC");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "option", 72);
-    \u0275\u0275text(31, "FL");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "option", 73);
-    \u0275\u0275text(33, "GA");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(34, "option", 74);
-    \u0275\u0275text(35, "HI");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(36, "option", 75);
-    \u0275\u0275text(37, "ID");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(38, "option", 76);
-    \u0275\u0275text(39, "IL");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(40, "option", 77);
-    \u0275\u0275text(41, "IN");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(42, "option", 78);
-    \u0275\u0275text(43, "IA");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(44, "option", 79);
-    \u0275\u0275text(45, "KS");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(46, "option", 80);
-    \u0275\u0275text(47, "KY");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(48, "option", 81);
-    \u0275\u0275text(49, "LA");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(50, "option", 82);
-    \u0275\u0275text(51, "ME");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(52, "option", 83);
-    \u0275\u0275text(53, "MD");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(54, "option", 84);
-    \u0275\u0275text(55, "MA");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(56, "option", 85);
-    \u0275\u0275text(57, "MI");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(58, "option", 86);
-    \u0275\u0275text(59, "MN");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(60, "option", 87);
-    \u0275\u0275text(61, "MS");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(62, "option", 88);
-    \u0275\u0275text(63, "MO");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(64, "option", 89);
-    \u0275\u0275text(65, "MT");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(66, "option", 90);
-    \u0275\u0275text(67, "NE");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(68, "option", 91);
-    \u0275\u0275text(69, "NV");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(70, "option", 92);
-    \u0275\u0275text(71, "NH");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(72, "option", 93);
-    \u0275\u0275text(73, "NJ");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(74, "option", 94);
-    \u0275\u0275text(75, "NM");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(76, "option", 95);
-    \u0275\u0275text(77, "NY");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(78, "option", 96);
-    \u0275\u0275text(79, "NC");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(80, "option", 97);
-    \u0275\u0275text(81, "ND");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(82, "option", 98);
-    \u0275\u0275text(83, "OH");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(84, "option", 99);
-    \u0275\u0275text(85, "OK");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(86, "option", 100);
-    \u0275\u0275text(87, "OR");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(88, "option", 101);
-    \u0275\u0275text(89, "PA");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(90, "option", 102);
-    \u0275\u0275text(91, "PR");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(92, "option", 103);
-    \u0275\u0275text(93, "RI");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(94, "option", 104);
-    \u0275\u0275text(95, "SC");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(96, "option", 105);
-    \u0275\u0275text(97, "SD");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(98, "option", 106);
-    \u0275\u0275text(99, "TN");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(100, "option", 107);
-    \u0275\u0275text(101, "TX");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(102, "option", 108);
-    \u0275\u0275text(103, "UT");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(104, "option", 109);
-    \u0275\u0275text(105, "VT");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(106, "option", 110);
-    \u0275\u0275text(107, "VA");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(108, "option", 111);
-    \u0275\u0275text(109, "WA");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(110, "option", 112);
-    \u0275\u0275text(111, "WV");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(112, "option", 113);
-    \u0275\u0275text(113, "WI");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(114, "option", 114);
-    \u0275\u0275text(115, "WY");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(116, B2cFormComponent_div_36_ng_container_1_span_116_Template, 2, 0, "span", 61);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(117, "fieldset", 3);
-    \u0275\u0275element(118, "input", 115);
-    \u0275\u0275template(119, B2cFormComponent_div_36_ng_container_1_span_119_Template, 4, 3, "span", 61);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_3_0;
-    let tmp_4_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(6);
-    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r0.form.get("city")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("city")) == null ? null : tmp_2_0.touched));
-    \u0275\u0275advance(110);
-    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("state")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("state")) == null ? null : tmp_3_0.touched));
-    \u0275\u0275advance(3);
-    \u0275\u0275property("ngIf", ((tmp_4_0 = ctx_r0.form.get("zip")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx_r0.form.get("zip")) == null ? null : tmp_4_0.touched));
-  }
-}
-function B2cFormComponent_div_36_ng_container_2_span_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275text(1, " City is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_2_option_12_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 119);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const state_r2 = ctx.$implicit;
-    \u0275\u0275property("value", state_r2);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(state_r2);
-  }
-}
-function B2cFormComponent_div_36_ng_container_2_span_13_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275text(1, " State is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_2_span_16_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Postal Code code is required. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_2_span_16_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Postal Code code needs to be 5 digits. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_2_span_16_span_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Postal Code must be a number. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_2_span_16_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_2_span_16_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_div_36_ng_container_2_span_16_span_2_Template, 2, 0, "span", 39)(3, B2cFormComponent_div_36_ng_container_2_span_16_span_3_Template, 2, 0, "span", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_3_0;
-    let tmp_4_0;
-    let tmp_5_0;
-    const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("zip")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_4_0 = ctx_r0.form.get("zip")) == null ? null : tmp_4_0.errors == null ? null : tmp_4_0.errors["minlength"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_5_0 = ctx_r0.form.get("zip")) == null ? null : tmp_5_0.errors == null ? null : tmp_5_0.errors["pattern"]);
-  }
-}
-function B2cFormComponent_div_36_ng_container_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "span", 9)(2, "fieldset", 3)(3, "legend", 1);
-    \u0275\u0275text(4, "Location");
-    \u0275\u0275elementEnd();
-    \u0275\u0275element(5, "input", 60);
-    \u0275\u0275template(6, B2cFormComponent_div_36_ng_container_2_span_6_Template, 2, 0, "span", 61);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(7, "div", 2)(8, "fieldset", 3)(9, "select", 62)(10, "option", 11);
-    \u0275\u0275text(11, "State");
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(12, B2cFormComponent_div_36_ng_container_2_option_12_Template, 2, 2, "option", 117);
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(13, B2cFormComponent_div_36_ng_container_2_span_13_Template, 2, 0, "span", 61);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "fieldset", 3);
-    \u0275\u0275element(15, "input", 118);
-    \u0275\u0275template(16, B2cFormComponent_div_36_ng_container_2_span_16_Template, 4, 3, "span", 61);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_4_0;
-    let tmp_5_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(6);
-    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r0.form.get("city")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("city")) == null ? null : tmp_2_0.touched));
-    \u0275\u0275advance(6);
-    \u0275\u0275property("ngForOf", ctx_r0.states);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_4_0 = ctx_r0.form.get("state")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx_r0.form.get("state")) == null ? null : tmp_4_0.touched));
-    \u0275\u0275advance(3);
-    \u0275\u0275property("ngIf", ((tmp_5_0 = ctx_r0.form.get("zip")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx_r0.form.get("zip")) == null ? null : tmp_5_0.touched));
-  }
-}
-function B2cFormComponent_div_36_ng_container_3_span_34_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275text(1, " Province is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_3_span_37_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " ZIP code is required. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_3_span_37_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " ZIP code needs to be 6 digits. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_3_span_37_span_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " ZIP must be a number. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_3_span_37_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_3_span_37_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_div_36_ng_container_3_span_37_span_2_Template, 2, 0, "span", 39)(3, B2cFormComponent_div_36_ng_container_3_span_37_span_3_Template, 2, 0, "span", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_3_0;
-    let tmp_4_0;
-    let tmp_5_0;
-    const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("canadaZip")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_4_0 = ctx_r0.form.get("canadaZip")) == null ? null : tmp_4_0.errors == null ? null : tmp_4_0.errors["minlength"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_5_0 = ctx_r0.form.get("canadaZip")) == null ? null : tmp_5_0.errors == null ? null : tmp_5_0.errors["pattern"]);
-  }
-}
-function B2cFormComponent_div_36_ng_container_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "legend", 1);
-    \u0275\u0275text(2, "Location");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3)(5, "select", 120)(6, "option", 11);
-    \u0275\u0275text(7, "Province");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "option", 121);
-    \u0275\u0275text(9, "Alberta");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "option", 122);
-    \u0275\u0275text(11, "British Columbia");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "option", 123);
-    \u0275\u0275text(13, "Manitoba");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "option", 124);
-    \u0275\u0275text(15, "New Brunswick");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "option", 125);
-    \u0275\u0275text(17, "Newfoundland and Labrador");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "option", 126);
-    \u0275\u0275text(19, "Northwest Territories");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "option", 127);
-    \u0275\u0275text(21, "Nova Scotia");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "option", 128);
-    \u0275\u0275text(23, "Nunavut");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "option", 129);
-    \u0275\u0275text(25, "Ontario");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "option", 130);
-    \u0275\u0275text(27, "Prince Edward Island");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "option", 131);
-    \u0275\u0275text(29, "Quebec");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "option", 132);
-    \u0275\u0275text(31, "Saskatchewan");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "option", 133);
-    \u0275\u0275text(33, "Yukon");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(34, B2cFormComponent_div_36_ng_container_3_span_34_Template, 2, 0, "span", 61);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(35, "fieldset", 3);
-    \u0275\u0275element(36, "input", 134);
-    \u0275\u0275template(37, B2cFormComponent_div_36_ng_container_3_span_37_Template, 4, 3, "span", 61);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_3_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(34);
-    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r0.form.get("canadaState")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("canadaState")) == null ? null : tmp_2_0.touched));
-    \u0275\u0275advance(3);
-    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("canadaZip")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("canadaZip")) == null ? null : tmp_3_0.touched));
-  }
-}
-function B2cFormComponent_div_36_ng_container_4_span_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275text(1, " City is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_4_span_9_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " ZIP code is required. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_4_span_9_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " ZIP code needs to be 7 digits. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_4_span_9_span_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " ZIP must be a number. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_4_span_9_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_4_span_9_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_div_36_ng_container_4_span_9_span_2_Template, 2, 0, "span", 39)(3, B2cFormComponent_div_36_ng_container_4_span_9_span_3_Template, 2, 0, "span", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_3_0;
-    let tmp_4_0;
-    let tmp_5_0;
-    const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("ukZip")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_4_0 = ctx_r0.form.get("ukZip")) == null ? null : tmp_4_0.errors == null ? null : tmp_4_0.errors["minlength"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_5_0 = ctx_r0.form.get("ukZip")) == null ? null : tmp_5_0.errors == null ? null : tmp_5_0.errors["pattern"]);
-  }
-}
-function B2cFormComponent_div_36_ng_container_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "legend", 1);
-    \u0275\u0275text(2, "Location");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3);
-    \u0275\u0275element(5, "input", 135);
-    \u0275\u0275template(6, B2cFormComponent_div_36_ng_container_4_span_6_Template, 2, 0, "span", 61);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "fieldset", 3);
-    \u0275\u0275element(8, "input", 136);
-    \u0275\u0275template(9, B2cFormComponent_div_36_ng_container_4_span_9_Template, 4, 3, "span", 61);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_3_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(6);
-    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r0.form.get("city")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("city")) == null ? null : tmp_2_0.touched));
-    \u0275\u0275advance(3);
-    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("ukZip")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("ukZip")) == null ? null : tmp_3_0.touched));
-  }
-}
-function B2cFormComponent_div_36_ng_container_5_span_80_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 116);
-    \u0275\u0275text(1, " State is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_36_ng_container_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "div", 9)(2, "fieldset", 3)(3, "legend", 1);
-    \u0275\u0275text(4, "Location");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "select", 62)(6, "option", 11);
-    \u0275\u0275text(7, "State");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "option", 137);
-    \u0275\u0275text(9, "Andaman and Nicobar Islands");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "option", 138);
-    \u0275\u0275text(11, "Andhra Pradesh");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "option", 139);
-    \u0275\u0275text(13, "Arunachal Pradesh");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "option", 140);
-    \u0275\u0275text(15, "Assam");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "option", 141);
-    \u0275\u0275text(17, "Bihar");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "option", 142);
-    \u0275\u0275text(19, "Chandigarh");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "option", 143);
-    \u0275\u0275text(21, "Chhattisgarh");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "option", 144);
-    \u0275\u0275text(23, "Daman and Diu");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "option", 145);
-    \u0275\u0275text(25, "Delhi");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "option", 146);
-    \u0275\u0275text(27, "Dadra and Nagar Haveli");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "option", 147);
-    \u0275\u0275text(29, "Goa");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "option", 148);
-    \u0275\u0275text(31, "Gujarat");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "option", 149);
-    \u0275\u0275text(33, "Himachal Pradesh");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(34, "option", 150);
-    \u0275\u0275text(35, "Haryana");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(36, "option", 151);
-    \u0275\u0275text(37, "Jharkhand");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(38, "option", 152);
-    \u0275\u0275text(39, "Jammu and Kashmir");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(40, "option", 153);
-    \u0275\u0275text(41, "Karnataka");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(42, "option", 154);
-    \u0275\u0275text(43, "Kerala");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(44, "option", 155);
-    \u0275\u0275text(45, "Lakshadweep");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(46, "option", 156);
-    \u0275\u0275text(47, "Maharashtra");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(48, "option", 157);
-    \u0275\u0275text(49, "Meghalaya");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(50, "option", 158);
-    \u0275\u0275text(51, "Manipur");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(52, "option", 159);
-    \u0275\u0275text(53, "Madhya Pradesh");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(54, "option", 160);
-    \u0275\u0275text(55, "Mizoram");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(56, "option", 161);
-    \u0275\u0275text(57, "Nagaland");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(58, "option", 162);
-    \u0275\u0275text(59, "Odisha");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(60, "option", 163);
-    \u0275\u0275text(61, "Punjab");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(62, "option", 164);
-    \u0275\u0275text(63, "Puducherry");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(64, "option", 165);
-    \u0275\u0275text(65, "Rajasthan");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(66, "option", 166);
-    \u0275\u0275text(67, "Sikkim");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(68, "option", 167);
-    \u0275\u0275text(69, "Tamil Nadu");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(70, "option", 168);
-    \u0275\u0275text(71, "Telangana");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(72, "option", 169);
-    \u0275\u0275text(73, "Tripura");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(74, "option", 170);
-    \u0275\u0275text(75, "Uttar Pradesh");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(76, "option", 171);
-    \u0275\u0275text(77, "Uttarakhand");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(78, "option", 172);
-    \u0275\u0275text(79, "West Bengal");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(80, B2cFormComponent_div_36_ng_container_5_span_80_Template, 2, 0, "span", 61);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(80);
-    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r0.form.get("state")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("state")) == null ? null : tmp_2_0.touched));
-  }
-}
-function B2cFormComponent_div_36_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 59);
-    \u0275\u0275template(1, B2cFormComponent_div_36_ng_container_1_Template, 120, 3, "ng-container", 39)(2, B2cFormComponent_div_36_ng_container_2_Template, 17, 4, "ng-container", 39)(3, B2cFormComponent_div_36_ng_container_3_Template, 38, 2, "ng-container", 39)(4, B2cFormComponent_div_36_ng_container_4_Template, 10, 2, "ng-container", 39)(5, B2cFormComponent_div_36_ng_container_5_Template, 81, 1, "ng-container", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    let tmp_2_0;
-    let tmp_3_0;
-    let tmp_4_0;
-    let tmp_5_0;
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("country")) == null ? null : tmp_1_0.value) === "United States");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r0.form.get("country")) == null ? null : tmp_2_0.value) === "Mexico");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("country")) == null ? null : tmp_3_0.value) === "Canada");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_4_0 = ctx_r0.form.get("country")) == null ? null : tmp_4_0.value) === "United Kingdom");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_5_0 = ctx_r0.form.get("country")) == null ? null : tmp_5_0.value) === "India");
-  }
-}
-function B2cFormComponent_span_48_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 173);
-    \u0275\u0275text(1, " Please select an option ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_49_ng_container_1_span_20_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 173);
-    \u0275\u0275text(1, " Please select an option ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_49_ng_container_1_div_26_div_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 190);
-    \u0275\u0275listener("mousedown", function B2cFormComponent_div_49_ng_container_1_div_26_div_1_Template_div_mousedown_0_listener($event) {
-      const major_r5 = \u0275\u0275restoreView(_r4).$implicit;
-      const ctx_r0 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r0.selectAutoCompleteValue($event, "major", major_r5));
-    });
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const major_r5 = ctx.$implicit;
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", major_r5.label, " ");
-  }
-}
-function B2cFormComponent_div_49_ng_container_1_div_26_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 188);
-    \u0275\u0275template(1, B2cFormComponent_div_49_ng_container_1_div_26_div_1_Template, 2, 1, "div", 189);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngForOf", ctx_r0.filteredMajors);
-  }
-}
-function B2cFormComponent_div_49_ng_container_1_span_27_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 191);
-    \u0275\u0275text(1, " Major is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_49_ng_container_1_div_33_div_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 190);
-    \u0275\u0275listener("mousedown", function B2cFormComponent_div_49_ng_container_1_div_33_div_1_Template_div_mousedown_0_listener($event) {
-      const school_r7 = \u0275\u0275restoreView(_r6).$implicit;
-      const ctx_r0 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r0.selectAutoCompleteValue($event, "school", school_r7));
-    });
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const school_r7 = ctx.$implicit;
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", school_r7.label, " ");
-  }
-}
-function B2cFormComponent_div_49_ng_container_1_div_33_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 188);
-    \u0275\u0275template(1, B2cFormComponent_div_49_ng_container_1_div_33_div_1_Template, 2, 1, "div", 189);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngForOf", ctx_r0.filteredSchools);
-  }
-}
-function B2cFormComponent_div_49_ng_container_1_span_34_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 191);
-    \u0275\u0275text(1, " School is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_49_ng_container_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "legend", 1);
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "fieldset", 2)(4, "div", 19);
-    \u0275\u0275element(5, "input", 175);
-    \u0275\u0275elementStart(6, "label", 176);
-    \u0275\u0275text(7);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 19);
-    \u0275\u0275element(9, "input", 177);
-    \u0275\u0275elementStart(10, "label", 178);
-    \u0275\u0275text(11);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "div", 19);
-    \u0275\u0275element(13, "input", 179);
-    \u0275\u0275elementStart(14, "label", 180);
-    \u0275\u0275text(15);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(16, "div", 19);
-    \u0275\u0275element(17, "input", 181);
-    \u0275\u0275elementStart(18, "label", 182);
-    \u0275\u0275text(19);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(20, B2cFormComponent_div_49_ng_container_1_span_20_Template, 2, 0, "span", 24);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(21, "fieldset", 9)(22, "legend", 1);
-    \u0275\u0275text(23, "Major");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "div", 183)(25, "input", 184);
-    \u0275\u0275listener("input", function B2cFormComponent_div_49_ng_container_1_Template_input_input_25_listener($event) {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r0 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r0.filterMajors($event));
-    })("focus", function B2cFormComponent_div_49_ng_container_1_Template_input_focus_25_listener() {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r0 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r0.focusedControl["major"] = true);
-    })("blur", function B2cFormComponent_div_49_ng_container_1_Template_input_blur_25_listener($event) {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r0 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r0.setFocusedControl($event, "major", false));
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(26, B2cFormComponent_div_49_ng_container_1_div_26_Template, 2, 1, "div", 185);
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(27, B2cFormComponent_div_49_ng_container_1_span_27_Template, 2, 0, "span", 186);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "fieldset", 9)(29, "legend", 1);
-    \u0275\u0275text(30, "School");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(31, "div", 183)(32, "input", 187);
-    \u0275\u0275listener("input", function B2cFormComponent_div_49_ng_container_1_Template_input_input_32_listener($event) {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r0 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r0.filterSchools($event));
-    })("focus", function B2cFormComponent_div_49_ng_container_1_Template_input_focus_32_listener() {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r0 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r0.focusedControl["school"] = true);
-    })("blur", function B2cFormComponent_div_49_ng_container_1_Template_input_blur_32_listener($event) {
-      \u0275\u0275restoreView(_r3);
-      const ctx_r0 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r0.setFocusedControl($event, "school", false));
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(33, B2cFormComponent_div_49_ng_container_1_div_33_Template, 2, 1, "div", 185);
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(34, B2cFormComponent_div_49_ng_container_1_span_34_Template, 2, 0, "span", 186);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_7_0;
-    let tmp_9_0;
-    let tmp_11_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(((tmp_2_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_2_0.value) === "yes" ? "Degree Expected" : "Highest Degree Achieved");
-    \u0275\u0275advance(5);
-    \u0275\u0275textInterpolate1("High School", ctx_r0.form.value.country === "Mexico" ? "/Bachillerato" : "", "");
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("Associate's Degree", ctx_r0.form.value.country === "Mexico" ? "/TSU" : "", "");
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("Bachelor's Degree", ctx_r0.form.value.country === "Mexico" ? "/Licenciatura" : "", "");
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("Master's Degree", ctx_r0.form.value.country === "Mexico" ? "/Maestr\xEDa" : "", "");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_7_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_7_0.invalid) && ((tmp_7_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_7_0.touched));
-    \u0275\u0275advance(6);
-    \u0275\u0275property("ngIf", ctx_r0.focusedControl.major);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_9_0 = ctx_r0.form.get("major")) == null ? null : tmp_9_0.invalid) && ((tmp_9_0 = ctx_r0.form.get("major")) == null ? null : tmp_9_0.touched));
-    \u0275\u0275advance(6);
-    \u0275\u0275property("ngIf", ctx_r0.focusedControl.school);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_11_0 = ctx_r0.form.get("school")) == null ? null : tmp_11_0.invalid) && ((tmp_11_0 = ctx_r0.form.get("school")) == null ? null : tmp_11_0.touched));
-  }
-}
-function B2cFormComponent_div_49_ng_container_2_span_24_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 173);
-    \u0275\u0275text(1, " Please select an option ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_49_ng_container_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "legend", 1);
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "fieldset", 2)(4, "div", 19);
-    \u0275\u0275element(5, "input", 175);
-    \u0275\u0275elementStart(6, "label", 176);
-    \u0275\u0275text(7, "High School");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 19);
-    \u0275\u0275element(9, "input", 177);
-    \u0275\u0275elementStart(10, "label", 178);
-    \u0275\u0275text(11, "Associate's Degree");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "div", 19);
-    \u0275\u0275element(13, "input", 192);
-    \u0275\u0275elementStart(14, "label", 193);
-    \u0275\u0275text(15, "3-Year Bachelor's Degree");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(16, "div", 19);
-    \u0275\u0275element(17, "input", 194);
-    \u0275\u0275elementStart(18, "label", 195);
-    \u0275\u0275text(19, "4-Year Bachelor's Degree");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(20, "div", 19);
-    \u0275\u0275element(21, "input", 181);
-    \u0275\u0275elementStart(22, "label", 182);
-    \u0275\u0275text(23, "Master's Degree");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(24, B2cFormComponent_div_49_ng_container_2_span_24_Template, 2, 0, "span", 24);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_3_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(((tmp_2_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_2_0.value) === "yes" ? "Degree Expected" : "Highest Degree Achieved");
-    \u0275\u0275advance(22);
-    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_3_0.touched));
-  }
-}
-function B2cFormComponent_div_49_ng_container_3_span_16_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 173);
-    \u0275\u0275text(1, " Please select an option ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_49_ng_container_3_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "legend", 1);
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "fieldset", 2)(4, "div", 19);
-    \u0275\u0275element(5, "input", 196);
-    \u0275\u0275elementStart(6, "label", 197);
-    \u0275\u0275text(7, "Secondary School");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 19);
-    \u0275\u0275element(9, "input", 179);
-    \u0275\u0275elementStart(10, "label", 180);
-    \u0275\u0275text(11, "BA/BSc");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "div", 19);
-    \u0275\u0275element(13, "input", 181);
-    \u0275\u0275elementStart(14, "label", 182);
-    \u0275\u0275text(15, "MA/MLitt/MSc");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(16, B2cFormComponent_div_49_ng_container_3_span_16_Template, 2, 0, "span", 24);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_3_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(((tmp_2_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_2_0.value) === "yes" ? "Degree Expected" : "Highest Degree Achieved");
-    \u0275\u0275advance(14);
-    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_3_0.touched));
-  }
-}
-function B2cFormComponent_div_49_ng_container_4_span_23_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 191);
-    \u0275\u0275text(1, " Degree is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_49_ng_container_4_option_27_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 119);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const branch_r8 = ctx.$implicit;
-    \u0275\u0275property("value", branch_r8.value);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", branch_r8.label, " ");
-  }
-}
-function B2cFormComponent_div_49_ng_container_4_span_28_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 191);
-    \u0275\u0275text(1, " Branch is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_49_ng_container_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "legend", 1);
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3)(5, "select", 198);
-    \u0275\u0275element(6, "option", 11);
-    \u0275\u0275elementStart(7, "option", 199);
-    \u0275\u0275text(8, "Bachelor of Science");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "option", 200);
-    \u0275\u0275text(10, "Bachelor of Engineering");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "option", 201);
-    \u0275\u0275text(12, "Bachelor of Technology");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "option", 202);
-    \u0275\u0275text(14, "Master of Science");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "option", 203);
-    \u0275\u0275text(16, "Master of Engineering");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(17, "option", 204);
-    \u0275\u0275text(18, "Master of Technology");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(19, "option", 205);
-    \u0275\u0275text(20, "Master of Computer Application");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(21, "option", 206);
-    \u0275\u0275text(22, "Other");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(23, B2cFormComponent_div_49_ng_container_4_span_23_Template, 2, 0, "span", 186);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "fieldset", 3)(25, "select", 207);
-    \u0275\u0275element(26, "option", 11);
-    \u0275\u0275template(27, B2cFormComponent_div_49_ng_container_4_option_27_Template, 2, 2, "option", 117);
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(28, B2cFormComponent_div_49_ng_container_4_span_28_Template, 2, 0, "span", 186);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_3_0;
-    let tmp_5_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(((tmp_2_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_2_0.value) === "yes" ? "Degree Expected" : "Highest Degree Achieved");
-    \u0275\u0275advance(21);
-    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("levelOfEducation")) == null ? null : tmp_3_0.touched));
-    \u0275\u0275advance(4);
-    \u0275\u0275property("ngForOf", ctx_r0.branches);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_5_0 = ctx_r0.form.get("branch")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx_r0.form.get("branch")) == null ? null : tmp_5_0.touched));
-  }
-}
-function B2cFormComponent_div_49_ng_container_5_span_32_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 191);
-    \u0275\u0275text(1, " Graduation Month is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_49_ng_container_5_option_37_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 119);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const year_r9 = ctx.$implicit;
-    \u0275\u0275property("value", year_r9);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(year_r9);
-  }
-}
-function B2cFormComponent_div_49_ng_container_5_span_38_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 191);
-    \u0275\u0275text(1, " Graduation Year is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_49_ng_container_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "legend", 1);
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3)(5, "select", 208)(6, "option", 11);
-    \u0275\u0275text(7, "Select a month");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "option", 209);
-    \u0275\u0275text(9, "January");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "option", 210);
-    \u0275\u0275text(11, "February");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "option", 211);
-    \u0275\u0275text(13, "March");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "option", 212);
-    \u0275\u0275text(15, "April");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "option", 213);
-    \u0275\u0275text(17, "May");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "option", 214);
-    \u0275\u0275text(19, "June");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "option", 215);
-    \u0275\u0275text(21, "July");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "option", 216);
-    \u0275\u0275text(23, "August");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "option", 217);
-    \u0275\u0275text(25, "September");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "option", 218);
-    \u0275\u0275text(27, "October");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "option", 219);
-    \u0275\u0275text(29, "November");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "option", 220);
-    \u0275\u0275text(31, "December");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(32, B2cFormComponent_div_49_ng_container_5_span_32_Template, 2, 0, "span", 186);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(33, "fieldset", 3)(34, "select", 221)(35, "option", 11);
-    \u0275\u0275text(36, "Select a year");
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(37, B2cFormComponent_div_49_ng_container_5_option_37_Template, 2, 2, "option", 117);
-    \u0275\u0275elementEnd();
-    \u0275\u0275template(38, B2cFormComponent_div_49_ng_container_5_span_38_Template, 2, 0, "span", 186);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_3_0;
-    let tmp_5_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(((tmp_2_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_2_0.value) === "yes" ? "Expected Graduation Date" : "Graduation Date");
-    \u0275\u0275advance(30);
-    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("graduationMonth")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("graduationMonth")) == null ? null : tmp_3_0.touched));
-    \u0275\u0275advance(5);
-    \u0275\u0275property("ngForOf", ctx_r0.graduationYears);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_5_0 = ctx_r0.form.get("graduationYear")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx_r0.form.get("graduationYear")) == null ? null : tmp_5_0.touched));
-  }
-}
-function B2cFormComponent_div_49_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 174);
-    \u0275\u0275template(1, B2cFormComponent_div_49_ng_container_1_Template, 35, 10, "ng-container", 39)(2, B2cFormComponent_div_49_ng_container_2_Template, 25, 2, "ng-container", 39)(3, B2cFormComponent_div_49_ng_container_3_Template, 17, 2, "ng-container", 39)(4, B2cFormComponent_div_49_ng_container_4_Template, 29, 4, "ng-container", 39)(5, B2cFormComponent_div_49_ng_container_5_Template, 39, 4, "ng-container", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    let tmp_2_0;
-    let tmp_3_0;
-    let tmp_4_0;
-    let tmp_5_0;
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("country")) == null ? null : tmp_1_0.value) === "United States" || ((tmp_1_0 = ctx_r0.form.get("country")) == null ? null : tmp_1_0.value) === "Mexico");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", !((tmp_2_0 = ctx_r0.form.get("country")) == null ? null : tmp_2_0.value) || ((tmp_2_0 = ctx_r0.form.get("country")) == null ? null : tmp_2_0.value) === "Canada");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("country")) == null ? null : tmp_3_0.value) === "United Kingdom");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_4_0 = ctx_r0.form.get("country")) == null ? null : tmp_4_0.value) === "India");
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", ((tmp_5_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_5_0.value) === "yes" || ((tmp_5_0 = ctx_r0.form.get("currentStudent")) == null ? null : tmp_5_0.value) && ((tmp_5_0 = ctx_r0.form.get("country")) == null ? null : tmp_5_0.value) === "India");
-  }
-}
-function B2cFormComponent_span_65_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 173);
-    \u0275\u0275text(1, " Please select an option ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_span_82_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 58);
-    \u0275\u0275text(1, " Experience is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_fieldset_83_span_11_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 173);
-    \u0275\u0275text(1, " Please select an option ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_fieldset_83_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "fieldset", 2)(1, "legend", 1);
-    \u0275\u0275text(2, "Are you legally authorized to work in the country of the position for which you are applying?");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 19);
-    \u0275\u0275element(4, "input", 222);
-    \u0275\u0275elementStart(5, "label", 223);
-    \u0275\u0275text(6, "No");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(7, "div", 19);
-    \u0275\u0275element(8, "input", 224);
-    \u0275\u0275elementStart(9, "label", 225);
-    \u0275\u0275text(10, "Yes");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(11, B2cFormComponent_fieldset_83_span_11_Template, 2, 0, "span", 24);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance(11);
-    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("workAuthorization")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("workAuthorization")) == null ? null : tmp_1_0.touched));
-  }
-}
-function B2cFormComponent_ng_container_84_span_12_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 173);
-    \u0275\u0275text(1, " Please select an option ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_ng_container_84_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "fieldset", 2)(2, "legend", 1);
-    \u0275\u0275text(3, "Do you currently, or will you in the future, require sponsorship to continue to work in the this country?");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 19);
-    \u0275\u0275element(5, "input", 226);
-    \u0275\u0275elementStart(6, "label", 227);
-    \u0275\u0275text(7, "No");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 19);
-    \u0275\u0275element(9, "input", 228);
-    \u0275\u0275elementStart(10, "label", 229);
-    \u0275\u0275text(11, "Yes");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(12, B2cFormComponent_ng_container_84_span_12_Template, 2, 0, "span", 24);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance(12);
-    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("sponsorship")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("sponsorship")) == null ? null : tmp_1_0.touched));
-  }
-}
-function B2cFormComponent_ng_container_85_span_12_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 173);
-    \u0275\u0275text(1, " Please select an option ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_ng_container_85_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "fieldset", 2)(2, "legend", 1);
-    \u0275\u0275text(3, "Is your work authorization employer-dependent or dependent upon a family member's current or future sponsorship with another employer?");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 19);
-    \u0275\u0275element(5, "input", 230);
-    \u0275\u0275elementStart(6, "label", 231);
-    \u0275\u0275text(7, "No");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(8, "div", 19);
-    \u0275\u0275element(9, "input", 232);
-    \u0275\u0275elementStart(10, "label", 233);
-    \u0275\u0275text(11, "Yes");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275template(12, B2cFormComponent_ng_container_85_span_12_Template, 2, 0, "span", 24);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance(12);
-    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("futureSponsorship")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("futureSponsorship")) == null ? null : tmp_1_0.touched));
-  }
-}
-function B2cFormComponent_ng_container_86_span_6_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Degree score is required. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_ng_container_86_span_6_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Score must be a number ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_ng_container_86_span_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 238);
-    \u0275\u0275template(1, B2cFormComponent_ng_container_86_span_6_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_ng_container_86_span_6_span_2_Template, 2, 0, "span", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_3_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_2_0 = ctx_r0.form.get("majorGrade")) == null ? null : tmp_2_0.errors == null ? null : tmp_2_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("majorGrade")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["pattern"]);
-  }
-}
-function B2cFormComponent_ng_container_86_span_11_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " 12th score is required. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_ng_container_86_span_11_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Score must be a number ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_ng_container_86_span_11_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 238);
-    \u0275\u0275template(1, B2cFormComponent_ng_container_86_span_11_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_ng_container_86_span_11_span_2_Template, 2, 0, "span", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_3_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_2_0 = ctx_r0.form.get("twelfthGrade")) == null ? null : tmp_2_0.errors == null ? null : tmp_2_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("twelfthGrade")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["pattern"]);
-  }
-}
-function B2cFormComponent_ng_container_86_span_16_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " 10th score is required. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_ng_container_86_span_16_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " Score must be a number ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_ng_container_86_span_16_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 238);
-    \u0275\u0275template(1, B2cFormComponent_ng_container_86_span_16_span_1_Template, 2, 0, "span", 39)(2, B2cFormComponent_ng_container_86_span_16_span_2_Template, 2, 0, "span", 39);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_2_0;
-    let tmp_3_0;
-    const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_2_0 = ctx_r0.form.get("tenthGrade")) == null ? null : tmp_2_0.errors == null ? null : tmp_2_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("tenthGrade")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["pattern"]);
-  }
-}
-function B2cFormComponent_ng_container_86_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "div", 9)(2, "fieldset", 3)(3, "legend", 1);
-    \u0275\u0275text(4, "Score in Degree (in %)");
-    \u0275\u0275elementEnd();
-    \u0275\u0275element(5, "input", 234);
-    \u0275\u0275template(6, B2cFormComponent_ng_container_86_span_6_Template, 3, 2, "span", 235);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "fieldset", 3)(8, "legend", 1);
-    \u0275\u0275text(9, "Score in 12th Board exam (in %)");
-    \u0275\u0275elementEnd();
-    \u0275\u0275element(10, "input", 236);
-    \u0275\u0275template(11, B2cFormComponent_ng_container_86_span_11_Template, 3, 2, "span", 235);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "fieldset", 3)(13, "legend", 1);
-    \u0275\u0275text(14, "Score in 10th Board exam (in %)");
-    \u0275\u0275elementEnd();
-    \u0275\u0275element(15, "input", 237);
-    \u0275\u0275template(16, B2cFormComponent_ng_container_86_span_16_Template, 3, 2, "span", 235);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    let tmp_2_0;
-    let tmp_3_0;
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance(6);
-    \u0275\u0275property("ngIf", ((tmp_1_0 = ctx_r0.form.get("majorGrade")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("majorGrade")) == null ? null : tmp_1_0.touched));
-    \u0275\u0275advance(5);
-    \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r0.form.get("twelfthGrade")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("twelfthGrade")) == null ? null : tmp_2_0.touched));
-    \u0275\u0275advance(5);
-    \u0275\u0275property("ngIf", ((tmp_3_0 = ctx_r0.form.get("tenthGrade")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("tenthGrade")) == null ? null : tmp_3_0.touched));
-  }
-}
-function B2cFormComponent_span_99_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 173);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r0.fileError);
-  }
-}
-function B2cFormComponent_span_100_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 239);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r0.fileSuccess);
-  }
-}
-function B2cFormComponent_div_120_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 240);
-    \u0275\u0275text(1, " Please complete the reCAPTCHA to proceed. ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_button_121_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "button", 241);
-    \u0275\u0275text(1, "Submit");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_122_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "div", 242);
-  }
-}
-var B2cFormComponent = class _B2cFormComponent {
-  constructor(fb, http) {
-    this.fb = fb;
-    this.http = http;
-    this.initForm();
-    this.initDropbox();
-  }
-  form;
-  graduationYears = [];
-  showSponsorshipFields = false;
-  showFutureSponsorshipFields = false;
-  fileError = "";
-  fileSuccess = "";
-  loading = false;
-  showSubmitButton = true;
-  dropboxReady = false;
-  filteredMajors = [];
-  filteredSchools = [];
-  formAuditValue = {
-    school: {
-      label: "",
-      value: ""
-    },
-    major: {
-      label: "",
-      value: ""
-    }
-  };
-  focusedControl = {
-    school: false,
-    major: false
-  };
-  schools = US_SCHOOLS;
-  states = MEXICO_STATE_VALUES;
-  branches = [
-    { value: "a0A0d00000cwoOcEAI", label: "Computer Science and Engineering" },
-    { value: "a0A3g000000sYkcEAE", label: "Electronics and Communication Engineering" },
-    { value: "a0A0P00001ZJyDgUAL", label: "Circuital" },
-    { value: "a0A0P00001ZJyDjUAL", label: "Information Technology" },
-    { value: "a0A0P00001ZJyDHUA1", label: "Civil Engineering" },
-    { value: "a0A0P00001ZJyDqUAL", label: "Mechanical Engineering" },
-    { value: "a0A0P00001ZJyCLUA1", label: "Unlisted" }
-  ];
-  initForm() {
-    this.form = this.fb.group({
-      // Full Name
-      firstName: ["", [Validators.required]],
-      lastName: ["", [Validators.required]],
-      // Contact Information
-      email: ["", [Validators.required, this.validateEmail]],
-      phone: ["", [Validators.required, this.validatePhone.bind(this)]],
-      // Country
-      country: ["", [Validators.required]],
-      // Location Fields (Dynamic based on country selection)
-      city: [""],
-      state: [""],
-      zip: ["", [Validators.pattern("^[0-9]{5}$")]],
-      // US ZIP
-      canadaState: [""],
-      canadaZip: ["", [Validators.pattern("^[a-zA-Z0-9]{6}$")]],
-      // Canada ZIP
-      ukZip: ["", [Validators.pattern("^[a-zA-Z0-9]{7}$")]],
-      // UK ZIP
-      // Current Student
-      currentStudent: ["", [Validators.required]],
-      // Education Fields (Dynamic based on country and current student selection)
-      levelOfEducation: ["", [Validators.required]],
-      branch: [""],
-      major: [""],
-      majorID: [""],
-      school: [""],
-      schoolID: [""],
-      graduationMonth: [""],
-      graduationYear: [""],
-      // Willingness to Relocate
-      willingToRelocate: ["", [Validators.required]],
-      // Programming Experience
-      programmingExperience: ["", [Validators.required]],
-      // Work Authorization
-      workAuthorization: ["", [Validators.required]],
-      sponsorship: [""],
-      futureSponsorship: [""],
-      // Resume Upload
-      resumeURL: [""],
-      computer_data: [""],
-      computer_data_result: [""],
-      FileBase64: [""],
-      FileExt: [""],
-      dropbox: [""],
-      Resumedropbox: [""],
-      // Privacy Consent
-      dataConsent: [false],
-      // reCAPTCHA
-      validCaptacha: [""],
-      // India-Specific Fields
-      majorGrade: ["", [Validators.pattern("^[0-9]{1,2}$")]],
-      // Score in Degree (in %)
-      twelfthGrade: ["", [Validators.pattern("^[0-9]{1,2}$")]],
-      // Score in 12th Board exam (in %)
-      tenthGrade: ["", [Validators.pattern("^[0-9]{1,2}$")]]
-      // Score in 10th Board exam (in %)
-    });
-    this.form.get("phone")?.valueChanges.subscribe((value) => {
-      this.formatPhoneNumber(value);
-    });
-    this.form.get("country")?.valueChanges.subscribe((country) => {
-      if (this.form.value.country || !this.form.value.country && country != "United States")
-        this.form.get("phone")?.setValue("", { emitEvent: false });
-      this.handleCountryChange(country);
-    });
-    this.form.get("currentStudent")?.valueChanges.subscribe((currentStudent) => {
-      this.handleCurrentStudentChange(currentStudent);
-    });
-    this.form.get("branch")?.valueChanges.subscribe((selectedValue) => {
-      this.onBranchChange(selectedValue);
-    });
-    this.form.get("workAuthorization")?.valueChanges.subscribe((workAuthorization) => {
-      this.handleWorkAuthorizationChange(workAuthorization);
-    });
-    this.form.get("sponsorship")?.valueChanges.subscribe((value) => {
-      this.handleSponsorshipChange(value);
-    });
-  }
-  initDropbox() {
-    const script = document.createElement("script");
-    script.src = "https://www.dropbox.com/static/api/2/dropins.js";
-    script.id = "dropboxjs";
-    script.dataset["appKey"] = "lcc592yiomt2omy";
-    script.addEventListener("load", () => {
-      this.dropboxReady = true;
-    });
-    document.body.appendChild(script);
-  }
-  validatePhone(control) {
-    if (!control.value) {
-      return null;
-    }
-    const country = this.form ? this.form.get("country")?.value : null;
-    const value = control.value;
-    if (!country || country === "United States") {
-      const digits = value.replace(/\D/g, "");
-      const phoneRegExp = /^\d{10}$/;
-      if (digits[0] === "1" || !phoneRegExp.test(digits)) {
-        return { invalidPhone: true };
-      }
-    } else if (country === "Mexico") {
-      if (!value.startsWith("+52")) {
-        return { invalidPhone: true };
-      }
-      const remaining = value.slice(4);
-      if (!/^\d*$/.test(remaining) || remaining.length < 7) {
-        return { invalidPhone: true };
-      }
-      if (value.length > 15) {
-        return { invalidPhone: true };
-      }
-    } else if (country === "United Kingdom") {
-      if (!value.startsWith("+44")) {
-        return { invalidPhone: true };
-      }
-      const remaining = value.slice(4);
-      if (!/^\d*$/.test(remaining) || remaining.length < 7) {
-        return { invalidPhone: true };
-      }
-      if (value.length > 15) {
-        return { invalidPhone: true };
-      }
-    } else if (country === "India" || country === "Canada") {
-      if (!/^\d*$/.test(value) || value.length < 7) {
-        return { invalidPhone: true };
-      }
-      if (value.length > 10) {
-        return { invalidPhone: true };
-      }
-    }
-    return null;
-  }
-  validateEmail(control) {
-    if (control.value === null || control.value === "") {
-      return null;
-    }
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]+$/;
-    return emailPattern.test(control.value) ? null : { invalidEmail: true };
-  }
-  formatPhoneNumber(phone) {
-    const phoneControl = this.form.get("phone");
-    if (!phoneControl)
-      return;
-    const country = this.form.get("country")?.value;
-    if (!country || country === "United States") {
-      let formattedPhone = phone.replace(/\D/g, "");
-      if (formattedPhone.length === 10) {
-        formattedPhone = formattedPhone.replace(/^(\d{3})(\d{3})(\d{4})$/, "($1) $2-$3");
-      } else if (formattedPhone.length > 6) {
-        formattedPhone = formattedPhone.replace(/^(\d{3})(\d{3})(\d*)$/, "($1) $2-$3");
-      } else if (formattedPhone.length > 3) {
-        formattedPhone = formattedPhone.replace(/^(\d{3})(\d*)$/, "($1) $2");
-      } else if (formattedPhone.length > 0) {
-        formattedPhone = "(" + formattedPhone;
-      }
-      phoneControl.setValue(formattedPhone, { emitEvent: false });
-    } else if (country === "Mexico") {
-      let value = phone.replace(/\D/g, "");
-      if (!value.startsWith("+52 ")) {
-        value = "+52 " + value.replace(/^\+?52/, "");
-      }
-      phoneControl.setValue(value, { emitEvent: false });
-    } else if (country === "United Kingdom") {
-      let value = phone.replace(/\D/g, "");
-      if (!value.startsWith("+44 ")) {
-        value = "+44 " + value.replace(/^\+?44/, "");
-      }
-      phoneControl.setValue(value, { emitEvent: false });
-    } else {
-      phoneControl.setValue(phone.replace(/\D/g, ""), { emitEvent: false });
-    }
-  }
-  get phoneMaxLength() {
-    const country = this.form.get("country")?.value;
-    if (country === "Mexico" || country === "United Kingdom")
-      return 15;
-    if (country === "United States")
-      return 14;
-    if (country === "India" || country === "Canada")
-      return 10;
-    return 14;
-  }
-  handleCountryChange(country) {
-    this.form.get("zip")?.setValue("");
-    this.form.get("canadaZip")?.setValue("");
-    this.form.get("ukZip")?.setValue("");
-    if (country === "United States" || country === "Mexico") {
-      this.form.get("zip")?.setValidators([Validators.required, Validators.minLength(5), Validators.pattern("^[0-9]+$")]);
-      this.form.get("canadaZip")?.clearValidators();
-      this.form.get("ukZip")?.clearValidators();
-    } else if (country === "Canada") {
-      this.form.get("canadaZip")?.setValidators([Validators.required, Validators.minLength(6), Validators.pattern("^[a-zA-Z0-9]+$")]);
-      this.form.get("zip")?.clearValidators();
-      this.form.get("ukZip")?.clearValidators();
-    } else if (country === "United Kingdom") {
-      this.form.get("ukZip")?.setValidators([Validators.required, Validators.minLength(7), Validators.pattern("^[a-zA-Z0-9]+$")]);
-      this.form.get("zip")?.clearValidators();
-      this.form.get("canadaZip")?.clearValidators();
-    } else {
-      this.form.get("zip")?.clearValidators();
-      this.form.get("canadaZip")?.clearValidators();
-      this.form.get("ukZip")?.clearValidators();
-    }
-    this.form.get("zip")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("canadaZip")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("ukZip")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("city")?.setValue("");
-    this.form.get("state")?.setValue("");
-    this.form.get("canadaState")?.setValue("");
-    if (country === "United States" || country === "Mexico") {
-      this.form.get("city")?.setValidators([Validators.required]);
-      this.form.get("state")?.setValidators([Validators.required]);
-      this.form.get("canadaState")?.clearValidators();
-    } else if (country === "Canada") {
-      this.form.get("canadaState")?.setValidators([Validators.required]);
-      this.form.get("city")?.clearValidators();
-      this.form.get("state")?.clearValidators();
-    } else if (country === "United Kingdom") {
-      this.form.get("city")?.setValidators([Validators.required]);
-      this.form.get("state")?.clearValidators();
-      this.form.get("canadaState")?.clearValidators();
-    } else if (country === "India") {
-      this.form.get("state")?.setValidators([Validators.required]);
-      this.form.get("city")?.clearValidators();
-      this.form.get("canadaState")?.clearValidators();
-    } else {
-      this.form.get("city")?.clearValidators();
-      this.form.get("state")?.clearValidators();
-      this.form.get("canadaState")?.clearValidators();
-    }
-    this.form.get("city")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("state")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("canadaState")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("workAuthorization")?.setValue("");
-    if (country === "India") {
-      this.form.get("majorGrade")?.setValidators([Validators.required, Validators.pattern("^[0-9]+$")]);
-      this.form.get("twelfthGrade")?.setValidators([Validators.required, Validators.pattern("^[0-9]+$")]);
-      this.form.get("tenthGrade")?.setValidators([Validators.required, Validators.pattern("^[0-9]+$")]);
-      this.form.get("workAuthorization")?.clearValidators();
-    } else {
-      this.form.get("workAuthorization")?.setValidators([Validators.required]);
-      this.form.get("majorGrade")?.clearValidators();
-      this.form.get("twelfthGrade")?.clearValidators();
-      this.form.get("tenthGrade")?.clearValidators();
-      this.form.get("majorGrade")?.setValue("");
-      this.form.get("twelfthGrade")?.setValue("");
-      this.form.get("tenthGrade")?.setValue("");
-    }
-    this.form.get("workAuthorization")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("majorGrade")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("twelfthGrade")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("tenthGrade")?.updateValueAndValidity({ emitEvent: false });
-    this.schools = this.form.value.country === "Mexico" ? MEXICO_SCHOOLS : US_SCHOOLS;
-    this.filterMajors(null);
-    this.filterSchools(null);
-    this.handleCurrentStudentChange(this.form.value.currentStudent);
-  }
-  handleCurrentStudentChange(currentStudent) {
-    this.calculateGraduationYears(currentStudent);
-    this.form.get("levelOfEducation")?.setValue("");
-    this.form.get("graduationMonth")?.setValue("");
-    this.form.get("graduationYear")?.setValue("");
-    this.form.get("major")?.setValue("");
-    this.form.get("majorID")?.setValue("");
-    this.form.get("school")?.setValue("");
-    this.form.get("schoolID")?.setValue("");
-    this.form.get("branch")?.setValue("");
-    const country = this.form.get("country")?.value;
-    this.form.get("levelOfEducation")?.setValidators([Validators.required]);
-    if (country === "United States" || country === "Mexico") {
-      this.form.get("major")?.setValidators([Validators.required]);
-      this.form.get("school")?.setValidators([Validators.required]);
-      this.form.get("branch")?.clearValidators();
-    } else if (country === "India") {
-      this.form.get("major")?.clearValidators();
-      this.form.get("school")?.clearValidators();
-      this.form.get("branch")?.setValidators([Validators.required]);
-    } else {
-      this.form.get("major")?.clearValidators();
-      this.form.get("school")?.clearValidators();
-      this.form.get("branch")?.clearValidators();
-    }
-    if (currentStudent === "yes" || currentStudent && country === "India") {
-      this.form.get("graduationMonth")?.setValidators([Validators.required]);
-      this.form.get("graduationYear")?.setValidators([Validators.required]);
-    } else {
-      this.form.get("graduationMonth")?.clearValidators();
-      this.form.get("graduationYear")?.clearValidators();
-    }
-    this.form.get("levelOfEducation")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("graduationMonth")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("graduationYear")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("major")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("majorID")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("school")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("schoolID")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("branch")?.updateValueAndValidity({ emitEvent: false });
-  }
-  onBranchChange(selectedValue) {
-    const selectedBranch = this.branches.find((branch) => branch.value === selectedValue);
-    if (selectedBranch) {
-      this.form.patchValue({
-        major: selectedBranch.label,
-        majorID: selectedBranch.value
-      });
-    } else {
-      this.form.patchValue({
-        major: "",
-        majorID: ""
-      });
-    }
-  }
-  handleWorkAuthorizationChange(workAuthorization) {
-    if (workAuthorization === "yes") {
-      this.showSponsorshipFields = true;
-      this.form.get("sponsorship")?.setValidators([Validators.required]);
-    } else {
-      this.showSponsorshipFields = false;
-      this.showFutureSponsorshipFields = false;
-      this.form.get("sponsorship")?.clearValidators();
-      this.form.get("sponsorship")?.setValue("");
-      this.form.get("futureSponsorship")?.clearValidators();
-      this.form.get("futureSponsorship")?.setValue("");
-    }
-    this.form.get("sponsorship")?.updateValueAndValidity({ emitEvent: false });
-    this.form.get("futureSponsorship")?.updateValueAndValidity({ emitEvent: false });
-  }
-  handleSponsorshipChange(value) {
-    if (value === "no") {
-      this.showFutureSponsorshipFields = true;
-      this.form.get("futureSponsorship")?.setValidators([Validators.required]);
-    } else {
-      this.showFutureSponsorshipFields = false;
-      this.form.get("futureSponsorship")?.clearValidators();
-      this.form.get("futureSponsorship")?.setValue("");
-    }
-    this.form.get("futureSponsorship")?.updateValueAndValidity({ emitEvent: false });
-  }
-  filterMajors(event) {
-    const query = event?.target?.value?.toLowerCase();
-    this.filteredMajors = event ? MAJORS.sort((a, b) => a.label.localeCompare(b.label)).filter((major) => major.label.toLowerCase().includes(query)) : MAJORS.sort((a, b) => a.label.localeCompare(b.label));
-  }
-  filterSchools(event) {
-    const query = event?.target?.value?.toLowerCase();
-    this.filteredSchools = event ? this.schools.sort((a, b) => a.label.localeCompare(b.label)).filter((school) => school.label.toLowerCase().includes(query)) : this.schools.sort((a, b) => a.label.localeCompare(b.label));
-  }
-  selectAutoCompleteValue(event, formControl, ObjectValue) {
-    event.stopPropagation();
-    switch (formControl) {
-      case "major":
-        this.form.patchValue({
-          major: ObjectValue.label,
-          majorID: ObjectValue.value
-        });
-        this.formAuditValue.major = {
-          label: ObjectValue.label,
-          value: ObjectValue.value
-        };
-        break;
-      case "school":
-        this.form.patchValue({
-          school: ObjectValue.label,
-          schoolID: ObjectValue.value
-        });
-        this.formAuditValue.school = {
-          label: ObjectValue.label,
-          value: ObjectValue.value
-        };
-        break;
-    }
-    this.focusedControl[formControl] = false;
-  }
-  setFocusedControl(event, formControl, value) {
-    event.preventDefault();
-    this.focusedControl[formControl] = value;
-    if (formControl === "major") {
-      if (this.formAuditValue.major.label !== this.form.value.major || !this.form.value.majorID) {
-        this.form.get("major")?.setValue("");
-        this.form.get("majorID")?.setValue("");
-      }
-      this.filterMajors(null);
-    } else if (formControl === "school") {
-      if (this.formAuditValue.school.label !== this.form.value.school || !this.form.value.schoolID) {
-        this.form.get("school")?.setValue("");
-        this.form.get("schoolID")?.setValue("");
-      }
-      this.filterSchools(null);
-    }
-  }
-  calculateGraduationYears(currentStudent) {
-    const currentYear = currentStudent == "yes" ? (/* @__PURE__ */ new Date()).getFullYear() : (/* @__PURE__ */ new Date()).getFullYear() - 2;
-    const years = currentStudent == "yes" ? 5 : 3;
-    this.graduationYears = Array.from({ length: years }, (_, i) => currentYear + i);
-  }
-  onFileChange(event) {
-    const input2 = event.target;
-    const file = input2.files?.[0];
-    if (!file) {
-      return;
-    }
-    this.fileError = "";
-    this.fileSuccess = "";
-    const allowedExtensions = ["pdf", "doc", "docx", "rtf", "txt"];
-    const fileExtension = file.name.split(".").pop()?.toLowerCase();
-    if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
-      this.fileError = "Invalid file type.";
-      return;
-    }
-    if (file.size > 5242880) {
-      this.fileError = "File size is too large.";
-      return;
-    }
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const result = reader.result;
-      const rawData = result.split("base64,")[1];
-      this.form.patchValue({
-        computer_data: file.name,
-        computer_data_result: rawData,
-        FileBase64: rawData,
-        FileExt: file.type,
-        dropbox: ""
-      });
-      this.fileSuccess = "Resume ready to upload";
-    };
-    reader.readAsDataURL(file);
-  }
-  onDropboxClick() {
-    if (!this.dropboxReady) {
-      return;
-    }
-    Dropbox.choose({
-      success: (files) => this.handleDropboxFileChange(files[0]),
-      linkType: "preview",
-      multiselect: false,
-      extensions: [".doc", ".docx", ".pdf", ".txt", ".rtf"]
-    });
-  }
-  handleDropboxFileChange(file) {
-    this.fileError = "";
-    this.fileSuccess = "";
-    if (file.bytes > 5242880) {
-      this.fileError = "File size is too large.";
-      return;
-    }
-    const extension = file.link.split("/").pop().split("#")[0].split("?")[0];
-    let url = file.link.replace("dl=0", "dl=1");
-    url = url?.trim();
-    this.form.patchValue({
-      computer_data: "",
-      dropbox: url,
-      Resumedropbox: extension
-    });
-    this.fileSuccess = "Resume ready to upload";
-  }
-  recaptchaSuccessCallback(response) {
-    this.form.get("validCaptacha")?.setValue(response ? true : false);
-  }
-  onSubmit() {
-    return __async(this, null, function* () {
-      if (this.form.invalid) {
-        this.form.markAllAsTouched();
-        if (!this.form.get("computer_data")?.value && !this.form.get("dropbox")?.value) {
-          this.fileError = "Please upload a resume.";
-        }
-        if (!this.form.get("validCaptacha")?.value) {
-          this.form.get("validCaptacha")?.setValue(false);
-        }
-        return;
-      }
-      if (!this.form.get("computer_data")?.value && !this.form.get("dropbox")?.value) {
-        this.fileError = "Please upload a resume.";
-        return;
-      }
-      if (!this.form.get("validCaptacha")?.value) {
-        this.form.get("validCaptacha")?.setValue(false);
-        return;
-      }
-      this.loading = true;
-      this.showSubmitButton = false;
-      try {
-        yield this.uploadResume();
-      } catch (error) {
-        console.error("Error submitting resume:", error);
-        alert("Error submitting resume, Please try again.");
-        this.loading = false;
-        this.showSubmitButton = true;
-      }
-    });
-  }
-  uploadResume() {
-    return __async(this, null, function* () {
-      const formData = this.form.value;
-      if (formData.computer_data) {
-        const response = yield this.uploadFileViaApi(formData);
-        if (response.success) {
-          this.form.patchValue({ resumeURL: response.link });
-          const formDataObject = this.prepareFormData();
-          yield this.submitForm(formDataObject);
-        } else {
-          this.fileError = "There was an error uploading your file. Please try again.";
-          this.loading = false;
-          this.showSubmitButton = true;
-          throw new Error("Resume upload failed");
-        }
-      } else if (formData.dropbox) {
-        const formDataObject = this.prepareFormData();
-        yield this.submitForm(formDataObject);
-      } else {
-        this.fileError = "Please upload a resume.";
-        this.loading = false;
-        this.showSubmitButton = true;
-        throw new Error("No resume uploaded");
-      }
-    });
-  }
-  prepareFormData() {
-    let formDataObject = __spreadValues({}, this.form.value);
-    if (formDataObject.country === "Canada") {
-      formDataObject.zip = formDataObject.canadaZip;
-      formDataObject.state = formDataObject.canadaState;
-    } else if (formDataObject.country === "United Kingdom") {
-      formDataObject.zip = formDataObject.ukZip;
-    } else if (formDataObject.country === "India") {
-      if (formDataObject.levelOfEducation.includes("Bachelor's Degree")) {
-        formDataObject.levelOfEducation = "Bachelor's Degree";
-      } else if (formDataObject.levelOfEducation.includes("Master's Degree")) {
-        formDataObject.levelOfEducation = "Master's Degree";
-      }
-    }
-    if (["United Kingdom", "Canada", "United States", "Mexico"].includes(formDataObject.country)) {
-      formDataObject.workAuthorization = formDataObject.workAuthorization === "yes" && formDataObject.sponsorship === "no" && formDataObject.futureSponsorship === "no" ? "Yes" : "No";
-    }
-    const queryParams = this.getQueryParams();
-    const standardizedQuery = this.standardizeQueryParams(queryParams);
-    formDataObject = __spreadProps(__spreadValues({
-      url: window?.location?.href.split("#")[0] || "",
-      ApplicationDevice__c: window.innerWidth < 640 ? "Mobile" : "Desktop",
-      irClickId: standardizedQuery?.irclickid || "",
-      searchEngine: standardizedQuery?.searchengine || "",
-      searchString: standardizedQuery?.srstring || "",
-      payPerClickKeyword: standardizedQuery?.keyword || "",
-      gCLID: standardizedQuery?.gclid || "",
-      uTMTerm: standardizedQuery?.utm_term || "",
-      uTMCampaign: standardizedQuery.utm_campaign || "",
-      uTMContent: standardizedQuery.utm_content || "",
-      uTMMedium: standardizedQuery.utm_medium || "",
-      uTMSource: standardizedQuery.utm_source || "",
-      uTMSchoolID: standardizedQuery.utm_schoolid || "",
-      referrerURL: document.referrer || "Direct",
-      uTMReferrerName: standardizedQuery.utm_referrername || "",
-      campaignvalue: standardizedQuery.campaignvalue || "",
-      appcastClickID: "",
-      sourcedBy: standardizedQuery.sourcedby || "",
-      referredByEmail: standardizedQuery.referredByEmail || "",
-      referredBy: standardizedQuery.ra || "",
-      referredByUser: standardizedQuery.ru || "",
-      dropbox: "",
-      veteran: (window?.location?.href.split("#")[0] || "").includes("veteran"),
-      Resumedropbox: ""
-    }, formDataObject), {
-      leadDate: (/* @__PURE__ */ new Date()).toISOString(),
-      phone: ["Mexico", "United Kingdom"].includes(formDataObject.country) ? "+" + formDataObject.phone.replace(/\D/g, "") : formDataObject.phone.replace(/\D/g, ""),
-      FileBase64: "",
-      FileExt: "",
-      ResumeUpload: "",
-      computer_data: "",
-      computer_data_result: "",
-      graduationDate: formDataObject.graduationMonth ? `${formDataObject.graduationYear}-${formDataObject.graduationMonth}-01` : "",
-      leadType: "Revature"
-    });
-    delete formDataObject["computer_data"];
-    delete formDataObject["computer_data_result"];
-    delete formDataObject["g-recaptcha-response"];
-    return formDataObject;
-  }
-  submitForm(formDataObject) {
-    return __async(this, null, function* () {
-      const apiUrl = ENV_VAR.FORM_API_ENDPOINT;
-      const queryString = this.createQueryString(formDataObject);
-      const apiUrlWithParams = apiUrl + "?" + queryString;
-      try {
-        const response = yield this.http.get(apiUrlWithParams).toPromise();
-        if (response?.status === "ok") {
-          console.log("Form data submitted successfully");
-        } else {
-          console.error("Error submitting form data");
-        }
-        this.navigateToThankYouPage(formDataObject.firstName);
-      } catch (error) {
-        console.error("Error submitting form data:", error);
-        alert("Error submitting form data, Please try again.");
-        this.loading = false;
-        this.showSubmitButton = true;
-        throw error;
-      }
-    });
-  }
-  navigateToThankYouPage(firstName) {
-    window.location.href = `/thank-you-for-submission?name=${btoa(firstName)}`;
-  }
-  getQueryParams() {
-    const queryParams = new URLSearchParams(window.location.search);
-    return queryParams;
-  }
-  standardizeQueryParams(queryParams) {
-    const standardizedQueryParams = {};
-    queryParams.forEach((value, key) => {
-      if (key === "slug") {
-        return;
-      }
-      const lowercasedKey = key.toLowerCase();
-      standardizedQueryParams[lowercasedKey] = lowercasedKey.includes("utm") ? value.toLowerCase() : value;
-    });
-    return standardizedQueryParams;
-  }
-  createQueryString(data) {
-    return Object.keys(data).map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key])).join("&");
-  }
-  uploadFileViaApi(formData) {
-    const payload = {
-      key: "245583662863Rk863369",
-      person: `${formData.firstName} ${formData.lastName}`,
-      filename: formData.computer_data,
-      file: formData.computer_data_result
-    };
-    return this.http.post(ENV_VAR.RESUME_API_ENDPOINT, payload).toPromise();
-  }
-  onResize() {
-    this.resizeCaptcha();
-  }
-  ngAfterViewInit() {
-    setTimeout(() => {
-      if (typeof grecaptcha !== "undefined") {
-        grecaptcha.ready(() => {
-          this.resizeCaptcha();
-        });
-      }
-    }, 500);
-  }
-  resizeCaptcha() {
-    const reCaptchaElement = document.getElementsByTagName("re-captcha")[0];
-    const captchaElem = reCaptchaElement?.getElementsByTagName("div")[0];
-    if (!captchaElem)
-      return;
-    const captchaWidth = captchaElem?.offsetWidth;
-    const parentWidth = reCaptchaElement?.parentElement?.offsetWidth;
-    if (captchaWidth && parentWidth) {
-      const scale = parentWidth / captchaWidth;
-      captchaElem.style.transform = `scale(${scale < 1 ? scale : 1})`;
-      captchaElem.style.transformOrigin = "0 0";
-    }
-  }
-  static \u0275fac = function B2cFormComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _B2cFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient));
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _B2cFormComponent, selectors: [["app-b2c-form"]], hostBindings: function B2cFormComponent_HostBindings(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275listener("resize", function B2cFormComponent_resize_HostBindingHandler() {
-        return ctx.onResize();
-      }, false, \u0275\u0275resolveWindow);
-    }
-  }, decls: 123, vars: 22, consts: [[3, "ngSubmit", "formGroup"], [1, "form-label"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "form-field", "common-field"], ["class", "b2c-error-message common-error-message", 4, "ngIf"], ["maxlength", "80", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "form-field", "common-field"], ["maxlength", "80", "type", "email", "formControlName", "email", "placeholder", "Email Address", 1, "form-field", "common-field"], ["type", "tel", "formControlName", "phone", "placeholder", "Phone Number", 1, "form-field", "common-field"], [1, "one-grid-container"], ["formControlName", "country", 1, "form-field", "common-field"], ["value", "", "disabled", "", "selected", ""], ["value", "United States"], ["value", "Mexico"], ["value", "Canada"], ["value", "United Kingdom"], ["value", "India"], ["id", "locationFields", 4, "ngIf"], ["id", "currentStudentRadioButtons", 1, "two-grid-container"], [1, "custom-radio"], ["type", "radio", "formControlName", "currentStudent", "value", "no", "id", "no"], ["for", "no"], ["type", "radio", "formControlName", "currentStudent", "value", "yes", "id", "yes"], ["for", "yes"], ["class", "b2c-error-message", 4, "ngIf"], ["id", "educationFields", 4, "ngIf"], ["type", "radio", "formControlName", "willingToRelocate", "value", "Yes", "id", "absolutely"], ["for", "absolutely"], ["type", "radio", "formControlName", "willingToRelocate", "value", "Maybe", "id", "considerMoving"], ["for", "considerMoving"], ["type", "radio", "formControlName", "willingToRelocate", "value", "No", "id", "notAnOption"], ["for", "notAnOption"], ["formControlName", "programmingExperience", 1, "form-field", "common-field"], ["value", "No"], ["value", "0-1 year"], ["value", "1-3 years"], ["value", "3-5 years"], ["value", "5+ years"], ["class", "two-grid-container", 4, "ngIf"], [4, "ngIf"], [1, "legend-container"], [2, "color", "white", "font-size", "18px"], ["src", "https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png", 2, "width", "30px", "height", "30px", "margin-right", "10px"], ["type", "file", "id", "ResumeUpload", "accept", ".pdf, .docx, .doc, .rtf, .txt", 3, "change"], [1, "dropbox-button", 2, "color", "white", "font-size", "18px", 3, "click"], ["src", "https://uploads-ssl.webflow.com/6647aada168e006f04521106/6673257bcdcad45f4881b227_dropbox_icon.png", 2, "width", "30px", "height", "30px", "margin-right", "10px"], ["class", "resume-success", 4, "ngIf"], [2, "margin-top", "1rem", "color", "#9ca3af"], [2, "margin-top", "5px", "font-size", "16px", "color", "#9ca3af", "line-height", "unset"], [2, "font-size", "16px", "color", "#9ca3af", "line-height", "unset"], [2, "font-size", "16px", "color", "#fff"], [2, "margin-top", "0.5rem", "margin-bottom", "0.5rem"], ["type", "checkbox", "formControlName", "dataConsent", "id", "dataConsent"], [2, "font-weight", "unset", "display", "unset"], [3, "resolved"], ["class", "form-error-message", 4, "ngIf"], ["type", "submit", "class", "b2b-form-button", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], [1, "b2c-error-message", "common-error-message"], ["id", "locationFields"], ["maxlength", "40", "type", "text", "formControlName", "city", "placeholder", "City", 1, "form-field", "location-field", "common-field"], ["class", "b2c-error-message location-error-message common-error-message", 4, "ngIf"], ["formControlName", "state", 1, "form-field", "location-field", "common-field"], ["value", "Alabama"], ["value", "Alaska"], ["value", "Arizona"], ["value", "Arkansas"], ["value", "California"], ["value", "Colorado"], ["value", "Connecticut"], ["value", "Delaware"], ["value", "District of Columbia"], ["value", "Florida"], ["value", "Georgia"], ["value", "Hawaii"], ["value", "Idaho"], ["value", "Illinois"], ["value", "Indiana"], ["value", "Iowa"], ["value", "Kansas"], ["value", "Kentucky"], ["value", "Louisiana"], ["value", "Maine"], ["value", "Maryland"], ["value", "Massachusetts"], ["value", "Michigan"], ["value", "Minnesota"], ["value", "Mississippi"], ["value", "Missouri"], ["value", "Montana"], ["value", "Nebraska"], ["value", "Nevada"], ["value", "New Hampshire"], ["value", "New Jersey"], ["value", "New Mexico"], ["value", "New York"], ["value", "North Carolina"], ["value", "North Dakota"], ["value", "Ohio"], ["value", "Oklahoma"], ["value", "Oregon"], ["value", "Pennsylvania"], ["value", "Puerto Rico"], ["value", "Rhode Island"], ["value", "South Carolina"], ["value", "South Dakota"], ["value", "Tennessee"], ["value", "Texas"], ["value", "Utah"], ["value", "Vermont"], ["value", "Virginia"], ["value", "Washington"], ["value", "West Virginia"], ["value", "Wisconsin"], ["value", "Wyoming"], ["type", "text", "formControlName", "zip", "placeholder", "ZIP", "maxlength", "5", 1, "form-field", "location-field", "common-field"], [1, "b2c-error-message", "location-error-message", "common-error-message"], [3, "value", 4, "ngFor", "ngForOf"], ["type", "text", "formControlName", "zip", "placeholder", "Postal Code", "maxlength", "5", 1, "form-field", "location-field", "common-field"], [3, "value"], ["formControlName", "canadaState", 1, "form-field", "location-field", "common-field"], ["value", "Alberta"], ["value", "British Columbia"], ["value", "Manitoba"], ["value", "New Brunswick"], ["value", "Newfoundland and Labrador"], ["value", "Northwest Territories"], ["value", "Nova Scotia"], ["value", "Nunavut"], ["value", "Ontario"], ["value", "Prince Edward Island"], ["value", "Quebec"], ["value", "Saskatchewan"], ["value", "Yukon"], ["type", "text", "formControlName", "canadaZip", "placeholder", "ZIP", "maxlength", "6", 1, "form-field", "location-field", "common-field"], ["maxlength", "40", "type", "text", "formControlName", "city", "placeholder", "City/Town", 1, "form-field", "location-field", "common-field"], ["type", "text", "formControlName", "ukZip", "placeholder", "Zip/Postcode", "maxlength", "7", 1, "form-field", "location-field", "common-field"], ["value", "Andaman and Nicobar Islands"], ["value", "Andhra Pradesh"], ["value", "Arunachal Pradesh"], ["value", "Assam"], ["value", "Bihar"], ["value", "Chandigarh"], ["value", "Chhattisgarh"], ["value", "Daman and Diu"], ["value", "Delhi"], ["value", "Dadra and Nagar Haveli"], ["value", "Goa"], ["value", "Gujarat"], ["value", "Himachal Pradesh"], ["value", "Haryana"], ["value", "Jharkhand"], ["value", "Jammu and Kashmir"], ["value", "Karnataka"], ["value", "Kerala"], ["value", "Lakshadweep"], ["value", "Maharashtra"], ["value", "Meghalaya"], ["value", "Manipur"], ["value", "Madhya Pradesh"], ["value", "Mizoram"], ["value", "Nagaland"], ["value", "Odisha"], ["value", "Punjab"], ["value", "Puducherry"], ["value", "Rajasthan"], ["value", "Sikkim"], ["value", "Tamil Nadu"], ["value", "Telangana"], ["value", "Tripura"], ["value", "Uttar Pradesh"], ["value", "Uttarakhand"], ["value", "West Bengal"], [1, "b2c-error-message"], ["id", "educationFields"], ["type", "radio", "formControlName", "levelOfEducation", "value", "High School", "id", "highSchool"], ["for", "highSchool"], ["type", "radio", "formControlName", "levelOfEducation", "value", "Associate's Degree", "id", "associatesDegree"], ["for", "associatesDegree"], ["type", "radio", "formControlName", "levelOfEducation", "value", "Bachelor's Degree", "id", "bachelorsDegree"], ["for", "bachelorsDegree"], ["type", "radio", "formControlName", "levelOfEducation", "value", "Master's Degree", "id", "mastersDegree"], ["for", "mastersDegree"], [1, "autocomplete-container"], ["formControlName", "major", "type", "text", "placeholder", "Major", 1, "form-field", "educationFields-field", "common-field", 3, "input", "focus", "blur"], ["class", "autocomplete-items", 4, "ngIf"], ["class", "b2c-error-message educationFields-error-message common-error-message", 4, "ngIf"], ["formControlName", "school", "type", "text", "placeholder", "School", "placeholder", "School", 1, "form-field", "educationFields-field", "common-field", 3, "input", "focus", "blur"], [1, "autocomplete-items"], ["class", "autocomplete-item", 3, "mousedown", 4, "ngFor", "ngForOf"], [1, "autocomplete-item", 3, "mousedown"], [1, "b2c-error-message", "educationFields-error-message", "common-error-message"], ["type", "radio", "formControlName", "levelOfEducation", "value", "3-Year Bachelor's Degree", "id", "threeYearBachelor"], ["for", "threeYearBachelor"], ["type", "radio", "formControlName", "levelOfEducation", "value", "4-Year Bachelor's Degree", "id", "fourYearBachelor"], ["for", "fourYearBachelor"], ["type", "radio", "formControlName", "levelOfEducation", "value", "High School", "id", "secondarySchool"], ["for", "secondarySchool"], ["formControlName", "levelOfEducation", 1, "form-field", "educationFields-field", "common-field"], ["value", "Bachelor's Degree"], ["value", "Bachelor's Degree_2"], ["value", "Bachelor's Degree_3"], ["value", "Master's Degree"], ["value", "Master's Degree_2"], ["value", "Master's Degree_3"], ["value", "Master's Degree_4"], ["value", "High School"], ["formControlName", "branch", 1, "form-field", "educationFields-field", "common-field"], ["formControlName", "graduationMonth", 1, "form-field", "educationFields-field", "common-field"], ["value", "01"], ["value", "02"], ["value", "03"], ["value", "04"], ["value", "05"], ["value", "06"], ["value", "07"], ["value", "08"], ["value", "09"], ["value", "10"], ["value", "11"], ["value", "12"], ["formControlName", "graduationYear", 1, "form-field", "educationFields-field", "common-field"], ["type", "radio", "formControlName", "workAuthorization", "value", "no", "id", "notAuthorized"], ["for", "notAuthorized"], ["type", "radio", "formControlName", "workAuthorization", "value", "yes", "id", "authorized"], ["for", "authorized"], ["type", "radio", "formControlName", "sponsorship", "value", "no", "id", "noSponsorship"], ["for", "noSponsorship"], ["type", "radio", "formControlName", "sponsorship", "value", "yes", "id", "yesSponsorship"], ["for", "yesSponsorship"], ["type", "radio", "formControlName", "futureSponsorship", "value", "no", "id", "nofutureSponsorship"], ["for", "nofutureSponsorship"], ["type", "radio", "formControlName", "futureSponsorship", "value", "yes", "id", "yesfutureSponsorship"], ["for", "yesfutureSponsorship"], ["formControlName", "majorGrade", "type", "text", "maxlength", "2", "placeholder", "Degree Score", 1, "form-field", "education-field", "common-field"], ["class", "b2c-error-message education-error-message common-error-message", 4, "ngIf"], ["formControlName", "twelfthGrade", "type", "text", "maxlength", "2", "placeholder", "12th Score", 1, "form-field", "education-field", "common-field"], ["formControlName", "tenthGrade", "type", "text", "maxlength", "2", "placeholder", "10th Score", 1, "form-field", "education-field", "common-field"], [1, "b2c-error-message", "education-error-message", "common-error-message"], [1, "resume-success"], [1, "form-error-message"], ["type", "submit", 1, "b2b-form-button"], ["id", "loadSpinner", 1, "spinner"]], template: function B2cFormComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275elementStart(0, "form", 0);
-      \u0275\u0275listener("ngSubmit", function B2cFormComponent_Template_form_ngSubmit_0_listener() {
-        return ctx.onSubmit();
-      });
-      \u0275\u0275elementStart(1, "legend", 1);
-      \u0275\u0275text(2, "Full Name");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(3, "div", 2)(4, "fieldset", 3);
-      \u0275\u0275element(5, "input", 4);
-      \u0275\u0275template(6, B2cFormComponent_span_6_Template, 2, 0, "span", 5);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(7, "fieldset", 3);
-      \u0275\u0275element(8, "input", 6);
-      \u0275\u0275template(9, B2cFormComponent_span_9_Template, 2, 0, "span", 5);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(10, "legend", 1);
-      \u0275\u0275text(11, "Contact Information");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(12, "div", 2)(13, "fieldset", 3);
-      \u0275\u0275element(14, "input", 7);
-      \u0275\u0275template(15, B2cFormComponent_span_15_Template, 3, 2, "span", 5);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(16, "fieldset", 3);
-      \u0275\u0275element(17, "input", 8);
-      \u0275\u0275template(18, B2cFormComponent_span_18_Template, 3, 2, "span", 5);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(19, "fieldset", 9)(20, "legend", 1);
-      \u0275\u0275text(21, "Country");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(22, "select", 10)(23, "option", 11);
-      \u0275\u0275text(24, "Select Country");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(25, "option", 12);
-      \u0275\u0275text(26, "United States");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(27, "option", 13);
-      \u0275\u0275text(28, "Mexico");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(29, "option", 14);
-      \u0275\u0275text(30, "Canada");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(31, "option", 15);
-      \u0275\u0275text(32, "United Kingdom");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(33, "option", 16);
-      \u0275\u0275text(34, "India");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(35, B2cFormComponent_span_35_Template, 2, 0, "span", 5);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(36, B2cFormComponent_div_36_Template, 6, 5, "div", 17);
-      \u0275\u0275elementStart(37, "fieldset", 18)(38, "legend", 1);
-      \u0275\u0275text(39, "Are You Currently a Student?");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(40, "div", 19);
-      \u0275\u0275element(41, "input", 20);
-      \u0275\u0275elementStart(42, "label", 21);
-      \u0275\u0275text(43, "No");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(44, "div", 19);
-      \u0275\u0275element(45, "input", 22);
-      \u0275\u0275elementStart(46, "label", 23);
-      \u0275\u0275text(47, "Yes");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(48, B2cFormComponent_span_48_Template, 2, 0, "span", 24);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(49, B2cFormComponent_div_49_Template, 6, 5, "div", 25);
-      \u0275\u0275elementStart(50, "fieldset", 9)(51, "legend", 1);
-      \u0275\u0275text(52, "Willingness to Relocate");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(53, "div", 19);
-      \u0275\u0275element(54, "input", 26);
-      \u0275\u0275elementStart(55, "label", 27);
-      \u0275\u0275text(56, "Absolutely!");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(57, "div", 19);
-      \u0275\u0275element(58, "input", 28);
-      \u0275\u0275elementStart(59, "label", 29);
-      \u0275\u0275text(60, "Would Consider Moving for the Right Role");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(61, "div", 19);
-      \u0275\u0275element(62, "input", 30);
-      \u0275\u0275elementStart(63, "label", 31);
-      \u0275\u0275text(64, "Not an option");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(65, B2cFormComponent_span_65_Template, 2, 0, "span", 24);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(66, "fieldset", 9)(67, "legend", 1);
-      \u0275\u0275text(68, "How many years of programming experience?");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(69, "select", 32)(70, "option", 11);
-      \u0275\u0275text(71, "Select an option");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(72, "option", 33);
-      \u0275\u0275text(73, "None");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(74, "option", 34);
-      \u0275\u0275text(75, "0-1 year");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(76, "option", 35);
-      \u0275\u0275text(77, "1-3 years");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(78, "option", 36);
-      \u0275\u0275text(79, "3-5 years");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(80, "option", 37);
-      \u0275\u0275text(81, "5+ years");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(82, B2cFormComponent_span_82_Template, 2, 0, "span", 5);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(83, B2cFormComponent_fieldset_83_Template, 12, 1, "fieldset", 38)(84, B2cFormComponent_ng_container_84_Template, 13, 1, "ng-container", 39)(85, B2cFormComponent_ng_container_85_Template, 13, 1, "ng-container", 39)(86, B2cFormComponent_ng_container_86_Template, 17, 3, "ng-container", 39);
-      \u0275\u0275elementStart(87, "fieldset", 2)(88, "legend", 1);
-      \u0275\u0275text(89, "Upload Your Resume");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(90, "label", 40)(91, "div", 41);
-      \u0275\u0275element(92, "img", 42);
-      \u0275\u0275text(93, "Computer ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(94, "input", 43);
-      \u0275\u0275listener("change", function B2cFormComponent_Template_input_change_94_listener($event) {
-        return ctx.onFileChange($event);
-      });
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(95, "label", 40)(96, "div", 44);
-      \u0275\u0275listener("click", function B2cFormComponent_Template_div_click_96_listener() {
-        return ctx.onDropboxClick();
-      });
-      \u0275\u0275element(97, "img", 45);
-      \u0275\u0275text(98, "Dropbox ");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275template(99, B2cFormComponent_span_99_Template, 2, 1, "span", 24)(100, B2cFormComponent_span_100_Template, 2, 1, "span", 46);
-      \u0275\u0275elementStart(101, "div", 47);
-      \u0275\u0275text(102, " * Note ");
-      \u0275\u0275elementStart(103, "ul", 48)(104, "li", 49);
-      \u0275\u0275text(105, "Resume file type should be one of the following: .doc, .docx, .pdf, .txt, .rtf");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(106, "li", 49);
-      \u0275\u0275text(107, "Size less than 5MB");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(108, "div", 50)(109, "div");
-      \u0275\u0275text(110, "Your privacy is important to us");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(111, "div", 51);
-      \u0275\u0275text(112, " Revature is committed to safeguarding your privacy. We will never sell or share your personal information. Submitting this form constitutes your express written consent to receive emails, texts, and phone messages from Revature at the phone number(s) and e-mail address provided in this form for work-related opportunities. ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(113, "div");
-      \u0275\u0275element(114, "input", 52);
-      \u0275\u0275elementStart(115, "label", 53)(116, "b");
-      \u0275\u0275text(117, "(Optional)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275text(118, " Select this checkbox if you would like Revature to share your contact information with our career-placement and network partners for the purpose of expanding your opportunities. This information may include your name, phone number, email address, education level, and work authorization status.");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(119, "re-captcha", 54);
-      \u0275\u0275listener("resolved", function B2cFormComponent_Template_re_captcha_resolved_119_listener($event) {
-        return ctx.recaptchaSuccessCallback($event);
-      });
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(120, B2cFormComponent_div_120_Template, 2, 0, "div", 55)(121, B2cFormComponent_button_121_Template, 2, 0, "button", 56)(122, B2cFormComponent_div_122_Template, 1, 0, "div", 57);
-      \u0275\u0275elementEnd();
-    }
-    if (rf & 2) {
-      let tmp_1_0;
-      let tmp_2_0;
-      let tmp_3_0;
-      let tmp_5_0;
-      let tmp_6_0;
-      let tmp_7_0;
-      let tmp_8_0;
-      let tmp_9_0;
-      let tmp_10_0;
-      let tmp_11_0;
-      let tmp_12_0;
-      let tmp_13_0;
-      let tmp_16_0;
-      let tmp_19_0;
-      \u0275\u0275property("formGroup", ctx.form);
-      \u0275\u0275advance(6);
-      \u0275\u0275property("ngIf", ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.touched));
-      \u0275\u0275advance(3);
-      \u0275\u0275property("ngIf", ((tmp_2_0 = ctx.form.get("lastName")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx.form.get("lastName")) == null ? null : tmp_2_0.touched));
-      \u0275\u0275advance(6);
-      \u0275\u0275property("ngIf", ((tmp_3_0 = ctx.form.get("email")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx.form.get("email")) == null ? null : tmp_3_0.touched));
-      \u0275\u0275advance(2);
-      \u0275\u0275attribute("maxLength", ctx.phoneMaxLength)("minLength", ((tmp_5_0 = ctx.form.get("country")) == null ? null : tmp_5_0.value) === "United States" ? 13 : 8);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_6_0 = ctx.form.get("phone")) == null ? null : tmp_6_0.invalid) && ((tmp_6_0 = ctx.form.get("phone")) == null ? null : tmp_6_0.touched));
-      \u0275\u0275advance(17);
-      \u0275\u0275property("ngIf", ((tmp_7_0 = ctx.form.get("country")) == null ? null : tmp_7_0.invalid) && ((tmp_7_0 = ctx.form.get("country")) == null ? null : tmp_7_0.touched));
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_8_0 = ctx.form.get("country")) == null ? null : tmp_8_0.value);
-      \u0275\u0275advance(12);
-      \u0275\u0275property("ngIf", ((tmp_9_0 = ctx.form.get("currentStudent")) == null ? null : tmp_9_0.invalid) && ((tmp_9_0 = ctx.form.get("currentStudent")) == null ? null : tmp_9_0.touched));
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_10_0 = ctx.form.get("currentStudent")) == null ? null : tmp_10_0.value);
-      \u0275\u0275advance(16);
-      \u0275\u0275property("ngIf", ((tmp_11_0 = ctx.form.get("willingToRelocate")) == null ? null : tmp_11_0.invalid) && ((tmp_11_0 = ctx.form.get("willingToRelocate")) == null ? null : tmp_11_0.touched));
-      \u0275\u0275advance(17);
-      \u0275\u0275property("ngIf", ((tmp_12_0 = ctx.form.get("programmingExperience")) == null ? null : tmp_12_0.invalid) && ((tmp_12_0 = ctx.form.get("programmingExperience")) == null ? null : tmp_12_0.touched));
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_13_0 = ctx.form.get("country")) == null ? null : tmp_13_0.value) !== "India");
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.showSponsorshipFields);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.showFutureSponsorshipFields);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_16_0 = ctx.form.get("country")) == null ? null : tmp_16_0.value) === "India");
-      \u0275\u0275advance(13);
-      \u0275\u0275property("ngIf", ctx.fileError);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.fileSuccess);
-      \u0275\u0275advance(20);
-      \u0275\u0275property("ngIf", ((tmp_19_0 = ctx.form.get("validCaptacha")) == null ? null : tmp_19_0.value) === false);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.showSubmitButton);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.loading);
-    }
-  }, dependencies: [NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, MaxLengthValidator, FormGroupDirective, FormControlName, RecaptchaComponent], styles: ['\n\n.autocomplete-container[_ngcontent-%COMP%] {\n  position: relative;\n  display: inline-block;\n  width: 99.4%;\n}\n.autocomplete-container[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.autocomplete-items[_ngcontent-%COMP%] {\n  position: absolute;\n  border-radius: 7px;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\n  background: #fff;\n  z-index: 2;\n  max-height: 300px;\n  overflow: auto;\n  padding: 10px;\n  width: 99%;\n  cursor: pointer;\n  color: #161616;\n}\n.autocomplete-item[_ngcontent-%COMP%]:hover, \n.autocomplete-item.active[_ngcontent-%COMP%] {\n  background-color: #eee;\n}\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n  bottom: 0 !important;\n}\n.form-label[_ngcontent-%COMP%] {\n  padding: 8px 0;\n}\n.form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n  height: auto !important;\n}\n.b2c-error-message[_ngcontent-%COMP%] {\n  font-size: 12px;\n  color: #F9B200;\n}\n.b2b-form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  border-radius: 36px;\n  border-color: #FF7014;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\n@media screen and (max-width: 600px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n    margin-bottom: 10px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  min-height: 50px;\n  text-align: center;\n  line-height: 30px;\n  cursor: pointer;\n  border-radius: 7px;\n  border: 1px solid white;\n  color: white;\n  margin-bottom: 0px;\n  align-content: center;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: white;\n  color: black;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n  height: 40px;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-wrapper[_ngcontent-%COMP%] {\n  position: relative;\n}\ninput[type=file][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-file-upload[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: transparent;\n  color: white;\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n}\n.custom-file-upload[_ngcontent-%COMP%]:hover {\n  background-color: #00183c;\n}\n.custom-file-upload[_ngcontent-%COMP%]   svg[_ngcontent-%COMP%] {\n  margin-right: 8px;\n}\n.custom-file-upload[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 16px;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n.custom-button[_ngcontent-%COMP%] {\n  height: 50px;\n  width: 170px;\n  background-color: rgb(255, 207, 0);\n  border: none;\n  cursor: pointer;\n  position: relative;\n  overflow: hidden;\n  transition: background-color 0.5s;\n  transition: scale 0.5s;\n  transition: color 0.3s;\n  z-index: 1;\n  border-radius: 50px;\n  overflow: hidden;\n  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);\n  font-size: 16px;\n  margin-top: 2.5rem;\n}\noption[_ngcontent-%COMP%] {\n  color: black;\n}\n.custom-button[_ngcontent-%COMP%]::before {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: -100%;\n  width: 100%;\n  height: 100%;\n  background-color: rgb(255, 113, 21);\n  transition: left 0.3s;\n  z-index: -1;\n}\n.custom-button[_ngcontent-%COMP%]:hover::before {\n  left: 0;\n}\n.custom-button[_ngcontent-%COMP%]:hover {\n  scale: 1.1;\n  color: white;\n}\n.resume-success[_ngcontent-%COMP%] {\n  color: green;\n}\n.dropbox-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  padding: 10px 20px;\n  cursor: pointer;\n  background-color: rgba(0, 123, 255, 0);\n  color: rgb(0, 0, 0);\n  border-radius: 5px;\n  transition: background-color 0.3s ease;\n  height: 40px;\n}\n.dropbox-wrapper[_ngcontent-%COMP%]:hover {\n  background-color: #b1b5b9;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}'] });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(B2cFormComponent, { className: "B2cFormComponent", filePath: "src\\app\\b2c-form\\b2c-form.component.ts", lineNumber: 14 });
-})();
-
-// src/app/b2b-form/b2b-form.component.ts
-function B2bFormComponent_span_24_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, "Email is required.");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2bFormComponent_span_25_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, "Invalid email address.");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2bFormComponent_span_26_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, "Please enter a business email.");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2bFormComponent_ng_container_27_span_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, "Phone is required.");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2bFormComponent_ng_container_27_span_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, "Phone number is not valid.");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2bFormComponent_ng_container_27_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "fieldset", 2);
-    \u0275\u0275element(2, "input", 14);
-    \u0275\u0275elementStart(3, "span", 4);
-    \u0275\u0275template(4, B2bFormComponent_ng_container_27_span_4_Template, 2, 0, "span", 10)(5, B2bFormComponent_ng_container_27_span_5_Template, 2, 0, "span", 10);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(6, "fieldset", 2);
-    \u0275\u0275element(7, "textarea", 15);
-    \u0275\u0275elementStart(8, "span", 4);
-    \u0275\u0275text(9, " Your Message is required ");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    let tmp_2_0;
-    let tmp_3_0;
-    let tmp_4_0;
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance(3);
-    \u0275\u0275classProp("visible", ((tmp_1_0 = ctx_r0.form.get("phone")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("phone")) == null ? null : tmp_1_0.touched));
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_2_0 = ctx_r0.form.get("phone")) == null ? null : tmp_2_0.errors == null ? null : tmp_2_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("phone")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["invalidPhone"]);
-    \u0275\u0275advance(3);
-    \u0275\u0275classProp("visible", ((tmp_4_0 = ctx_r0.form.get("yourMessage")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx_r0.form.get("yourMessage")) == null ? null : tmp_4_0.touched));
-  }
-}
-function B2bFormComponent_ng_container_28_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r2 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "re-captcha", 16);
-    \u0275\u0275listener("resolved", function B2bFormComponent_ng_container_28_Template_re_captcha_resolved_1_listener($event) {
-      \u0275\u0275restoreView(_r2);
-      const ctx_r0 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r0.recaptchaSuccessCallback($event));
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "div", 4);
-    \u0275\u0275text(3, " Please complete the reCAPTCHA to proceed. ");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementContainerEnd();
-  }
-  if (rf & 2) {
-    let tmp_1_0;
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance(2);
-    \u0275\u0275classProp("visible", ((tmp_1_0 = ctx_r0.form.get("validCaptacha")) == null ? null : tmp_1_0.value) === false);
-  }
-}
-function B2bFormComponent_button_30_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "button", 17);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275property("id", ctx_r0.downloadBtnId);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ctx_r0.isExtendedForm ? "Let's Talk" : "Download now", " ");
-  }
-}
-function B2bFormComponent_div_31_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "div", 18);
-  }
-}
-var B2bFormComponent = class _B2bFormComponent {
-  constructor(fb, http) {
-    this.fb = fb;
-    this.http = http;
-  }
-  pdfUrl = "";
-  pdfName = "Revature_file";
-  downloadBtnId = "survey_download";
-  isExtendedForm = false;
-  form;
-  loading = false;
-  showSubmitButton = true;
-  CONSUMER_EMAIL_TLDS = [
-    "@gmail.",
-    "@yahoo.",
-    "@hotmail.",
-    "@live.",
-    "@aol.",
-    "@outlook.",
-    "@att.",
-    "@comcast.",
-    "@earthlink.",
-    "@googlemail.",
-    "@mac.",
-    "@mail.",
-    "@me.",
-    "@msn.",
-    "@verizon.",
-    "@t-online.",
-    "@freenet.",
-    "@1&1.",
-    "@icloud.",
-    "@gmx."
-  ];
-  ngOnInit() {
-    this.initForm();
-  }
-  initForm() {
-    this.form = this.fb.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      jobTitle: ["", Validators.required],
-      companyName: ["", Validators.required],
-      email: ["", [Validators.required, this.validateEmail.bind(this), this.businessEmailValidator.bind(this)]],
-      validCaptacha: [""]
-    });
-    if (this.isExtendedForm) {
-      this.form.addControl("phone", this.fb.control("", [this.phoneValidator]));
-      this.form.addControl("yourMessage", this.fb.control("", Validators.required));
-      this.form.get("phone")?.valueChanges.subscribe((value) => {
-        this.formatPhoneNumber(value);
-      });
-    }
-  }
-  validateEmail(control) {
-    if (control.value === null || control.value === "" || this.businessEmailValidator(control)) {
-      return null;
-    }
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]+$/;
-    return emailPattern.test(control.value) ? null : { invalidEmail: true };
-  }
-  businessEmailValidator(control) {
-    const email = control.value;
-    if (!email)
-      return null;
-    const isBusinessEmail = !this.CONSUMER_EMAIL_TLDS.some((tld) => email.includes(tld));
-    return isBusinessEmail ? null : { businessEmail: true };
-  }
-  phoneValidator(control) {
-    const phone = control.value?.replace(/\D/g, "");
-    if (!phone) {
-      return null;
-    }
-    const phoneRegExp = /^\d{6,14}$/;
-    return phoneRegExp.test(phone) ? null : { invalidPhone: true };
-  }
-  formatPhoneNumber(phone) {
-    const phoneControl = this.form.get("phone");
-    if (!phoneControl)
-      return;
-    let formattedPhone = phone.replace(/\D/g, "");
-    phoneControl.setValue(formattedPhone, { emitEvent: false });
-  }
-  recaptchaSuccessCallback(response) {
-    this.form.get("validCaptacha")?.setValue(response ? true : false);
-  }
-  onSubmit() {
-    return __async(this, null, function* () {
-      if (this.form.invalid) {
-        this.form.markAllAsTouched();
-        if (this.isExtendedForm) {
-          if (!this.form.get("validCaptacha")?.value) {
-            this.form.get("validCaptacha")?.setValue(false);
-          }
-        }
-        return;
-      }
-      if (this.isExtendedForm) {
-        if (!this.form.get("validCaptacha")?.value) {
-          this.form.get("validCaptacha")?.setValue(false);
-          return;
-        }
-      }
-      this.loading = true;
-      this.showSubmitButton = false;
-      const formData = this.prepareFormData();
-      yield this.submitForm(formData);
-    });
-  }
-  prepareFormData() {
-    let formDataObject = __spreadValues({}, this.form.value);
-    const queryParams = this.getQueryParams();
-    const standardizedQuery = this.standardizeQueryParams(queryParams);
-    formDataObject = __spreadProps(__spreadValues({
-      url: window?.location?.href.split("#")[0] || "",
-      ApplicationDevice__c: window.innerWidth < 640 ? "Mobile" : "Desktop",
-      irClickId: standardizedQuery?.irclickid || "",
-      searchEngine: standardizedQuery?.searchengine || "",
-      searchString: standardizedQuery?.srstring || "",
-      payPerClickKeyword: standardizedQuery?.keyword || "",
-      gCLID: standardizedQuery?.gclid || "",
-      uTMTerm: standardizedQuery?.utm_term || "",
-      uTMCampaign: standardizedQuery.utm_campaign || "",
-      uTMContent: standardizedQuery.utm_content || "",
-      uTMMedium: standardizedQuery.utm_medium || "",
-      uTMSource: standardizedQuery.utm_source || "",
-      uTMSchoolID: standardizedQuery.utm_schoolid || "",
-      referrerURL: document.referrer || "Direct",
-      uTMReferrerName: standardizedQuery.utm_referrername || "",
-      campaignvalue: standardizedQuery.campaignvalue || "",
-      appcastClickID: "",
-      sourcedBy: standardizedQuery.sourcedby || "",
-      referredByEmail: standardizedQuery.referredByEmail || "",
-      referredBy: standardizedQuery.ra || "",
-      referredByUser: standardizedQuery.ru || "",
-      leadDate: (/* @__PURE__ */ new Date()).toISOString()
-    }, formDataObject), {
-      leadType: "Business"
-    });
-    delete formDataObject["g-recaptcha-response"];
-    return formDataObject;
-  }
-  submitForm(formDataObject) {
-    return __async(this, null, function* () {
-      const apiUrl = ENV_VAR.FORM_API_ENDPOINT;
-      const queryString = this.createQueryString(formDataObject);
-      const apiUrlWithParams = apiUrl + "?" + queryString;
-      try {
-        const response = yield this.http.get(apiUrlWithParams).toPromise();
-        if (response?.status === "ok") {
-          console.log("Form data submitted successfully");
-        } else {
-          console.error("Error submitting form data");
-        }
-        if (this.pdfUrl) {
-          yield this.downloadPdf(this.pdfUrl, this.pdfName);
-        } else if (!this.isExtendedForm) {
-          console.error("PDF URL not provided");
-        }
-        this.navigateToThankYouPage(formDataObject.firstName);
-      } catch (error) {
-        console.error("Error submitting form data:", error);
-        alert("Error submitting form data, Please try again.");
-        throw error;
-      } finally {
-        this.loading = false;
-        this.showSubmitButton = true;
-      }
-    });
-  }
-  downloadPdf(pdfUrl, pdfName) {
-    return __async(this, null, function* () {
-      try {
-        const response = yield fetch(pdfUrl);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch PDF: ${response.statusText}`);
-        }
-        const blob = yield response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = pdfName;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      } catch (error) {
-        console.error("Error downloading PDF:", error);
-        throw error;
-      }
-    });
-  }
-  navigateToThankYouPage(firstName) {
-    window.location.href = `/thank-you${this.isExtendedForm ? "" : "-for-downloading"}?name=${btoa(firstName)}`;
-  }
-  getQueryParams() {
-    const queryParams = new URLSearchParams(window.location.search);
-    return queryParams;
-  }
-  standardizeQueryParams(queryParams) {
-    const standardizedQueryParams = {};
-    queryParams.forEach((value, key) => {
-      if (key === "slug") {
-        return;
-      }
-      const lowercasedKey = key.toLowerCase();
-      standardizedQueryParams[lowercasedKey] = lowercasedKey.includes("utm") ? value.toLowerCase() : value;
-    });
-    return standardizedQueryParams;
-  }
-  createQueryString(data) {
-    return Object.keys(data).map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key])).join("&");
-  }
-  onResize() {
-    this.isExtendedForm ? this.resizeCaptcha() : "";
-  }
-  ngAfterViewInit() {
-    setTimeout(() => {
-      if (typeof grecaptcha !== "undefined" && this.isExtendedForm) {
-        grecaptcha.ready(() => {
-          this.resizeCaptcha();
-        });
-      }
-    }, 500);
-  }
-  resizeCaptcha() {
-    const reCaptchaElement = document.getElementsByTagName("re-captcha")[0];
-    const captchaElem = reCaptchaElement?.getElementsByTagName("div")[0];
-    if (!captchaElem)
-      return;
-    const captchaWidth = captchaElem?.offsetWidth;
-    const parentWidth = reCaptchaElement?.parentElement?.offsetWidth;
-    if (captchaWidth && parentWidth) {
-      const scale = parentWidth / captchaWidth;
-      captchaElem.style.transform = `scale(${scale < 1 ? scale : 1})`;
-      captchaElem.style.transformOrigin = "0 0";
-    }
-  }
-  static \u0275fac = function B2bFormComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _B2bFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient));
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _B2bFormComponent, selectors: [["app-b2b-form"]], hostBindings: function B2bFormComponent_HostBindings(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275listener("resize", function B2bFormComponent_resize_HostBindingHandler() {
-        return ctx.onResize();
-      }, false, \u0275\u0275resolveWindow);
-    }
-  }, inputs: { pdfUrl: [0, "pdfurl", "pdfUrl"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExtendedForm: [0, "isextendedform", "isExtendedForm"] }, decls: 32, vars: 18, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], [1, "one-grid-container"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "4", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275elementStart(0, "form", 0);
-      \u0275\u0275listener("ngSubmit", function B2bFormComponent_Template_form_ngSubmit_0_listener() {
-        return ctx.onSubmit();
-      });
-      \u0275\u0275elementStart(1, "div", 1)(2, "fieldset", 2);
-      \u0275\u0275element(3, "input", 3);
-      \u0275\u0275elementStart(4, "span", 4);
-      \u0275\u0275text(5, " First Name is required ");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(6, "fieldset", 2);
-      \u0275\u0275element(7, "input", 5);
-      \u0275\u0275elementStart(8, "span", 4);
-      \u0275\u0275text(9, " Last Name is required ");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(10, "div", 6)(11, "fieldset", 2);
-      \u0275\u0275element(12, "input", 7);
-      \u0275\u0275elementStart(13, "span", 4);
-      \u0275\u0275text(14, " Job Title is required ");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(15, "div", 6)(16, "fieldset", 2);
-      \u0275\u0275element(17, "input", 8);
-      \u0275\u0275elementStart(18, "span", 4);
-      \u0275\u0275text(19, " Company Name is required ");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(20, "div", 6)(21, "fieldset", 2);
-      \u0275\u0275element(22, "input", 9);
-      \u0275\u0275elementStart(23, "span", 4);
-      \u0275\u0275template(24, B2bFormComponent_span_24_Template, 2, 0, "span", 10)(25, B2bFormComponent_span_25_Template, 2, 0, "span", 10)(26, B2bFormComponent_span_26_Template, 2, 0, "span", 10);
-      \u0275\u0275elementEnd()();
-      \u0275\u0275template(27, B2bFormComponent_ng_container_27_Template, 10, 6, "ng-container", 10);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(28, B2bFormComponent_ng_container_28_Template, 4, 2, "ng-container", 10);
-      \u0275\u0275elementStart(29, "div", 11);
-      \u0275\u0275template(30, B2bFormComponent_button_30_Template, 2, 2, "button", 12);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(31, B2bFormComponent_div_31_Template, 1, 0, "div", 13);
-      \u0275\u0275elementEnd();
-    }
-    if (rf & 2) {
-      let tmp_1_0;
-      let tmp_2_0;
-      let tmp_3_0;
-      let tmp_4_0;
-      let tmp_5_0;
-      let tmp_6_0;
-      let tmp_7_0;
-      let tmp_8_0;
-      \u0275\u0275property("formGroup", ctx.form);
-      \u0275\u0275advance(4);
-      \u0275\u0275classProp("visible", ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.touched));
-      \u0275\u0275advance(4);
-      \u0275\u0275classProp("visible", ((tmp_2_0 = ctx.form.get("lastName")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx.form.get("lastName")) == null ? null : tmp_2_0.touched));
-      \u0275\u0275advance(5);
-      \u0275\u0275classProp("visible", ((tmp_3_0 = ctx.form.get("jobTitle")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx.form.get("jobTitle")) == null ? null : tmp_3_0.touched));
-      \u0275\u0275advance(5);
-      \u0275\u0275classProp("visible", ((tmp_4_0 = ctx.form.get("companyName")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx.form.get("companyName")) == null ? null : tmp_4_0.touched));
-      \u0275\u0275advance(5);
-      \u0275\u0275classProp("visible", ((tmp_5_0 = ctx.form.get("email")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx.form.get("email")) == null ? null : tmp_5_0.touched));
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_6_0 = ctx.form.get("email")) == null ? null : tmp_6_0.errors == null ? null : tmp_6_0.errors["required"]);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_7_0 = ctx.form.get("email")) == null ? null : tmp_7_0.errors == null ? null : tmp_7_0.errors["invalidEmail"]);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_8_0 = ctx.form.get("email")) == null ? null : tmp_8_0.errors == null ? null : tmp_8_0.errors["businessEmail"]);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.isExtendedForm);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.isExtendedForm);
-      \u0275\u0275advance(2);
-      \u0275\u0275property("ngIf", ctx.showSubmitButton);
-      \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.loading);
-    }
-  }, dependencies: [NgIf, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, MinLengthValidator, MaxLengthValidator, FormGroupDirective, FormControlName, RecaptchaComponent, NoWhitespaceDirective], styles: ['\n\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\ntextarea[_ngcontent-%COMP%] {\n  resize: none;\n}\n.b2b-form-field[_ngcontent-%COMP%] {\n  background-color: rgba(0, 0, 0, 0.1);\n  border: 1px solid rgba(255, 255, 255, 0.13);\n  padding: 12px 24px;\n  border-radius: 8px;\n  color: #fafafa;\n}\n.b2b-error-message[_ngcontent-%COMP%] {\n  color: #F9B200;\n  padding: 4px;\n  text-align: left;\n  line-height: 14px;\n  display: block;\n  margin-bottom: 8px;\n  visibility: hidden;\n}\n.b2b-error-message.visible[_ngcontent-%COMP%] {\n  visibility: visible;\n}\n.form-button[_ngcontent-%COMP%] {\n  border-radius: 36px;\n  font-size: 16px;\n  padding: 8px 16px;\n  color: #ffffff;\n  background-color: #FF7014;\n  border-color: #FF7014;\n  justify-self: center;\n}\n.form-button-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n}\n.b2b-form-field[_ngcontent-%COMP%]::placeholder {\n  color: #ffffff;\n  opacity: 0.4;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n@media screen and (max-width: 900px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n  }\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  cursor: pointer;\n  background-color: #EBF1F4;\n  border-radius: 10px;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: #00183C;\n  color: #fff;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n  margin-left: 0;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}'] });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(B2bFormComponent, { className: "B2bFormComponent", filePath: "src\\app\\b2b-form\\b2b-form.component.ts", lineNumber: 11 });
-})();
-
-// src/app/app-routing.module.ts
-var routes = [
-  { path: "sourcing-form", component: SourcingFormComponent },
-  { path: "recruitment-form", component: RecruitmentFormComponent },
-  { path: "b2c-form", component: B2cFormComponent },
-  { path: "b2b-form", component: B2bFormComponent }
-];
-var AppRoutingModule = class _AppRoutingModule {
-  static \u0275fac = function AppRoutingModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _AppRoutingModule)();
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({ type: _AppRoutingModule });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({ imports: [RouterModule.forRoot(routes), HttpClientModule, RouterModule] });
-};
-
-// src/app/app.component.ts
-var AppComponent = class _AppComponent {
-  title = "revature-forms";
-  static \u0275fac = function AppComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _AppComponent)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 1, vars: 0, template: function AppComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275element(0, "router-outlet");
-    }
-  }, dependencies: [RouterOutlet] });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src\\app\\app.component.ts", lineNumber: 8 });
-})();
-
 // src/app/common/shared.module.ts
 var SharedModule = class _SharedModule {
   static \u0275fac = function SharedModule_Factory(__ngFactoryType__) {
@@ -51192,422 +41858,6 @@ var SharedModule = class _SharedModule {
   static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({ type: _SharedModule });
   static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({ imports: [CommonModule] });
 };
-
-// src/app/app.module.ts
-var AppModule = class _AppModule {
-  static \u0275fac = function AppModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _AppModule)();
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({ type: _AppModule, bootstrap: [AppComponent] });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({ providers: [
-    provideHttpClient(),
-    {
-      provide: RECAPTCHA_SETTINGS,
-      useValue: {
-        siteKey: ENV_VAR.GTM_SITE_KEY
-      }
-    }
-  ], imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    RecaptchaModule,
-    SharedModule
-  ] });
-};
-
-// node_modules/@angular/elements/fesm2022/elements.mjs
-var scheduler = {
-  /**
-   * Schedule a callback to be called after some delay.
-   *
-   * Returns a function that when executed will cancel the scheduled function.
-   */
-  schedule(taskFn, delay) {
-    const id = setTimeout(taskFn, delay);
-    return () => clearTimeout(id);
-  },
-  /**
-   * Schedule a callback to be called before the next render.
-   * (If `window.requestAnimationFrame()` is not available, use `scheduler.schedule()` instead.)
-   *
-   * Returns a function that when executed will cancel the scheduled function.
-   */
-  scheduleBeforeRender(taskFn) {
-    if (typeof window === "undefined") {
-      return scheduler.schedule(taskFn, 0);
-    }
-    if (typeof window.requestAnimationFrame === "undefined") {
-      const frameMs = 16;
-      return scheduler.schedule(taskFn, frameMs);
-    }
-    const id = window.requestAnimationFrame(taskFn);
-    return () => window.cancelAnimationFrame(id);
-  }
-};
-function camelToDashCase(input2) {
-  return input2.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
-}
-function isElement(node) {
-  return !!node && node.nodeType === Node.ELEMENT_NODE;
-}
-function isFunction3(value) {
-  return typeof value === "function";
-}
-var _matches;
-function matchesSelector(el, selector) {
-  if (!_matches) {
-    const elProto = Element.prototype;
-    _matches = elProto.matches || elProto.matchesSelector || elProto.mozMatchesSelector || elProto.msMatchesSelector || elProto.oMatchesSelector || elProto.webkitMatchesSelector;
-  }
-  return el.nodeType === Node.ELEMENT_NODE ? _matches.call(el, selector) : false;
-}
-function strictEquals(value1, value2) {
-  return value1 === value2 || value1 !== value1 && value2 !== value2;
-}
-function getDefaultAttributeToPropertyInputs(inputs) {
-  const attributeToPropertyInputs = {};
-  inputs.forEach(({
-    propName,
-    templateName,
-    transform
-  }) => {
-    attributeToPropertyInputs[camelToDashCase(templateName)] = [propName, transform];
-  });
-  return attributeToPropertyInputs;
-}
-function getComponentInputs(component, injector) {
-  const componentFactoryResolver = injector.get(ComponentFactoryResolver$1);
-  const componentFactory = componentFactoryResolver.resolveComponentFactory(component);
-  return componentFactory.inputs;
-}
-function extractProjectableNodes(host, ngContentSelectors) {
-  const nodes = host.childNodes;
-  const projectableNodes = ngContentSelectors.map(() => []);
-  let wildcardIndex = -1;
-  ngContentSelectors.some((selector, i) => {
-    if (selector === "*") {
-      wildcardIndex = i;
-      return true;
-    }
-    return false;
-  });
-  for (let i = 0, ii = nodes.length; i < ii; ++i) {
-    const node = nodes[i];
-    const ngContentIndex = findMatchingIndex(node, ngContentSelectors, wildcardIndex);
-    if (ngContentIndex !== -1) {
-      projectableNodes[ngContentIndex].push(node);
-    }
-  }
-  return projectableNodes;
-}
-function findMatchingIndex(node, selectors, defaultIndex) {
-  let matchingIndex = defaultIndex;
-  if (isElement(node)) {
-    selectors.some((selector, i) => {
-      if (selector !== "*" && matchesSelector(node, selector)) {
-        matchingIndex = i;
-        return true;
-      }
-      return false;
-    });
-  }
-  return matchingIndex;
-}
-var DESTROY_DELAY = 10;
-var ComponentNgElementStrategyFactory = class {
-  constructor(component, injector) {
-    this.componentFactory = injector.get(ComponentFactoryResolver$1).resolveComponentFactory(component);
-  }
-  create(injector) {
-    return new ComponentNgElementStrategy(this.componentFactory, injector);
-  }
-};
-var ComponentNgElementStrategy = class {
-  constructor(componentFactory, injector) {
-    this.componentFactory = componentFactory;
-    this.injector = injector;
-    this.eventEmitters = new ReplaySubject(1);
-    this.events = this.eventEmitters.pipe(switchMap((emitters) => merge(...emitters)));
-    this.componentRef = null;
-    this.viewChangeDetectorRef = null;
-    this.inputChanges = null;
-    this.hasInputChanges = false;
-    this.implementsOnChanges = false;
-    this.scheduledChangeDetectionFn = null;
-    this.scheduledDestroyFn = null;
-    this.initialInputValues = /* @__PURE__ */ new Map();
-    this.unchangedInputs = new Set(this.componentFactory.inputs.map(({
-      propName
-    }) => propName));
-    this.ngZone = this.injector.get(NgZone);
-    this.elementZone = typeof Zone === "undefined" ? null : this.ngZone.run(() => Zone.current);
-  }
-  /**
-   * Initializes a new component if one has not yet been created and cancels any scheduled
-   * destruction.
-   */
-  connect(element) {
-    this.runInZone(() => {
-      if (this.scheduledDestroyFn !== null) {
-        this.scheduledDestroyFn();
-        this.scheduledDestroyFn = null;
-        return;
-      }
-      if (this.componentRef === null) {
-        this.initializeComponent(element);
-      }
-    });
-  }
-  /**
-   * Schedules the component to be destroyed after some small delay in case the element is just
-   * being moved across the DOM.
-   */
-  disconnect() {
-    this.runInZone(() => {
-      if (this.componentRef === null || this.scheduledDestroyFn !== null) {
-        return;
-      }
-      this.scheduledDestroyFn = scheduler.schedule(() => {
-        if (this.componentRef !== null) {
-          this.componentRef.destroy();
-          this.componentRef = null;
-          this.viewChangeDetectorRef = null;
-        }
-      }, DESTROY_DELAY);
-    });
-  }
-  /**
-   * Returns the component property value. If the component has not yet been created, the value is
-   * retrieved from the cached initialization values.
-   */
-  getInputValue(property) {
-    return this.runInZone(() => {
-      if (this.componentRef === null) {
-        return this.initialInputValues.get(property);
-      }
-      return this.componentRef.instance[property];
-    });
-  }
-  /**
-   * Sets the input value for the property. If the component has not yet been created, the value is
-   * cached and set when the component is created.
-   */
-  setInputValue(property, value, transform) {
-    this.runInZone(() => {
-      if (transform) {
-        value = transform.call(this.componentRef?.instance, value);
-      }
-      if (this.componentRef === null) {
-        this.initialInputValues.set(property, value);
-        return;
-      }
-      if (strictEquals(value, this.getInputValue(property)) && !(value === void 0 && this.unchangedInputs.has(property))) {
-        return;
-      }
-      this.recordInputChange(property, value);
-      this.unchangedInputs.delete(property);
-      this.hasInputChanges = true;
-      this.componentRef.instance[property] = value;
-      this.scheduleDetectChanges();
-    });
-  }
-  /**
-   * Creates a new component through the component factory with the provided element host and
-   * sets up its initial inputs, listens for outputs changes, and runs an initial change detection.
-   */
-  initializeComponent(element) {
-    const childInjector = Injector.create({
-      providers: [],
-      parent: this.injector
-    });
-    const projectableNodes = extractProjectableNodes(element, this.componentFactory.ngContentSelectors);
-    this.componentRef = this.componentFactory.create(childInjector, projectableNodes, element);
-    this.viewChangeDetectorRef = this.componentRef.injector.get(ChangeDetectorRef);
-    this.implementsOnChanges = isFunction3(this.componentRef.instance.ngOnChanges);
-    this.initializeInputs();
-    this.initializeOutputs(this.componentRef);
-    this.detectChanges();
-    const applicationRef = this.injector.get(ApplicationRef);
-    applicationRef.attachView(this.componentRef.hostView);
-  }
-  /** Set any stored initial inputs on the component's properties. */
-  initializeInputs() {
-    this.componentFactory.inputs.forEach(({
-      propName,
-      transform
-    }) => {
-      if (this.initialInputValues.has(propName)) {
-        this.setInputValue(propName, this.initialInputValues.get(propName), transform);
-      }
-    });
-    this.initialInputValues.clear();
-  }
-  /** Sets up listeners for the component's outputs so that the events stream emits the events. */
-  initializeOutputs(componentRef) {
-    const eventEmitters = this.componentFactory.outputs.map(({
-      propName,
-      templateName
-    }) => {
-      const emitter = componentRef.instance[propName];
-      return emitter.pipe(map((value) => ({
-        name: templateName,
-        value
-      })));
-    });
-    this.eventEmitters.next(eventEmitters);
-  }
-  /** Calls ngOnChanges with all the inputs that have changed since the last call. */
-  callNgOnChanges(componentRef) {
-    if (!this.implementsOnChanges || this.inputChanges === null) {
-      return;
-    }
-    const inputChanges = this.inputChanges;
-    this.inputChanges = null;
-    componentRef.instance.ngOnChanges(inputChanges);
-  }
-  /**
-   * Marks the component view for check, if necessary.
-   * (NOTE: This is required when the `ChangeDetectionStrategy` is set to `OnPush`.)
-   */
-  markViewForCheck(viewChangeDetectorRef) {
-    if (this.hasInputChanges) {
-      this.hasInputChanges = false;
-      viewChangeDetectorRef.markForCheck();
-    }
-  }
-  /**
-   * Schedules change detection to run on the component.
-   * Ignores subsequent calls if already scheduled.
-   */
-  scheduleDetectChanges() {
-    if (this.scheduledChangeDetectionFn) {
-      return;
-    }
-    this.scheduledChangeDetectionFn = scheduler.scheduleBeforeRender(() => {
-      this.scheduledChangeDetectionFn = null;
-      this.detectChanges();
-    });
-  }
-  /**
-   * Records input changes so that the component receives SimpleChanges in its onChanges function.
-   */
-  recordInputChange(property, currentValue) {
-    if (!this.implementsOnChanges) {
-      return;
-    }
-    if (this.inputChanges === null) {
-      this.inputChanges = {};
-    }
-    const pendingChange = this.inputChanges[property];
-    if (pendingChange) {
-      pendingChange.currentValue = currentValue;
-      return;
-    }
-    const isFirstChange = this.unchangedInputs.has(property);
-    const previousValue = isFirstChange ? void 0 : this.getInputValue(property);
-    this.inputChanges[property] = new SimpleChange(previousValue, currentValue, isFirstChange);
-  }
-  /** Runs change detection on the component. */
-  detectChanges() {
-    if (this.componentRef === null) {
-      return;
-    }
-    this.callNgOnChanges(this.componentRef);
-    this.markViewForCheck(this.viewChangeDetectorRef);
-    this.componentRef.changeDetectorRef.detectChanges();
-  }
-  /** Runs in the angular zone, if present. */
-  runInZone(fn) {
-    return this.elementZone && Zone.current !== this.elementZone ? this.ngZone.run(fn) : fn();
-  }
-};
-var NgElement = class extends HTMLElement {
-  constructor() {
-    super(...arguments);
-    this.ngElementEventsSubscription = null;
-  }
-};
-function createCustomElement(component, config2) {
-  const inputs = getComponentInputs(component, config2.injector);
-  const strategyFactory = config2.strategyFactory || new ComponentNgElementStrategyFactory(component, config2.injector);
-  const attributeToPropertyInputs = getDefaultAttributeToPropertyInputs(inputs);
-  class NgElementImpl extends NgElement {
-    static {
-      this["observedAttributes"] = Object.keys(attributeToPropertyInputs);
-    }
-    get ngElementStrategy() {
-      if (!this._ngElementStrategy) {
-        const strategy = this._ngElementStrategy = strategyFactory.create(this.injector || config2.injector);
-        inputs.forEach(({
-          propName,
-          transform
-        }) => {
-          if (!this.hasOwnProperty(propName)) {
-            return;
-          }
-          const value = this[propName];
-          delete this[propName];
-          strategy.setInputValue(propName, value, transform);
-        });
-      }
-      return this._ngElementStrategy;
-    }
-    constructor(injector) {
-      super();
-      this.injector = injector;
-    }
-    attributeChangedCallback(attrName, oldValue, newValue, namespace) {
-      const [propName, transform] = attributeToPropertyInputs[attrName];
-      this.ngElementStrategy.setInputValue(propName, newValue, transform);
-    }
-    connectedCallback() {
-      let subscribedToEvents = false;
-      if (this.ngElementStrategy.events) {
-        this.subscribeToEvents();
-        subscribedToEvents = true;
-      }
-      this.ngElementStrategy.connect(this);
-      if (!subscribedToEvents) {
-        this.subscribeToEvents();
-      }
-    }
-    disconnectedCallback() {
-      if (this._ngElementStrategy) {
-        this._ngElementStrategy.disconnect();
-      }
-      if (this.ngElementEventsSubscription) {
-        this.ngElementEventsSubscription.unsubscribe();
-        this.ngElementEventsSubscription = null;
-      }
-    }
-    subscribeToEvents() {
-      this.ngElementEventsSubscription = this.ngElementStrategy.events.subscribe((e) => {
-        const customEvent = new CustomEvent(e.name, {
-          detail: e.value
-        });
-        this.dispatchEvent(customEvent);
-      });
-    }
-  }
-  inputs.forEach(({
-    propName,
-    transform
-  }) => {
-    Object.defineProperty(NgElementImpl.prototype, propName, {
-      get() {
-        return this.ngElementStrategy.getInputValue(propName);
-      },
-      set(newValue) {
-        this.ngElementStrategy.setInputValue(propName, newValue, transform);
-      },
-      configurable: true,
-      enumerable: true
-    });
-  });
-  return NgElementImpl;
-}
-var VERSION6 = new Version("18.2.8");
 
 // src/app/sourcing-form.module.ts
 var sourcingFormModule = class _sourcingFormModule {
@@ -51634,134 +41884,13 @@ var sourcingFormModule = class _sourcingFormModule {
     }
   ], imports: [
     BrowserModule,
-    AppRoutingModule,
     ReactiveFormsModule,
     RecaptchaModule,
     SharedModule
   ] });
 };
 
-// src/environments/environment.ts
-var environment = {
-  formName: "sourcing"
-};
-
-// src/app/recruitment-form.module.ts
-var recruitmentFormModule = class _recruitmentFormModule {
-  constructor(injector) {
-    this.injector = injector;
-  }
-  ngDoBootstrap() {
-    const recruitmentForm = createCustomElement(RecruitmentFormComponent, {
-      injector: this.injector
-    });
-    customElements.define("recruitment-form", recruitmentForm);
-  }
-  static \u0275fac = function recruitmentFormModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _recruitmentFormModule)(\u0275\u0275inject(Injector));
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({ type: _recruitmentFormModule });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({ providers: [
-    provideHttpClient(),
-    {
-      provide: RECAPTCHA_SETTINGS,
-      useValue: {
-        siteKey: ENV_VAR.GTM_SITE_KEY
-      }
-    }
-  ], imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    RecaptchaModule,
-    SharedModule
-  ] });
-};
-
-// src/app/b2c-form.module.ts
-var b2cFormModule = class _b2cFormModule {
-  constructor(injector) {
-    this.injector = injector;
-  }
-  ngDoBootstrap() {
-    const b2cForm = createCustomElement(B2cFormComponent, {
-      injector: this.injector
-    });
-    customElements.define("b2c-form", b2cForm);
-  }
-  static \u0275fac = function b2cFormModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _b2cFormModule)(\u0275\u0275inject(Injector));
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({ type: _b2cFormModule });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({ providers: [
-    provideHttpClient(),
-    {
-      provide: RECAPTCHA_SETTINGS,
-      useValue: {
-        siteKey: ENV_VAR.GTM_SITE_KEY
-      }
-    }
-  ], imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    RecaptchaModule,
-    SharedModule
-  ] });
-};
-
-// src/app/b2b-form.module.ts
-var b2bFormModule = class _b2bFormModule {
-  constructor(injector) {
-    this.injector = injector;
-  }
-  ngDoBootstrap() {
-    const b2bForm = createCustomElement(B2bFormComponent, {
-      injector: this.injector
-    });
-    customElements.define("b2b-form", b2bForm);
-  }
-  static \u0275fac = function b2bFormModule_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _b2bFormModule)(\u0275\u0275inject(Injector));
-  };
-  static \u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({ type: _b2bFormModule });
-  static \u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({ providers: [
-    provideHttpClient(),
-    {
-      provide: RECAPTCHA_SETTINGS,
-      useValue: {
-        siteKey: ENV_VAR.GTM_SITE_KEY
-      }
-    }
-  ], imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    RecaptchaModule,
-    SharedModule
-  ] });
-};
-
-// src/main.ts
-var formName = environment.formName;
-if (formName == "sourcing") {
-  platformBrowser().bootstrapModule(sourcingFormModule, {
-    ngZoneEventCoalescing: true
-  }).catch((err) => console.error(err));
-} else if (formName == "recruitment") {
-  platformBrowser().bootstrapModule(recruitmentFormModule, {
-    ngZoneEventCoalescing: true
-  }).catch((err) => console.error(err));
-} else if (formName == "b2c") {
-  platformBrowser().bootstrapModule(b2cFormModule, {
-    ngZoneEventCoalescing: true
-  }).catch((err) => console.error(err));
-} else if (formName == "b2b") {
-  platformBrowser().bootstrapModule(b2bFormModule, {
-    ngZoneEventCoalescing: true
-  }).catch((err) => console.error(err));
-} else {
-  platformBrowser().bootstrapModule(AppModule, {
-    ngZoneEventCoalescing: true
-  }).catch((err) => console.error(err));
-}
+// src/main-sourcing.ts
+platformBrowser().bootstrapModule(sourcingFormModule, {
+  ngZoneEventCoalescing: true
+}).catch((err) => console.error(err));

@@ -38,29 +38,9 @@
     padding: 8px 0;
 }
 
-.form-field {
-    background-color: rgba(0, 0, 0, 0.10);
-    border: 1px solid rgba(255, 255, 255, 0.13);
-    padding: 12px 24px;
-    border-radius: 8px;
-    color: #fafafa;
-    height: auto !important;
-}
-
 .b2c-error-message {
-    font-size: 12px;
-    color: #F9B200;
-}
-
-
-.b2b-form-button {
-    border-radius: 36px;
-    border-radius: 36px;
-    border-color: #FF7014;
-    font-size: 16px;
-    padding: 8px 16px;
-    color: #ffffff;
-    background-color: #FF7014;
+    text-align: left;
+    line-height: 14px;
 }
 
 .two-grid-container {
@@ -94,23 +74,24 @@
 }
 
 .custom-radio label {
-    font-size: 18px;
+    font-size: 16px;
     display: inline-block;
     width: 100%;
-    min-height: 50px;
+    min-height: 45px;
     text-align: center;
     line-height: 30px;
     cursor: pointer;
-    border-radius: 7px;
-    border: 1px solid white;
-    color: white;
+    border-radius: 24px;
+    border: 1px solid #01163599;
+    color: #01163599;
     margin-bottom: 0px;
     align-content: center;
 }
 
 .custom-radio input[type="radio"]:checked+label {
-    background-color: white;
-    color: black;
+    background-color: #FF7014;
+    color: white;
+    border: none;
 }
 
 .file-upload-container {
@@ -118,12 +99,13 @@
     position: relative;
     width: 100%;
     aspect-ratio: 1 / 1;
-    background-color: #EBF1F4;
+    background-color: #f9fafe;
     transition: background-color 0.1s ease-in-out;
-    border-radius: 10px;
+    border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    height: 40px
+    height: 40px;
+    border: 1px solid #01163599;
 }
 
 .file-upload-container input[type="file"] {
@@ -176,7 +158,8 @@ input[type="file"] {
 }
 
 .file-upload-container:hover {
-    background-color: #D7E6EE;
+    border: 1px solid;
+    border-image-source: linear-gradient(144deg, #FF7014 -67.77%, #A100FE 100.03%);
 }
 
 .custom-button {
@@ -199,7 +182,7 @@ input[type="file"] {
 }
 
 option {
-    color: black
+    color: #011635;
 }
 
 .custom-button::before {
@@ -257,6 +240,8 @@ option {
     width: 50px;
     height: 50px;
     margin-top: 10px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .spinner:before {
@@ -270,16 +255,16 @@ option {
     margin-top: -10px;
     margin-left: -10px;
     border-radius: 50%;
-    border: 2px solid #ccc;
+    border: 2px solid #01163599;
     border-top-color: #fff;
     animation: spinner .6s linear infinite;
 }
 
 .rev-multi-select {
     ::ng-deep .multiselect-dropdown {
-        background-color: rgba(0, 0, 0, 0.10) !important;
-        border: 1px solid rgba(255, 255, 255, 0.13) !important;
-        border-radius: 8px !important;
+        background-color: white !important;
+        border: 1px solid #01163599 !important;
+        border-radius: 32px !important;
         font-family: inherit !important;
         width: 100% !important;
     }
@@ -287,8 +272,8 @@ option {
     ::ng-deep .multiselect-dropdown .dropdown-btn {
         background-color: transparent !important;
         border: none !important;
-        color: #fafafa !important;
-        padding: 12px 24px !important;
+        color: #011635 !important;
+        padding: 8px !important;
         border-radius: 8px !important;
     }
 
@@ -300,41 +285,32 @@ option {
         border-bottom: 5px solid #fafafa !important;
     }
 
-    ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item-container {
-        padding-bottom: 4px !important;
-    }
-
     ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item {
-        background: white !important;
-        border: 1px solid white !important;
-        color: black !important;
+        background: #011635 !important;
+        color: white !important;
         max-width: none !important;
-        padding: 2px 8px !important;
-        border-radius: 0.5rem !important;
-    }
-
-    ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item a {
-        color: black !important;
+        padding: 6px 14px !important;
+        border-radius: 32px !important;
     }
 
     /* Light theme dropdown list */
     ::ng-deep .dropdown-list {
         background: white !important;
-        border: 1px solid #ccc !important;
+        border: 1px solid #01163599 !important;
         border-radius: 8px !important;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1) !important;
         margin-top: 0px !important;
         
         .no-filtered-data h5 {
             font-size: 16px !important;
-            color: black !important;
+            color: #011635 !important;
         }
     }
 
     ::ng-deep .dropdown-list .filter-textbox input {
         background-color: white !important;
-        border: 1px solid #ccc !important;
-        color: #333 !important;
+        border: 1px solid #01163599 !important;
+        color: #011635 !important;
         border-radius: 4px !important;
         padding: 5px 0px 5px 20px !important;
     }
@@ -368,6 +344,14 @@ option {
     }
 
     ::ng-deep .multiselect-item-checkbox input[type=checkbox]+div:before {
-        border: 2px solid #ccc !important;
+        border: 2px solid #01163599 !important;
+    }
+
+    ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+        top: 8% !important;
+    }
+
+    ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
+        border: none !important;
     }
 }

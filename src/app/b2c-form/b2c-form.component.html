@@ -1018,19 +1018,19 @@
     <fieldset class="two-grid-container">
         <legend class="form-label">Upload Your Resume</legend>
         <label class="legend-container">
-            <div style="color:white; font-size:18px;">
+            <h6 style="font-weight: 400;">
                 <img style="width:30px; height:30px; margin-right: 10px;"
                     src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png">Computer
-            </div>
+            </h6>
             <input type="file" id="ResumeUpload" (change)="onFileChange($event)" accept=".pdf, .docx, .doc, .rtf, .txt">
         </label>
 
         <!-- Dropbox Option -->
         <label class="legend-container">
-            <div style="color:white; font-size:18px;" class="dropbox-button" (click)="onDropboxClick()">
+            <h6 style="font-weight: 400;" (click)="onDropboxClick()">
                 <img style="width:30px; height:30px; margin-right: 10px;"
                     src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/6673257bcdcad45f4881b227_dropbox_icon.png">Dropbox
-            </div>
+            </h6>
         </label>
     </fieldset>
 
@@ -1039,25 +1039,25 @@
     <span class="resume-success" *ngIf="fileSuccess">{{ fileSuccess }}</span>
 
 
-    <div style="margin-top: 1rem;color: #9ca3af;">
+    <div style="margin-top: 1rem;">
         * Note
-        <ul style="margin-top: 5px;font-size: 16px;color: #9ca3af;line-height: unset;">
-            <li style="font-size: 16px;color: #9ca3af;line-height: unset;">Resume file type should be one of the
+        <ul style="margin-top: 5px;font-size: 16px;line-height: unset;">
+            <li style="font-size: 16px;line-height: unset;">Resume file type should be one of the
                 following: .doc, .docx, .pdf, .txt, .rtf</li>
-            <li style="font-size: 16px;color: #9ca3af;line-height: unset;">Size less than 5MB</li>
+            <li style="font-size: 16px;line-height: unset;">Size less than 5MB</li>
         </ul>
     </div>
     <!-- Privacy Consent -->
-    <div style="font-size: 16px;color:#fff">
+    <div style="font-size: 16px;">
         <div>Your privacy is important to us</div>
-        <div style="margin-top: 0.5rem;margin-bottom: 0.5rem;">
+        <div style="margin-top: 0.5rem;margin-bottom: 0.5rem; font-weight: 400;">
             Revature is committed to safeguarding your privacy. We will never sell or share your personal information.
             Submitting this form constitutes your express written consent to receive emails, texts, and phone messages 
             from Revature at the phone number(s) and e-mail address provided in this form for work-related opportunities.
         </div>
         <div>
             <input type="checkbox" formControlName="dataConsent" id="dataConsent">
-            <label style="font-weight: unset;display: unset;"><b>(Optional)</b> Select this checkbox if you would like Revature to share your contact 
+            <label style="font-weight: unset;display: unset; font-weight: 400;"><b>(Optional)</b> Select this checkbox if you would like Revature to share your contact 
                 information with our career-placement and network partners for the purpose of expanding your opportunities. 
                 This information may include your name, phone number, email address, education level, and work authorization status.</label>
         </div>
@@ -1070,6 +1070,6 @@
     </div>
 
     <!-- Submit Button -->
-    <button type="submit" class="b2b-form-button" *ngIf="showSubmitButton">Submit</button>
+    <button type="submit" class="b2c-form-button" *ngIf="showSubmitButton">Submit</button>
     <div id="loadSpinner" class="spinner" *ngIf="loading"></div>
 </form>

@@ -150,7 +150,7 @@
 
     <div *ngIf="showOpportunityField" class="form-group">
         <label class="form-label">
-            Sourced For Opportunity:<span class="required">*</span>
+            Sourced For Opportunity:<span class="required" *ngIf="['SPC_Experienced_Hire', 'SPC_Cont_Spec_NoExp'].includes(form.get('marketingProgram')?.value)">*</span>
         </label>
         <input noWhitespace class="form-field" formControlName="sourcedForOpp" placeholder="Sourced For Opportunity" maxlength="18">
         <div *ngIf="form.get('sourcedForOpp')?.touched && form.get('sourcedForOpp')?.invalid" class="form-error-message">

@@ -8,21 +8,10 @@ textarea {
     resize: none;
 }
 
-.b2b-form-field {
-    background-color: rgba(0, 0, 0, 0.10);
-    border: 1px solid rgba(255, 255, 255, 0.13);
-    padding: 12px 24px;
-    border-radius: 8px;
-    color: #fafafa;
-}
-
 .b2b-error-message {
-    color: #F9B200;
-    padding: 4px;
     text-align: left;
     line-height: 14px;
     display: block;
-    margin-bottom: 8px;
     visibility: hidden;
 }
 
@@ -30,24 +19,9 @@ textarea {
     visibility: visible;
 }
 
-.form-button {
-    border-radius: 36px;
-    font-size: 16px;
-    padding: 8px 16px;
-    color: #ffffff;
-    background-color: #FF7014;
-    border-color: #FF7014;
-    justify-self: center;
-}
-
 .form-button-wrapper {
     display: flex;
     justify-content: center;
-}
-
-.b2b-form-field::placeholder {
-    color: #ffffff;
-    opacity: 0.4;
 }
 
 .two-grid-container {

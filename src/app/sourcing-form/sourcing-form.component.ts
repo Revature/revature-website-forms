@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CANADA_SCHOOLS, CANADA_STATE_VALUES, ENV_VAR, MAJORS, MEXICO_SCHOOLS, MEXICO_STATE_VALUES, US_MARKETING_VALUES, US_SCHOOLS, US_STATE_VALUES, WORK_AUTH_VALUES } from '../common/form-contants';
+import { CANADA_SCHOOLS, CANADA_STATE_VALUES, INDIA_STATE_VALUES, ENV_VAR, MAJORS, MEXICO_SCHOOLS, MEXICO_STATE_VALUES, US_MARKETING_VALUES, US_SCHOOLS, US_STATE_VALUES, WORK_AUTH_VALUES } from '../common/form-contants';
 import { SharedService } from '../common/shared.service';
 @Component({
   selector: 'app-sourcing-form',
@@ -174,8 +174,8 @@ export class SourcingFormComponent {
       case 'India':
         this.workAuthorizationValues = WORK_AUTH_VALUES;
         this.showIndiaFields = true;
-        this.marketingPrograms = ['India'];
-        this.states = US_STATE_VALUES;
+        this.marketingPrograms = ['India', 'India Experienced Hire'];
+        this.states = INDIA_STATE_VALUES;
         this.schools = US_SCHOOLS;
         break;
       default:
@@ -194,9 +194,9 @@ export class SourcingFormComponent {
   }
 
   handleMarketingProgramChange(program: string) {
-    this.showOpportunityField = ['SPC_Experienced_Hire', 'SPC_Cont_Spec_NoExp'].includes(program);
+    this.showOpportunityField = ['SPC_Experienced_Hire', 'SPC_Cont_Spec_NoExp', 'India Experienced Hire'].includes(program);
 
-    if (this.showOpportunityField) {
+    if (this.showOpportunityField && ['SPC_Experienced_Hire', 'SPC_Cont_Spec_NoExp'].includes(program)) {
       this.form.get('sourcedForOpp')?.setValidators(Validators.required);
     } else {
       this.form.get('sourcedForOpp')?.clearValidators();
