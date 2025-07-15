@@ -15,7 +15,8 @@ declare const Dropbox: any;
 
 export class B2cFormComponent implements AfterViewInit, OnInit {
   @Input('isfederalworker') public isFederalWorker: boolean = false;
-
+  @Input('thankyouextensionurl') public thankyouExtensionUrl: string = '';
+  
   form: FormGroup;
 
   graduationYears: number[] = [];
@@ -1068,7 +1069,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   }
 
   navigateToThankYouPage(firstName: string): void {
-    window.location.href = `/thank-you-for-submission?name=${btoa(firstName)}`;
+    window.location.href = `/thank-you/${this.thankyouExtensionUrl}?name=${btoa(firstName)}`;
   }
 
   getQueryParams(): any {

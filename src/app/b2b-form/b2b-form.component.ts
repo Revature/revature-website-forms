@@ -238,7 +238,7 @@ export class B2bFormComponent implements AfterViewInit {
   }
 
   navigateToThankYouPage(firstName: string): void {
-    window.location.href = `/thank-you${this.thankyouExtensionUrl}?name=${btoa(firstName)}`;
+    window.location.href = `/thank-you/${this.thankyouExtensionUrl}?name=${btoa(firstName)}`;
   }
 
   getQueryParams(): any {

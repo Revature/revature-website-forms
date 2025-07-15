@@ -82,8 +82,8 @@ export class SourcingFormComponent {
       gender: [''],
       programmingExperience: [''],
       majorGrade: [''],
-      tenthGrade: [''],
-      twelfthGrade: [''],
+      '10thGrade': [''],
+      '12thGrade': [''],
       resumeURL: ['', Validators.required],
       leadDate: [new Date().toISOString()],
       validCaptacha: [''],
@@ -186,7 +186,7 @@ export class SourcingFormComponent {
     }
 
     if (this.showIndiaFields) {
-      ['majorGrade', 'tenthGrade', 'twelfthGrade'].forEach(field => {
+      ['majorGrade', '10thGrade', '12thGrade'].forEach(field => {
         this.form.get(field)?.setValidators(Validators.required);
         this.form.get(field)?.updateValueAndValidity();
       });
