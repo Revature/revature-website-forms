@@ -77,7 +77,7 @@
     font-size: 16px;
     display: inline-block;
     width: 100%;
-    min-height: 45px;
+    min-height: 40px;
     text-align: center;
     line-height: 30px;
     cursor: pointer;
@@ -94,116 +94,24 @@
     border: none;
 }
 
-.file-upload-container {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    background-color: #f9fafe;
-    transition: background-color 0.1s ease-in-out;
-    border-radius: 16px;
-    overflow: hidden;
-    cursor: pointer;
-    height: 40px;
-    border: 1px solid #01163599;
-}
-
-.file-upload-container input[type="file"] {
-    position: absolute;
-    visibility: hidden;
-}
-
-.file-upload-wrapper {
-    position: relative;
-}
-
 input[type="file"] {
     display: none;
 }
 
-.custom-file-upload {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid white;
-    padding: 10px 20px;
-    cursor: pointer;
-    background-color: transparent;
-    /* Change this to any desired background color */
-    color: white;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.custom-file-upload:hover {
-    background-color: #00183c;
-    /* Change this to any desired hover color */
-}
-
-.custom-file-upload svg {
-    margin-right: 8px;
-}
-
-.custom-file-upload span {
-    font-size: 16px;
-}
-
-.file-upload-label {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-}
-
-.file-upload-container:hover {
-    border: 1px solid;
-    border-image-source: linear-gradient(144deg, #FF7014 -67.77%, #A100FE 100.03%);
-}
-
-.custom-button {
-    height: 50px;
-    width: 170px;
-    background-color: rgb(255 207 0);
-    border: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: background-color 0.5s;
-    transition: scale 0.5s;
-    transition: color 0.3s;
-    z-index: 1;
-    border-radius: 50px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, .2);
-    font-size: 16px;
-    margin-top: 2.5rem;
+.upload-container {
+    padding: 1px;
+    background-color: #F8FAFE;
+    &:hover {
+        background: linear-gradient(-20deg, #A100FE, #FF7014);
+    }
+    
+    &.upload-container-active {
+        background: linear-gradient(-20deg, #A100FE, #FF7014);
+    }
 }
 
 option {
     color: #011635;
-}
-
-.custom-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(255 113 21);
-    transition: left 0.3s;
-    z-index: -1;
-}
-
-.custom-button:hover::before {
-    left: 0;
-}
-
-.custom-button:hover {
-    scale: 1.1;
-    color: white;
 }
 
 .resume-success {
@@ -275,6 +183,14 @@ option {
         color: #011635 !important;
         padding: 8px !important;
         border-radius: 8px !important;
+        font-size: 14px !important;
+        & >span:not([class]) {
+            margin-left: 6px !important;
+            color: rgba(1, 22, 53, 0.4) !important;
+        } 
+        & .selected-item {
+            color: white !important;
+        }
     }
 
     ::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-down {
@@ -322,6 +238,9 @@ option {
     ::ng-deep .dropdown-list ul li {
         color: #333 !important;
         padding: 8px 12px !important;
+        &::before {
+            display: none !important;
+        }
     }
 
     ::ng-deep .dropdown-list ul li:hover {
@@ -353,5 +272,90 @@ option {
 
     ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
         border: none !important;
+    }
+}
+
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.custom-dropdown-button {
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+        border-color: #011635;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: #FF7014;
+        box-shadow: 0 0 0 2px rgba(255, 112, 20, 0.2);
+    }
+
+    &.error {
+        border-color: #dc3545;
+    }
+
+    .dropdown-text {
+        flex: 1;
+        color: #011635;
+        font-size: 14px;
+        &.placeholder {
+            color: rgba(1, 22, 53, 0.4);
+        }
+    }
+
+    .dropdown-arrow {
+        color: #01163599;
+        font-size: 12px;
+        transition: transform 0.2s ease;
+        
+        &.open {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.custom-dropdown-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border-radius: 7px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    z-index: 1000;
+    max-height: 300px;
+    overflow: auto;
+    margin-top: 4px;
+    border: 1px solid #01163599;
+}
+
+.custom-dropdown-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    color: #161616;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:hover {
+        background-color: #f8f9fa;
+    }
+
+    &.selected {
+        background-color: #FF7014;
+        color: white;
     }
 }

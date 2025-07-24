@@ -1,0 +1,414 @@
+<style>
+  .roi-calculator-container {
+    max-width: 1200px;
+    margin: 32px auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0;
+
+    .inputs {
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .results {
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .impact {
+      padding: 32px 24px;
+      display: flex;
+    }
+    .impact-container {
+      width: 100%;
+      padding: 32px 24px;
+      background: #f0f6ff;
+      border-radius: 20px;
+    }
+    .input-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .info-circle {
+      width: 18px;
+      height: 18px;
+      background-color: #e0e0e0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #666;
+      cursor: help;
+    }
+    .slider-group {
+      padding-bottom: 24px;
+    }
+    .slider-value {
+      display: block;
+      margin: 5px 0 15px;
+      cursor: pointer;
+    }
+    .slider-range {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      -webkit-appearance: none;
+      background: linear-gradient(
+        to right,
+        #ff7014 0%,
+        #ff7014 50%,
+        #e0e0e0 50%,
+        #e0e0e0 100%
+      );
+      border-radius: 20px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #ff7014;
+      border: 2px solid white;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .result-card {
+      padding-bottom: 24px;
+    }
+    .result-card:last-of-type {
+      border-bottom: none;
+    }
+    .result-title {
+      margin-bottom: 5px;
+    }
+    .result-desc {
+      margin-bottom: 10px;
+    }
+    .result-value {
+      color: #ff7014;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .impact-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .impact-value {
+      color: #ff7014;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      display: block;
+    }
+    .advisor-btn {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      min-width: 50px;
+      height: 24px;
+      margin-right: 10px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #DAE5F9;
+      transition: 0.4s;
+      border-radius: 24px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider {
+      background-color: #ff7014;
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+    .optimistic-toggle {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+      margin-top: 15px;
+    }
+    .toggle-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .toggle-description {
+      margin-top: 5px;
+    }
+    .disclaimer {
+      font-size: 12px;
+      color: #01163599;
+      margin-top: 15px;
+      line-height: 140%;
+      font-weight: 400;
+    }
+  }
+  @media (max-width: 992px) {
+    .roi-calculator-container {
+      grid-template-columns: 1fr 1fr;
+    }
+    .impact {
+      grid-column: span 2;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .roi-calculator-container {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="roi-calculator-container">
+  <div class="inputs">
+    <div class="slider-group">
+      <div class="input-header">
+        <label class="rev_text_body/large font-w-semibold" for="employees">Total Number of Employees</label>
+      </div>
+      <span class="slider-value rev_text_body/large font-w-semibold" id="employeesValue" tabindex="0">10,000</span>
+      <input
+        type="range"
+        id="employees"
+        min="5000"
+        max="100000"
+        step="100"
+        value="10000"
+      />
+      <div class="slider-range rev_text_body/small">
+        <span>5,000</span>
+        <span>100,000</span>
+      </div>
+    </div>
+    <div class="slider-group">
+      <div class="input-header">
+        <label class="rev_text_body/large font-w-semibold" for="hires">Average Hires Per Year</label>
+      </div>
+      <span class="slider-value rev_text_body/large font-w-semibold" id="hiresValue" tabindex="0">1,000</span>
+      <input
+        type="range"
+        id="hires"
+        min="500"
+        max="10000"
+        step="10"
+        value="1000"
+      />
+      <div class="slider-range rev_text_body/small">
+        <span>500</span>
+        <span>10,000</span>
+      </div>
+    </div>
+    <div class="slider-group">
+      <div class="input-header">
+        <label class="rev_text_body/large font-w-semibold" for="salary">Average Employee Salary</label>
+      </div>
+      <span class="slider-value rev_text_body/large font-w-semibold" id="salaryValue" tabindex="0">$80,000</span>
+      <input
+        type="range"
+        id="salary"
+        min="30000"
+        max="130000"
+        step="1000"
+        value="80000"
+      />
+      <div class="slider-range rev_text_body/small">
+        <span>$30,000</span>
+        <span>$130,000</span>
+      </div>
+    </div>
+  </div>
+  <div class="results">
+    <div class="result-card">
+      <div class="result-title rev_text_body/large font-w-semibold">Optimize Talent Planning</div>
+      <div class="result-desc">
+        Find the right talent, on time, within budget.
+      </div>
+      <div class="result-value" id="talentPlanningValue">$800,000</div>
+    </div>
+    <div class="result-card">
+      <div class="result-title rev_text_body/large font-w-semibold">Accelerate time to fill</div>
+      <div class="result-desc">
+        Surface qualified talent faster to fill open roles.
+      </div>
+      <div class="result-value" id="timeToFillValue">$356,000</div>
+    </div>
+    <div class="result-card">
+      <div class="result-title rev_text_body/large font-w-semibold">Reduce attrition</div>
+      <div class="result-desc">
+        Reduce unwanted turnover in your organization.
+      </div>
+      <div class="result-value" id="attritionValue">$160,000</div>
+    </div>
+  </div>
+  <div class="impact">
+    <div class="impact-container">
+      <div class="impact-title">Potential Impact</div>
+      <span class="impact-value" id="totalImpactValue"
+        >$1,316,000
+        <span>per year</span></span
+      >
+      <button class="advisor-btn rev-primary-button fill">Speak To An Advisor</button>
+      <div class="optimistic-toggle">
+        <label class="toggle-switch">
+          <input type="checkbox" id="optimisticToggle" />
+          <span class="toggle-slider"></span>
+        </label>
+        <div class="toggle-text">
+          <span class="rev_text_body/large font-w-semibold">Optimistic Results</span>
+          <span class="toggle-description">
+            See the full range of your potential impact. Toggle to adjust between
+            conservative and optimistic results.
+          </span>
+          <span class="disclaimer">
+            Results reflect annual impact once fully scaled.
+            This estimate is not exhaustive.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Inputs
+  const employees = document.getElementById("employees");
+  const hires = document.getElementById("hires");
+  const salary = document.getElementById("salary");
+  const optimisticToggle = document.getElementById("optimisticToggle");
+  const employeesValue = document.getElementById("employeesValue");
+  const hiresValue = document.getElementById("hiresValue");
+  const salaryValue = document.getElementById("salaryValue");
+  // Results
+  const talentPlanningValue = document.getElementById("talentPlanningValue");
+  const timeToFillValue = document.getElementById("timeToFillValue");
+  const attritionValue = document.getElementById("attritionValue");
+  const totalImpactValue = document.getElementById("totalImpactValue");
+
+  // Constants
+  const EFFICIENCY_GAIN = { conservative: 0.1, optimistic: 0.15 };
+  const DAILY_COST_OF_VACANCY = { conservative: 150, optimistic: 500 };
+  const TIME_SAVED_DAYS = { conservative: 5, optimistic: 5 };
+  const ATTRITION_CASES = { conservative: 7, optimistic: 12 };
+  const REPLACEMENT_COST_PCT = 0.3;
+
+  function formatMoney(num, withDollar) {
+    let n = Math.round(num);
+    return (withDollar ? "$" : "") + n.toLocaleString();
+  }
+
+  function recalc() {
+    employeesValue.textContent = formatMoney(employees.value, false);
+    hiresValue.textContent = formatMoney(hires.value, false);
+    salaryValue.textContent = formatMoney(salary.value, true);
+
+    const mode = optimisticToggle.checked ? "optimistic" : "conservative";
+
+    const talentPlanning = Math.round(
+      salary.value * hires.value * EFFICIENCY_GAIN[mode]
+    );
+    const timeToFill = Math.round(
+      DAILY_COST_OF_VACANCY[mode] * TIME_SAVED_DAYS[mode] * hires.value
+    );
+    const replacementCost = Math.round(salary.value * REPLACEMENT_COST_PCT);
+    const attrition = Math.round(replacementCost * ATTRITION_CASES[mode]);
+    const total = talentPlanning + timeToFill + attrition;
+
+    talentPlanningValue.textContent = formatMoney(talentPlanning, true);
+    timeToFillValue.textContent = formatMoney(timeToFill, true);
+    attritionValue.textContent = formatMoney(attrition, true);
+    totalImpactValue.innerHTML =
+      formatMoney(total, true) +
+      ' <span>per year</span>';
+
+    updateSliderFill(employees);
+    updateSliderFill(hires);
+    updateSliderFill(salary);
+  }
+
+  function updateSliderFill(slider) {
+    const min = slider.min;
+    const max = slider.max;
+    const val = slider.value;
+    const percentage = ((val - min) / (max - min)) * 100;
+    slider.style.background = `linear-gradient(to right, #ff7014 0%, #ff7014 ${percentage}%, #e0e0e0 ${percentage}%, #e0e0e0 100%)`;
+  }
+
+  employees.addEventListener("input", recalc);
+  hires.addEventListener("input", recalc);
+  salary.addEventListener("input", recalc);
+  optimisticToggle.addEventListener("change", recalc);
+
+  function makeEditable(span, slider, withDollar) {
+    span.addEventListener("click", function () {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.value = slider.value;
+      input.style.width = "90px";
+      input.className = "slider-value";
+      span.replaceWith(input);
+      input.focus();
+      input.select();
+      function finishEdit() {
+        let raw = input.value.replace(/[^\d]/g, "");
+        slider.value = raw || "0";
+        recalc();
+        input.replaceWith(span);
+      }
+      input.addEventListener("blur", finishEdit);
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") finishEdit();
+      });
+      input.addEventListener("input", function () {
+        let raw = input.value.replace(/[^\d]/g, "");
+        input.value = formatMoney(raw, withDollar);
+      });
+    });
+    span.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") span.click();
+    });
+  }
+  makeEditable(employeesValue, employees, false);
+  makeEditable(hiresValue, hires, false);
+  makeEditable(salaryValue, salary, true);
+
+  updateSliderFill(employees);
+  updateSliderFill(hires);
+  updateSliderFill(salary);
+  recalc();
+</script>

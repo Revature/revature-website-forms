@@ -127,3 +127,28 @@ textarea {
     border-top-color: #fff;
     animation: spinner .6s linear infinite;
 }
+
+// reCAPTCHA responsive styles
+re-captcha {
+    display: block;
+    width: 100%;
+    max-width: 304px;
+    overflow: hidden;
+}
+
+// Scale reCAPTCHA on small screens
+@media screen and (max-width: 320px) {
+    re-captcha {
+        transform: scale(0.77);
+        transform-origin: 0 0;
+        margin-bottom: -45px;
+    }
+}
+
+@media screen and (max-width: 280px) {
+    re-captcha {
+        transform: scale(0.65);
+        transform-origin: 0 0;
+        margin-bottom: -65px;
+    }
+}

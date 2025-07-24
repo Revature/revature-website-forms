@@ -10,13 +10,12 @@ declare const Dropbox: any;
 @Component({
   selector: 'app-b2c-form',
   templateUrl: './b2c-form.component.html',
-  styleUrl: './b2c-form.component.scss'
+  styleUrl: './b2c-form.component.scss',
 })
-
 export class B2cFormComponent implements AfterViewInit, OnInit {
   @Input('isfederalworker') public isFederalWorker: boolean = false;
   @Input('thankyouextensionurl') public thankyouExtensionUrl: string = '';
-  
+
   form: FormGroup;
 
   graduationYears: number[] = [];
@@ -34,68 +33,288 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   formAuditValue = {
     school: {
       label: '',
-      value: ''
+      value: '',
     },
     major: {
       label: '',
-      value: ''
-    }
-  }
+      value: '',
+    },
+  };
   focusedControl: any = {
     school: false,
-    major: false
-  }
+    major: false,
+  };
   schools = US_SCHOOLS;
+
+  dropdownStates: any = {
+    country: false,
+    state: false,
+    canadaState: false,
+    mexicoState: false,
+    indiaState: false,
+    levelOfEducation: false,
+    branch: false,
+    graduationMonth: false,
+    graduationYear: false,
+    programmingExperience: false,
+    disabilityType: false,
+  };
+
+  countries = [
+    { value: 'United States', label: 'United States' },
+    { value: 'Mexico', label: 'Mexico' },
+    { value: 'Canada', label: 'Canada' },
+    { value: 'United Kingdom', label: 'United Kingdom' },
+    { value: 'India', label: 'India' },
+  ];
+
+  usStates = [
+    { label: 'AL', value: 'Alabama' },
+    { label: 'AK', value: 'Alaska' },
+    { label: 'AZ', value: 'Arizona' },
+    { label: 'AR', value: 'Arkansas' },
+    { label: 'CA', value: 'California' },
+    { label: 'CO', value: 'Colorado' },
+    { label: 'CT', value: 'Connecticut' },
+    { label: 'DE', value: 'Delaware' },
+    { label: 'DC', value: 'District of Columbia' },
+    { label: 'FL', value: 'Florida' },
+    { label: 'GA', value: 'Georgia' },
+    { label: 'HI', value: 'Hawaii' },
+    { label: 'ID', value: 'Idaho' },
+    { label: 'IL', value: 'Illinois' },
+    { label: 'IN', value: 'Indiana' },
+    { label: 'IA', value: 'Iowa' },
+    { label: 'KS', value: 'Kansas' },
+    { label: 'KY', value: 'Kentucky' },
+    { label: 'LA', value: 'Louisiana' },
+    { label: 'ME', value: 'Maine' },
+    { label: 'MD', value: 'Maryland' },
+    { label: 'MA', value: 'Massachusetts' },
+    { label: 'MI', value: 'Michigan' },
+    { label: 'MN', value: 'Minnesota' },
+    { label: 'MS', value: 'Mississippi' },
+    { label: 'MO', value: 'Missouri' },
+    { label: 'MT', value: 'Montana' },
+    { label: 'NE', value: 'Nebraska' },
+    { label: 'NV', value: 'Nevada' },
+    { label: 'NH', value: 'New Hampshire' },
+    { label: 'NJ', value: 'New Jersey' },
+    { label: 'NM', value: 'New Mexico' },
+    { label: 'NY', value: 'New York' },
+    { label: 'NC', value: 'North Carolina' },
+    { label: 'ND', value: 'North Dakota' },
+    { label: 'OH', value: 'Ohio' },
+    { label: 'OK', value: 'Oklahoma' },
+    { label: 'OR', value: 'Oregon' },
+    { label: 'PA', value: 'Pennsylvania' },
+    { label: 'PR', value: 'Puerto Rico' },
+    { label: 'RI', value: 'Rhode Island' },
+    { label: 'SC', value: 'South Carolina' },
+    { label: 'SD', value: 'South Dakota' },
+    { label: 'TN', value: 'Tennessee' },
+    { label: 'TX', value: 'Texas' },
+    { label: 'UT', value: 'Utah' },
+    { label: 'VT', value: 'Vermont' },
+    { label: 'VA', value: 'Virginia' },
+    { label: 'WA', value: 'Washington' },
+    { label: 'WV', value: 'West Virginia' },
+    { label: 'WI', value: 'Wisconsin' },
+    { label: 'WY', value: 'Wyoming' },
+  ];
+
+  canadaProvinces = [
+    { value: 'Alberta', label: 'Alberta' },
+    { value: 'British Columbia', label: 'British Columbia' },
+    { value: 'Manitoba', label: 'Manitoba' },
+    { value: 'New Brunswick', label: 'New Brunswick' },
+    { value: 'Newfoundland and Labrador', label: 'Newfoundland and Labrador' },
+    { value: 'Northwest Territories', label: 'Northwest Territories' },
+    { value: 'Nova Scotia', label: 'Nova Scotia' },
+    { value: 'Nunavut', label: 'Nunavut' },
+    { value: 'Ontario', label: 'Ontario' },
+    { value: 'Prince Edward Island', label: 'Prince Edward Island' },
+    { value: 'Quebec', label: 'Quebec' },
+    { value: 'Saskatchewan', label: 'Saskatchewan' },
+    { value: 'Yukon', label: 'Yukon' },
+  ];
+
+  indiaStates = [
+    {
+      value: 'Andaman and Nicobar Islands',
+      label: 'Andaman and Nicobar Islands',
+    },
+    { value: 'Andhra Pradesh', label: 'Andhra Pradesh' },
+    { value: 'Arunachal Pradesh', label: 'Arunachal Pradesh' },
+    { value: 'Assam', label: 'Assam' },
+    { value: 'Bihar', label: 'Bihar' },
+    { value: 'Chandigarh', label: 'Chandigarh' },
+    { value: 'Chhattisgarh', label: 'Chhattisgarh' },
+    { value: 'Daman and Diu', label: 'Daman and Diu' },
+    { value: 'Delhi', label: 'Delhi' },
+    { value: 'Dadra and Nagar Haveli', label: 'Dadra and Nagar Haveli' },
+    { value: 'Goa', label: 'Goa' },
+    { value: 'Gujarat', label: 'Gujarat' },
+    { value: 'Himachal Pradesh', label: 'Himachal Pradesh' },
+    { value: 'Haryana', label: 'Haryana' },
+    { value: 'Jharkhand', label: 'Jharkhand' },
+    { value: 'Jammu and Kashmir', label: 'Jammu and Kashmir' },
+    { value: 'Karnataka', label: 'Karnataka' },
+    { value: 'Kerala', label: 'Kerala' },
+    { value: 'Lakshadweep', label: 'Lakshadweep' },
+    { value: 'Maharashtra', label: 'Maharashtra' },
+    { value: 'Meghalaya', label: 'Meghalaya' },
+    { value: 'Manipur', label: 'Manipur' },
+    { value: 'Madhya Pradesh', label: 'Madhya Pradesh' },
+    { value: 'Mizoram', label: 'Mizoram' },
+    { value: 'Nagaland', label: 'Nagaland' },
+    { value: 'Odisha', label: 'Odisha' },
+    { value: 'Punjab', label: 'Punjab' },
+    { value: 'Puducherry', label: 'Puducherry' },
+    { value: 'Rajasthan', label: 'Rajasthan' },
+    { value: 'Sikkim', label: 'Sikkim' },
+    { value: 'Tamil Nadu', label: 'Tamil Nadu' },
+    { value: 'Telangana', label: 'Telangana' },
+    { value: 'Tripura', label: 'Tripura' },
+    { value: 'Uttar Pradesh', label: 'Uttar Pradesh' },
+    { value: 'Uttarakhand', label: 'Uttarakhand' },
+    { value: 'West Bengal', label: 'West Bengal' },
+  ];
+
+  indiaDegrees = [
+    { value: 'Bachelor of Arts', label: 'Bachelor of Arts' },
+    { value: 'Bachelor of Science', label: 'Bachelor of Science' },
+    { value: 'Bachelor of Engineering', label: 'Bachelor of Engineering' },
+    { value: 'Bachelor of Technology', label: 'Bachelor of Technology' },
+    {
+      value: 'Bachelor of Business Administration',
+      label: 'Bachelor of Business Administration',
+    },
+    { value: 'Bachelor of Commerce', label: 'Bachelor of Commerce' },
+    {
+      value: 'Bachelor of Computer Application',
+      label: 'Bachelor of Computer Application',
+    },
+    {
+      value: 'Bachelor of Corporate Secretaryship',
+      label: 'Bachelor of Corporate Secretaryship',
+    },
+    { value: 'Master of Arts', label: 'Master of Arts' },
+    { value: 'Master of Science', label: 'Master of Science' },
+    { value: 'Master of Engineering', label: 'Master of Engineering' },
+    { value: 'Master of Technology', label: 'Master of Technology' },
+    {
+      value: 'Master of Business Administration',
+      label: 'Master of Business Administration',
+    },
+    { value: 'Master of Commerce', label: 'Master of Commerce' },
+    {
+      value: 'Master of Computer Application',
+      label: 'Master of Computer Application',
+    },
+    {
+      value: 'Master of Corporate Secretaryship',
+      label: 'Master of Corporate Secretaryship',
+    },
+    { value: 'High School', label: 'Other' },
+  ];
+
+  graduationMonths = [
+    { value: '01', label: 'January' },
+    { value: '02', label: 'February' },
+    { value: '03', label: 'March' },
+    { value: '04', label: 'April' },
+    { value: '05', label: 'May' },
+    { value: '06', label: 'June' },
+    { value: '07', label: 'July' },
+    { value: '08', label: 'August' },
+    { value: '09', label: 'September' },
+    { value: '10', label: 'October' },
+    { value: '11', label: 'November' },
+    { value: '12', label: 'December' },
+  ];
+
+  programmingExpOptions = [
+    { value: 'No', label: 'None' },
+    { value: '0-1 year', label: '0-1 year' },
+    { value: '1-3 years', label: '1-3 years' },
+    { value: '3-5 years', label: '3-5 years' },
+    { value: '5+ years', label: '5+ years' },
+  ];
 
   states = MEXICO_STATE_VALUES;
 
+  uploadImages = {
+    computer: {
+      default: 'https://cdn.prod.website-files.com/665dfe6f26741ce6ca5a2d67/687a566342e4f5cb94aa0285_computer_arrow_up%20(1).svg',
+      hover: 'https://cdn.prod.website-files.com/665dfe6f26741ce6ca5a2d67/687a566639afb6f59491bbe7_computer_arrow_up.svg'
+    },
+    dropbox: {
+      default: 'https://cdn.prod.website-files.com/665dfe6f26741ce6ca5a2d67/687a5669a80a6d4c1a833008_backup.svg',
+      hover: 'https://cdn.prod.website-files.com/665dfe6f26741ce6ca5a2d67/687a6e6c5b8ccc0bbd3c4f52_dropbox%20selected%20icon%202.svg'
+    }
+  };
+
+  currentUploadImages = {
+    computer: this.uploadImages.computer.default,
+    dropbox: this.uploadImages.dropbox.default
+  };
+
+  activeUploadMethod: 'computer' | 'dropbox' | null = null;
+
   branches = [
-    { value: "a0A0d00000cwoOcEAI", label: "Computer Science and Engineering" },
-    { value: "a0A3g000000sYkcEAE", label: "Electronics and Communication Engineering" },
-    { value: "a0A0P00001ZJyDgUAL", label: "Electrical Engineering" },
-    { value: "a0A6g00000G3QB0EAN", label: "Electrical and Electronics Engineering" },
-    { value: "a0AVS000004Ud6T2AS", label: "Circuital" },
-    { value: "a0A0P00001ZJyDjUAL", label: "Information Technology" },
-    { value: "a0A0P00001ZJyDHUA1", label: "Civil Engineering" },
-    { value: "a0A0P00001ZJyDqUAL", label: "Mechanical Engineering" },
-    { value: "a0A0P00001ZJyCLUA1", label: "Unlisted" },
-  ]
+    { value: 'a0A0d00000cwoOcEAI', label: 'Computer Science and Engineering' },
+    {
+      value: 'a0A3g000000sYkcEAE',
+      label: 'Electronics and Communication Engineering',
+    },
+    { value: 'a0A0P00001ZJyDgUAL', label: 'Electrical Engineering' },
+    {
+      value: 'a0A6g00000G3QB0EAN',
+      label: 'Electrical and Electronics Engineering',
+    },
+    { value: 'a0AVS000004Ud6T2AS', label: 'Circuital' },
+    { value: 'a0A0P00001ZJyDjUAL', label: 'Information Technology' },
+    { value: 'a0A0P00001ZJyDHUA1', label: 'Civil Engineering' },
+    { value: 'a0A0P00001ZJyDqUAL', label: 'Mechanical Engineering' },
+    { value: 'a0A0P00001ZJyCLUA1', label: 'Unlisted' },
+  ];
 
   branches2 = [
-    { value: "a0A0P00001ZJyCKUA1", label: "Agriculture" },
-    { value: "a0AVS000004So612AC", label: "Animation" },
-    { value: "a0A0P00001ZJyD8UAL", label: "Biochemistry" },
-    { value: "a0AVS000004So7d2AC", label: "Biology" },
-    { value: "a0AVS000004SoAr2AK", label: "Biotechnology" },
-    { value: "a0AVS000004SoCT2A0", label: "Botany" },
-    { value: "a0A0P00001ZJyDGUA1", label: "Chemistry" },
-    { value: "a0A0P00001ZJyDNUA1", label: "Computer Science" },
-    { value: "a0A0P00001ZJyDTUA1", label: "Economics" },
-    { value: "a0A0d00000cwGRSEA2", label: "Fashion Design" },
-    { value: "a0A0P00001ZJyDaUAL", label: "Geography" },
-    { value: "a0A0P00001ZJyCiUAL", label: "Hospitality/Tourism" },
-    { value: "a0AVS000002SEJp2AO", label: "Information Technology" },
-    { value: "a0A0P00001ZJyDpUAL", label: "Mathematics" },
-    { value: "a0A0d00000cvdt5EAA", label: "Microbiology" },
-    { value: "a0A0P00001ZJyDtUAL", label: "Nursing" },
-    { value: "a0A0P00001ZJyDvUAL", label: "Physics" },
-    { value: "a0A0P00001ZJyCJUA1", label: "Zoology" },
-    { value: "a0A0P00001ZJyCLUA1", label: "Unlisted" },
-  ]
+    { value: 'a0A0P00001ZJyCKUA1', label: 'Agriculture' },
+    { value: 'a0AVS000004So612AC', label: 'Animation' },
+    { value: 'a0A0P00001ZJyD8UAL', label: 'Biochemistry' },
+    { value: 'a0AVS000004So7d2AC', label: 'Biology' },
+    { value: 'a0AVS000004SoAr2AK', label: 'Biotechnology' },
+    { value: 'a0AVS000004SoCT2A0', label: 'Botany' },
+    { value: 'a0A0P00001ZJyDGUA1', label: 'Chemistry' },
+    { value: 'a0A0P00001ZJyDNUA1', label: 'Computer Science' },
+    { value: 'a0A0P00001ZJyDTUA1', label: 'Economics' },
+    { value: 'a0A0d00000cwGRSEA2', label: 'Fashion Design' },
+    { value: 'a0A0P00001ZJyDaUAL', label: 'Geography' },
+    { value: 'a0A0P00001ZJyCiUAL', label: 'Hospitality/Tourism' },
+    { value: 'a0AVS000002SEJp2AO', label: 'Information Technology' },
+    { value: 'a0A0P00001ZJyDpUAL', label: 'Mathematics' },
+    { value: 'a0A0d00000cvdt5EAA', label: 'Microbiology' },
+    { value: 'a0A0P00001ZJyDtUAL', label: 'Nursing' },
+    { value: 'a0A0P00001ZJyDvUAL', label: 'Physics' },
+    { value: 'a0A0P00001ZJyCJUA1', label: 'Zoology' },
+    { value: 'a0A0P00001ZJyCLUA1', label: 'Unlisted' },
+  ];
 
   branches3 = [
-    { value: "a0A0P00001ZJyDWUA1", label: "English/Literature" },
-    { value: "a0A0P00001ZJyDTUA1", label: "Economics" },
-    { value: "a0A0P00001ZJyCFUA1", label: "Sociology" },
-    { value: "a0A0P00001ZJyDcUAL", label: "History" },
-    { value: "a0AVS000004SoE52AK", label: "Archaeology" },
-    { value: "a0A0P00001ZJyDwUAL", label: "Political Science" },
-    { value: "a0A0d00000cxOcvEAE", label: "Religious and Peace Studies" },
-    { value: "a0A0P00001ZJyDyUAL", label: "Psychology" },
-    { value: "a0A0d00000cvrB5EAI", label: "Communication Studies" },
-    { value: "a0A0P00001ZJyDuUAL", label: "Philosophy" },
-    { value: "a0A0P00001ZJyCLUA1", label: "Unlisted" },
-  ]
+    { value: 'a0A0P00001ZJyDWUA1', label: 'English/Literature' },
+    { value: 'a0A0P00001ZJyDTUA1', label: 'Economics' },
+    { value: 'a0A0P00001ZJyCFUA1', label: 'Sociology' },
+    { value: 'a0A0P00001ZJyDcUAL', label: 'History' },
+    { value: 'a0AVS000004SoE52AK', label: 'Archaeology' },
+    { value: 'a0A0P00001ZJyDwUAL', label: 'Political Science' },
+    { value: 'a0A0d00000cxOcvEAE', label: 'Religious and Peace Studies' },
+    { value: 'a0A0P00001ZJyDyUAL', label: 'Psychology' },
+    { value: 'a0A0d00000cvrB5EAI', label: 'Communication Studies' },
+    { value: 'a0A0P00001ZJyDuUAL', label: 'Philosophy' },
+    { value: 'a0A0P00001ZJyCLUA1', label: 'Unlisted' },
+  ];
 
   certificationTopicsList = [
     'Cloud Computing',
@@ -109,49 +328,52 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     'Database Management',
     'IT Service Management',
     'Automation Testing',
-    'Others'
-  ]
+    'Others',
+  ];
 
   disabilityTypesList = [
-    { value: "Blindness", label: "Blindness" },
-    { value: "Low vision", label: "Low vision" },
-    { value: "Hearing impairment", label: "Hearing impairment" },
-    { value: "Locomotor disability", label: "Locomotor disability" },
-    { value: "Dwarfism", label: "Dwarfism" },
-    { value: "Intellectual disability", label: "Intellectual disability" },
-    { value: "Mental illness", label: "Mental illness" },
-    { value: "Speech and language disability", label: "Speech and language disability" },
-    { value: "Multiple disabilities", label: "Multiple disabilities" },
-    { value: "Cerebral palsy", label: "Cerebral palsy" },
-    { value: "Others", label: "Others" }
-  ]
+    { value: 'Blindness', label: 'Blindness' },
+    { value: 'Low vision', label: 'Low vision' },
+    { value: 'Hearing impairment', label: 'Hearing impairment' },
+    { value: 'Locomotor disability', label: 'Locomotor disability' },
+    { value: 'Dwarfism', label: 'Dwarfism' },
+    { value: 'Intellectual disability', label: 'Intellectual disability' },
+    { value: 'Mental illness', label: 'Mental illness' },
+    {
+      value: 'Speech and language disability',
+      label: 'Speech and language disability',
+    },
+    { value: 'Multiple disabilities', label: 'Multiple disabilities' },
+    { value: 'Cerebral palsy', label: 'Cerebral palsy' },
+    { value: 'Others', label: 'Others' },
+  ];
 
   languagesList = [
-    "English",
-    "Spanish",
-    "Mandarin Chinese",
-    "Hindi",
-    "Japanese",
-    "French",
-    "Arabic",
-    "Portuguese",
-    "Bengali",
-    "Russian",
-    "German",
-    "Korean",
-    "Italian",
-    "Vietnamese",
-    "Dutch",
-    "Polish",
-    "Turkish",
-    "Hebrew",
-    "Urdu",
-    "Tagalog",
-    "Farsi (Persian)",
-    "Thai",
-    "Greek",
-    "Others"
-  ]
+    'English',
+    'Spanish',
+    'Mandarin Chinese',
+    'Hindi',
+    'Japanese',
+    'French',
+    'Arabic',
+    'Portuguese',
+    'Bengali',
+    'Russian',
+    'German',
+    'Korean',
+    'Italian',
+    'Vietnamese',
+    'Dutch',
+    'Polish',
+    'Turkish',
+    'Hebrew',
+    'Urdu',
+    'Tagalog',
+    'Farsi (Persian)',
+    'Thai',
+    'Greek',
+    'Others',
+  ];
 
   multiselectDropdownSettings: IDropdownSettings = {
     singleSelection: false,
@@ -159,7 +381,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     unSelectAllText: 'Unselect All',
     itemsShowLimit: 3,
     allowSearchFilter: true,
-    searchPlaceholderText: 'Search...'
+    searchPlaceholderText: 'Search...',
   };
 
   multiselectDropdownSettingsWithoutSelectAll: IDropdownSettings = {
@@ -185,7 +407,10 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     if (this.isFederalWorker && this.form) {
       this.form.get('currentStudent')?.setValue('no');
 
-      this.form.addControl('displacedWorker', this.fb.control('', Validators.required));
+      this.form.addControl(
+        'displacedWorker',
+        this.fb.control('', Validators.required)
+      );
       this.form.addControl('displacedWorkerAgency', this.fb.control(''));
       this.form.addControl('federalExperienceYears', this.fb.control(''));
       this.form.addControl('securityClearance', this.fb.control(''));
@@ -289,12 +514,18 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
     // Dynamic Validations Based on Country Selection
     this.form.get('country')?.valueChanges.subscribe((country) => {
-      if (this.form.value.country || (!this.form.value.country && country != "United States")) this.form.get('phone')?.setValue('', { emitEvent: false })
+      if (
+        this.form.value.country ||
+        (!this.form.value.country && country != 'United States')
+      )
+        this.form.get('phone')?.setValue('', { emitEvent: false });
       this.handleCountryChange(country);
     });
 
     // Dynamic Validations Based on Current Student Selection
-    this.form.get('currentStudent')?.valueChanges.subscribe((currentStudent) => {
+    this.form
+      .get('currentStudent')
+      ?.valueChanges.subscribe((currentStudent) => {
         this.handleCurrentStudentChange(currentStudent);
       });
 
@@ -303,7 +534,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     });
 
     // Dynamic Validations Based on Work Authorization Selection
-    this.form.get('workAuthorization')?.valueChanges.subscribe((workAuthorization) => {
+    this.form
+      .get('workAuthorization')
+      ?.valueChanges.subscribe((workAuthorization) => {
         this.handleWorkAuthorizationChange(workAuthorization);
       });
 
@@ -421,7 +654,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]+$/;
 
     return emailPattern.test(control.value) ? null : { invalidEmail: true };
-  };
+  }
 
   private formatPhoneNumber(phone: string): void {
     const phoneControl = this.form.get('phone');
@@ -431,13 +664,19 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     if (!country || country === 'United States') {
       let formattedPhone = phone.replace(/\D/g, '');
       if (formattedPhone.length === 10) {
-        formattedPhone = formattedPhone.replace(/^(\d{3})(\d{3})(\d{4})$/, "($1) $2-$3");
+        formattedPhone = formattedPhone.replace(
+          /^(\d{3})(\d{3})(\d{4})$/,
+          '($1) $2-$3'
+        );
       } else if (formattedPhone.length > 6) {
-        formattedPhone = formattedPhone.replace(/^(\d{3})(\d{3})(\d*)$/, "($1) $2-$3");
+        formattedPhone = formattedPhone.replace(
+          /^(\d{3})(\d{3})(\d*)$/,
+          '($1) $2-$3'
+        );
       } else if (formattedPhone.length > 3) {
-        formattedPhone = formattedPhone.replace(/^(\d{3})(\d*)$/, "($1) $2");
+        formattedPhone = formattedPhone.replace(/^(\d{3})(\d*)$/, '($1) $2');
       } else if (formattedPhone.length > 0) {
-        formattedPhone = "(" + formattedPhone;
+        formattedPhone = '(' + formattedPhone;
       }
       phoneControl.setValue(formattedPhone, { emitEvent: false });
     } else if (country === 'Mexico') {
@@ -483,30 +722,48 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   }
 
   private handleCountryChange(country: string): void {
-    this.form.get('zip')?.setValue('')
-    this.form.get('canadaZip')?.setValue('')
-    this.form.get('ukZip')?.setValue('')
+    this.form.get('zip')?.setValue('');
+    this.form.get('canadaZip')?.setValue('');
+    this.form.get('ukZip')?.setValue('');
     if (country === 'United States' || country === 'Mexico') {
-      this.form.get('zip')?.setValidators([Validators.required, Validators.minLength(5), Validators.pattern('^[0-9]+$')])
-      this.form.get('canadaZip')?.clearValidators()
-      this.form.get('ukZip')?.clearValidators()
+      this.form
+        .get('zip')
+        ?.setValidators([
+          Validators.required,
+          Validators.minLength(5),
+          Validators.pattern('^[0-9]+$'),
+        ]);
+      this.form.get('canadaZip')?.clearValidators();
+      this.form.get('ukZip')?.clearValidators();
     } else if (country === 'Canada') {
-      this.form.get('canadaZip')?.setValidators([Validators.required, Validators.minLength(6), Validators.pattern('^[a-zA-Z0-9]+$')])
-      this.form.get('zip')?.clearValidators()
-      this.form.get('ukZip')?.clearValidators()
+      this.form
+        .get('canadaZip')
+        ?.setValidators([
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern('^[a-zA-Z0-9]+$'),
+        ]);
+      this.form.get('zip')?.clearValidators();
+      this.form.get('ukZip')?.clearValidators();
     } else if (country === 'United Kingdom') {
-      this.form.get('ukZip')?.setValidators([Validators.required, Validators.minLength(7), Validators.pattern('^[a-zA-Z0-9]+$')])
-      this.form.get('zip')?.clearValidators()
-      this.form.get('canadaZip')?.clearValidators()
+      this.form
+        .get('ukZip')
+        ?.setValidators([
+          Validators.required,
+          Validators.minLength(7),
+          Validators.pattern('^[a-zA-Z0-9]+$'),
+        ]);
+      this.form.get('zip')?.clearValidators();
+      this.form.get('canadaZip')?.clearValidators();
     } else {
-      this.form.get('zip')?.clearValidators()
-      this.form.get('canadaZip')?.clearValidators()
-      this.form.get('ukZip')?.clearValidators()
+      this.form.get('zip')?.clearValidators();
+      this.form.get('canadaZip')?.clearValidators();
+      this.form.get('ukZip')?.clearValidators();
     }
 
-    this.form.get('zip')?.updateValueAndValidity({ emitEvent: false })
-    this.form.get('canadaZip')?.updateValueAndValidity({ emitEvent: false })
-    this.form.get('ukZip')?.updateValueAndValidity({ emitEvent: false })
+    this.form.get('zip')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('canadaZip')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('ukZip')?.updateValueAndValidity({ emitEvent: false });
 
     this.form.get('city')?.setValue('');
     this.form.get('state')?.setValue('');
@@ -537,31 +794,37 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     this.form.get('state')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('canadaState')?.updateValueAndValidity({ emitEvent: false });
 
-    this.form.get('workAuthorization')?.setValue('')
+    this.form.get('workAuthorization')?.setValue('');
     if (country === 'India') {
-      this.form.get('majorGrade')?.setValidators([Validators.required,Validators.pattern('^.{1,3}$')])
-      this.form.get('12thGrade')?.setValidators([Validators.required,Validators.pattern('^.{1,3}$')])
-      this.form.get('10thGrade')?.setValidators([Validators.required,Validators.pattern('^.{1,3}$')])
-      this.form.get('workAuthorization')?.clearValidators()
+      this.form
+        .get('majorGrade')
+        ?.setValidators([Validators.required, Validators.pattern('^.{1,3}$')]);
+      this.form
+        .get('12thGrade')
+        ?.setValidators([Validators.required, Validators.pattern('^.{1,3}$')]);
+      this.form
+        .get('10thGrade')
+        ?.setValidators([Validators.required, Validators.pattern('^.{1,3}$')]);
+      this.form.get('workAuthorization')?.clearValidators();
 
       this.form.get('hasCertifications')?.setValidators([Validators.required]);
       this.form.get('hasInternships')?.setValidators([Validators.required]);
       this.form.get('disability')?.setValidators([Validators.required]);
       this.form.get('gender')?.setValidators([Validators.required]);
     } else {
-      this.form.get('workAuthorization')?.setValidators([Validators.required])
-      this.form.get('majorGrade')?.clearValidators()
-      this.form.get('12thGrade')?.clearValidators()
-      this.form.get('10thGrade')?.clearValidators()
+      this.form.get('workAuthorization')?.setValidators([Validators.required]);
+      this.form.get('majorGrade')?.clearValidators();
+      this.form.get('12thGrade')?.clearValidators();
+      this.form.get('10thGrade')?.clearValidators();
 
       this.form.get('hasCertifications')?.clearValidators();
       this.form.get('hasInternships')?.clearValidators();
       this.form.get('disability')?.clearValidators();
       this.form.get('gender')?.clearValidators();
 
-      this.form.get('majorGrade')?.setValue('')
-      this.form.get('12thGrade')?.setValue('')
-      this.form.get('10thGrade')?.setValue('')
+      this.form.get('majorGrade')?.setValue('');
+      this.form.get('12thGrade')?.setValue('');
+      this.form.get('10thGrade')?.setValue('');
 
       this.form.get('hasCertifications')?.setValue('');
       this.form.get('hasInternships')?.setValue('');
@@ -569,17 +832,24 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('gender')?.setValue('');
     }
 
-    this.form.get('workAuthorization')?.updateValueAndValidity({ emitEvent: false })
-    this.form.get('majorGrade')?.updateValueAndValidity({ emitEvent: false })
-    this.form.get('12thGrade')?.updateValueAndValidity({ emitEvent: false })
-    this.form.get('10thGrade')?.updateValueAndValidity({ emitEvent: false })
+    this.form
+      .get('workAuthorization')
+      ?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('majorGrade')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('12thGrade')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('10thGrade')?.updateValueAndValidity({ emitEvent: false });
 
-    this.form.get('hasCertifications')?.updateValueAndValidity({ emitEvent: false });
-    this.form.get('hasInternships')?.updateValueAndValidity({ emitEvent: false });
+    this.form
+      .get('hasCertifications')
+      ?.updateValueAndValidity({ emitEvent: false });
+    this.form
+      .get('hasInternships')
+      ?.updateValueAndValidity({ emitEvent: false });
     this.form.get('disability')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('gender')?.updateValueAndValidity({ emitEvent: false });
 
-    this.schools = this.form.value.country === 'Mexico' ? MEXICO_SCHOOLS : US_SCHOOLS;
+    this.schools =
+      this.form.value.country === 'Mexico' ? MEXICO_SCHOOLS : US_SCHOOLS;
     this.filterMajors(null);
     this.filterSchools(null);
     this.handleCurrentStudentChange(this.form.value.currentStudent);
@@ -620,9 +890,15 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('graduationYear')?.clearValidators();
     }
 
-    this.form.get('levelOfEducation')?.updateValueAndValidity({ emitEvent: false });
-    this.form.get('graduationMonth')?.updateValueAndValidity({ emitEvent: false });
-    this.form.get('graduationYear')?.updateValueAndValidity({ emitEvent: false });
+    this.form
+      .get('levelOfEducation')
+      ?.updateValueAndValidity({ emitEvent: false });
+    this.form
+      .get('graduationMonth')
+      ?.updateValueAndValidity({ emitEvent: false });
+    this.form
+      .get('graduationYear')
+      ?.updateValueAndValidity({ emitEvent: false });
     this.form.get('major')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('majorID')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('school')?.updateValueAndValidity({ emitEvent: false });
@@ -631,7 +907,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   }
 
   private onBranchChange(selectedValue: string): void {
-    const selectedBranch = this.getBranchesArray().find((branch) => branch.value === selectedValue);
+    const selectedBranch = this.getBranchesArray().find(
+      (branch) => branch.value === selectedValue
+    );
 
     if (selectedBranch) {
       this.form.patchValue({
@@ -661,8 +939,10 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('futureSponsorship')?.setValue('');
     }
 
-    this.form.get('sponsorship')?.updateValueAndValidity({ emitEvent: false })
-    this.form.get('futureSponsorship')?.updateValueAndValidity({ emitEvent: false })
+    this.form.get('sponsorship')?.updateValueAndValidity({ emitEvent: false });
+    this.form
+      .get('futureSponsorship')
+      ?.updateValueAndValidity({ emitEvent: false });
   }
 
   private handleSponsorshipChange(value: string): void {
@@ -674,7 +954,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('futureSponsorship')?.clearValidators();
       this.form.get('futureSponsorship')?.setValue('');
     }
-    this.form.get('futureSponsorship')?.updateValueAndValidity({ emitEvent: false })
+    this.form
+      .get('futureSponsorship')
+      ?.updateValueAndValidity({ emitEvent: false });
   }
 
   filterMajors(event: any) {
@@ -774,11 +1056,13 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
     if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
       this.fileError = 'Invalid file type.';
+      this.resetActiveUploadMethod();
       return;
     }
 
     if (file.size > 5242880) {
       this.fileError = 'File size is too large.';
+      this.resetActiveUploadMethod();
       return;
     }
 
@@ -797,6 +1081,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       });
 
       this.fileSuccess = 'Resume ready to upload';
+      this.setActiveUploadMethod('computer');
     };
     reader.readAsDataURL(file);
   }
@@ -820,6 +1105,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
     if (file.bytes > 5242880) {
       this.fileError = 'File size is too large.';
+      this.resetActiveUploadMethod();
       return;
     }
     const extension = file.link.split('/').pop().split('#')[0].split('?')[0];
@@ -832,6 +1118,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     });
 
     this.fileSuccess = 'Resume ready to upload';
+    this.setActiveUploadMethod('dropbox');
   }
 
   recaptchaSuccessCallback(response: any) {
@@ -990,7 +1277,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     if (formDataObject.language.includes('Others')) {
       const othersIndex = formDataObject.language.indexOf('Others');
       if (formDataObject.languageOthers) {
-        formDataObject.language[othersIndex] = `Others - ${formDataObject.languageOthers}`;
+        formDataObject.language[
+          othersIndex
+        ] = `Others - ${formDataObject.languageOthers}`;
       }
     }
 
@@ -1069,7 +1358,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   }
 
   navigateToThankYouPage(firstName: string): void {
-    window.location.href = `/thank-you/${this.thankyouExtensionUrl}?name=${btoa(firstName)}`;
+    window.location.href = `/thank-you/${this.thankyouExtensionUrl}?name=${btoa(
+      firstName
+    )}`;
   }
 
   getQueryParams(): any {
@@ -1084,14 +1375,18 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
         return;
       }
       const lowercasedKey = key.toLowerCase();
-      standardizedQueryParams[lowercasedKey] = lowercasedKey.includes('utm') ? value.toLowerCase() : value;
+      standardizedQueryParams[lowercasedKey] = lowercasedKey.includes('utm')
+        ? value.toLowerCase()
+        : value;
     });
     return standardizedQueryParams;
   }
 
   createQueryString(data: any): string {
     return Object.keys(data)
-      .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+      .map(
+        (key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
+      )
       .join('&');
   }
 
@@ -1140,8 +1435,12 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
   private handleCertificationsChange(value: string): void {
     if (value === 'yes') {
-      this.form.get('certificationTopics')?.setValidators([Validators.required]);
-      this.form.get('certificationDetails')?.setValidators([Validators.required]);
+      this.form
+        .get('certificationTopics')
+        ?.setValidators([Validators.required]);
+      this.form
+        .get('certificationDetails')
+        ?.setValidators([Validators.required]);
     } else {
       this.form.get('certificationTopics')?.clearValidators();
       this.form.get('certificationDetails')?.clearValidators();
@@ -1177,7 +1476,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
   private handleDisabilityTypeChange(value: string): void {
     if (value === 'Others') {
-      this.form.get('disabilityTypeOthers')?.setValidators([Validators.required]);
+      this.form
+        .get('disabilityTypeOthers')
+        ?.setValidators([Validators.required]);
     } else {
       this.form.get('disabilityTypeOthers')?.clearValidators();
       this.form.get('disabilityTypeOthers')?.setValue('');
@@ -1202,7 +1503,10 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     if (internshipsArray.length < 4) {
       const internshipGroup = this.fb.group({
         organization: ['', Validators.required],
-        duration: ['', [Validators.required, Validators.pattern('^(?!0+$)\\d+$')]],
+        duration: [
+          '',
+          [Validators.required, Validators.pattern('^(?!0+$)\\d+$')],
+        ],
         location: ['', Validators.required],
         technology: ['', Validators.required],
         role: ['', Validators.required],
@@ -1223,8 +1527,15 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
   private handleDisplacedWorkerChange(value: string): void {
     if (value === 'yes') {
-      this.form.get('displacedWorkerAgency')?.setValidators([Validators.required]);
-      this.form.get('federalExperienceYears')?.setValidators([Validators.required, Validators.pattern('^[0-9]+(\.[0-9]+)?$')]);
+      this.form
+        .get('displacedWorkerAgency')
+        ?.setValidators([Validators.required]);
+      this.form
+        .get('federalExperienceYears')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern('^[0-9]+(.[0-9]+)?$'),
+        ]);
       this.form.get('securityClearance')?.setValidators([Validators.required]);
     } else {
       this.form.get('displacedWorkerAgency')?.clearValidators();
@@ -1237,20 +1548,30 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('securityClearanceType')?.setValue('');
     }
 
-    this.form.get('displacedWorkerAgency')?.updateValueAndValidity({ emitEvent: false });
-    this.form.get('federalExperienceYears')?.updateValueAndValidity({ emitEvent: false });
-    this.form.get('securityClearance')?.updateValueAndValidity({ emitEvent: false });
+    this.form
+      .get('displacedWorkerAgency')
+      ?.updateValueAndValidity({ emitEvent: false });
+    this.form
+      .get('federalExperienceYears')
+      ?.updateValueAndValidity({ emitEvent: false });
+    this.form
+      .get('securityClearance')
+      ?.updateValueAndValidity({ emitEvent: false });
   }
 
   private handleSecurityClearanceChange(value: string): void {
     if (value === 'yes') {
-      this.form.get('securityClearanceType')?.setValidators([Validators.required]);
+      this.form
+        .get('securityClearanceType')
+        ?.setValidators([Validators.required]);
     } else {
       this.form.get('securityClearanceType')?.clearValidators();
       this.form.get('securityClearanceType')?.setValue('');
     }
 
-    this.form.get('securityClearanceType')?.updateValueAndValidity({ emitEvent: false });
+    this.form
+      .get('securityClearanceType')
+      ?.updateValueAndValidity({ emitEvent: false });
   }
 
   handleDegreeChange(event: Event): void {
@@ -1313,5 +1634,139 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     }
 
     this.form.get('otherDegree')?.updateValueAndValidity({ emitEvent: false });
+  }
+
+  // Generic dropdown methods
+  toggleDropdown(dropdownName: string): void {
+    this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
+    // Close other dropdowns
+    Object.keys(this.dropdownStates).forEach((key) => {
+      if (key !== dropdownName) {
+        this.dropdownStates[key] = false;
+      }
+    });
+  }
+
+  selectDropdownValue(
+    formControlName: string,
+    item: any,
+    event: Event,
+    dropdownName: string
+  ): void {
+    event.stopPropagation();
+    this.form.get(formControlName)?.setValue(item.value);
+    this.dropdownStates[dropdownName] = false;
+
+    // Handle special cases
+    if (formControlName === 'levelOfEducation') {
+      this.handleDegreeChange({ target: { value: item.value } } as any);
+    }
+  }
+
+  getSelectedOption(formControlName: string, optionsArray: any[]): any {
+    const selectedValue = this.form.get(formControlName)?.value;
+    return optionsArray.find((option) => option.value === selectedValue);
+  }
+
+  // Generic method to get dropdown options based on dropdown type
+  getDropdownOptions(dropdownType: string): any[] {
+    switch (dropdownType) {
+      case 'country':
+        return this.countries;
+      case 'usStates':
+        return this.usStates;
+      case 'canadaProvinces':
+        return this.canadaProvinces;
+      case 'indiaStates':
+        return this.indiaStates;
+      case 'mexicoStates':
+        return this.states.map((state) => ({ value: state, label: state }));
+      case 'indiaDegrees':
+        return this.indiaDegrees;
+      case 'branches':
+        return this.getBranchesArray();
+      case 'graduationMonths':
+        return this.graduationMonths;
+      case 'graduationYears':
+        return this.graduationYears.map((year) => ({
+          value: year,
+          label: year.toString(),
+        }));
+      case 'programmingExperience':
+        return this.programmingExpOptions;
+      case 'disabilityTypes':
+        return this.disabilityTypesList;
+      default:
+        return [];
+    }
+  }
+
+  // Generic method to get placeholder text
+  getDropdownPlaceholder(dropdownType: string): string {
+    switch (dropdownType) {
+      case 'country':
+        return 'Select Country';
+      case 'usStates':
+      case 'mexicoStates':
+      case 'indiaStates':
+        return 'State';
+      case 'canadaProvinces':
+        return 'Province';
+      case 'indiaDegrees':
+      case 'branches':
+        return 'Select an option';
+      case 'graduationMonths':
+        return 'Select a month';
+      case 'graduationYears':
+        return 'Select a year';
+      case 'programmingExperience':
+        return 'Select an option';
+      case 'disabilityTypes':
+        return 'Select disability type';
+      default:
+        return 'Select an option';
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.custom-dropdown')) {
+      Object.keys(this.dropdownStates).forEach((key) => {
+        this.dropdownStates[key] = false;
+      });
+    }
+  }
+
+  onUploadHover(uploadType: 'computer' | 'dropbox'): void {
+    if (this.activeUploadMethod !== uploadType) {
+      this.currentUploadImages[uploadType] = this.uploadImages[uploadType].hover;
+    }
+  }
+
+  onUploadLeave(uploadType: 'computer' | 'dropbox'): void {
+    if (this.activeUploadMethod !== uploadType) {
+      this.currentUploadImages[uploadType] = this.uploadImages[uploadType].default;
+    }
+  }
+
+  isUploadMethodActive(uploadType: 'computer' | 'dropbox'): boolean {
+    return this.activeUploadMethod === uploadType;
+  }
+
+  setActiveUploadMethod(uploadType: 'computer' | 'dropbox'): void {
+    if (this.activeUploadMethod) {
+      this.currentUploadImages[this.activeUploadMethod] = this.uploadImages[this.activeUploadMethod].default;
+    }
+    
+    this.activeUploadMethod = uploadType;
+    this.currentUploadImages[uploadType] = this.uploadImages[uploadType].hover;
+  }
+
+  resetActiveUploadMethod(): void {
+    if (this.activeUploadMethod) {
+      this.currentUploadImages[this.activeUploadMethod] = this.uploadImages[this.activeUploadMethod].default;
+      this.activeUploadMethod = null;
+    }
   }
 }

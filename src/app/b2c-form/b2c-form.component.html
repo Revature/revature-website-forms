@@ -54,14 +54,26 @@
     <!-- Country -->
     <fieldset class="one-grid-container">
         <legend class="form-label">Country</legend>
-        <select class="form-field common-field" formControlName="country">
-            <option value="" disabled selected>Select Country</option>
-            <option value="United States">United States</option>
-            <option value="Mexico">Mexico</option>
-            <option value="Canada">Canada</option>
-            <option value="United Kingdom">United Kingdom</option>
-            <option value="India">India</option>
-        </select>
+        <div class="custom-dropdown">
+            <button type="button" 
+                    class="custom-dropdown-button form-field"
+                    [class.error]="form.get('country')?.invalid && form.get('country')?.touched"
+                    (click)="toggleDropdown('country')">
+                <span class="dropdown-text" 
+                      [class.placeholder]="!form.get('country')?.value">
+                    {{ getSelectedOption('country', getDropdownOptions('country'))?.label || getDropdownPlaceholder('country') }}
+                </span>
+                <span class="dropdown-arrow" [class.open]="dropdownStates.country">▼</span>
+            </button>
+            <div class="custom-dropdown-items" *ngIf="dropdownStates.country">
+                <div *ngFor="let country of getDropdownOptions('country')" 
+                     class="custom-dropdown-item"
+                     [class.selected]="form.get('country')?.value === country.value"
+                     (click)="selectDropdownValue('country', country, $event, 'country')">
+                    {{ country.label }}
+                </div>
+            </div>
+        </div>
         <span class="b2c-error-message common-error-message"
             *ngIf="form.get('country')?.invalid && form.get('country')?.touched">
             Country is required
@@ -83,61 +95,26 @@
             </span>
             <div class="two-grid-container">
                 <fieldset class="form-fieldset">
-                    <select class="form-field location-field common-field" formControlName="state">
-                        <option value="" disabled selected>State</option>
-                        <option value="Alabama">AL</option>
-                        <option value="Alaska">AK</option>
-                        <option value="Arizona">AZ</option>
-                        <option value="Arkansas">AR</option>
-                        <option value="California">CA</option>
-                        <option value="Colorado">CO</option>
-                        <option value="Connecticut">CT</option>
-                        <option value="Delaware">DE</option>
-                        <option value="District of Columbia">DC</option>
-                        <option value="Florida">FL</option>
-                        <option value="Georgia">GA</option>
-                        <option value="Hawaii">HI</option>
-                        <option value="Idaho">ID</option>
-                        <option value="Illinois">IL</option>
-                        <option value="Indiana">IN</option>
-                        <option value="Iowa">IA</option>
-                        <option value="Kansas">KS</option>
-                        <option value="Kentucky">KY</option>
-                        <option value="Louisiana">LA</option>
-                        <option value="Maine">ME</option>
-                        <option value="Maryland">MD</option>
-                        <option value="Massachusetts">MA</option>
-                        <option value="Michigan">MI</option>
-                        <option value="Minnesota">MN</option>
-                        <option value="Mississippi">MS</option>
-                        <option value="Missouri">MO</option>
-                        <option value="Montana">MT</option>
-                        <option value="Nebraska">NE</option>
-                        <option value="Nevada">NV</option>
-                        <option value="New Hampshire">NH</option>
-                        <option value="New Jersey">NJ</option>
-                        <option value="New Mexico">NM</option>
-                        <option value="New York">NY</option>
-                        <option value="North Carolina">NC</option>
-                        <option value="North Dakota">ND</option>
-                        <option value="Ohio">OH</option>
-                        <option value="Oklahoma">OK</option>
-                        <option value="Oregon">OR</option>
-                        <option value="Pennsylvania">PA</option>
-                        <option value="Puerto Rico">PR</option>
-                        <option value="Rhode Island">RI</option>
-                        <option value="South Carolina">SC</option>
-                        <option value="South Dakota">SD</option>
-                        <option value="Tennessee">TN</option>
-                        <option value="Texas">TX</option>
-                        <option value="Utah">UT</option>
-                        <option value="Vermont">VT</option>
-                        <option value="Virginia">VA</option>
-                        <option value="Washington">WA</option>
-                        <option value="West Virginia">WV</option>
-                        <option value="Wisconsin">WI</option>
-                        <option value="Wyoming">WY</option>
-                    </select>
+                    <div class="custom-dropdown">
+                        <button type="button" 
+                                class="custom-dropdown-button form-field"
+                                [class.error]="form.get('state')?.invalid && form.get('state')?.touched"
+                                (click)="toggleDropdown('state')">
+                            <span class="dropdown-text" 
+                                  [class.placeholder]="!form.get('state')?.value">
+                                {{ getSelectedOption('state', getDropdownOptions('usStates'))?.label || getDropdownPlaceholder('usStates') }}
+                            </span>
+                            <span class="dropdown-arrow" [class.open]="dropdownStates.state">▼</span>
+                        </button>
+                        <div class="custom-dropdown-items" *ngIf="dropdownStates.state">
+                            <div *ngFor="let state of getDropdownOptions('usStates')" 
+                                 class="custom-dropdown-item"
+                                 [class.selected]="form.get('state')?.value === state.value"
+                                 (click)="selectDropdownValue('state', state, $event, 'state')">
+                                {{ state.label }}
+                            </div>
+                        </div>
+                    </div>
                     <span class="b2c-error-message location-error-message common-error-message"
                         *ngIf="form.get('state')?.invalid && form.get('state')?.touched">
                         State is required
@@ -175,10 +152,26 @@
             </span>
             <div class="two-grid-container">
                 <fieldset class="form-fieldset">
-                    <select class="form-field location-field common-field" formControlName="state">
-                        <option value="" disabled selected>State</option>
-                        <option *ngFor="let state of states" [value]="state">{{ state }}</option>
-                    </select>
+                    <div class="custom-dropdown">
+                        <button type="button" 
+                                class="custom-dropdown-button form-field"
+                                [class.error]="form.get('state')?.invalid && form.get('state')?.touched"
+                                (click)="toggleDropdown('mexicoState')">
+                            <span class="dropdown-text" 
+                                  [class.placeholder]="!form.get('state')?.value">
+                                {{ getSelectedOption('state', getDropdownOptions('mexicoStates'))?.label || getDropdownPlaceholder('mexicoStates') }}
+                            </span>
+                            <span class="dropdown-arrow" [class.open]="dropdownStates.mexicoState">▼</span>
+                        </button>
+                        <div class="custom-dropdown-items" *ngIf="dropdownStates.mexicoState">
+                            <div *ngFor="let state of getDropdownOptions('mexicoStates')" 
+                                 class="custom-dropdown-item"
+                                 [class.selected]="form.get('state')?.value === state.value"
+                                 (click)="selectDropdownValue('state', state, $event, 'mexicoState')">
+                                {{ state.label }}
+                            </div>
+                        </div>
+                    </div>
                     <span class="b2c-error-message location-error-message common-error-message"
                         *ngIf="form.get('state')?.invalid && form.get('state')?.touched">
                         State is required
@@ -207,22 +200,26 @@
             <legend class="form-label">Location</legend>
             <div class="two-grid-container">
                 <fieldset class="form-fieldset">
-                    <select class="form-field location-field common-field" formControlName="canadaState">
-                        <option value="" disabled selected>Province</option>
-                        <option value="Alberta">Alberta</option>
-                        <option value="British Columbia">British Columbia</option>
-                        <option value="Manitoba">Manitoba</option>
-                        <option value="New Brunswick">New Brunswick</option>
-                        <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-                        <option value="Northwest Territories">Northwest Territories</option>
-                        <option value="Nova Scotia">Nova Scotia</option>
-                        <option value="Nunavut">Nunavut</option>
-                        <option value="Ontario">Ontario</option>
-                        <option value="Prince Edward Island">Prince Edward Island</option>
-                        <option value="Quebec">Quebec</option>
-                        <option value="Saskatchewan">Saskatchewan</option>
-                        <option value="Yukon">Yukon</option>
-                    </select>
+                    <div class="custom-dropdown">
+                        <button type="button" 
+                                class="custom-dropdown-button form-field"
+                                [class.error]="form.get('canadaState')?.invalid && form.get('canadaState')?.touched"
+                                (click)="toggleDropdown('canadaState')">
+                            <span class="dropdown-text" 
+                                  [class.placeholder]="!form.get('canadaState')?.value">
+                                {{ getSelectedOption('canadaState', getDropdownOptions('canadaProvinces'))?.label || getDropdownPlaceholder('canadaProvinces') }}
+                            </span>
+                            <span class="dropdown-arrow" [class.open]="dropdownStates.canadaState">▼</span>
+                        </button>
+                        <div class="custom-dropdown-items" *ngIf="dropdownStates.canadaState">
+                            <div *ngFor="let province of getDropdownOptions('canadaProvinces')" 
+                                 class="custom-dropdown-item"
+                                 [class.selected]="form.get('canadaState')?.value === province.value"
+                                 (click)="selectDropdownValue('canadaState', province, $event, 'canadaState')">
+                                {{ province.label }}
+                            </div>
+                        </div>
+                    </div>
                     <span class="b2c-error-message location-error-message common-error-message"
                         *ngIf="form.get('canadaState')?.invalid && form.get('canadaState')?.touched">
                         Province is required
@@ -281,45 +278,26 @@
             <div class="one-grid-container">
                 <fieldset class="form-fieldset">
                     <legend class="form-label">Location</legend>
-                    <select class="form-field location-field common-field" formControlName="state">
-                        <option value="" disabled selected>State</option>
-                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                        <option value="Assam">Assam</option>
-                        <option value="Bihar">Bihar</option>
-                        <option value="Chandigarh">Chandigarh</option>
-                        <option value="Chhattisgarh">Chhattisgarh</option>
-                        <option value="Daman and Diu">Daman and Diu</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                        <option value="Goa">Goa</option>
-                        <option value="Gujarat">Gujarat</option>
-                        <option value="Himachal Pradesh">Himachal Pradesh</option>
-                        <option value="Haryana">Haryana</option>
-                        <option value="Jharkhand">Jharkhand</option>
-                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Kerala">Kerala</option>
-                        <option value="Lakshadweep">Lakshadweep</option>
-                        <option value="Maharashtra">Maharashtra</option>
-                        <option value="Meghalaya">Meghalaya</option>
-                        <option value="Manipur">Manipur</option>
-                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                        <option value="Mizoram">Mizoram</option>
-                        <option value="Nagaland">Nagaland</option>
-                        <option value="Odisha">Odisha</option>
-                        <option value="Punjab">Punjab</option>
-                        <option value="Puducherry">Puducherry</option>
-                        <option value="Rajasthan">Rajasthan</option>
-                        <option value="Sikkim">Sikkim</option>
-                        <option value="Tamil Nadu">Tamil Nadu</option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Tripura">Tripura</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                        <option value="Uttarakhand">Uttarakhand</option>
-                        <option value="West Bengal">West Bengal</option>
-                    </select>
+                    <div class="custom-dropdown">
+                        <button type="button" 
+                                class="custom-dropdown-button form-field"
+                                [class.error]="form.get('state')?.invalid && form.get('state')?.touched"
+                                (click)="toggleDropdown('indiaState')">
+                            <span class="dropdown-text" 
+                                  [class.placeholder]="!form.get('state')?.value">
+                                {{ getSelectedOption('state', getDropdownOptions('indiaStates'))?.label || getDropdownPlaceholder('indiaStates') }}
+                            </span>
+                            <span class="dropdown-arrow" [class.open]="dropdownStates.indiaState">▼</span>
+                        </button>
+                        <div class="custom-dropdown-items" *ngIf="dropdownStates.indiaState">
+                            <div *ngFor="let state of getDropdownOptions('indiaStates')" 
+                                 class="custom-dropdown-item"
+                                 [class.selected]="form.get('state')?.value === state.value"
+                                 (click)="selectDropdownValue('state', state, $event, 'indiaState')">
+                                {{ state.label }}
+                            </div>
+                        </div>
+                    </div>
                     <span class="b2c-error-message location-error-message common-error-message"
                         *ngIf="form.get('state')?.invalid && form.get('state')?.touched">
                         State is required
@@ -544,26 +522,26 @@
             <legend class="form-label">{{ form.get('currentStudent')?.value === 'yes' ? 'Degree Expected' : 'Highest Degree Achieved' }}</legend>
             <div [ngClass]="{'two-grid-container': showBranchField(), 'one-grid-container': !showBranchField()}">
                 <fieldset class="form-fieldset">
-                    <select class="form-field educationFields-field common-field" formControlName="levelOfEducation" (change)="handleDegreeChange($event)">
-                        <option value="" disabled selected>Select an option</option>
-                        <option value="Bachelor of Arts">Bachelor of Arts</option>
-                        <option value="Bachelor of Science">Bachelor of Science</option>
-                        <option value="Bachelor of Engineering">Bachelor of Engineering</option>
-                        <option value="Bachelor of Technology">Bachelor of Technology</option>
-                        <option value="Bachelor of Business Administration">Bachelor of Business Administration</option>
-                        <option value="Bachelor of Commerce">Bachelor of Commerce</option>
-                        <option value="Bachelor of Computer Application">Bachelor of Computer Application</option>
-                        <option value="Bachelor of Corporate Secretaryship">Bachelor of Corporate Secretaryship</option>
-                        <option value="Master of Arts">Master of Arts</option>
-                        <option value="Master of Science">Master of Science</option>
-                        <option value="Master of Engineering">Master of Engineering</option>
-                        <option value="Master of Technology">Master of Technology</option>
-                        <option value="Master of Business Administration">Master of Business Administration</option>
-                        <option value="Master of Commerce">Master of Commerce</option>
-                        <option value="Master of Computer Application">Master of Computer Application</option>
-                        <option value="Master of Corporate Secretaryship">Master of Corporate Secretaryship</option>
-                        <option value="High School">Other</option>
-                    </select>
+                    <div class="custom-dropdown">
+                        <button type="button" 
+                                class="custom-dropdown-button form-field"
+                                [class.error]="form.get('levelOfEducation')?.invalid && form.get('levelOfEducation')?.touched"
+                                (click)="toggleDropdown('levelOfEducation')">
+                            <span class="dropdown-text" 
+                                  [class.placeholder]="!form.get('levelOfEducation')?.value">
+                                {{ getSelectedOption('levelOfEducation', getDropdownOptions('indiaDegrees'))?.label || getDropdownPlaceholder('indiaDegrees') }}
+                            </span>
+                            <span class="dropdown-arrow" [class.open]="dropdownStates.levelOfEducation">▼</span>
+                        </button>
+                        <div class="custom-dropdown-items" *ngIf="dropdownStates.levelOfEducation">
+                            <div *ngFor="let degree of getDropdownOptions('indiaDegrees')" 
+                                 class="custom-dropdown-item"
+                                 [class.selected]="form.get('levelOfEducation')?.value === degree.value"
+                                 (click)="selectDropdownValue('levelOfEducation', degree, $event, 'levelOfEducation')">
+                                {{ degree.label }}
+                            </div>
+                        </div>
+                    </div>
                     <span class="b2c-error-message educationFields-error-message common-error-message"
                         *ngIf="form.get('levelOfEducation')?.invalid && form.get('levelOfEducation')?.touched">
                         Degree is required
@@ -571,12 +549,26 @@
                 </fieldset>
 
                 <fieldset class="form-fieldset" *ngIf="showBranchField()">
-                    <select class="form-field educationFields-field common-field" formControlName="branch">
-                        <option value="" disabled selected>Select an option</option>
-                        <option *ngFor="let branch of getBranchesArray()" [value]="branch.value">
-                            {{ branch.label }}
-                        </option>
-                    </select>
+                    <div class="custom-dropdown">
+                        <button type="button" 
+                                class="custom-dropdown-button form-field"
+                                [class.error]="form.get('branch')?.invalid && form.get('branch')?.touched"
+                                (click)="toggleDropdown('branch')">
+                            <span class="dropdown-text" 
+                                  [class.placeholder]="!form.get('branch')?.value">
+                                {{ getSelectedOption('branch', getDropdownOptions('branches'))?.label || getDropdownPlaceholder('branches') }}
+                            </span>
+                            <span class="dropdown-arrow" [class.open]="dropdownStates.branch">▼</span>
+                        </button>
+                        <div class="custom-dropdown-items" *ngIf="dropdownStates.branch">
+                            <div *ngFor="let branch of getDropdownOptions('branches')" 
+                                 class="custom-dropdown-item"
+                                 [class.selected]="form.get('branch')?.value === branch.value"
+                                 (click)="selectDropdownValue('branch', branch, $event, 'branch')">
+                                {{ branch.label }}
+                            </div>
+                        </div>
+                    </div>
                     <span class="b2c-error-message educationFields-error-message common-error-message"
                         *ngIf="form.get('branch')?.invalid && form.get('branch')?.touched">
                         Branch is required
@@ -603,21 +595,26 @@
                 'Graduation Date' }}</legend>
             <div class="two-grid-container">
                 <fieldset class="form-fieldset">
-                    <select class="form-field educationFields-field common-field" formControlName="graduationMonth">
-                        <option value="" disabled selected>Select a month</option>
-                        <option value="01">January</option>
-                        <option value="02">February</option>
-                        <option value="03">March</option>
-                        <option value="04">April</option>
-                        <option value="05">May</option>
-                        <option value="06">June</option>
-                        <option value="07">July</option>
-                        <option value="08">August</option>
-                        <option value="09">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
+                    <div class="custom-dropdown">
+                        <button type="button" 
+                                class="custom-dropdown-button form-field"
+                                [class.error]="form.get('graduationMonth')?.invalid && form.get('graduationMonth')?.touched"
+                                (click)="toggleDropdown('graduationMonth')">
+                            <span class="dropdown-text" 
+                                  [class.placeholder]="!form.get('graduationMonth')?.value">
+                                {{ getSelectedOption('graduationMonth', getDropdownOptions('graduationMonths'))?.label || getDropdownPlaceholder('graduationMonths') }}
+                            </span>
+                            <span class="dropdown-arrow" [class.open]="dropdownStates.graduationMonth">▼</span>
+                        </button>
+                        <div class="custom-dropdown-items" *ngIf="dropdownStates.graduationMonth">
+                            <div *ngFor="let month of getDropdownOptions('graduationMonths')" 
+                                 class="custom-dropdown-item"
+                                 [class.selected]="form.get('graduationMonth')?.value === month.value"
+                                 (click)="selectDropdownValue('graduationMonth', month, $event, 'graduationMonth')">
+                                {{ month.label }}
+                            </div>
+                        </div>
+                    </div>
                     <span class="b2c-error-message educationFields-error-message common-error-message"
                         *ngIf="form.get('graduationMonth')?.invalid && form.get('graduationMonth')?.touched">
                         Graduation Month is required
@@ -625,10 +622,26 @@
                 </fieldset>
 
                 <fieldset class="form-fieldset">
-                    <select class="form-field educationFields-field common-field" formControlName="graduationYear">
-                        <option value="" disabled selected>Select a year</option>
-                        <option *ngFor="let year of graduationYears" [value]="year">{{ year }}</option>
-                    </select>
+                    <div class="custom-dropdown">
+                        <button type="button" 
+                                class="custom-dropdown-button form-field"
+                                [class.error]="form.get('graduationYear')?.invalid && form.get('graduationYear')?.touched"
+                                (click)="toggleDropdown('graduationYear')">
+                            <span class="dropdown-text" 
+                                  [class.placeholder]="!form.get('graduationYear')?.value">
+                                {{ getSelectedOption('graduationYear', getDropdownOptions('graduationYears'))?.label || getDropdownPlaceholder('graduationYears') }}
+                            </span>
+                            <span class="dropdown-arrow" [class.open]="dropdownStates.graduationYear">▼</span>
+                        </button>
+                        <div class="custom-dropdown-items" *ngIf="dropdownStates.graduationYear">
+                            <div *ngFor="let year of getDropdownOptions('graduationYears')" 
+                                 class="custom-dropdown-item"
+                                 [class.selected]="form.get('graduationYear')?.value === year.value"
+                                 (click)="selectDropdownValue('graduationYear', year, $event, 'graduationYear')">
+                                {{ year.label }}
+                            </div>
+                        </div>
+                    </div>
                     <span class="b2c-error-message educationFields-error-message common-error-message"
                         *ngIf="form.get('graduationYear')?.invalid && form.get('graduationYear')?.touched">
                         Graduation Year is required
@@ -662,14 +675,26 @@
     <!-- Programming Experience -->
     <fieldset class="one-grid-container">
         <legend class="form-label">How many years of programming experience?</legend>
-        <select class="form-field common-field" formControlName="programmingExperience">
-            <option value="" disabled selected>Select an option</option>
-            <option value="No">None</option>
-            <option value="0-1 year">0-1 year</option>
-            <option value="1-3 years">1-3 years</option>
-            <option value="3-5 years">3-5 years</option>
-            <option value="5+ years">5+ years</option>
-        </select>
+        <div class="custom-dropdown">
+            <button type="button" 
+                    class="custom-dropdown-button form-field"
+                    [class.error]="form.get('programmingExperience')?.invalid && form.get('programmingExperience')?.touched"
+                    (click)="toggleDropdown('programmingExperience')">
+                                            <span class="dropdown-text" 
+                                  [class.placeholder]="!form.get('programmingExperience')?.value">
+                                {{ getSelectedOption('programmingExperience', getDropdownOptions('programmingExperience'))?.label || getDropdownPlaceholder('programmingExperience') }}
+                            </span>
+                <span class="dropdown-arrow" [class.open]="dropdownStates.programmingExperience">▼</span>
+            </button>
+                         <div class="custom-dropdown-items" *ngIf="dropdownStates.programmingExperience">
+                 <div *ngFor="let option of getDropdownOptions('programmingExperience')" 
+                      class="custom-dropdown-item"
+                      [class.selected]="form.get('programmingExperience')?.value === option.value"
+                      (click)="selectDropdownValue('programmingExperience', option, $event, 'programmingExperience')">
+                     {{ option.label }}
+                 </div>
+             </div>
+        </div>
         <span class="b2c-error-message common-error-message"
             *ngIf="form.get('programmingExperience')?.invalid && form.get('programmingExperience')?.touched">
             Experience is required
@@ -953,10 +978,26 @@
         <ng-container *ngIf="form.get('disability')?.value === 'yes'">
             <fieldset class="one-grid-container">
                 <legend class="form-label">If yes, and you feel comfortable sharing, please specify the nature of your disability (optional):</legend>
-                <select class="form-field common-field" formControlName="disabilityType">
-                    <option value="" disabled selected>Select disability type</option>
-                    <option *ngFor="let type of disabilityTypesList" [value]="type.value">{{ type.label }}</option>
-                </select>
+                <div class="custom-dropdown">
+                    <button type="button" 
+                            class="custom-dropdown-button form-field"
+                            [class.error]="form.get('disabilityType')?.invalid && form.get('disabilityType')?.touched"
+                            (click)="toggleDropdown('disabilityType')">
+                        <span class="dropdown-text" 
+                              [class.placeholder]="!form.get('disabilityType')?.value">
+                            {{ getSelectedOption('disabilityType', getDropdownOptions('disabilityTypes'))?.label || getDropdownPlaceholder('disabilityTypes') }}
+                        </span>
+                        <span class="dropdown-arrow" [class.open]="dropdownStates.disabilityType">▼</span>
+                    </button>
+                    <div class="custom-dropdown-items" *ngIf="dropdownStates.disabilityType">
+                        <div *ngFor="let type of getDropdownOptions('disabilityTypes')" 
+                             class="custom-dropdown-item"
+                             [class.selected]="form.get('disabilityType')?.value === type.value"
+                             (click)="selectDropdownValue('disabilityType', type, $event, 'disabilityType')">
+                            {{ type.label }}
+                        </div>
+                    </div>
+                </div>
             </fieldset>
             
             <fieldset class="one-grid-container" *ngIf="form.get('disabilityType')?.value === 'Others'">
@@ -1017,21 +1058,31 @@
     <!-- Resume Upload -->
     <fieldset class="two-grid-container">
         <legend class="form-label">Upload Your Resume</legend>
-        <label class="legend-container">
-            <h6 style="font-weight: 400;">
-                <img style="width:30px; height:30px; margin-right: 10px;"
-                    src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png">Computer
-            </h6>
-            <input type="file" id="ResumeUpload" (change)="onFileChange($event)" accept=".pdf, .docx, .doc, .rtf, .txt">
-        </label>
+        <div class="upload-container" 
+             [class.upload-container-active]="isUploadMethodActive('computer')"
+             (mouseenter)="onUploadHover('computer')" 
+             (mouseleave)="onUploadLeave('computer')">
+            <label class="legend-container">
+                <h6 style="font-weight: 400;">
+                    <img style="width:30px; height:30px; margin-right: 10px;"
+                        [src]="currentUploadImages.computer">Computer
+                </h6>
+                <input type="file" id="ResumeUpload" (change)="onFileChange($event)" accept=".pdf, .docx, .doc, .rtf, .txt">
+            </label>
+        </div>
 
         <!-- Dropbox Option -->
-        <label class="legend-container">
-            <h6 style="font-weight: 400;" (click)="onDropboxClick()">
-                <img style="width:30px; height:30px; margin-right: 10px;"
-                    src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/6673257bcdcad45f4881b227_dropbox_icon.png">Dropbox
-            </h6>
-        </label>
+        <div class="upload-container" 
+             [class.upload-container-active]="isUploadMethodActive('dropbox')"
+             (mouseenter)="onUploadHover('dropbox')" 
+             (mouseleave)="onUploadLeave('dropbox')">
+            <label class="legend-container">
+                <h6 style="font-weight: 400;" (click)="onDropboxClick()">
+                    <img style="width:30px; height:30px; margin-right: 10px;"
+                        [src]="currentUploadImages.dropbox">Dropbox
+                </h6>
+            </label>
+        </div>
     </fieldset>
 
     <!-- Error and Success Messages -->
@@ -1040,7 +1091,7 @@
 
 
     <div style="margin-top: 1rem;">
-        * Note
+        <b>Note:</b>
         <ul style="margin-top: 5px;font-size: 16px;line-height: unset;">
             <li style="font-size: 16px;line-height: unset;">Resume file type should be one of the
                 following: .doc, .docx, .pdf, .txt, .rtf</li>
@@ -1049,17 +1100,19 @@
     </div>
     <!-- Privacy Consent -->
     <div style="font-size: 16px;">
-        <div>Your privacy is important to us</div>
+        <b>Your privacy is important to us:</b>
         <div style="margin-top: 0.5rem;margin-bottom: 0.5rem; font-weight: 400;">
             Revature is committed to safeguarding your privacy. We will never sell or share your personal information.
             Submitting this form constitutes your express written consent to receive emails, texts, and phone messages 
             from Revature at the phone number(s) and e-mail address provided in this form for work-related opportunities.
         </div>
-        <div>
-            <input type="checkbox" formControlName="dataConsent" id="dataConsent">
-            <label style="font-weight: unset;display: unset; font-weight: 400;"><b>(Optional)</b> Select this checkbox if you would like Revature to share your contact 
+        <div style="display: flex; align-items: flex-start;">
+            <input style="margin-top: 6px; margin-right: 6px;" type="checkbox" formControlName="dataConsent" id="dataConsent">
+            <label style="font-weight: unset;display: unset; font-weight: 400;">
+                (Optional) Select this checkbox if you would like Revature to share your contact 
                 information with our career-placement and network partners for the purpose of expanding your opportunities. 
-                This information may include your name, phone number, email address, education level, and work authorization status.</label>
+                This information may include your name, phone number, email address, education level, and work authorization status.
+            </label>
         </div>
     </div>
 
