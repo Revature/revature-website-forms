@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Technology Capabilities</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --brand-dark: #011635;
+    --brand-orange: #FF7014;
+    --brand-yellow: #F9B200;
+    --brand-pink: #E946C7;  
+    --brand-purple: #9333EA;
+    --gradient-primary: linear-gradient(135deg, #FF7014 0%, #F9B200 100%);
+    --gradient-accent: linear-gradient(135deg, #FF7014 0%, #A100FE 100%);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--brand-dark);
+}
+
+.capabilities-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Desktop Layout */
+.desktop-view {
+    position: relative;
+    width: 550px;
+    height: 550px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Single flowing circular path */
+.connection-path {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Background circle with plain color */
+.background-circle {
+    position: absolute;
+    width: 480px;
+    height: 480px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Gradient highlight overlay */
+.gradient-highlight {
+    position: absolute;
+    width: 480px;
+    height: 480px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Gradient positions for each option */
+/* .gradient-highlight.ai-selected {
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 45deg,
+        blue 60deg,
+        transparent 75deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.gradient-highlight.data-selected {
+    background: conic-gradient(
+        from 90deg,
+        transparent 0deg,
+        transparent 45deg,
+        blue 60deg,
+        transparent 75deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.gradient-highlight.cloud-selected {
+    background: conic-gradient(
+        from 180deg,
+        transparent 0deg,
+        transparent 45deg,
+        blue 60deg,
+        transparent 75deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.gradient-highlight.appdev-selected {
+    background: conic-gradient(
+        from 270deg,
+        transparent 0deg,
+        transparent 45deg,
+        blue 60deg,
+        transparent 75deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.gradient-highlight.enterprise-selected {
+    background: conic-gradient(
+        from 45deg,
+        transparent 0deg,
+        transparent 45deg,
+        blue 60deg,
+        transparent 75deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.gradient-highlight.security-selected {
+    background: conic-gradient(
+        from 315deg,
+        transparent 0deg,
+        transparent 45deg,
+        blue 60deg,
+        transparent 75deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+} */
+
+.center-circle {
+    position: relative;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: white;
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    z-index: 2;
+}
+
+.center-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.6s ease-in-out;
+    opacity: 0;
+}
+
+.center-image.active {
+    opacity: 1;
+}
+
+.capability-pill {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 0.875rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--brand-dark);
+    cursor: pointer;
+    min-width: 240px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 3;
+}
+
+.capability-pill:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.02);
+}
+
+.capability-pill.selected {
+    background: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+    box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.2);
+}
+
+.pill-text {
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+}
+
+.pill-icon {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.pill-icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.capability-pill.selected .pill-icon {
+    background: var(--gradient-accent);
+    transform: scale(1.1);
+}
+
+.capability-pill.selected .pill-icon img {
+    filter: brightness(0) invert(1);
+}
+
+/* Pill Positions - Fixed without translateY */
+.pill-ai { top: 70px; left: -140px; }
+.pill-data { top: 50%; left: -210px; margin-top: -25px; }
+.pill-cloud { bottom: 70px; left: -140px; }
+.pill-appdev { top: 70px; right: -160px; }
+.pill-enterprise { top: 50%; right: -210px; margin-top: -25px; }
+.pill-security { bottom: 70px; right: -140px; }
+
+.pill-icon.right { right: -1.5rem; }
+.pill-icon.left { left: -1.5rem; }
+
+/* Mobile Layout */
+.mobile-view {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.mobile-circle {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mobile single circular path */
+.mobile-connection-path {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Mobile background circle with plain color */
+.mobile-background-circle {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mobile gradient highlight overlay */
+.mobile-gradient-highlight {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Mobile gradient positions for each option */
+.mobile-gradient-highlight.ai-selected {
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        var(--gradient-accent) 60deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.mobile-gradient-highlight.data-selected {
+    background: conic-gradient(
+        from 90deg,
+        transparent 0deg,
+        var(--gradient-accent) 60deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.mobile-gradient-highlight.cloud-selected {
+    background: conic-gradient(
+        from 180deg,
+        transparent 0deg,
+        var(--gradient-accent) 60deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.mobile-gradient-highlight.appdev-selected {
+    background: conic-gradient(
+        from 270deg,
+        transparent 0deg,
+        var(--gradient-accent) 60deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.mobile-gradient-highlight.enterprise-selected {
+    background: conic-gradient(
+        from 45deg,
+        transparent 0deg,
+        var(--gradient-accent) 60deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.mobile-gradient-highlight.security-selected {
+    background: conic-gradient(
+        from 315deg,
+        transparent 0deg,
+        var(--gradient-accent) 60deg,
+        transparent 120deg,
+        transparent 360deg
+    );
+    opacity: 1;
+}
+
+.mobile-center {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+.mobile-center img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+
+.mobile-center img.active {
+    opacity: 1;
+}
+
+.mobile-icon {
+    position: absolute;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+}
+
+.mobile-icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.mobile-icon.selected {
+    background: var(--gradient-accent);
+    box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-icon.selected img {
+    filter: brightness(0) invert(1);
+}
+
+/* Mobile Icon Positions - Fixed without movement */
+.icon-appdev { 
+    top: -24px; 
+    left: 50%; 
+    transform: translateX(-50%);
+}
+
+.icon-cloud { 
+    top: 20%; 
+    right: -12px; 
+}
+
+.icon-data { 
+    bottom: 20%; 
+    right: -12px; 
+}
+
+.icon-ai { 
+    bottom: -24px; 
+    left: 50%; 
+    transform: translateX(-50%);
+}
+
+.icon-security { 
+    bottom: 20%; 
+    left: -12px; 
+}
+
+.icon-enterprise { 
+    top: 20%; 
+    left: -12px; 
+}
+
+/* Mobile icon hover and selected states with proper transform combinations */
+.mobile-icon.icon-appdev:hover {
+    transform: translateX(-50%) scale(1.05);
+}
+
+.mobile-icon.icon-appdev.selected {
+    transform: translateX(-50%) scale(1.1);
+}
+
+.mobile-icon.icon-ai:hover {
+    transform: translateX(-50%) scale(1.05);
+}
+
+.mobile-icon.icon-ai.selected {
+    transform: translateX(-50%) scale(1.1);
+}
+
+.mobile-icon:hover:not(.icon-appdev):not(.icon-ai) {
+    transform: scale(1.05);
+}
+
+.mobile-icon.selected:not(.icon-appdev):not(.icon-ai) {
+    transform: scale(1.1);
+}
+
+.active-label {
+    margin-top: 2rem;
+    padding: 0.875rem 2rem;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--brand-dark);
+    text-align: center;
+    transition: all 0.4s ease;
+    min-width: 200px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .desktop-view { display: none; }
+    .mobile-view { display: flex; }
+    
+    body { padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .mobile-circle {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .mobile-center {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .mobile-icon {
+        width: 3rem;
+        height: 3rem;
+    }
+    
+    .mobile-icon img {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .icon-appdev { top: -20px; }
+    .icon-cloud { right: -20px; }
+    .icon-data { right: -20px; }
+    .icon-ai { bottom: -20px; }
+    .icon-security { left: -20px; }
+    .icon-enterprise { left: -20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="capabilities-container">
+    <!-- Desktop View -->
+    <div class="desktop-view">
+        <div class="connection-path">
+            <div class="background-circle"></div>
+            <div class="gradient-highlight"></div>
+        </div>
+
+        <div class="center-circle">
+            <!-- AI/ML Images -->
+            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=400&fit=crop" alt="AI Brain" class="center-image active" data-key="ai">
+            
+            <!-- Data Analytics Images -->
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop" alt="Data Charts" class="center-image" data-key="data">
+            
+            <!-- Cloud Infrastructure Images -->
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=400&fit=crop" alt="Cloud Network" class="center-image" data-key="cloud">
+            
+            <!-- Application Development Images -->
+            <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=400&fit=crop" alt="Coding Screen" class="center-image" data-key="appdev">
+            
+            <!-- Enterprise Platforms Images -->
+            <img src="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7d3?w=400&h=400&fit=crop" alt="Enterprise Systems" class="center-image" data-key="enterprise">
+            
+            <!-- Cybersecurity Images -->
+            <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=400&fit=crop" alt="Security Lock" class="center-image" data-key="security">
+        </div>
+
+        <div class="capability-pill pill-ai selected" data-key="ai">
+            <span class="pill-text">AI/ML & GenAI</span>
+            <div class="pill-icon right">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 2L2 7v10c0 5.55 3.84 10 9 11 1.16.21 2.76.21 3.92 0 5.16-1 9-5.45 9-11V7l-10-5z'/%3E%3Cpath d='m8 11 2 2 4-4'/%3E%3C/svg%3E" alt="AI">
+            </div>
+        </div>
+
+        <div class="capability-pill pill-data" data-key="data">
+            <span class="pill-text">Data & Analytics</span>
+            <div class="pill-icon right">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cline x1='18' y1='20' x2='18' y2='10'/%3E%3Cline x1='12' y1='20' x2='12' y2='4'/%3E%3Cline x1='6' y1='20' x2='6' y2='14'/%3E%3C/svg%3E" alt="Data">
+            </div>
+        </div>
+
+        <div class="capability-pill pill-cloud" data-key="cloud">
+            <span class="pill-text">Cloud & Infra</span>
+            <div class="pill-icon right">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E" alt="Cloud">
+            </div>
+        </div>
+
+        <div class="capability-pill pill-appdev" data-key="appdev">
+            <div class="pill-icon left">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='2' y='3' width='20' height='14' rx='2' ry='2'/%3E%3Cline x1='8' y1='21' x2='16' y2='21'/%3E%3Cline x1='12' y1='17' x2='12' y2='21'/%3E%3C/svg%3E" alt="App Dev">
+            </div>
+            <span class="pill-text">Application Development</span>
+        </div>
+
+        <div class="capability-pill pill-enterprise" data-key="enterprise">
+            <div class="pill-icon left">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Crect x='7' y='7' width='3' height='9'/%3E%3Crect x='14' y='7' width='3' height='5'/%3E%3C/svg%3E" alt="Enterprise">
+            </div>
+            <span class="pill-text">Enterprise Platforms</span>
+        </div>
+
+        <div class="capability-pill pill-security" data-key="security">
+            <div class="pill-icon left">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E" alt="Security">
+            </div>
+            <span class="pill-text">Cybersecurity</span>
+        </div>
+    </div>
+
+    <!-- Mobile View -->
+    <div class="mobile-view">
+        <div class="mobile-circle">
+            <div class="mobile-connection-path">
+                <div class="mobile-background-circle"></div>
+                <div class="mobile-gradient-highlight"></div>
+            </div>
+
+            <div class="mobile-center">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=400&fit=crop" alt="AI Brain" class="active" data-key="ai">
+                <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=400&fit=crop" alt="Coding" data-key="appdev">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=400&fit=crop" alt="Cloud" data-key="cloud">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop" alt="Data" data-key="data">
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=400&fit=crop" alt="Security" data-key="security">
+                <img src="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7d3?w=400&h=400&fit=crop" alt="Enterprise" data-key="enterprise">
+            </div>
+
+            <div class="mobile-icon icon-appdev" data-key="appdev" data-name="Application Development">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='2' y='3' width='20' height='14' rx='2' ry='2'/%3E%3Cline x1='8' y1='21' x2='16' y2='21'/%3E%3Cline x1='12' y1='17' x2='12' y2='21'/%3E%3C/svg%3E" alt="App Dev">
+            </div>
+            <div class="mobile-icon icon-cloud" data-key="cloud" data-name="Cloud & Infra">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E" alt="Cloud">
+            </div>
+            <div class="mobile-icon icon-data" data-key="data" data-name="Data & Analytics">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cline x1='18' y1='20' x2='18' y2='10'/%3E%3Cline x1='12' y1='20' x2='12' y2='4'/%3E%3Cline x1='6' y1='20' x2='6' y2='14'/%3E%3C/svg%3E" alt="Data">
+            </div>
+            <div class="mobile-icon icon-ai selected" data-key="ai" data-name="AI/ML & GenAI">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 2L2 7v10c0 5.55 3.84 10 9 11 1.16.21 2.76.21 3.92 0 5.16-1 9-5.45 9-11V7l-10-5z'/%3E%3Cpath d='m8 11 2 2 4-4'/%3E%3C/svg%3E" alt="AI">
+            </div>
+            <div class="mobile-icon icon-security" data-key="security" data-name="Cybersecurity">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E" alt="Security">
+            </div>
+            <div class="mobile-icon icon-enterprise" data-key="enterprise" data-name="Enterprise Platforms">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Crect x='7' y='7' width='3' height='9'/%3E%3Crect x='14' y='7' width='3' height='5'/%3E%3C/svg%3E" alt="Enterprise">
+            </div>
+        </div>
+
+        <div class="active-label">AI/ML & GenAI</div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Desktop functionality
+    const desktopImages = document.querySelectorAll('.desktop-view .center-image');
+    const desktopPills = document.querySelectorAll('.desktop-view .capability-pill');
+    const desktopGradientHighlight = document.querySelector('.desktop-view .gradient-highlight');
+
+    const selectDesktopOption = (key) => {
+        // Update images with smooth transition
+        desktopImages.forEach(img => {
+            if (img.dataset.key === key) {
+                img.style.opacity = '0';
+                setTimeout(() => {
+                    img.classList.add('active');
+                    img.style.opacity = '1';
+                }, 150);
+            } else {
+                img.classList.remove('active');
+                img.style.opacity = '0';
+            }
+        });
+        
+        // Update pills with smooth animation
+        desktopPills.forEach(pill => {
+            if (pill.dataset.key === key) {
+                pill.classList.add('selected');
+            } else {
+                pill.classList.remove('selected');
+            }
+        });
+        
+        // Update gradient highlight
+        desktopGradientHighlight.className = 'gradient-highlight';
+        desktopGradientHighlight.classList.add(`${key}-selected`);
+    };
+
+    desktopPills.forEach(pill => {
+        pill.addEventListener('click', (e) => {
+            e.preventDefault();
+            selectDesktopOption(pill.dataset.key);
+        });
+    });
+
+    // Mobile functionality
+    const mobileImages = document.querySelectorAll('.mobile-view .mobile-center img');
+    const mobileIcons = document.querySelectorAll('.mobile-view .mobile-icon');
+    const mobileGradientHighlight = document.querySelector('.mobile-view .mobile-gradient-highlight');
+    const activeLabel = document.querySelector('.active-label');
+
+    const selectMobileOption = (key, name) => {
+        // Update images with smooth transition
+        mobileImages.forEach(img => {
+            if (img.dataset.key === key) {
+                img.style.opacity = '0';
+                setTimeout(() => {
+                    img.classList.add('active');
+                    img.style.opacity = '1';
+                }, 150);
+            } else {
+                img.classList.remove('active');
+                img.style.opacity = '0';
+            }
+        });
+        
+        // Update icons with smooth animation
+        mobileIcons.forEach(icon => {
+            if (icon.dataset.key === key) {
+                icon.classList.add('selected');
+            } else {
+                icon.classList.remove('selected');
+            }
+        });
+        
+        // Update gradient highlight
+        mobileGradientHighlight.className = 'mobile-gradient-highlight';
+        mobileGradientHighlight.classList.add(`${key}-selected`);
+        
+        // Update label with smooth transition
+        activeLabel.style.opacity = '0';
+        setTimeout(() => {
+            activeLabel.textContent = name;
+            activeLabel.style.opacity = '1';
+        }, 200);
+    };
+
+    mobileIcons.forEach(icon => {
+        icon.addEventListener('click', (e) => {
+            e.preventDefault();
+            const key = icon.dataset.key;
+            const name = icon.dataset.name;
+            selectMobileOption(key, name);
+        });
+    });
+
+    // Initialize with AI/ML selected by default
+    selectDesktopOption('ai');
+    selectMobileOption('ai', 'AI/ML & GenAI');
+});
+</script>
+
+</body>
+</html>

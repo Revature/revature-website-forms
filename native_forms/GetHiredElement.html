@@ -1,0 +1,731 @@
+<style>
+  :root {
+    --brand-dark: #011635;
+    --brand-orange: #ff7014;
+    --brand-yellow: #f9b200;
+    --brand-pink: #e946c7;
+    --brand-purple: #9333ea;
+    --gradient-primary: linear-gradient(135deg, #ff7014 0%, #f9b200 100%);
+    --gradient-accent: linear-gradient(135deg, #ff7014 0%, #a100fe 100%);
+  }
+
+  .capabilities-container {
+    position: relative;
+
+    /* Desktop Layout */
+    .desktop-view {
+      position: relative;
+      height: 550px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Single flowing circular path */
+    .connection-path {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Background circle with plain color */
+    .background-circle {
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid #0116351D;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Gradient highlight overlay */
+    .gradient-highlight {
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .center-circle {
+      position: relative;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      z-index: 2;
+    }
+
+    .center-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.6s ease-in-out;
+      opacity: 0;
+    }
+
+    .center-image.active {
+      opacity: 1;
+    }
+
+    .capability-pill {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      padding: 0.875rem 2rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--brand-dark);
+      cursor: pointer;
+      min-width: 240px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 3;
+    }
+
+    .capability-pill:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.02);
+    }
+
+    .capability-pill.selected {
+      background: rgba(255, 255, 255, 0.35);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: scale(1.05);
+      box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.2);
+    }
+
+    .pill-text {
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .pill-icon {
+      position: absolute;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: #dae5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .pill-icon img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      transition: all 0.3s ease;
+    }
+
+    .capability-pill.selected .pill-icon {
+      background: var(--gradient-accent);
+      transform: scale(1.1);
+    }
+
+    .capability-pill.selected .pill-icon img {
+      filter: brightness(0) invert(1);
+    }
+
+    /* Pill Positions - Fixed without translateY */
+    .pill-degreeReg {
+      top: 80px;
+      right: -225px;
+    }
+    .pill-enterprise {
+      top: 50%;
+      right: -290px;
+      margin-top: -90px;
+    }
+    .pill-security {
+      top: 50%;
+      right: -290px;
+      margin-top: 30px;
+    }
+    .pill-data-analytics {
+      bottom: 80px;
+      right: -250px;
+    }
+
+    .pill-icon.right {
+      right: -1.5rem;
+    }
+    .pill-icon.left {
+      left: -1.5rem;
+    }
+
+    /* Mobile Layout */
+    .mobile-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .mobile-circle {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Mobile single circular path */
+    .mobile-connection-path {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Mobile background circle with plain color */
+    .mobile-background-circle {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid #0116351D;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Mobile gradient highlight overlay */
+    .mobile-gradient-highlight {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Mobile gradient positions for each option - 4 items in circular arrangement */
+    .mobile-gradient-highlight.degreeReg-selected {
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        var(--gradient-accent) 90deg,
+        transparent 90deg,
+        transparent 360deg
+      );
+      opacity: 1;
+    }
+
+    .mobile-gradient-highlight.enterprise-selected {
+      background: conic-gradient(
+        from 90deg,
+        transparent 0deg,
+        var(--gradient-accent) 90deg,
+        transparent 90deg,
+        transparent 360deg
+      );
+      opacity: 1;
+    }
+
+    .mobile-gradient-highlight.data-analytics-selected {
+      background: conic-gradient(
+        from 180deg,
+        transparent 0deg,
+        var(--gradient-accent) 90deg,
+        transparent 90deg,
+        transparent 360deg
+      );
+      opacity: 1;
+    }
+
+    .mobile-gradient-highlight.security-selected {
+      background: conic-gradient(
+        from 270deg,
+        transparent 0deg,
+        var(--gradient-accent) 90deg,
+        transparent 90deg,
+        transparent 360deg
+      );
+      opacity: 1;
+    }
+
+    .mobile-center {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+    }
+
+    .mobile-center img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s ease-in-out;
+      opacity: 0;
+    }
+
+    .mobile-center img.active {
+      opacity: 1;
+    }
+
+    .mobile-icon {
+      position: absolute;
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2);
+      z-index: 3;
+    }
+
+    .mobile-icon img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-icon.selected {
+      background: var(--gradient-accent);
+      box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.3);
+    }
+
+    .mobile-icon.selected img {
+      filter: brightness(0) invert(1);
+    }
+
+    /* Mobile Icon Positions - Fixed for 4 items in circular arrangement */
+    .icon-degreeReg {
+      bottom: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .icon-enterprise {
+      top: 50%;
+      right: -24px;
+      transform: translateY(-50%);
+    }
+
+    .icon-data-analytics {
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .icon-security {
+      top: 50%;
+      left: -24px;
+      transform: translateY(-50%);
+    }
+
+    /* Mobile icon hover and selected states with proper transform combinations */
+    .mobile-icon.icon-degreeReg:hover {
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    .mobile-icon.icon-degreeReg.selected {
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    .mobile-icon.icon-data-analytics:hover {
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    .mobile-icon.icon-data-analytics.selected {
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    .mobile-icon.icon-enterprise:hover {
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .mobile-icon.icon-enterprise.selected {
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .mobile-icon.icon-security:hover {
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .mobile-icon.icon-security.selected {
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .active-label {
+      margin-top: 2rem;
+      padding: 0.875rem 2rem;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--brand-dark);
+      text-align: center;
+      transition: all 0.4s ease;
+      min-width: 200px;
+    }
+  }
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .capabilities-container {
+      .desktop-view {
+        display: none;
+      }
+      .mobile-view {
+        display: flex;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .capabilities-container {
+      .mobile-circle {
+        width: 280px;
+        height: 280px;
+      }
+
+      .mobile-center {
+        width: 160px;
+        height: 160px;
+      }
+
+      .mobile-icon {
+        width: 3rem;
+        height: 3rem;
+      }
+
+      .mobile-icon img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .icon-degreeReg {
+        bottom: -20px;
+      }
+      .icon-enterprise {
+        right: -20px;
+      }
+      .icon-data-analytics {
+        top: -20px;
+      }
+      .icon-security {
+        left: -20px;
+      }
+    }
+  }
+</style>
+<div class="capabilities-container">
+  <!-- Desktop View -->
+  <div class="desktop-view">
+    <div class="connection-path">
+      <div class="background-circle"></div>
+      <div class="gradient-highlight"></div>
+    </div>
+
+    <div class="center-circle">
+      <!-- Degree Requirements Images -->
+      <img
+        src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=400&fit=crop"
+        alt="Coding Screen"
+        class="center-image"
+        data-key="degreeReg"
+      />
+
+      <!-- Enterprise Platforms Images -->
+      <img
+        src="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7d3?w=400&h=400&fit=crop"
+        alt="Enterprise Systems"
+        class="center-image"
+        data-key="enterprise"
+      />
+
+      <!-- Cybersecurity Images -->
+      <img
+        src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=400&fit=crop"
+        alt="Security Lock"
+        class="center-image"
+        data-key="security"
+      />
+
+      <!-- Data & Analytics Images -->
+      <img
+        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop"
+        alt="Data Analytics"
+        class="center-image"
+        data-key="data-analytics"
+      />
+    </div>
+
+    <div class="capability-pill pill-degreeReg" data-key="degreeReg">
+      <div class="pill-icon left">
+        <img
+          src="data:image/svg+xml,%3Csvg width='22' height='19' viewBox='0 0 22 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18.415L4 14.615V8.61504L0 6.41504L11 0.415039L22 6.41504V14.415H20V7.51504L18 8.61504V14.615L11 18.415ZM11 10.115L17.85 6.41504L11 2.71504L4.15 6.41504L11 10.115ZM11 16.14L16 13.44V9.66504L11 12.415L6 9.66504V13.44L11 16.14Z' fill='%2301163599'/%3E%3C/svg%3E"
+          alt="App Dev"
+        />
+      </div>
+      <span class="pill-text">Degree Requirements</span>
+    </div>
+
+    <div class="capability-pill pill-enterprise" data-key="enterprise">
+      <div class="pill-icon left">
+        <img
+          src="data:image/svg+xml,%3Csvg width='16' height='22' viewBox='0 0 16 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.675 12.115L6.55 9.26504L4.25 7.41504H7.1L8 4.61504L8.9 7.41504H11.75L9.425 9.26504L10.3 12.115L8 10.34L5.675 12.115ZM2 21.415V13.69C1.36667 12.99 0.875 12.19 0.525 11.29C0.175 10.39 0 9.43171 0 8.41504C0 6.18171 0.775 4.29004 2.325 2.74004C3.875 1.19004 5.76667 0.415039 8 0.415039C10.2333 0.415039 12.125 1.19004 13.675 2.74004C15.225 4.29004 16 6.18171 16 8.41504C16 9.43171 15.825 10.39 15.475 11.29C15.125 12.19 14.6333 12.99 14 13.69V21.415L8 19.415L2 21.415ZM8 14.415C9.66667 14.415 11.0833 13.8317 12.25 12.665C13.4167 11.4984 14 10.0817 14 8.41504C14 6.74837 13.4167 5.33171 12.25 4.16504C11.0833 2.99837 9.66667 2.41504 8 2.41504C6.33333 2.41504 4.91667 2.99837 3.75 4.16504C2.58333 5.33171 2 6.74837 2 8.41504C2 10.0817 2.58333 11.4984 3.75 12.665C4.91667 13.8317 6.33333 14.415 8 14.415ZM4 18.44L8 17.415L12 18.44V15.34C11.4167 15.6734 10.7875 15.9359 10.1125 16.1275C9.4375 16.3192 8.73333 16.415 8 16.415C7.26667 16.415 6.5625 16.3192 5.8875 16.1275C5.2125 15.9359 4.58333 15.6734 4 15.34V18.44Z' fill='%23011635' fill-opacity='0.6'/%3E%3C/svg%3E"
+          alt="Security"
+        />
+      </div>
+      <span class="pill-text">Work Status in the U.S.</span>
+    </div>
+
+    <div class="capability-pill pill-security" data-key="security">
+      <div class="pill-icon left">
+        <img
+          src="data:image/svg+xml,%3Csvg width='22' height='23' viewBox='0 0 22 23' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.8 4.64004L5.8 1.64004L7.2 1.19004L8.2 4.16504L6.8 4.64004ZM10.25 3.41504V0.415039H11.75V3.41504H10.25ZM15.2 4.64004L13.8 4.16504L14.8 1.19004L16.2 1.66504L15.2 4.64004ZM1.15 22.415L0.85 20.44L6.125 19.64C6.30833 19.6067 6.47083 19.5275 6.6125 19.4025C6.75417 19.2775 6.85833 19.1234 6.925 18.94L7.775 16.29C7.85833 16.0567 7.85833 15.8317 7.775 15.615C7.69167 15.3984 7.54167 15.2317 7.325 15.115L6.5 17.715L4.6 17.115L6.8 10.165C6.83333 10.065 6.85 9.95671 6.85 9.84004C6.85 9.72337 6.83333 9.61504 6.8 9.51504L3.45 15.815C3.18333 16.2984 2.8125 16.6859 2.3375 16.9775C1.8625 17.2692 1.35 17.415 0.8 17.415H0V15.415H0.8C0.983333 15.415 1.15417 15.3692 1.3125 15.2775C1.47083 15.1859 1.59167 15.0567 1.675 14.89L6.1 6.54004L7.35 7.24004C7.96667 7.59004 8.40417 8.09421 8.6625 8.75254C8.92083 9.41087 8.94167 10.0817 8.725 10.765L7.95 13.215C8.68333 13.4984 9.2125 13.9984 9.5375 14.715C9.8625 15.4317 9.90833 16.165 9.675 16.915L8.825 19.565C8.64167 20.0984 8.3375 20.5525 7.9125 20.9275C7.4875 21.3025 6.99167 21.5317 6.425 21.615L1.15 22.415ZM20.85 22.415L15.575 21.615C15.0083 21.5317 14.5125 21.3025 14.0875 20.9275C13.6625 20.5525 13.3583 20.0984 13.175 19.565L12.325 16.915C12.0917 16.165 12.1375 15.4317 12.4625 14.715C12.7875 13.9984 13.3167 13.4984 14.05 13.215L13.275 10.765C13.0583 10.0817 13.0792 9.41087 13.3375 8.75254C13.5958 8.09421 14.0333 7.59004 14.65 7.24004L15.9 6.54004L20.325 14.89C20.4083 15.0567 20.5292 15.1859 20.6875 15.2775C20.8458 15.3692 21.0167 15.415 21.2 15.415H22V17.415H21.2C20.65 17.415 20.1375 17.2692 19.6625 16.9775C19.1875 16.6859 18.8167 16.2984 18.55 15.815L15.2 9.51504C15.1667 9.61504 15.15 9.72337 15.15 9.84004C15.15 9.95671 15.1667 10.065 15.2 10.165L17.4 17.115L15.5 17.715L14.675 15.115C14.4583 15.2317 14.3083 15.3984 14.225 15.615C14.1417 15.8317 14.1417 16.0567 14.225 16.29L15.075 18.94C15.1417 19.1234 15.2458 19.2775 15.3875 19.4025C15.5292 19.5275 15.6917 19.6067 15.875 19.64L21.15 20.44L20.85 22.415Z' fill='%231C1B1F' fill-opacity='0.6'/%3E%3C/svg%3E"
+          alt="Enterprise"
+        />
+      </div>
+      <span class="pill-text">Attitude and Aptitude</span>
+    </div>
+
+    <!-- Add new Data & Analytics pill after the existing security pill -->
+    <div class="capability-pill pill-data-analytics" data-key="data-analytics">
+      <div class="pill-icon left">
+        <img
+          src="data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2220%22%20viewBox%3D%220%200%2016%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M2%2019.415V18.415L3.5%2017.415C2.51667%2017.415%201.6875%2017.0775%201.0125%2016.4025C0.3375%2015.7275%200%2014.8984%200%2013.915V4.41504C0%203.03171%200.641667%202.01921%201.925%201.37754C3.20833%200.735872%205.23333%200.415039%208%200.415039C10.8667%200.415039%2012.9167%200.723372%2014.15%201.34004C15.3833%201.95671%2016%202.98171%2016%204.41504V13.915C16%2014.8984%2015.6625%2015.7275%2014.9875%2016.4025C14.3125%2017.0775%2013.4833%2017.415%2012.5%2017.415L14%2018.415V19.415H2ZM2%208.41504H14V5.41504H2V8.41504ZM8%2014.415C8.41667%2014.415%208.77083%2014.2692%209.0625%2013.9775C9.35417%2013.6859%209.5%2013.3317%209.5%2012.915C9.5%2012.4984%209.35417%2012.1442%209.0625%2011.8525C8.77083%2011.5609%208.41667%2011.415%208%2011.415C7.58333%2011.415%207.22917%2011.5609%206.9375%2011.8525C6.64583%2012.1442%206.5%2012.4984%206.5%2012.915C6.5%2013.3317%206.64583%2013.6859%206.9375%2013.9775C7.22917%2014.2692%207.58333%2014.415%208%2014.415ZM3.5%2015.415H12.5C12.9333%2015.415%2013.2917%2015.2734%2013.575%2014.99C13.8583%2014.7067%2014%2014.3484%2014%2013.915V10.415H2V13.915C2%2014.3484%202.14167%2014.7067%202.425%2014.99C2.70833%2015.2734%203.06667%2015.415%203.5%2015.415ZM8%202.41504C6.56667%202.41504%205.37917%202.49837%204.4375%202.66504C3.49583%202.83171%202.83333%203.08171%202.45%203.41504H13.65C13.35%203.08171%2012.7292%202.83171%2011.7875%202.66504C10.8458%202.49837%209.58333%202.41504%208%202.41504Z%22%20fill%3D%22%23011635%22%20fill-opacity%3D%220.6%22/%3E%3C/svg%3E"
+          alt="Data Analytics"
+        />
+      </div>
+      <span class="pill-text">Relocation Requirements</span>
+    </div>
+  </div>
+
+  <!-- Mobile View -->
+  <div class="mobile-view">
+    <div class="mobile-circle">
+      <div class="mobile-connection-path">
+        <div class="mobile-background-circle"></div>
+        <div class="mobile-gradient-highlight"></div>
+      </div>
+
+      <div class="mobile-center">
+        <!-- Degree Requirements Images -->
+        <img
+          src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=400&fit=crop"
+          alt="Coding Screen"
+          class="active"
+          data-key="degreeReg"
+        />
+
+        <!-- Enterprise/Work Status Images -->
+        <img
+          src="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7d3?w=400&h=400&fit=crop"
+          alt="Enterprise Systems"
+          data-key="enterprise"
+        />
+
+        <!-- Security/Attitude Images -->
+        <img
+          src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=400&fit=crop"
+          alt="Security Lock"
+          data-key="security"
+        />
+
+        <!-- Data Analytics/Relocation Images -->
+        <img
+          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop"
+          alt="Data Analytics"
+          data-key="data-analytics"
+        />
+      </div>
+      <div
+        class="mobile-icon icon-degreeReg selected"
+        data-key="degreeReg"
+        data-name="Degree Requirements"
+      >
+        <img
+          src="data:image/svg+xml,%3Csvg width='22' height='19' viewBox='0 0 22 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18.415L4 14.615V8.61504L0 6.41504L11 0.415039L22 6.41504V14.415H20V7.51504L18 8.61504V14.615L11 18.415ZM11 10.115L17.85 6.41504L11 2.71504L4.15 6.41504L11 10.115ZM11 16.14L16 13.44V9.66504L11 12.415L6 9.66504V13.44L11 16.14Z' fill='%2301163599'/%3E%3C/svg%3E"
+          alt="App Dev"
+        />
+      </div>
+      <div
+        class="mobile-icon icon-enterprise"
+        data-key="enterprise"
+        data-name="Work Status in the U.S."
+      >
+        <img
+          src="data:image/svg+xml,%3Csvg width='16' height='22' viewBox='0 0 16 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.675 12.115L6.55 9.26504L4.25 7.41504H7.1L8 4.61504L8.9 7.41504H11.75L9.425 9.26504L10.3 12.115L8 10.34L5.675 12.115ZM2 21.415V13.69C1.36667 12.99 0.875 12.19 0.525 11.29C0.175 10.39 0 9.43171 0 8.41504C0 6.18171 0.775 4.29004 2.325 2.74004C3.875 1.19004 5.76667 0.415039 8 0.415039C10.2333 0.415039 12.125 1.19004 13.675 2.74004C15.225 4.29004 16 6.18171 16 8.41504C16 9.43171 15.825 10.39 15.475 11.29C15.125 12.19 14.6333 12.99 14 13.69V21.415L8 19.415L2 21.415ZM8 14.415C9.66667 14.415 11.0833 13.8317 12.25 12.665C13.4167 11.4984 14 10.0817 14 8.41504C14 6.74837 13.4167 5.33171 12.25 4.16504C11.0833 2.99837 9.66667 2.41504 8 2.41504C6.33333 2.41504 4.91667 2.99837 3.75 4.16504C2.58333 5.33171 2 6.74837 2 8.41504C2 10.0817 2.58333 11.4984 3.75 12.665C4.91667 13.8317 6.33333 14.415 8 14.415ZM4 18.44L8 17.415L12 18.44V15.34C11.4167 15.6734 10.7875 15.9359 10.1125 16.1275C9.4375 16.3192 8.73333 16.415 8 16.415C7.26667 16.415 6.5625 16.3192 5.8875 16.1275C5.2125 15.9359 4.58333 15.6734 4 15.34V18.44Z' fill='%23011635' fill-opacity='0.6'/%3E%3C/svg%3E"
+          alt="Work Status"
+        />
+      </div>
+      <div
+        class="mobile-icon icon-data-analytics"
+        data-key="data-analytics"
+        data-name="Relocation Requirements"
+      >
+        <img
+          src="data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2220%22%20viewBox%3D%220%200%2016%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M2%2019.415V18.415L3.5%2017.415C2.51667%2017.415%201.6875%2017.0775%201.0125%2016.4025C0.3375%2015.7275%200%2014.8984%200%2013.915V4.41504C0%203.03171%200.641667%202.01921%201.925%201.37754C3.20833%200.735872%205.23333%200.415039%208%200.415039C10.8667%200.415039%2012.9167%200.723372%2014.15%201.34004C15.3833%201.95671%2016%202.98171%2016%204.41504V13.915C16%2014.8984%2015.6625%2015.7275%2014.9875%2016.4025C14.3125%2017.0775%2013.4833%2017.415%2012.5%2017.415L14%2018.415V19.415H2ZM2%208.41504H14V5.41504H2V8.41504ZM8%2014.415C8.41667%2014.415%208.77083%2014.2692%209.0625%2013.9775C9.35417%2013.6859%209.5%2013.3317%209.5%2012.915C9.5%2012.4984%209.35417%2012.1442%209.0625%2011.8525C8.77083%2011.5609%208.41667%2011.415%208%2011.415C7.58333%2011.415%207.22917%2011.5609%206.9375%2011.8525C6.64583%2012.1442%206.5%2012.4984%206.5%2012.915C6.5%2013.3317%206.64583%2013.6859%206.9375%2013.9775C7.22917%2014.2692%207.58333%2014.415%208%2014.415ZM3.5%2015.415H12.5C12.9333%2015.415%2013.2917%2015.2734%2013.575%2014.99C13.8583%2014.7067%2014%2014.3484%2014%2013.915V10.415H2V13.915C2%2014.3484%202.14167%2014.7067%202.425%2014.99C2.70833%2015.2734%203.06667%2015.415%203.5%2015.415ZM8%202.41504C6.56667%202.41504%205.37917%202.49837%204.4375%202.66504C3.49583%202.83171%202.83333%203.08171%202.45%203.41504H13.65C13.35%203.08171%2012.7292%202.83171%2011.7875%202.66504C10.8458%202.49837%209.58333%202.41504%208%202.41504Z%22%20fill%3D%22%23011635%22%20fill-opacity%3D%220.6%22/%3E%3C/svg%3E"
+          alt="Relocation"
+        />
+      </div>
+      <div
+        class="mobile-icon icon-security"
+        data-key="security"
+        data-name="Attitude and Aptitude"
+      >
+        <img
+          src="data:image/svg+xml,%3Csvg width='22' height='23' viewBox='0 0 22 23' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.8 4.64004L5.8 1.64004L7.2 1.19004L8.2 4.16504L6.8 4.64004ZM10.25 3.41504V0.415039H11.75V3.41504H10.25ZM15.2 4.64004L13.8 4.16504L14.8 1.19004L16.2 1.66504L15.2 4.64004ZM1.15 22.415L0.85 20.44L6.125 19.64C6.30833 19.6067 6.47083 19.5275 6.6125 19.4025C6.75417 19.2775 6.85833 19.1234 6.925 18.94L7.775 16.29C7.85833 16.0567 7.85833 15.8317 7.775 15.615C7.69167 15.3984 7.54167 15.2317 7.325 15.115L6.5 17.715L4.6 17.115L6.8 10.165C6.83333 10.065 6.85 9.95671 6.85 9.84004C6.85 9.72337 6.83333 9.61504 6.8 9.51504L3.45 15.815C3.18333 16.2984 2.8125 16.6859 2.3375 16.9775C1.8625 17.2692 1.35 17.415 0.8 17.415H0V15.415H0.8C0.983333 15.415 1.15417 15.3692 1.3125 15.2775C1.47083 15.1859 1.59167 15.0567 1.675 14.89L6.1 6.54004L7.35 7.24004C7.96667 7.59004 8.40417 8.09421 8.6625 8.75254C8.92083 9.41087 8.94167 10.0817 8.725 10.765L7.95 13.215C8.68333 13.4984 9.2125 13.9984 9.5375 14.715C9.8625 15.4317 9.90833 16.165 9.675 16.915L8.825 19.565C8.64167 20.0984 8.3375 20.5525 7.9125 20.9275C7.4875 21.3025 6.99167 21.5317 6.425 21.615L1.15 22.415ZM20.85 22.415L15.575 21.615C15.0083 21.5317 14.5125 21.3025 14.0875 20.9275C13.6625 20.5525 13.3583 20.0984 13.175 19.565L12.325 16.915C12.0917 16.165 12.1375 15.4317 12.4625 14.715C12.7875 13.9984 13.3167 13.4984 14.05 13.215L13.275 10.765C13.0583 10.0817 13.0792 9.41087 13.3375 8.75254C13.5958 8.09421 14.0333 7.59004 14.65 7.24004L15.9 6.54004L20.325 14.89C20.4083 15.0567 20.5292 15.1859 20.6875 15.2775C20.8458 15.3692 21.0167 15.415 21.2 15.415H22V17.415H21.2C20.65 17.415 20.1375 17.2692 19.6625 16.9775C19.1875 16.6859 18.8167 16.2984 18.55 15.815L15.2 9.51504C15.1667 9.61504 15.15 9.72337 15.15 9.84004C15.15 9.95671 15.1667 10.065 15.2 10.165L17.4 17.115L15.5 17.715L14.675 15.115C14.4583 15.2317 14.3083 15.3984 14.225 15.615C14.1417 15.8317 14.1417 16.0567 14.225 16.29L15.075 18.94C15.1417 19.1234 15.2458 19.2775 15.3875 19.4025C15.5292 19.5275 15.6917 19.6067 15.875 19.64L21.15 20.44L20.85 22.415Z' fill='%231C1B1F' fill-opacity='0.6'/%3E%3C/svg%3E"
+          alt="Attitude"
+        />
+      </div>
+    </div>
+
+    <div class="active-label">Degree Requirements</div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Desktop functionality
+    const desktopImages = document.querySelectorAll(
+      ".desktop-view .center-image"
+    );
+    const desktopPills = document.querySelectorAll(
+      ".desktop-view .capability-pill"
+    );
+    const desktopGradientHighlight = document.querySelector(
+      ".desktop-view .gradient-highlight"
+    );
+
+    const selectDesktopOption = (key) => {
+      // Update images with smooth transition
+      desktopImages.forEach((img) => {
+        if (img.dataset.key === key) {
+          img.style.opacity = "0";
+          setTimeout(() => {
+            img.classList.add("active");
+            img.style.opacity = "1";
+          }, 150);
+        } else {
+          img.classList.remove("active");
+          img.style.opacity = "0";
+        }
+      });
+
+      // Update pills with smooth animation
+      desktopPills.forEach((pill) => {
+        if (pill.dataset.key === key) {
+          pill.classList.add("selected");
+        } else {
+          pill.classList.remove("selected");
+        }
+      });
+
+      // Update gradient highlight
+      desktopGradientHighlight.className = "gradient-highlight";
+      desktopGradientHighlight.classList.add(`${key}-selected`);
+    };
+
+    desktopPills.forEach((pill) => {
+      pill.addEventListener("click", (e) => {
+        e.preventDefault();
+        selectDesktopOption(pill.dataset.key);
+      });
+    });
+
+    // Mobile functionality
+    const mobileImages = document.querySelectorAll(
+      ".mobile-view .mobile-center img"
+    );
+    const mobileIcons = document.querySelectorAll(".mobile-view .mobile-icon");
+    const mobileGradientHighlight = document.querySelector(
+      ".mobile-view .mobile-gradient-highlight"
+    );
+    const activeLabel = document.querySelector(".active-label");
+
+    const selectMobileOption = (key, name) => {
+      // Update images with smooth transition
+      mobileImages.forEach((img) => {
+        if (img.dataset.key === key) {
+          img.style.opacity = "0";
+          setTimeout(() => {
+            img.classList.add("active");
+            img.style.opacity = "1";
+          }, 150);
+        } else {
+          img.classList.remove("active");
+          img.style.opacity = "0";
+        }
+      });
+
+      // Update icons with smooth animation
+      mobileIcons.forEach((icon) => {
+        if (icon.dataset.key === key) {
+          icon.classList.add("selected");
+        } else {
+          icon.classList.remove("selected");
+        }
+      });
+
+      // Update gradient highlight
+      mobileGradientHighlight.className = "mobile-gradient-highlight";
+      mobileGradientHighlight.classList.add(`${key}-selected`);
+
+      // Update label with smooth transition
+      activeLabel.style.opacity = "0";
+      setTimeout(() => {
+        activeLabel.textContent = name;
+        activeLabel.style.opacity = "1";
+      }, 200);
+    };
+
+    mobileIcons.forEach((icon) => {
+      icon.addEventListener("click", (e) => {
+        e.preventDefault();
+        const key = icon.dataset.key;
+        const name = icon.dataset.name;
+        selectMobileOption(key, name);
+      });
+    });
+
+    // Initialize with first option selected by default
+    selectDesktopOption("degreeReg");
+    selectMobileOption("degreeReg", "Degree Requirements");
+  });
+</script>

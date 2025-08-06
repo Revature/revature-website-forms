@@ -113,6 +113,7 @@
       font-weight: 700;
       margin-bottom: 24px;
       display: block;
+      line-height: 150%;
     }
     .advisor-btn {
       margin-bottom: 20px;
@@ -286,14 +287,16 @@
         >$1,316,000
         <span>per year</span></span
       >
-      <button class="advisor-btn rev-primary-button fill">Speak To An Advisor</button>
+      <a href="/contact-us">
+        <button class="advisor-btn rev-primary-button fill">Speak To An Advisor</button>
+      </a>
       <div class="optimistic-toggle">
         <label class="toggle-switch">
           <input type="checkbox" id="optimisticToggle" />
           <span class="toggle-slider"></span>
         </label>
         <div class="toggle-text">
-          <span class="rev_text_body/large font-w-semibold">Optimistic Results</span>
+          <span class="rev_text_body/large font-w-semibold">Revature's Optimistic Results</span>
           <span class="toggle-description">
             See the full range of your potential impact. Toggle to adjust between
             conservative and optimistic results.
@@ -324,10 +327,11 @@
   const totalImpactValue = document.getElementById("totalImpactValue");
 
   // Constants
-  const EFFICIENCY_GAIN = { conservative: 0.1, optimistic: 0.15 };
-  const DAILY_COST_OF_VACANCY = { conservative: 150, optimistic: 500 };
-  const TIME_SAVED_DAYS = { conservative: 5, optimistic: 5 };
-  const ATTRITION_CASES = { conservative: 7, optimistic: 12 };
+  const EFFICIENCY_GAIN = { conservative: 0.00999, optimistic: 0.008325 };
+  const EXPECTED_ROI = { conservative: 0.2313, optimistic: 0.185 };
+  const TIME_SAVED_DAYS = { conservative: 5, optimistic: 3 };
+  const ATTRITION_WORKFORCE = { conservative: 0.02, optimistic: 0.01 };
+  const ATTRITION_CASES = { conservative: 0.333, optimistic: 0.20 };
   const REPLACEMENT_COST_PCT = 0.3;
 
   function formatMoney(num, withDollar) {
@@ -346,18 +350,33 @@
       salary.value * hires.value * EFFICIENCY_GAIN[mode]
     );
     const timeToFill = Math.round(
-      DAILY_COST_OF_VACANCY[mode] * TIME_SAVED_DAYS[mode] * hires.value
+      hires.value * (salary.value / 260) * TIME_SAVED_DAYS[mode] * EXPECTED_ROI[mode]
     );
     const replacementCost = Math.round(salary.value * REPLACEMENT_COST_PCT);
-    const attrition = Math.round(replacementCost * ATTRITION_CASES[mode]);
+    const attrition = Math.round((employees.value * ATTRITION_WORKFORCE[mode]) * replacementCost * ATTRITION_CASES[mode]);
     const total = talentPlanning + timeToFill + attrition;
 
     talentPlanningValue.textContent = formatMoney(talentPlanning, true);
     timeToFillValue.textContent = formatMoney(timeToFill, true);
     attritionValue.textContent = formatMoney(attrition, true);
-    totalImpactValue.innerHTML =
-      formatMoney(total, true) +
-      ' <span>per year</span>';
+    
+    let totalImpactDisplay = formatMoney(total, true) + ' <span>per year</span>';
+    
+    if (optimisticToggle.checked) {
+      const conservativeTalentPlanning = Math.round(
+        salary.value * hires.value * EFFICIENCY_GAIN.conservative
+      );
+      const conservativeTimeToFill = Math.round(
+        hires.value * (salary.value / 260) * TIME_SAVED_DAYS.conservative * EXPECTED_ROI.conservative
+      );
+      const conservativeAttrition = Math.round((employees.value * ATTRITION_WORKFORCE.conservative) * replacementCost * ATTRITION_CASES.conservative);
+      const conservativeTotal = conservativeTalentPlanning + conservativeTimeToFill + conservativeAttrition;
+      
+              const percentageDecrease = Math.round(((conservativeTotal - total) / conservativeTotal) * 100);
+        totalImpactDisplay = formatMoney(total, true) + ' <span>per year (' + percentageDecrease + '% Saved)</span>';
+    }
+    
+    totalImpactValue.innerHTML = totalImpactDisplay;
 
     updateSliderFill(employees);
     updateSliderFill(hires);
