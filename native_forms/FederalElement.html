@@ -1,779 +1,833 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Technology Capabilities</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-:root {
+  :root {
     --brand-dark: #011635;
-    --brand-orange: #FF7014;
-    --brand-yellow: #F9B200;
-    --brand-pink: #E946C7;  
-    --brand-purple: #9333EA;
-    --gradient-primary: linear-gradient(135deg, #FF7014 0%, #F9B200 100%);
-    --gradient-accent: linear-gradient(135deg, #FF7014 0%, #A100FE 100%);
-}
+    --brand-orange: #ff7014;
+    --brand-yellow: #f9b200;
+    --brand-pink: #e946c7;
+    --brand-purple: #9333ea;
+    --gradient-primary: linear-gradient(135deg, #ff7014 0%, #f9b200 100%);
+    --gradient-accent: linear-gradient(135deg, #ff7014 0%, #a100fe 100%);
+  }
 
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    background: var(--gradient-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    color: var(--brand-dark);
-}
-
-.capabilities-container {
+  .capabilities-container {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     max-width: 600px;
-}
 
-/* Desktop Layout */
-.desktop-view {
-    position: relative;
-    width: 550px;
-    height: 550px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .desktop-view {
+      position: relative;
+      width: 550px;
+      height: 550px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-/* Single flowing circular path */
-.connection-path {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-}
+    /* Single flowing circular path */
+    .connection-path {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-/* Background circle with plain color */
-.background-circle {
-    position: absolute;
-    width: 480px;
-    height: 480px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    /* Background circle with plain color */
+    .background-circle {
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-/* Gradient highlight overlay */
-.gradient-highlight {
-    position: absolute;
-    width: 480px;
-    height: 480px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    opacity: 0;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-    z-index: 1;
-}
+    /* Gradient highlight overlay */
+    .gradient-highlight {
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      z-index: 1;
+    }
 
-/* Gradient positions for each option */
-/* .gradient-highlight.ai-selected {
-    background: conic-gradient(
-        from 0deg,
-        transparent 0deg,
-        transparent 45deg,
-        blue 60deg,
-        transparent 75deg,
-        transparent 120deg,
-        transparent 360deg
-    );
-    opacity: 1;
-}
-
-.gradient-highlight.data-selected {
-    background: conic-gradient(
-        from 90deg,
-        transparent 0deg,
-        transparent 45deg,
-        blue 60deg,
-        transparent 75deg,
-        transparent 120deg,
-        transparent 360deg
-    );
-    opacity: 1;
-}
-
-.gradient-highlight.cloud-selected {
-    background: conic-gradient(
-        from 180deg,
-        transparent 0deg,
-        transparent 45deg,
-        blue 60deg,
-        transparent 75deg,
-        transparent 120deg,
-        transparent 360deg
-    );
-    opacity: 1;
-}
-
-.gradient-highlight.appdev-selected {
-    background: conic-gradient(
-        from 270deg,
-        transparent 0deg,
-        transparent 45deg,
-        blue 60deg,
-        transparent 75deg,
-        transparent 120deg,
-        transparent 360deg
-    );
-    opacity: 1;
-}
-
-.gradient-highlight.enterprise-selected {
-    background: conic-gradient(
-        from 45deg,
-        transparent 0deg,
-        transparent 45deg,
-        blue 60deg,
-        transparent 75deg,
-        transparent 120deg,
-        transparent 360deg
-    );
-    opacity: 1;
-}
-
-.gradient-highlight.security-selected {
-    background: conic-gradient(
-        from 315deg,
-        transparent 0deg,
-        transparent 45deg,
-        blue 60deg,
-        transparent 75deg,
-        transparent 120deg,
-        transparent 360deg
-    );
-    opacity: 1;
-} */
-
-.center-circle {
-    position: relative;
-    width: 380px;
-    height: 380px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: white;
-    box-shadow: 
-        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    .center-circle {
+      position: relative;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
         0 0 0 1px rgba(255, 255, 255, 0.1);
-    z-index: 2;
-}
+      z-index: 2;
+    }
 
-.center-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 0.6s ease-in-out;
-    opacity: 0;
-}
+    .center-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.6s ease-in-out;
+      opacity: 0;
+    }
 
-.center-image.active {
-    opacity: 1;
-}
+    .center-image.active {
+      opacity: 1;
+    }
 
-.capability-pill {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50px;
-    padding: 0.875rem 1.5rem;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: var(--brand-dark);
-    cursor: pointer;
-    min-width: 240px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 3;
-}
+    .capability-pill {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      padding: 0.875rem 1.5rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--brand-dark);
+      cursor: pointer;
+      min-width: 240px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 3;
+    }
 
-.capability-pill:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: scale(1.02);
-}
+    .capability-pill:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.02);
+    }
 
-.capability-pill.selected {
-    background: rgba(255, 255, 255, 0.35);
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: scale(1.05);
-    box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.2);
-}
+    .capability-pill.selected {
+      background: rgba(255, 255, 255, 0.35);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: scale(1.05);
+      box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.2);
+    }
 
-.pill-text {
-    flex: 1;
-    text-align: center;
-    font-weight: 600;
-}
+    .pill-text {
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
+    }
 
-.pill-icon {
-    position: absolute;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-}
+    .pill-icon {
+      position: absolute;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
 
-.pill-icon img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    transition: all 0.3s ease;
-}
+    .pill-icon img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      transition: all 0.3s ease;
+    }
 
-.capability-pill.selected .pill-icon {
-    background: var(--gradient-accent);
-    transform: scale(1.1);
-}
+    .capability-pill.selected .pill-icon {
+      background: var(--gradient-accent);
+      transform: scale(1.1);
+    }
 
-.capability-pill.selected .pill-icon img {
-    filter: brightness(0) invert(1);
-}
+    .capability-pill.selected .pill-icon img {
+      filter: brightness(0) invert(1);
+    }
 
-/* Pill Positions - Fixed without translateY */
-.pill-ai { top: 70px; left: -140px; }
-.pill-data { top: 50%; left: -210px; margin-top: -25px; }
-.pill-cloud { bottom: 70px; left: -140px; }
-.pill-appdev { top: 70px; right: -160px; }
-.pill-enterprise { top: 50%; right: -210px; margin-top: -25px; }
-.pill-security { bottom: 70px; right: -140px; }
+    /* Pill Positions - Fixed without translateY */
+    .pill-ai {
+      top: 70px;
+      left: -140px;
+    }
+    .pill-data {
+      top: 50%;
+      left: -210px;
+      margin-top: -25px;
+    }
+    .pill-cloud {
+      bottom: 70px;
+      left: -140px;
+    }
+    .pill-appdev {
+      top: 70px;
+      right: -160px;
+    }
+    .pill-enterprise {
+      top: 50%;
+      right: -210px;
+      margin-top: -25px;
+    }
+    .pill-security {
+      bottom: 70px;
+      right: -140px;
+    }
 
-.pill-icon.right { right: -1.5rem; }
-.pill-icon.left { left: -1.5rem; }
+    .pill-icon.right {
+      right: -1.5rem;
+    }
+    .pill-icon.left {
+      left: -1.5rem;
+    }
 
-/* Mobile Layout */
-.mobile-view {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
+    /* Mobile Layout */
+    .mobile-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
 
-.mobile-circle {
-    position: relative;
-    width: 320px;
-    height: 320px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .mobile-circle {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-/* Mobile single circular path */
-.mobile-connection-path {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-}
+    /* Mobile single circular path */
+    .mobile-connection-path {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-/* Mobile background circle with plain color */
-.mobile-background-circle {
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    /* Mobile background circle with plain color */
+    .mobile-background-circle {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-/* Mobile gradient highlight overlay */
-.mobile-gradient-highlight {
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    opacity: 0;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-    z-index: 1;
-}
+    /* Mobile gradient highlight overlay */
+    .mobile-gradient-highlight {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      z-index: 1;
+    }
 
-/* Mobile gradient positions for each option */
-.mobile-gradient-highlight.ai-selected {
-    background: conic-gradient(
+    /* Mobile gradient positions for each option */
+    .mobile-gradient-highlight.ai-selected {
+      background: conic-gradient(
         from 0deg,
         transparent 0deg,
         var(--gradient-accent) 60deg,
         transparent 120deg,
         transparent 360deg
-    );
-    opacity: 1;
-}
+      );
+      opacity: 1;
+    }
 
-.mobile-gradient-highlight.data-selected {
-    background: conic-gradient(
+    .mobile-gradient-highlight.data-selected {
+      background: conic-gradient(
         from 90deg,
         transparent 0deg,
         var(--gradient-accent) 60deg,
         transparent 120deg,
         transparent 360deg
-    );
-    opacity: 1;
-}
+      );
+      opacity: 1;
+    }
 
-.mobile-gradient-highlight.cloud-selected {
-    background: conic-gradient(
+    .mobile-gradient-highlight.cloud-selected {
+      background: conic-gradient(
         from 180deg,
         transparent 0deg,
         var(--gradient-accent) 60deg,
         transparent 120deg,
         transparent 360deg
-    );
-    opacity: 1;
-}
+      );
+      opacity: 1;
+    }
 
-.mobile-gradient-highlight.appdev-selected {
-    background: conic-gradient(
+    .mobile-gradient-highlight.appdev-selected {
+      background: conic-gradient(
         from 270deg,
         transparent 0deg,
         var(--gradient-accent) 60deg,
         transparent 120deg,
         transparent 360deg
-    );
-    opacity: 1;
-}
+      );
+      opacity: 1;
+    }
 
-.mobile-gradient-highlight.enterprise-selected {
-    background: conic-gradient(
+    .mobile-gradient-highlight.enterprise-selected {
+      background: conic-gradient(
         from 45deg,
         transparent 0deg,
         var(--gradient-accent) 60deg,
         transparent 120deg,
         transparent 360deg
-    );
-    opacity: 1;
-}
+      );
+      opacity: 1;
+    }
 
-.mobile-gradient-highlight.security-selected {
-    background: conic-gradient(
+    .mobile-gradient-highlight.security-selected {
+      background: conic-gradient(
         from 315deg,
         transparent 0deg,
         var(--gradient-accent) 60deg,
         transparent 120deg,
         transparent 360deg
-    );
-    opacity: 1;
-}
+      );
+      opacity: 1;
+    }
 
-.mobile-center {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: white;
-    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.3);
-    z-index: 2;
-}
+    .mobile-center {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+    }
 
-.mobile-center img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 0.5s ease-in-out;
-    opacity: 0;
-}
+    .mobile-center img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s ease-in-out;
+      opacity: 0;
+    }
 
-.mobile-center img.active {
-    opacity: 1;
-}
+    .mobile-center img.active {
+      opacity: 1;
+    }
 
-.mobile-icon {
-    position: absolute;
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 50%;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2);
-    z-index: 3;
-}
+    .mobile-icon {
+      position: absolute;
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2);
+      z-index: 3;
+    }
 
-.mobile-icon img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    transition: all 0.3s ease;
-}
+    .mobile-icon img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      transition: all 0.3s ease;
+    }
 
-.mobile-icon.selected {
-    background: var(--gradient-accent);
-    box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.3);
-}
+    .mobile-icon.selected {
+      background: var(--gradient-accent);
+      box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.3);
+    }
 
-.mobile-icon.selected img {
-    filter: brightness(0) invert(1);
-}
+    .mobile-icon.selected img {
+      filter: brightness(0) invert(1);
+    }
 
-/* Mobile Icon Positions - Fixed without movement */
-.icon-appdev { 
-    top: -24px; 
-    left: 50%; 
-    transform: translateX(-50%);
-}
+    /* Mobile Icon Positions - Fixed without movement */
+    .icon-appdev {
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
-.icon-cloud { 
-    top: 20%; 
-    right: -12px; 
-}
+    .icon-cloud {
+      top: 20%;
+      right: -12px;
+    }
 
-.icon-data { 
-    bottom: 20%; 
-    right: -12px; 
-}
+    .icon-data {
+      bottom: 20%;
+      right: -12px;
+    }
 
-.icon-ai { 
-    bottom: -24px; 
-    left: 50%; 
-    transform: translateX(-50%);
-}
+    .icon-ai {
+      bottom: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
-.icon-security { 
-    bottom: 20%; 
-    left: -12px; 
-}
+    .icon-security {
+      bottom: 20%;
+      left: -12px;
+    }
 
-.icon-enterprise { 
-    top: 20%; 
-    left: -12px; 
-}
+    .icon-enterprise {
+      top: 20%;
+      left: -12px;
+    }
 
-/* Mobile icon hover and selected states with proper transform combinations */
-.mobile-icon.icon-appdev:hover {
-    transform: translateX(-50%) scale(1.05);
-}
+    /* Mobile icon hover and selected states with proper transform combinations */
+    .mobile-icon.icon-appdev:hover {
+      transform: translateX(-50%) scale(1.05);
+    }
 
-.mobile-icon.icon-appdev.selected {
-    transform: translateX(-50%) scale(1.1);
-}
+    .mobile-icon.icon-appdev.selected {
+      transform: translateX(-50%) scale(1.1);
+    }
 
-.mobile-icon.icon-ai:hover {
-    transform: translateX(-50%) scale(1.05);
-}
+    .mobile-icon.icon-ai:hover {
+      transform: translateX(-50%) scale(1.05);
+    }
 
-.mobile-icon.icon-ai.selected {
-    transform: translateX(-50%) scale(1.1);
-}
+    .mobile-icon.icon-ai.selected {
+      transform: translateX(-50%) scale(1.1);
+    }
 
-.mobile-icon:hover:not(.icon-appdev):not(.icon-ai) {
-    transform: scale(1.05);
-}
+    .mobile-icon:hover:not(.icon-appdev):not(.icon-ai) {
+      transform: scale(1.05);
+    }
 
-.mobile-icon.selected:not(.icon-appdev):not(.icon-ai) {
-    transform: scale(1.1);
-}
+    .mobile-icon.selected:not(.icon-appdev):not(.icon-ai) {
+      transform: scale(1.1);
+    }
 
-.active-label {
-    margin-top: 2rem;
-    padding: 0.875rem 2rem;
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: var(--brand-dark);
-    text-align: center;
-    transition: all 0.4s ease;
-    min-width: 200px;
-}
+    .active-label {
+      margin-top: 2rem;
+      padding: 0.875rem 2rem;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--brand-dark);
+      text-align: center;
+      transition: all 0.4s ease;
+      min-width: 200px;
+    }
+  }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .desktop-view { display: none; }
-    .mobile-view { display: flex; }
-    
-    body { padding: 1rem; }
-}
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .capabilities-container {
+      .desktop-view {
+        display: none;
+      }
+      .mobile-view {
+        display: flex;
+      }
+    }
+  }
 
-@media (max-width: 480px) {
-    .mobile-circle {
+  @media (max-width: 480px) {
+    .capabilities-container {
+      .mobile-circle {
         width: 280px;
         height: 280px;
-    }
-    
-    .mobile-center {
+      }
+
+      .mobile-center {
         width: 160px;
         height: 160px;
-    }
-    
-    .mobile-icon {
+      }
+
+      .mobile-icon {
         width: 3rem;
         height: 3rem;
-    }
-    
-    .mobile-icon img {
+      }
+
+      .mobile-icon img {
         width: 20px;
         height: 20px;
+      }
+
+      .icon-appdev {
+        top: -20px;
+      }
+      .icon-cloud {
+        right: -20px;
+      }
+      .icon-data {
+        right: -20px;
+      }
+      .icon-ai {
+        bottom: -20px;
+      }
+      .icon-security {
+        left: -20px;
+      }
+      .icon-enterprise {
+        left: -20px;
+      }
     }
-    
-    .icon-appdev { top: -20px; }
-    .icon-cloud { right: -20px; }
-    .icon-data { right: -20px; }
-    .icon-ai { bottom: -20px; }
-    .icon-security { left: -20px; }
-    .icon-enterprise { left: -20px; }
-}
+  }
 </style>
-</head>
-<body>
 
 <div class="capabilities-container">
-    <!-- Desktop View -->
-    <div class="desktop-view">
-        <div class="connection-path">
-            <div class="background-circle"></div>
-            <div class="gradient-highlight"></div>
-        </div>
-
-        <div class="center-circle">
-            <!-- AI/ML Images -->
-            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=400&fit=crop" alt="AI Brain" class="center-image active" data-key="ai">
-            
-            <!-- Data Analytics Images -->
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop" alt="Data Charts" class="center-image" data-key="data">
-            
-            <!-- Cloud Infrastructure Images -->
-            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=400&fit=crop" alt="Cloud Network" class="center-image" data-key="cloud">
-            
-            <!-- Application Development Images -->
-            <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=400&fit=crop" alt="Coding Screen" class="center-image" data-key="appdev">
-            
-            <!-- Enterprise Platforms Images -->
-            <img src="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7d3?w=400&h=400&fit=crop" alt="Enterprise Systems" class="center-image" data-key="enterprise">
-            
-            <!-- Cybersecurity Images -->
-            <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=400&fit=crop" alt="Security Lock" class="center-image" data-key="security">
-        </div>
-
-        <div class="capability-pill pill-ai selected" data-key="ai">
-            <span class="pill-text">AI/ML & GenAI</span>
-            <div class="pill-icon right">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 2L2 7v10c0 5.55 3.84 10 9 11 1.16.21 2.76.21 3.92 0 5.16-1 9-5.45 9-11V7l-10-5z'/%3E%3Cpath d='m8 11 2 2 4-4'/%3E%3C/svg%3E" alt="AI">
-            </div>
-        </div>
-
-        <div class="capability-pill pill-data" data-key="data">
-            <span class="pill-text">Data & Analytics</span>
-            <div class="pill-icon right">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cline x1='18' y1='20' x2='18' y2='10'/%3E%3Cline x1='12' y1='20' x2='12' y2='4'/%3E%3Cline x1='6' y1='20' x2='6' y2='14'/%3E%3C/svg%3E" alt="Data">
-            </div>
-        </div>
-
-        <div class="capability-pill pill-cloud" data-key="cloud">
-            <span class="pill-text">Cloud & Infra</span>
-            <div class="pill-icon right">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E" alt="Cloud">
-            </div>
-        </div>
-
-        <div class="capability-pill pill-appdev" data-key="appdev">
-            <div class="pill-icon left">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='2' y='3' width='20' height='14' rx='2' ry='2'/%3E%3Cline x1='8' y1='21' x2='16' y2='21'/%3E%3Cline x1='12' y1='17' x2='12' y2='21'/%3E%3C/svg%3E" alt="App Dev">
-            </div>
-            <span class="pill-text">Application Development</span>
-        </div>
-
-        <div class="capability-pill pill-enterprise" data-key="enterprise">
-            <div class="pill-icon left">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Crect x='7' y='7' width='3' height='9'/%3E%3Crect x='14' y='7' width='3' height='5'/%3E%3C/svg%3E" alt="Enterprise">
-            </div>
-            <span class="pill-text">Enterprise Platforms</span>
-        </div>
-
-        <div class="capability-pill pill-security" data-key="security">
-            <div class="pill-icon left">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E" alt="Security">
-            </div>
-            <span class="pill-text">Cybersecurity</span>
-        </div>
+  <!-- Desktop View -->
+  <div class="desktop-view">
+    <div class="connection-path">
+      <div class="background-circle"></div>
+      <div class="gradient-highlight"></div>
     </div>
 
-    <!-- Mobile View -->
-    <div class="mobile-view">
-        <div class="mobile-circle">
-            <div class="mobile-connection-path">
-                <div class="mobile-background-circle"></div>
-                <div class="mobile-gradient-highlight"></div>
-            </div>
+    <div class="center-circle">
+      <!-- AI/ML Images -->
+      <img
+        src="https://cdn.prod.website-files.com/665dfe6f26741ce6ca5a2d67/6899ef32a8eef7f41f3295be_Thumbnail%20(7).png"
+        alt="AI Brain"
+        class="center-image active"
+        data-key="ai"
+      />
 
-            <div class="mobile-center">
-                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=400&fit=crop" alt="AI Brain" class="active" data-key="ai">
-                <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=400&fit=crop" alt="Coding" data-key="appdev">
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=400&fit=crop" alt="Cloud" data-key="cloud">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop" alt="Data" data-key="data">
-                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=400&fit=crop" alt="Security" data-key="security">
-                <img src="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7d3?w=400&h=400&fit=crop" alt="Enterprise" data-key="enterprise">
-            </div>
+      <!-- Data Analytics Images -->
+      <img
+        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop"
+        alt="Data Charts"
+        class="center-image"
+        data-key="data"
+      />
 
-            <div class="mobile-icon icon-appdev" data-key="appdev" data-name="Application Development">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='2' y='3' width='20' height='14' rx='2' ry='2'/%3E%3Cline x1='8' y1='21' x2='16' y2='21'/%3E%3Cline x1='12' y1='17' x2='12' y2='21'/%3E%3C/svg%3E" alt="App Dev">
-            </div>
-            <div class="mobile-icon icon-cloud" data-key="cloud" data-name="Cloud & Infra">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z'/%3E%3C/svg%3E" alt="Cloud">
-            </div>
-            <div class="mobile-icon icon-data" data-key="data" data-name="Data & Analytics">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cline x1='18' y1='20' x2='18' y2='10'/%3E%3Cline x1='12' y1='20' x2='12' y2='4'/%3E%3Cline x1='6' y1='20' x2='6' y2='14'/%3E%3C/svg%3E" alt="Data">
-            </div>
-            <div class="mobile-icon icon-ai selected" data-key="ai" data-name="AI/ML & GenAI">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 2L2 7v10c0 5.55 3.84 10 9 11 1.16.21 2.76.21 3.92 0 5.16-1 9-5.45 9-11V7l-10-5z'/%3E%3Cpath d='m8 11 2 2 4-4'/%3E%3C/svg%3E" alt="AI">
-            </div>
-            <div class="mobile-icon icon-security" data-key="security" data-name="Cybersecurity">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E" alt="Security">
-            </div>
-            <div class="mobile-icon icon-enterprise" data-key="enterprise" data-name="Enterprise Platforms">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Crect x='7' y='7' width='3' height='9'/%3E%3Crect x='14' y='7' width='3' height='5'/%3E%3C/svg%3E" alt="Enterprise">
-            </div>
-        </div>
+      <!-- Cloud Infrastructure Images -->
+      <img
+        src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=400&fit=crop"
+        alt="Cloud Network"
+        class="center-image"
+        data-key="cloud"
+      />
 
-        <div class="active-label">AI/ML & GenAI</div>
+      <!-- Application Development Images -->
+      <img
+        src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=400&fit=crop"
+        alt="Coding Screen"
+        class="center-image"
+        data-key="appdev"
+      />
+
+      <!-- Enterprise Platforms Images -->
+      <img
+        src="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7d3?w=400&h=400&fit=crop"
+        alt="Enterprise Systems"
+        class="center-image"
+        data-key="enterprise"
+      />
+
+      <!-- Cybersecurity Images -->
+      <img
+        src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=400&fit=crop"
+        alt="Security Lock"
+        class="center-image"
+        data-key="security"
+      />
     </div>
+
+    <div class="capability-pill pill-ai selected" data-key="ai">
+      <span class="pill-text">AI/ML & GenAI</span>
+      <div class="pill-icon right">
+        <img
+          src="data:image/svg+xml,%3Csvg width='16' height='19' viewBox='0 0 16 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 18.4902V13.4902C0 12.9402 0.195833 12.4694 0.5875 12.0777C0.979167 11.6861 1.45 11.4902 2 11.4902H14C14.55 11.4902 15.0208 11.6861 15.4125 12.0777C15.8042 12.4694 16 12.9402 16 13.4902V18.4902H0ZM5 10.4902C3.61667 10.4902 2.4375 10.0027 1.4625 9.02773C0.4875 8.05273 0 6.87357 0 5.49023C0 4.1069 0.4875 2.92773 1.4625 1.95273C2.4375 0.977734 3.61667 0.490234 5 0.490234H11C12.3833 0.490234 13.5625 0.977734 14.5375 1.95273C15.5125 2.92773 16 4.1069 16 5.49023C16 6.87357 15.5125 8.05273 14.5375 9.02773C13.5625 10.0027 12.3833 10.4902 11 10.4902H5ZM2 16.4902H14V13.4902H2V16.4902ZM5 8.49023H11C11.8333 8.49023 12.5417 8.19857 13.125 7.61523C13.7083 7.0319 14 6.32357 14 5.49023C14 4.6569 13.7083 3.94857 13.125 3.36523C12.5417 2.7819 11.8333 2.49023 11 2.49023H5C4.16667 2.49023 3.45833 2.7819 2.875 3.36523C2.29167 3.94857 2 4.6569 2 5.49023C2 6.32357 2.29167 7.0319 2.875 7.61523C3.45833 8.19857 4.16667 8.49023 5 8.49023ZM5 6.49023C5.28333 6.49023 5.52083 6.3944 5.7125 6.20273C5.90417 6.01107 6 5.77357 6 5.49023C6 5.2069 5.90417 4.9694 5.7125 4.77773C5.52083 4.58607 5.28333 4.49023 5 4.49023C4.71667 4.49023 4.47917 4.58607 4.2875 4.77773C4.09583 4.9694 4 5.2069 4 5.49023C4 5.77357 4.09583 6.01107 4.2875 6.20273C4.47917 6.3944 4.71667 6.49023 5 6.49023ZM11 6.49023C11.2833 6.49023 11.5208 6.3944 11.7125 6.20273C11.9042 6.01107 12 5.77357 12 5.49023C12 5.2069 11.9042 4.9694 11.7125 4.77773C11.5208 4.58607 11.2833 4.49023 11 4.49023C10.7167 4.49023 10.4792 4.58607 10.2875 4.77773C10.0958 4.9694 10 5.2069 10 5.49023C10 5.77357 10.0958 6.01107 10.2875 6.20273C10.4792 6.3944 10.7167 6.49023 11 6.49023Z' fill='white'/%3E%3C/svg%3E"
+          alt="AI"
+        />
+      </div>
+    </div>
+
+    <div class="capability-pill pill-data" data-key="data">
+      <span class="pill-text">Data & Analytics</span>
+      <div class="pill-icon right">
+        <img
+          src="data:image/svg+xml,%3Csvg width='19' height='20' viewBox='0 0 19 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 12.1402V4.49023H8V12.1402L6.5 10.7402L5 12.1402ZM10 13.6402V0.490234H13V10.6402L10 13.6402ZM0 17.0902V8.49024H3V14.0902L0 17.0902ZM0 19.5402L6.45 13.0902L10 16.1402L15.6 10.5402H14V8.54024H19V13.5402H17V11.9402L10.1 18.8402L6.55 15.7902L2.8 19.5402H0Z' fill='%23011635'/%3E%3C/svg%3E"
+          alt="Data"
+        />
+      </div>
+    </div>
+
+    <div class="capability-pill pill-cloud" data-key="cloud">
+      <span class="pill-text">Cloud & Infra</span>
+      <div class="pill-icon right">
+        <img
+          src="data:image/svg+xml,%3Csvg width='21' height='17' viewBox='0 0 21 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13 16.4902H5.5C3.98333 16.4902 2.6875 15.9652 1.6125 14.9152C0.5375 13.8652 0 12.5819 0 11.0652C0 9.76523 0.391667 8.6069 1.175 7.59023C1.95833 6.57357 2.98333 5.92357 4.25 5.64023C4.66667 4.1069 5.5 2.86523 6.75 1.91523C8 0.965234 9.41667 0.490234 11 0.490234C12.7667 0.490234 14.3042 1.06107 15.6125 2.20273C16.9208 3.3444 17.6917 4.77357 17.925 6.49023C17.575 6.49023 17.2375 6.52773 16.9125 6.60273C16.5875 6.67773 16.275 6.7819 15.975 6.91523C15.8417 5.66523 15.3 4.61523 14.35 3.76523C13.4 2.91523 12.2833 2.49023 11 2.49023C9.61667 2.49023 8.4375 2.97773 7.4625 3.95273C6.4875 4.92773 6 6.1069 6 7.49023H5.5C4.53333 7.49023 3.70833 7.8319 3.025 8.51523C2.34167 9.19857 2 10.0236 2 10.9902C2 11.9569 2.34167 12.7819 3.025 13.4652C3.70833 14.1486 4.53333 14.4902 5.5 14.4902H13V16.4902ZM16 16.4902C15.7167 16.4902 15.4792 16.3944 15.2875 16.2027C15.0958 16.0111 15 15.7736 15 15.4902V12.4902C15 12.2069 15.0958 11.9694 15.2875 11.7777C15.4792 11.5861 15.7167 11.4902 16 11.4902V10.4902C16 9.94023 16.1958 9.4694 16.5875 9.07773C16.9792 8.68607 17.45 8.49023 18 8.49023C18.55 8.49023 19.0208 8.68607 19.4125 9.07773C19.8042 9.4694 20 9.94023 20 10.4902V11.4902C20.2833 11.4902 20.5208 11.5861 20.7125 11.7777C20.9042 11.9694 21 12.2069 21 12.4902V15.4902C21 15.7736 20.9042 16.0111 20.7125 16.2027C20.5208 16.3944 20.2833 16.4902 20 16.4902H16ZM17 11.4902H19V10.4902C19 10.2069 18.9042 9.9694 18.7125 9.77773C18.5208 9.58607 18.2833 9.49023 18 9.49023C17.7167 9.49023 17.4792 9.58607 17.2875 9.77773C17.0958 9.9694 17 10.2069 17 10.4902V11.4902Z' fill='%23011635'/%3E%3C/svg%3E"
+          alt="Cloud"
+        />
+      </div>
+    </div>
+
+    <div class="capability-pill pill-appdev" data-key="appdev">
+      <div class="pill-icon left">
+        <img
+          src="data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2218%22%20viewBox%3D%220%200%2024%2018%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M2%2017.4902C1.45%2017.4902%200.979167%2017.2944%200.5875%2016.9027C0.195833%2016.5111%200%2016.0402%200%2015.4902H4C3.45%2015.4902%202.97917%2015.2944%202.5875%2014.9027C2.19583%2014.5111%202%2014.0402%202%2013.4902V2.49023C2%201.94023%202.19583%201.4694%202.5875%201.07773C2.97917%200.686068%203.45%200.490234%204%200.490234H20C20.55%200.490234%2021.0208%200.686068%2021.4125%201.07773C21.8042%201.4694%2022%201.94023%2022%202.49023V13.4902C22%2014.0402%2021.8042%2014.5111%2021.4125%2014.9027C21.0208%2015.2944%2020.55%2015.4902%2020%2015.4902H24C24%2016.0402%2023.8042%2016.5111%2023.4125%2016.9027C23.0208%2017.2944%2022.55%2017.4902%2022%2017.4902H2ZM12%2016.4902C12.2833%2016.4902%2012.5208%2016.3944%2012.7125%2016.2027C12.9042%2016.0111%2013%2015.7736%2013%2015.4902C13%2015.2069%2012.9042%2014.9694%2012.7125%2014.7777C12.5208%2014.5861%2012.2833%2014.4902%2012%2014.4902C11.7167%2014.4902%2011.4792%2014.5861%2011.2875%2014.7777C11.0958%2014.9694%2011%2015.2069%2011%2015.4902C11%2015.7736%2011.0958%2016.0111%2011.2875%2016.2027C11.4792%2016.3944%2011.7167%2016.4902%2012%2016.4902ZM4%2013.4902H20V2.49023H4V13.4902Z%22%20fill%3D%22%23011635%22/%3E%3C/svg%3E"
+          alt="App Dev"
+        />
+      </div>
+      <span class="pill-text">Application Development</span>
+    </div>
+
+    <div class="capability-pill pill-enterprise" data-key="enterprise">
+      <div class="pill-icon left">
+        <img
+          src="data:image/svg+xml,%3Csvg width='20' height='19' viewBox='0 0 20 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 18.4902V0.490234H10V4.49023H20V18.4902H0ZM2 16.4902H4V14.4902H2V16.4902ZM2 12.4902H4V10.4902H2V12.4902ZM2 8.49023H4V6.49023H2V8.49023ZM2 4.49023H4V2.49023H2V4.49023ZM6 16.4902H8V14.4902H6V16.4902ZM6 12.4902H8V10.4902H6V12.4902ZM6 8.49023H8V6.49023H6V8.49023ZM6 4.49023H8V2.49023H6V4.49023ZM10 16.4902H18V6.49023H10V8.49023H12V10.4902H10V12.4902H12V14.4902H10V16.4902ZM14 10.4902V8.49023H16V10.4902H14ZM14 14.4902V12.4902H16V14.4902H14Z' fill='%23011635'/%3E%3C/svg%3E"
+          alt="Enterprise"
+        />
+      </div>
+      <span class="pill-text">Enterprise Platforms</span>
+    </div>
+
+    <div class="capability-pill pill-security" data-key="security">
+      <div class="pill-icon left">
+        <img
+          src="data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2222%22%20viewBox%3D%220%200%2016%2022%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M2%2021.4902C1.45%2021.4902%200.979167%2021.2944%200.5875%2020.9027C0.195833%2020.5111%200%2020.0402%200%2019.4902V9.49023C0%208.94023%200.195833%208.4694%200.5875%208.07773C0.979167%207.68607%201.45%207.49023%202%207.49023H3V5.49023C3%204.1069%203.4875%202.92773%204.4625%201.95273C5.4375%200.977734%206.61667%200.490234%208%200.490234C9.38333%200.490234%2010.5625%200.977734%2011.5375%201.95273C12.5125%202.92773%2013%204.1069%2013%205.49023V7.49023H14C14.55%207.49023%2015.0208%207.68607%2015.4125%208.07773C15.8042%208.4694%2016%208.94023%2016%209.49023V19.4902C16%2020.0402%2015.8042%2020.5111%2015.4125%2020.9027C15.0208%2021.2944%2014.55%2021.4902%2014%2021.4902H2ZM2%2019.4902H14V9.49023H2V19.4902ZM8%2016.4902C8.55%2016.4902%209.02083%2016.2944%209.4125%2015.9027C9.80417%2015.5111%2010%2015.0402%2010%2014.4902C10%2013.9402%209.80417%2013.4694%209.4125%2013.0777C9.02083%2012.6861%208.55%2012.4902%208%2012.4902C7.45%2012.4902%206.97917%2012.6861%206.5875%2013.0777C6.19583%2013.4694%206%2013.9402%206%2014.4902C6%2015.0402%206.19583%2015.5111%206.5875%2015.9027C6.97917%2016.2944%207.45%2016.4902%208%2016.4902ZM5%207.49023H11V5.49023C11%204.6569%2010.7083%203.94857%2010.125%203.36523C9.54167%202.7819%208.83333%202.49023%208%202.49023C7.16667%202.49023%206.45833%202.7819%205.875%203.36523C5.29167%203.94857%205%204.6569%205%205.49023V7.49023Z%22%20fill%3D%22%23011635%22/%3E%3C/svg%3E"
+          alt="Security"
+        />
+      </div>
+      <span class="pill-text">Cybersecurity</span>
+    </div>
+  </div>
+
+  <!-- Mobile View -->
+  <div class="mobile-view">
+    <div class="mobile-circle">
+      <div class="mobile-connection-path">
+        <div class="mobile-background-circle"></div>
+        <div class="mobile-gradient-highlight"></div>
+      </div>
+
+      <div class="mobile-center">
+        <img
+          src="https://cdn.prod.website-files.com/665dfe6f26741ce6ca5a2d67/6899ef32a8eef7f41f3295be_Thumbnail%20(7).png"
+          alt="AI Brain"
+          class="active"
+          data-key="ai"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=400&fit=crop"
+          alt="Coding"
+          data-key="appdev"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=400&fit=crop"
+          alt="Cloud"
+          data-key="cloud"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop"
+          alt="Data"
+          data-key="data"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=400&fit=crop"
+          alt="Security"
+          data-key="security"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7d3?w=400&h=400&fit=crop"
+          alt="Enterprise"
+          data-key="enterprise"
+        />
+      </div>
+
+      <div
+        class="mobile-icon icon-appdev"
+        data-key="appdev"
+        data-name="Application Development"
+      >
+        <img
+          src="data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2218%22%20viewBox%3D%220%200%2024%2018%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M2%2017.4902C1.45%2017.4902%200.979167%2017.2944%200.5875%2016.9027C0.195833%2016.5111%200%2016.0402%200%2015.4902H4C3.45%2015.4902%202.97917%2015.2944%202.5875%2014.9027C2.19583%2014.5111%202%2014.0402%202%2013.4902V2.49023C2%201.94023%202.19583%201.4694%202.5875%201.07773C2.97917%200.686068%203.45%200.490234%204%200.490234H20C20.55%200.490234%2021.0208%200.686068%2021.4125%201.07773C21.8042%201.4694%2022%201.94023%2022%202.49023V13.4902C22%2014.0402%2021.8042%2014.5111%2021.4125%2014.9027C21.0208%2015.2944%2020.55%2015.4902%2020%2015.4902H24C24%2016.0402%2023.8042%2016.5111%2023.4125%2016.9027C23.0208%2017.2944%2022.55%2017.4902%2022%2017.4902H2ZM12%2016.4902C12.2833%2016.4902%2012.5208%2016.3944%2012.7125%2016.2027C12.9042%2016.0111%2013%2015.7736%2013%2015.4902C13%2015.2069%2012.9042%2014.9694%2012.7125%2014.7777C12.5208%2014.5861%2012.2833%2014.4902%2012%2014.4902C11.7167%2014.4902%2011.4792%2014.5861%2011.2875%2014.7777C11.0958%2014.9694%2011%2015.2069%2011%2015.4902C11%2015.7736%2011.0958%2016.0111%2011.2875%2016.2027C11.4792%2016.3944%2011.7167%2016.4902%2012%2016.4902ZM4%2013.4902H20V2.49023H4V13.4902Z%22%20fill%3D%22%23011635%22/%3E%3C/svg%3E"
+          alt="App Dev"
+        />
+      </div>
+      <div
+        class="mobile-icon icon-cloud"
+        data-key="cloud"
+        data-name="Cloud & Infra"
+      >
+        <img
+          src="data:image/svg+xml,%3Csvg width='21' height='17' viewBox='0 0 21 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13 16.4902H5.5C3.98333 16.4902 2.6875 15.9652 1.6125 14.9152C0.5375 13.8652 0 12.5819 0 11.0652C0 9.76523 0.391667 8.6069 1.175 7.59023C1.95833 6.57357 2.98333 5.92357 4.25 5.64023C4.66667 4.1069 5.5 2.86523 6.75 1.91523C8 0.965234 9.41667 0.490234 11 0.490234C12.7667 0.490234 14.3042 1.06107 15.6125 2.20273C16.9208 3.3444 17.6917 4.77357 17.925 6.49023C17.575 6.49023 17.2375 6.52773 16.9125 6.60273C16.5875 6.67773 16.275 6.7819 15.975 6.91523C15.8417 5.66523 15.3 4.61523 14.35 3.76523C13.4 2.91523 12.2833 2.49023 11 2.49023C9.61667 2.49023 8.4375 2.97773 7.4625 3.95273C6.4875 4.92773 6 6.1069 6 7.49023H5.5C4.53333 7.49023 3.70833 7.8319 3.025 8.51523C2.34167 9.19857 2 10.0236 2 10.9902C2 11.9569 2.34167 12.7819 3.025 13.4652C3.70833 14.1486 4.53333 14.4902 5.5 14.4902H13V16.4902ZM16 16.4902C15.7167 16.4902 15.4792 16.3944 15.2875 16.2027C15.0958 16.0111 15 15.7736 15 15.4902V12.4902C15 12.2069 15.0958 11.9694 15.2875 11.7777C15.4792 11.5861 15.7167 11.4902 16 11.4902V10.4902C16 9.94023 16.1958 9.4694 16.5875 9.07773C16.9792 8.68607 17.45 8.49023 18 8.49023C18.55 8.49023 19.0208 8.68607 19.4125 9.07773C19.8042 9.4694 20 9.94023 20 10.4902V11.4902C20.2833 11.4902 20.5208 11.5861 20.7125 11.7777C20.9042 11.9694 21 12.2069 21 12.4902V15.4902C21 15.7736 20.9042 16.0111 20.7125 16.2027C20.5208 16.3944 20.2833 16.4902 20 16.4902H16ZM17 11.4902H19V10.4902C19 10.2069 18.9042 9.9694 18.7125 9.77773C18.5208 9.58607 18.2833 9.49023 18 9.49023C17.7167 9.49023 17.4792 9.58607 17.2875 9.77773C17.0958 9.9694 17 10.2069 17 10.4902V11.4902Z' fill='%23011635'/%3E%3C/svg%3E"
+          alt="Cloud"
+        />
+      </div>
+      <div
+        class="mobile-icon icon-data"
+        data-key="data"
+        data-name="Data & Analytics"
+      >
+        <img
+          src="data:image/svg+xml,%3Csvg width='19' height='20' viewBox='0 0 19 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 12.1402V4.49023H8V12.1402L6.5 10.7402L5 12.1402ZM10 13.6402V0.490234H13V10.6402L10 13.6402ZM0 17.0902V8.49024H3V14.0902L0 17.0902ZM0 19.5402L6.45 13.0902L10 16.1402L15.6 10.5402H14V8.54024H19V13.5402H17V11.9402L10.1 18.8402L6.55 15.7902L2.8 19.5402H0Z' fill='%23011635'/%3E%3C/svg%3E"
+          alt="Data"
+        />
+      </div>
+      <div
+        class="mobile-icon icon-ai selected"
+        data-key="ai"
+        data-name="AI/ML & GenAI"
+      >
+        <img
+          src="data:image/svg+xml,%3Csvg width='16' height='19' viewBox='0 0 16 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 18.4902V13.4902C0 12.9402 0.195833 12.4694 0.5875 12.0777C0.979167 11.6861 1.45 11.4902 2 11.4902H14C14.55 11.4902 15.0208 11.6861 15.4125 12.0777C15.8042 12.4694 16 12.9402 16 13.4902V18.4902H0ZM5 10.4902C3.61667 10.4902 2.4375 10.0027 1.4625 9.02773C0.4875 8.05273 0 6.87357 0 5.49023C0 4.1069 0.4875 2.92773 1.4625 1.95273C2.4375 0.977734 3.61667 0.490234 5 0.490234H11C12.3833 0.490234 13.5625 0.977734 14.5375 1.95273C15.5125 2.92773 16 4.1069 16 5.49023C16 6.87357 15.5125 8.05273 14.5375 9.02773C13.5625 10.0027 12.3833 10.4902 11 10.4902H5ZM2 16.4902H14V13.4902H2V16.4902ZM5 8.49023H11C11.8333 8.49023 12.5417 8.19857 13.125 7.61523C13.7083 7.0319 14 6.32357 14 5.49023C14 4.6569 13.7083 3.94857 13.125 3.36523C12.5417 2.7819 11.8333 2.49023 11 2.49023H5C4.16667 2.49023 3.45833 2.7819 2.875 3.36523C2.29167 3.94857 2 4.6569 2 5.49023C2 6.32357 2.29167 7.0319 2.875 7.61523C3.45833 8.19857 4.16667 8.49023 5 8.49023ZM5 6.49023C5.28333 6.49023 5.52083 6.3944 5.7125 6.20273C5.90417 6.01107 6 5.77357 6 5.49023C6 5.2069 5.90417 4.9694 5.7125 4.77773C5.52083 4.58607 5.28333 4.49023 5 4.49023C4.71667 4.49023 4.47917 4.58607 4.2875 4.77773C4.09583 4.9694 4 5.2069 4 5.49023C4 5.77357 4.09583 6.01107 4.2875 6.20273C4.47917 6.3944 4.71667 6.49023 5 6.49023ZM11 6.49023C11.2833 6.49023 11.5208 6.3944 11.7125 6.20273C11.9042 6.01107 12 5.77357 12 5.49023C12 5.2069 11.9042 4.9694 11.7125 4.77773C11.5208 4.58607 11.2833 4.49023 11 4.49023C10.7167 4.49023 10.4792 4.58607 10.2875 4.77773C10.0958 4.9694 10 5.2069 10 5.49023C10 5.77357 10.0958 6.01107 10.2875 6.20273C10.4792 6.3944 10.7167 6.49023 11 6.49023Z' fill='white'/%3E%3C/svg%3E"
+          alt="AI"
+        />
+      </div>
+      <div
+        class="mobile-icon icon-security"
+        data-key="security"
+        data-name="Cybersecurity"
+      >
+        <img
+          src="data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2222%22%20viewBox%3D%220%200%2016%2022%22%20fill%3D%22none%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M2%2021.4902C1.45%2021.4902%200.979167%2021.2944%200.5875%2020.9027C0.195833%2020.5111%200%2020.0402%200%2019.4902V9.49023C0%208.94023%200.195833%208.4694%200.5875%208.07773C0.979167%207.68607%201.45%207.49023%202%207.49023H3V5.49023C3%204.1069%203.4875%202.92773%204.4625%201.95273C5.4375%200.977734%206.61667%200.490234%208%200.490234C9.38333%200.490234%2010.5625%200.977734%2011.5375%201.95273C12.5125%202.92773%2013%204.1069%2013%205.49023V7.49023H14C14.55%207.49023%2015.0208%207.68607%2015.4125%208.07773C15.8042%208.4694%2016%208.94023%2016%209.49023V19.4902C16%2020.0402%2015.8042%2020.5111%2015.4125%2020.9027C15.0208%2021.2944%2014.55%2021.4902%2014%2021.4902H2ZM2%2019.4902H14V9.49023H2V19.4902ZM8%2016.4902C8.55%2016.4902%209.02083%2016.2944%209.4125%2015.9027C9.80417%2015.5111%2010%2015.0402%2010%2014.4902C10%2013.9402%209.80417%2013.4694%209.4125%2013.0777C9.02083%2012.6861%208.55%2012.4902%208%2012.4902C7.45%2012.4902%206.97917%2012.6861%206.5875%2013.0777C6.19583%2013.4694%206%2013.9402%206%2014.4902C6%2015.0402%206.19583%2015.5111%206.5875%2015.9027C6.97917%2016.2944%207.45%2016.4902%208%2016.4902ZM5%207.49023H11V5.49023C11%204.6569%2010.7083%203.94857%2010.125%203.36523C9.54167%202.7819%208.83333%202.49023%208%202.49023C7.16667%202.49023%206.45833%202.7819%205.875%203.36523C5.29167%203.94857%205%204.6569%205%205.49023V7.49023Z%22%20fill%3D%22%23011635%22/%3E%3C/svg%3E"
+          alt="Security"
+        />
+      </div>
+      <div
+        class="mobile-icon icon-enterprise"
+        data-key="enterprise"
+        data-name="Enterprise Platforms"
+      >
+        <img
+          src="data:image/svg+xml,%3Csvg width='20' height='19' viewBox='0 0 20 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 18.4902V0.490234H10V4.49023H20V18.4902H0ZM2 16.4902H4V14.4902H2V16.4902ZM2 12.4902H4V10.4902H2V12.4902ZM2 8.49023H4V6.49023H2V8.49023ZM2 4.49023H4V2.49023H2V4.49023ZM6 16.4902H8V14.4902H6V16.4902ZM6 12.4902H8V10.4902H6V12.4902ZM6 8.49023H8V6.49023H6V8.49023ZM6 4.49023H8V2.49023H6V4.49023ZM10 16.4902H18V6.49023H10V8.49023H12V10.4902H10V12.4902H12V14.4902H10V16.4902ZM14 10.4902V8.49023H16V10.4902H14ZM14 14.4902V12.4902H16V14.4902H14Z' fill='%23011635'/%3E%3C/svg%3E"
+          alt="Enterprise"
+        />
+      </div>
+    </div>
+
+    <div class="active-label">AI/ML & GenAI</div>
+  </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     // Desktop functionality
-    const desktopImages = document.querySelectorAll('.desktop-view .center-image');
-    const desktopPills = document.querySelectorAll('.desktop-view .capability-pill');
-    const desktopGradientHighlight = document.querySelector('.desktop-view .gradient-highlight');
+    const desktopImages = document.querySelectorAll(
+      ".desktop-view .center-image"
+    );
+    const desktopPills = document.querySelectorAll(
+      ".desktop-view .capability-pill"
+    );
+    const desktopGradientHighlight = document.querySelector(
+      ".desktop-view .gradient-highlight"
+    );
 
     const selectDesktopOption = (key) => {
-        // Update images with smooth transition
-        desktopImages.forEach(img => {
-            if (img.dataset.key === key) {
-                img.style.opacity = '0';
-                setTimeout(() => {
-                    img.classList.add('active');
-                    img.style.opacity = '1';
-                }, 150);
-            } else {
-                img.classList.remove('active');
-                img.style.opacity = '0';
-            }
-        });
-        
-        // Update pills with smooth animation
-        desktopPills.forEach(pill => {
-            if (pill.dataset.key === key) {
-                pill.classList.add('selected');
-            } else {
-                pill.classList.remove('selected');
-            }
-        });
-        
-        // Update gradient highlight
-        desktopGradientHighlight.className = 'gradient-highlight';
-        desktopGradientHighlight.classList.add(`${key}-selected`);
+      // Update images with smooth transition
+      desktopImages.forEach((img) => {
+        if (img.dataset.key === key) {
+          img.style.opacity = "0";
+          setTimeout(() => {
+            img.classList.add("active");
+            img.style.opacity = "1";
+          }, 150);
+        } else {
+          img.classList.remove("active");
+          img.style.opacity = "0";
+        }
+      });
+
+      // Update pills with smooth animation
+      desktopPills.forEach((pill) => {
+        if (pill.dataset.key === key) {
+          pill.classList.add("selected");
+        } else {
+          pill.classList.remove("selected");
+        }
+      });
+
+      // Update gradient highlight
+      desktopGradientHighlight.className = "gradient-highlight";
+      desktopGradientHighlight.classList.add(`${key}-selected`);
     };
 
-    desktopPills.forEach(pill => {
-        pill.addEventListener('click', (e) => {
-            e.preventDefault();
-            selectDesktopOption(pill.dataset.key);
-        });
+    desktopPills.forEach((pill) => {
+      pill.addEventListener("click", (e) => {
+        e.preventDefault();
+        selectDesktopOption(pill.dataset.key);
+      });
     });
 
     // Mobile functionality
-    const mobileImages = document.querySelectorAll('.mobile-view .mobile-center img');
-    const mobileIcons = document.querySelectorAll('.mobile-view .mobile-icon');
-    const mobileGradientHighlight = document.querySelector('.mobile-view .mobile-gradient-highlight');
-    const activeLabel = document.querySelector('.active-label');
+    const mobileImages = document.querySelectorAll(
+      ".mobile-view .mobile-center img"
+    );
+    const mobileIcons = document.querySelectorAll(".mobile-view .mobile-icon");
+    const mobileGradientHighlight = document.querySelector(
+      ".mobile-view .mobile-gradient-highlight"
+    );
+    const activeLabel = document.querySelector(".active-label");
 
     const selectMobileOption = (key, name) => {
-        // Update images with smooth transition
-        mobileImages.forEach(img => {
-            if (img.dataset.key === key) {
-                img.style.opacity = '0';
-                setTimeout(() => {
-                    img.classList.add('active');
-                    img.style.opacity = '1';
-                }, 150);
-            } else {
-                img.classList.remove('active');
-                img.style.opacity = '0';
-            }
-        });
-        
-        // Update icons with smooth animation
-        mobileIcons.forEach(icon => {
-            if (icon.dataset.key === key) {
-                icon.classList.add('selected');
-            } else {
-                icon.classList.remove('selected');
-            }
-        });
-        
-        // Update gradient highlight
-        mobileGradientHighlight.className = 'mobile-gradient-highlight';
-        mobileGradientHighlight.classList.add(`${key}-selected`);
-        
-        // Update label with smooth transition
-        activeLabel.style.opacity = '0';
-        setTimeout(() => {
-            activeLabel.textContent = name;
-            activeLabel.style.opacity = '1';
-        }, 200);
+      // Update images with smooth transition
+      mobileImages.forEach((img) => {
+        if (img.dataset.key === key) {
+          img.style.opacity = "0";
+          setTimeout(() => {
+            img.classList.add("active");
+            img.style.opacity = "1";
+          }, 150);
+        } else {
+          img.classList.remove("active");
+          img.style.opacity = "0";
+        }
+      });
+
+      // Update icons with smooth animation
+      mobileIcons.forEach((icon) => {
+        if (icon.dataset.key === key) {
+          icon.classList.add("selected");
+        } else {
+          icon.classList.remove("selected");
+        }
+      });
+
+      // Update gradient highlight
+      mobileGradientHighlight.className = "mobile-gradient-highlight";
+      mobileGradientHighlight.classList.add(`${key}-selected`);
+
+      // Update label with smooth transition
+      activeLabel.style.opacity = "0";
+      setTimeout(() => {
+        activeLabel.textContent = name;
+        activeLabel.style.opacity = "1";
+      }, 200);
     };
 
-    mobileIcons.forEach(icon => {
-        icon.addEventListener('click', (e) => {
-            e.preventDefault();
-            const key = icon.dataset.key;
-            const name = icon.dataset.name;
-            selectMobileOption(key, name);
-        });
+    mobileIcons.forEach((icon) => {
+      icon.addEventListener("click", (e) => {
+        e.preventDefault();
+        const key = icon.dataset.key;
+        const name = icon.dataset.name;
+        selectMobileOption(key, name);
+      });
     });
 
     // Initialize with AI/ML selected by default
-    selectDesktopOption('ai');
-    selectMobileOption('ai', 'AI/ML & GenAI');
-});
+    selectDesktopOption("ai");
+    selectMobileOption("ai", "AI/ML & GenAI");
+  });
 </script>
-
-</body>
-</html>
