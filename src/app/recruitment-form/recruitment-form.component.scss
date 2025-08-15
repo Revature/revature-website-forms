@@ -4,6 +4,12 @@
   gap: 15px;
 }
 
+.sourcing-form-wrapper{
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -17,7 +23,7 @@
 .autocomplete-container {
   position: relative;
   display: inline-block;
-  width: 99.4%;
+  width: 100%;
 
   input {
     width: 100%;
@@ -57,10 +63,6 @@ option {
   right: auto !important;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-}
-
 .legend-container {
   position: relative;
 }
@@ -78,22 +80,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .custom-radio label {
-  font-size: 18px;
+  font-size: 16px;
   display: inline-block;
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   text-align: center;
-  line-height: 40px;
+  line-height: 30px;
   cursor: pointer;
-  border-radius: 7px;
-  border: 1px solid white;
-  color: white;
+  border-radius: 24px;
+  border: 1px solid #01163599;
+  color: #01163599;
   margin-bottom: 0px;
+  align-content: center;
 }
 
 .custom-radio input[type="radio"]:checked+label {
-  background-color: white;
-  color: black;
+  background-color: #FF7014;
+  color: white;
+  border: none;
 }
 
 .two-grid-container {
@@ -102,4 +106,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   grid-column-gap: 25px;
   grid-row-gap: 5px;
   margin-bottom: 10px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.upload-container {
+  padding: 1px;
+  background-color: #F8FAFE;
+  &:hover {
+      background: linear-gradient(-20deg, #A100FE, #FF7014);
+  }
+  
+  &.upload-container-active {
+      background: linear-gradient(-20deg, #A100FE, #FF7014);
+  }
+}
+
+.form-field {
+  border-radius: 4px !important;
 }

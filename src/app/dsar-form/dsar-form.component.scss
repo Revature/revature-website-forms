@@ -1,13 +1,15 @@
 
 .custom-checkbox input[type="checkbox"] {
   margin-right: 8px;
+  cursor: pointer;
 }
 
 .custom-checkbox label {
   font-size: 16px;
   cursor: pointer;
-  color: #fff;
   display: inline;
+  line-height: 1.4;
+  transition: color 0.2s ease;
 }
 
 .grecaptcha-badge {
@@ -23,16 +25,10 @@
 
 .form-content {
   font-size: 16px;
-  color: #fff;
 }
 
-.form-field {
-  background-color: rgba(0, 0, 0, 0.10);
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  padding: 12px 24px;
-  border-radius: 8px;
-  color: #fafafa;
-  height: auto !important;
+textarea {
+  resize: none;
 }
 
 .b2c-error-message {
@@ -40,9 +36,7 @@
   color: #F9B200;
 }
 
-
 .b2b-form-button {
-  border-radius: 36px;
   border-radius: 36px;
   border-color: #FF7014;
   font-size: 16px;
@@ -82,23 +76,24 @@
 }
 
 .custom-radio label {
-  font-size: 18px;
+  font-size: 16px;
   display: inline-block;
   width: 100%;
-  min-height: 50px;
+  min-height: 40px;
   text-align: center;
   line-height: 30px;
   cursor: pointer;
-  border-radius: 7px;
-  border: 1px solid white;
-  color: white;
+  border-radius: 24px;
+  border: 1px solid rgba(1, 22, 53, 0.6);
   margin-bottom: 0px;
   align-content: center;
+  transition: all 0.2s ease;
 }
 
 .custom-radio input[type="radio"]:checked+label {
-  background-color: white;
-  color: black;
+  background-color: #FF7014;
+  color: white;
+  border: none;
 }
 
 .file-upload-container {
@@ -263,6 +258,50 @@ option {
   animation: spinner .6s linear infinite;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+// reCAPTCHA responsive styles
+re-captcha {
+  display: block;
+  width: 100%;
+  max-width: 304px;
+  overflow: hidden;
+}
+
+// Scale reCAPTCHA on small screens
+@media screen and (max-width: 320px) {
+  re-captcha {
+    transform: scale(0.77);
+    transform-origin: 0 0;
+    margin-bottom: -45px;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  re-captcha {
+    transform: scale(0.65);
+    transform-origin: 0 0;
+    margin-bottom: -65px;
+  }
+}
+
+.form-textarea {
+  height: auto !important;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #011635;
+  font-size: 16px;
 }

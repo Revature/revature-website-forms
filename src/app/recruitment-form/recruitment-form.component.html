@@ -1,19 +1,22 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" class="sourcing-form-wrapper" (ngSubmit)="onSubmit()">
     <!-- Resume Upload -->
-    <div class="form-group">
-        <label class="form-label">
-            Upload Resume:<span class="required">*</span>
-        </label>
-        <label class="legend-container">
-            <input class="form-field form-file-input" type="file" (change)="handleFileUpload($event)" [disabled]="resumeUploading" accept=".pdf,.doc,.docx,.rtf,.txt">
-            <div style="color:white; font-size:18px;"><img style="width:30px; height:30px; margin-right: 10px;"
-                    src="https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png">{{resumeDocumentName || 'Computer'}}
-            </div>
-        </label>
+    <fieldset class="form-group">
+        <legend class="form-label">Upload Resume:<span class="required">*</span></legend>
+        <div class="upload-container" 
+             (mouseenter)="onUploadHover()" 
+             (mouseleave)="onUploadLeave()">
+            <label class="legend-container">
+                <h6 style="font-weight: 400;">
+                    <img style="width:30px; height:30px; margin-right: 10px;"
+                        [src]="currentUploadImage">{{resumeDocumentName || 'Computer'}}
+                </h6>
+                <input class="form-field form-file-input" type="file" (change)="handleFileUpload($event)" [disabled]="resumeUploading" accept=".pdf,.doc,.docx,.rtf,.txt">
+            </label>
+        </div>
         <div *ngIf="form.get('resumeURL')?.touched && form.get('resumeURL')?.invalid" class="form-error-message">
             Resume is required
         </div>
-    </div>
+    </fieldset>
 
     <div class="form-group">
         <label class="form-label">

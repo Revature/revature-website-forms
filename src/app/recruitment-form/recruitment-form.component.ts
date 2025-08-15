@@ -37,6 +37,13 @@ export class RecruitmentFormComponent {
     major: false
   }
 
+  uploadImages = {
+    default: 'https://cdn.prod.website-files.com/665dfe6f26741ce6ca5a2d67/687a566342e4f5cb94aa0285_computer_arrow_up%20(1).svg',
+    hover: 'https://cdn.prod.website-files.com/665dfe6f26741ce6ca5a2d67/687a566639afb6f59491bbe7_computer_arrow_up.svg'
+  };
+
+  currentUploadImage = this.uploadImages.default;
+
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
@@ -365,5 +372,13 @@ export class RecruitmentFormComponent {
         this.showCaptcha = true;
       }, 200)
     }
+  }
+
+  onUploadHover(): void {
+    this.currentUploadImage = this.uploadImages.hover;
+  }
+
+  onUploadLeave(): void {
+    this.currentUploadImage = this.uploadImages.default;
   }
 }

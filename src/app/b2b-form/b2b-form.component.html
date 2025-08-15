@@ -82,6 +82,6 @@
         <button type="submit" class="form-button" *ngIf="showSubmitButton" [id]="downloadBtnId">
             {{downloadMessage}}
         </button>
+        <div *ngIf="loading" id="loadSpinner" class="spinner"></div>
     </div>
-    <div *ngIf="loading" id="loadSpinner" class="spinner"></div>
 </form>

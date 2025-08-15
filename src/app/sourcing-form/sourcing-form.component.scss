@@ -4,6 +4,12 @@
   gap: 15px;
 }
 
+.sourcing-form-wrapper{
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -17,7 +23,7 @@
 .autocomplete-container {
   position: relative;
   display: inline-block;
-  width: 99.4%;
+  width: 100%;
 
   input {
     width: 100%;
@@ -48,7 +54,7 @@ button:disabled {
 }
 
 option {
-  color: black
+  color: #011635;
 }
 
 .grecaptcha-badge {
@@ -57,12 +63,21 @@ option {
   right: auto !important;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+
+.sourcing-error-message {
+  text-align: left;
+  line-height: 14px;
+  display: block;
+  visibility: hidden;
 }
 
-.legend-container {
-  position: relative;
+.sourcing-error-message.visible {
+  visibility: visible;
+}
+
+.form-button-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .form-file-input {
@@ -78,22 +93,44 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .custom-radio label {
-  font-size: 18px;
+  font-size: 16px;
   display: inline-block;
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   text-align: center;
-  line-height: 40px;
+  line-height: 30px;
   cursor: pointer;
-  border-radius: 7px;
-  border: 1px solid white;
-  color: white;
+  border-radius: 24px;
+  border: 1px solid #01163599;
+  color: #01163599;
   margin-bottom: 0px;
+  align-content: center;
 }
 
 .custom-radio input[type="radio"]:checked+label {
-  background-color: white;
-  color: black;
+  background-color: #FF7014;
+  color: white;
+  border: none;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.upload-container {
+  padding: 1px;
+  background-color: #F8FAFE;
+  &:hover {
+      background: linear-gradient(-20deg, #A100FE, #FF7014);
+  }
+  
+  &.upload-container-active {
+      background: linear-gradient(-20deg, #A100FE, #FF7014);
+  }
+}
+
+.resume-success {
+  color: green;
 }
 
 .two-grid-container {
@@ -102,4 +139,91 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   grid-column-gap: 25px;
   grid-row-gap: 5px;
   margin-bottom: 10px;
+}
+
+.one-grid-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-column-gap: 25px;
+  grid-row-gap: 5px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 900px) {
+  .two-grid-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 5px;
+    margin-bottom: 10px;
+  }
+}
+
+.file-upload-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #EBF1F4;
+  transition: background-color 0.1s ease-in-out;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.file-upload-container input[type="file"] {
+  position: absolute;
+  visibility: hidden;
+}
+
+.file-upload-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.file-upload-container:hover {
+  background-color: #D7E6EE;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#loadSpinner {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.spinner:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #01163599;
+  border-top-color: #fff;
+  animation: spinner .6s linear infinite;
+}
+
+.form-textarea{
+  height: auto !important;
+}
+
+.form-field {
+  border-radius: 4px !important;
 }

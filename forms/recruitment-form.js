@@ -40560,69 +40560,69 @@ var NoWhitespaceDirective = class _NoWhitespaceDirective {
 
 // src/app/recruitment-form/recruitment-form.component.ts
 var _c0 = () => ["SPC_Experienced_Hire"];
-function RecruitmentFormComponent_div_11_Template(rf, ctx) {
+function RecruitmentFormComponent_div_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Resume is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_18_Template(rf, ctx) {
+function RecruitmentFormComponent_div_19_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " First name is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_25_Template(rf, ctx) {
+function RecruitmentFormComponent_div_26_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Last name is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_106_Template(rf, ctx) {
+function RecruitmentFormComponent_div_107_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Person Source is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_107_Template(rf, ctx) {
+function RecruitmentFormComponent_div_108_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 1)(1, "label", 2);
     \u0275\u0275text(2, " Other Lead Source:");
     \u0275\u0275elementStart(3, "span", 3);
     \u0275\u0275text(4, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275element(5, "input", 98);
+    \u0275\u0275element(5, "input", 99);
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_115_Template(rf, ctx) {
+function RecruitmentFormComponent_div_116_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Please enter a valid phone number ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_122_Template(rf, ctx) {
+function RecruitmentFormComponent_div_123_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Please enter a valid email address ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_139_Template(rf, ctx) {
+function RecruitmentFormComponent_div_140_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Operating Country is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_140_option_8_Template(rf, ctx) {
+function RecruitmentFormComponent_div_141_option_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 100);
+    \u0275\u0275elementStart(0, "option", 101);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -40633,26 +40633,26 @@ function RecruitmentFormComponent_div_140_option_8_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", program_r1, " ");
   }
 }
-function RecruitmentFormComponent_div_140_div_9_Template(rf, ctx) {
+function RecruitmentFormComponent_div_141_div_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Marketing Program is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_140_Template(rf, ctx) {
+function RecruitmentFormComponent_div_141_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 1)(1, "label", 2);
     \u0275\u0275text(2, " Marketing Program:");
     \u0275\u0275elementStart(3, "span", 3);
     \u0275\u0275text(4, "*");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(5, "select", 99)(6, "option", 12);
+    \u0275\u0275elementStart(5, "select", 100)(6, "option", 13);
     \u0275\u0275text(7, "Select...");
     \u0275\u0275elementEnd();
-    \u0275\u0275template(8, RecruitmentFormComponent_div_140_option_8_Template, 2, 2, "option", 62);
+    \u0275\u0275template(8, RecruitmentFormComponent_div_141_option_8_Template, 2, 2, "option", 63);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(9, RecruitmentFormComponent_div_140_div_9_Template, 2, 0, "div", 8);
+    \u0275\u0275template(9, RecruitmentFormComponent_div_141_div_9_Template, 2, 0, "div", 9);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -40664,28 +40664,28 @@ function RecruitmentFormComponent_div_140_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r1.form.get("marketingProgram")) == null ? null : tmp_2_0.touched) && ((tmp_2_0 = ctx_r1.form.get("marketingProgram")) == null ? null : tmp_2_0.invalid));
   }
 }
-function RecruitmentFormComponent_div_141_span_3_Template(rf, ctx) {
+function RecruitmentFormComponent_div_142_span_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 3);
     \u0275\u0275text(1, "*");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_141_div_5_Template(rf, ctx) {
+function RecruitmentFormComponent_div_142_div_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Sourced For Opportunity is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_141_Template(rf, ctx) {
+function RecruitmentFormComponent_div_142_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 1)(1, "label", 2);
     \u0275\u0275text(2, " Sourced For Opportunity:");
-    \u0275\u0275template(3, RecruitmentFormComponent_div_141_span_3_Template, 2, 0, "span", 101);
+    \u0275\u0275template(3, RecruitmentFormComponent_div_142_span_3_Template, 2, 0, "span", 102);
     \u0275\u0275elementEnd();
-    \u0275\u0275element(4, "input", 102);
-    \u0275\u0275template(5, RecruitmentFormComponent_div_141_div_5_Template, 2, 0, "div", 8);
+    \u0275\u0275element(4, "input", 103);
+    \u0275\u0275template(5, RecruitmentFormComponent_div_142_div_5_Template, 2, 0, "div", 9);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -40698,11 +40698,11 @@ function RecruitmentFormComponent_div_141_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_2_0 = ctx_r1.form.get("sourcedForOpp")) == null ? null : tmp_2_0.touched) && ((tmp_2_0 = ctx_r1.form.get("sourcedForOpp")) == null ? null : tmp_2_0.invalid));
   }
 }
-function RecruitmentFormComponent_div_149_div_1_Template(rf, ctx) {
+function RecruitmentFormComponent_div_150_div_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 105);
-    \u0275\u0275listener("mousedown", function RecruitmentFormComponent_div_149_div_1_Template_div_mousedown_0_listener($event) {
+    \u0275\u0275elementStart(0, "div", 106);
+    \u0275\u0275listener("mousedown", function RecruitmentFormComponent_div_150_div_1_Template_div_mousedown_0_listener($event) {
       const major_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.selectAutoCompleteValue($event, "major", major_r4));
@@ -40716,10 +40716,10 @@ function RecruitmentFormComponent_div_149_div_1_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", major_r4.label, " ");
   }
 }
-function RecruitmentFormComponent_div_149_Template(rf, ctx) {
+function RecruitmentFormComponent_div_150_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 103);
-    \u0275\u0275template(1, RecruitmentFormComponent_div_149_div_1_Template, 2, 1, "div", 104);
+    \u0275\u0275elementStart(0, "div", 104);
+    \u0275\u0275template(1, RecruitmentFormComponent_div_150_div_1_Template, 2, 1, "div", 105);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -40728,23 +40728,23 @@ function RecruitmentFormComponent_div_149_Template(rf, ctx) {
     \u0275\u0275property("ngForOf", ctx_r1.filteredMajors);
   }
 }
-function RecruitmentFormComponent_div_150_Template(rf, ctx) {
+function RecruitmentFormComponent_div_151_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Major is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_157_Template(rf, ctx) {
+function RecruitmentFormComponent_div_158_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Graduation Date is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_option_166_Template(rf, ctx) {
+function RecruitmentFormComponent_option_167_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 100);
+    \u0275\u0275elementStart(0, "option", 101);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -40755,18 +40755,18 @@ function RecruitmentFormComponent_option_166_Template(rf, ctx) {
     \u0275\u0275textInterpolate(workAuth_r5);
   }
 }
-function RecruitmentFormComponent_div_167_Template(rf, ctx) {
+function RecruitmentFormComponent_div_168_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Work Authorization is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_175_div_1_Template(rf, ctx) {
+function RecruitmentFormComponent_div_176_div_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 105);
-    \u0275\u0275listener("mousedown", function RecruitmentFormComponent_div_175_div_1_Template_div_mousedown_0_listener($event) {
+    \u0275\u0275elementStart(0, "div", 106);
+    \u0275\u0275listener("mousedown", function RecruitmentFormComponent_div_176_div_1_Template_div_mousedown_0_listener($event) {
       const school_r7 = \u0275\u0275restoreView(_r6).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.selectAutoCompleteValue($event, "school", school_r7));
@@ -40780,10 +40780,10 @@ function RecruitmentFormComponent_div_175_div_1_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", school_r7.label, " ");
   }
 }
-function RecruitmentFormComponent_div_175_Template(rf, ctx) {
+function RecruitmentFormComponent_div_176_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 103);
-    \u0275\u0275template(1, RecruitmentFormComponent_div_175_div_1_Template, 2, 1, "div", 104);
+    \u0275\u0275elementStart(0, "div", 104);
+    \u0275\u0275template(1, RecruitmentFormComponent_div_176_div_1_Template, 2, 1, "div", 105);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -40792,30 +40792,30 @@ function RecruitmentFormComponent_div_175_Template(rf, ctx) {
     \u0275\u0275property("ngForOf", ctx_r1.filteredSchools);
   }
 }
-function RecruitmentFormComponent_div_176_Template(rf, ctx) {
+function RecruitmentFormComponent_div_177_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " School is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_193_Template(rf, ctx) {
+function RecruitmentFormComponent_div_194_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Education Level is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_div_220_Template(rf, ctx) {
+function RecruitmentFormComponent_div_221_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " Sourced By is required ");
     \u0275\u0275elementEnd();
   }
 }
-function RecruitmentFormComponent_option_229_Template(rf, ctx) {
+function RecruitmentFormComponent_option_230_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 100);
+    \u0275\u0275elementStart(0, "option", 101);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -40826,9 +40826,9 @@ function RecruitmentFormComponent_option_229_Template(rf, ctx) {
     \u0275\u0275textInterpolate(state_r8);
   }
 }
-function RecruitmentFormComponent_div_230_Template(rf, ctx) {
+function RecruitmentFormComponent_div_231_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 97);
+    \u0275\u0275elementStart(0, "div", 98);
     \u0275\u0275text(1, " State is required ");
     \u0275\u0275elementEnd();
   }
@@ -40866,6 +40866,11 @@ var RecruitmentFormComponent = class _RecruitmentFormComponent {
     school: false,
     major: false
   };
+  uploadImages = {
+    default: "https://cdn.prod.website-files.com/665dfe6f26741ce6ca5a2d67/687a566342e4f5cb94aa0285_computer_arrow_up%20(1).svg",
+    hover: "https://cdn.prod.website-files.com/665dfe6f26741ce6ca5a2d67/687a566639afb6f59491bbe7_computer_arrow_up.svg"
+  };
+  currentUploadImage = this.uploadImages.default;
   ngOnInit() {
     this.setupFormSubscriptions();
     this.filterMajors(null);
@@ -41158,417 +41163,431 @@ var RecruitmentFormComponent = class _RecruitmentFormComponent {
       }
     });
   }
+  onUploadHover() {
+    this.currentUploadImage = this.uploadImages.hover;
+  }
+  onUploadLeave() {
+    this.currentUploadImage = this.uploadImages.default;
+  }
   static \u0275fac = function RecruitmentFormComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _RecruitmentFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(SharedService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _RecruitmentFormComponent, selectors: [["app-recruitment-form"]], decls: 265, vars: 28, consts: [[3, "ngSubmit", "formGroup"], [1, "form-group"], [1, "form-label"], [1, "required"], [1, "legend-container"], ["type", "file", "accept", ".pdf,.doc,.docx,.rtf,.txt", 1, "form-field", "form-file-input", 3, "change", "disabled"], [2, "color", "white", "font-size", "18px"], ["src", "https://uploads-ssl.webflow.com/6647aada168e006f04521106/667325799e9123d4aca9c1aa_desktop_icon.png", 2, "width", "30px", "height", "30px", "margin-right", "10px"], ["class", "form-error-message", 4, "ngIf"], ["noWhitespace", "", "formControlName", "firstName", "placeholder", "First Name", "maxlength", "100", 1, "form-field"], ["noWhitespace", "", "formControlName", "lastName", "placeholder", "Last Name", "maxlength", "100", 1, "form-field"], ["formControlName", "personSource", 1, "form-field"], ["value", ""], ["value", "CareerBuilder (Sourced)"], ["value", "Craigslist (Sourced)"], ["value", "Dice (Applied)"], ["value", "Dice (Sourced)"], ["value", "Indeed (Applied)"], ["value", "Indeed (Sourced)"], ["value", "Internships.com (Sourced)"], ["value", "LinkedIn (email-sourced)"], ["value", "LinkedIn (Sourced)"], ["value", "LinkedIn (Response)"], ["value", "LinkedIn (Applied)"], ["value", "Monster (Sourced)"], ["value", "Nexxt Hiring (Sourced)"], ["value", "Purple briefcase (Sourced)"], ["value", "Referral"], ["value", "Resume Book (Sourced)"], ["value", "Resume library (Sourced)"], ["value", "Snap Recruit (Sourced)"], ["value", "SmartRecruiters (Sourced)"], ["value", "Stack Overflow (Sourced)"], ["value", "Symplicity (Sourced)"], ["value", "WayUp (Sourced)"], ["value", "Zillion Resumes (Sourced)"], ["value", "Handshake (Sourced)"], ["value", "Other Job Boards (Sourced)"], ["value", "College Job Posting (Sourced)"], ["value", "Handshake (Applied)"], ["value", "Campus Event (Applied)"], ["value", "Campus Recruitment (Sourced)"], ["value", "Monster (Applied)"], ["value", "Hiretual (Applied)"], ["value", "Hiretual (Sourced)"], ["value", "SignalHire (Sourced)"], ["value", "Simplyhired (Applied)"], ["value", "ZipRecruiter (Sourced)"], ["value", "Other"], ["class", "form-group", 4, "ngIf"], ["noWhitespace", "", "formControlName", "phone", "type", "tel", "maxlength", "10", "placeholder", "Mobile Number", 1, "form-field"], ["noWhitespace", "", "formControlName", "email", "type", "email", "placeholder", "Email Address", "maxlength", "255", 1, "form-field"], ["formControlName", "country", 1, "form-field"], ["value", "United States"], ["value", "Mexico"], ["value", "Canada"], ["value", "United Kingdom"], [1, "autocomplete-container"], ["placeholder", "Major", 1, "form-field", 3, "input", "focus", "blur", "formControlName"], ["class", "autocomplete-items", 4, "ngIf"], ["formControlName", "graduationDate", "type", "date", 1, "form-field"], ["formControlName", "workAuthorization", 1, "form-field"], [3, "value", 4, "ngFor", "ngForOf"], ["placeholder", "School", 1, "form-field", 3, "input", "focus", "blur", "formControlName"], ["formControlName", "levelOfEducation", 1, "form-field"], ["value", "Bachelor's Degree"], ["value", "Master's Degree"], ["value", "Associate's Degree"], ["value", "High School"], ["formControlName", "sourcedBy", 1, "form-field"], ["value", "Bianca Robles"], ["value", "Edward Hulse"], ["value", "Erik Schultz"], ["value", "Syed Aasif"], ["value", "Sanjeev Sudhan"], ["value", "Catherine Marty"], ["value", "Caroline Brooks"], ["value", "Michael Knight"], ["value", "Delivery Recruiter"], ["value", "Vendor"], ["formControlName", "state", 1, "form-field"], ["formControlName", "recruitedBy", 1, "form-field"], ["value", "0050P0000085FVGQA2"], ["value", "0050P0000085FOcQAM"], ["value", "0053g000000lP0aAAE"], ["value", "005VS000000WmcbYAC"], ["value", "0050P0000085FO6QAM"], ["value", "005VS000002DJDNYA4"], ["value", "005VS000000Q4xdYAC"], ["id", "veteranRadioButtons", 1, "form-group"], [1, "two-grid-container"], [1, "custom-radio"], ["type", "radio", "formControlName", "veteran", "value", "false", "id", "no"], ["for", "no"], ["type", "radio", "formControlName", "veteran", "value", "true", "id", "yes"], ["for", "yes"], ["type", "submit", 1, "sourcing-form-button", 3, "disabled"], [1, "form-error-message"], ["noWhitespace", "", "formControlName", "otherLeadSource", "placeholder", "Other Lead Source", "maxlength", "30", 1, "form-field"], ["formControlName", "marketingProgram", 1, "form-field"], [3, "value"], ["class", "required", 4, "ngIf"], ["noWhitespace", "", "formControlName", "sourcedForOpp", "placeholder", "Sourced For Opportunity", "maxlength", "18", 1, "form-field"], [1, "autocomplete-items"], ["class", "autocomplete-item", 3, "mousedown", 4, "ngFor", "ngForOf"], [1, "autocomplete-item", 3, "mousedown"]], template: function RecruitmentFormComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _RecruitmentFormComponent, selectors: [["app-recruitment-form"]], decls: 266, vars: 29, consts: [[1, "sourcing-form-wrapper", 3, "ngSubmit", "formGroup"], [1, "form-group"], [1, "form-label"], [1, "required"], [1, "upload-container", 3, "mouseenter", "mouseleave"], [1, "legend-container"], [2, "font-weight", "400"], [2, "width", "30px", "height", "30px", "margin-right", "10px", 3, "src"], ["type", "file", "accept", ".pdf,.doc,.docx,.rtf,.txt", 1, "form-field", "form-file-input", 3, "change", "disabled"], ["class", "form-error-message", 4, "ngIf"], ["noWhitespace", "", "formControlName", "firstName", "placeholder", "First Name", "maxlength", "100", 1, "form-field"], ["noWhitespace", "", "formControlName", "lastName", "placeholder", "Last Name", "maxlength", "100", 1, "form-field"], ["formControlName", "personSource", 1, "form-field"], ["value", ""], ["value", "CareerBuilder (Sourced)"], ["value", "Craigslist (Sourced)"], ["value", "Dice (Applied)"], ["value", "Dice (Sourced)"], ["value", "Indeed (Applied)"], ["value", "Indeed (Sourced)"], ["value", "Internships.com (Sourced)"], ["value", "LinkedIn (email-sourced)"], ["value", "LinkedIn (Sourced)"], ["value", "LinkedIn (Response)"], ["value", "LinkedIn (Applied)"], ["value", "Monster (Sourced)"], ["value", "Nexxt Hiring (Sourced)"], ["value", "Purple briefcase (Sourced)"], ["value", "Referral"], ["value", "Resume Book (Sourced)"], ["value", "Resume library (Sourced)"], ["value", "Snap Recruit (Sourced)"], ["value", "SmartRecruiters (Sourced)"], ["value", "Stack Overflow (Sourced)"], ["value", "Symplicity (Sourced)"], ["value", "WayUp (Sourced)"], ["value", "Zillion Resumes (Sourced)"], ["value", "Handshake (Sourced)"], ["value", "Other Job Boards (Sourced)"], ["value", "College Job Posting (Sourced)"], ["value", "Handshake (Applied)"], ["value", "Campus Event (Applied)"], ["value", "Campus Recruitment (Sourced)"], ["value", "Monster (Applied)"], ["value", "Hiretual (Applied)"], ["value", "Hiretual (Sourced)"], ["value", "SignalHire (Sourced)"], ["value", "Simplyhired (Applied)"], ["value", "ZipRecruiter (Sourced)"], ["value", "Other"], ["class", "form-group", 4, "ngIf"], ["noWhitespace", "", "formControlName", "phone", "type", "tel", "maxlength", "10", "placeholder", "Mobile Number", 1, "form-field"], ["noWhitespace", "", "formControlName", "email", "type", "email", "placeholder", "Email Address", "maxlength", "255", 1, "form-field"], ["formControlName", "country", 1, "form-field"], ["value", "United States"], ["value", "Mexico"], ["value", "Canada"], ["value", "United Kingdom"], [1, "autocomplete-container"], ["placeholder", "Major", 1, "form-field", 3, "input", "focus", "blur", "formControlName"], ["class", "autocomplete-items", 4, "ngIf"], ["formControlName", "graduationDate", "type", "date", 1, "form-field"], ["formControlName", "workAuthorization", 1, "form-field"], [3, "value", 4, "ngFor", "ngForOf"], ["placeholder", "School", 1, "form-field", 3, "input", "focus", "blur", "formControlName"], ["formControlName", "levelOfEducation", 1, "form-field"], ["value", "Bachelor's Degree"], ["value", "Master's Degree"], ["value", "Associate's Degree"], ["value", "High School"], ["formControlName", "sourcedBy", 1, "form-field"], ["value", "Bianca Robles"], ["value", "Edward Hulse"], ["value", "Erik Schultz"], ["value", "Syed Aasif"], ["value", "Sanjeev Sudhan"], ["value", "Catherine Marty"], ["value", "Caroline Brooks"], ["value", "Michael Knight"], ["value", "Delivery Recruiter"], ["value", "Vendor"], ["formControlName", "state", 1, "form-field"], ["formControlName", "recruitedBy", 1, "form-field"], ["value", "0050P0000085FVGQA2"], ["value", "0050P0000085FOcQAM"], ["value", "0053g000000lP0aAAE"], ["value", "005VS000000WmcbYAC"], ["value", "0050P0000085FO6QAM"], ["value", "005VS000002DJDNYA4"], ["value", "005VS000000Q4xdYAC"], ["id", "veteranRadioButtons", 1, "form-group"], [1, "two-grid-container"], [1, "custom-radio"], ["type", "radio", "formControlName", "veteran", "value", "false", "id", "no"], ["for", "no"], ["type", "radio", "formControlName", "veteran", "value", "true", "id", "yes"], ["for", "yes"], ["type", "submit", 1, "sourcing-form-button", 3, "disabled"], [1, "form-error-message"], ["noWhitespace", "", "formControlName", "otherLeadSource", "placeholder", "Other Lead Source", "maxlength", "30", 1, "form-field"], ["formControlName", "marketingProgram", 1, "form-field"], [3, "value"], ["class", "required", 4, "ngIf"], ["noWhitespace", "", "formControlName", "sourcedForOpp", "placeholder", "Sourced For Opportunity", "maxlength", "18", 1, "form-field"], [1, "autocomplete-items"], ["class", "autocomplete-item", 3, "mousedown", 4, "ngFor", "ngForOf"], [1, "autocomplete-item", 3, "mousedown"]], template: function RecruitmentFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function RecruitmentFormComponent_Template_form_ngSubmit_0_listener() {
         return ctx.onSubmit();
       });
-      \u0275\u0275elementStart(1, "div", 1)(2, "label", 2);
-      \u0275\u0275text(3, " Upload Resume:");
+      \u0275\u0275elementStart(1, "fieldset", 1)(2, "legend", 2);
+      \u0275\u0275text(3, "Upload Resume:");
       \u0275\u0275elementStart(4, "span", 3);
       \u0275\u0275text(5, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(6, "label", 4)(7, "input", 5);
-      \u0275\u0275listener("change", function RecruitmentFormComponent_Template_input_change_7_listener($event) {
-        return ctx.handleFileUpload($event);
+      \u0275\u0275elementStart(6, "div", 4);
+      \u0275\u0275listener("mouseenter", function RecruitmentFormComponent_Template_div_mouseenter_6_listener() {
+        return ctx.onUploadHover();
+      })("mouseleave", function RecruitmentFormComponent_Template_div_mouseleave_6_listener() {
+        return ctx.onUploadLeave();
       });
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(8, "div", 6);
+      \u0275\u0275elementStart(7, "label", 5)(8, "h6", 6);
       \u0275\u0275element(9, "img", 7);
       \u0275\u0275text(10);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(11, "input", 8);
+      \u0275\u0275listener("change", function RecruitmentFormComponent_Template_input_change_11_listener($event) {
+        return ctx.handleFileUpload($event);
+      });
+      \u0275\u0275elementEnd()()();
+      \u0275\u0275template(12, RecruitmentFormComponent_div_12_Template, 2, 0, "div", 9);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(13, "div", 1)(14, "label", 2);
+      \u0275\u0275text(15, " First Name:");
+      \u0275\u0275elementStart(16, "span", 3);
+      \u0275\u0275text(17, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(11, RecruitmentFormComponent_div_11_Template, 2, 0, "div", 8);
+      \u0275\u0275element(18, "input", 10);
+      \u0275\u0275template(19, RecruitmentFormComponent_div_19_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(12, "div", 1)(13, "label", 2);
-      \u0275\u0275text(14, " First Name:");
-      \u0275\u0275elementStart(15, "span", 3);
-      \u0275\u0275text(16, "*");
+      \u0275\u0275elementStart(20, "div", 1)(21, "label", 2);
+      \u0275\u0275text(22, " Last Name:");
+      \u0275\u0275elementStart(23, "span", 3);
+      \u0275\u0275text(24, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275element(17, "input", 9);
-      \u0275\u0275template(18, RecruitmentFormComponent_div_18_Template, 2, 0, "div", 8);
+      \u0275\u0275element(25, "input", 11);
+      \u0275\u0275template(26, RecruitmentFormComponent_div_26_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(19, "div", 1)(20, "label", 2);
-      \u0275\u0275text(21, " Last Name:");
-      \u0275\u0275elementStart(22, "span", 3);
-      \u0275\u0275text(23, "*");
+      \u0275\u0275elementStart(27, "div", 1)(28, "label", 2);
+      \u0275\u0275text(29, " Person Source:");
+      \u0275\u0275elementStart(30, "span", 3);
+      \u0275\u0275text(31, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275element(24, "input", 10);
-      \u0275\u0275template(25, RecruitmentFormComponent_div_25_Template, 2, 0, "div", 8);
+      \u0275\u0275elementStart(32, "select", 12)(33, "option", 13);
+      \u0275\u0275text(34, "Select...");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(26, "div", 1)(27, "label", 2);
-      \u0275\u0275text(28, " Person Source:");
-      \u0275\u0275elementStart(29, "span", 3);
-      \u0275\u0275text(30, "*");
+      \u0275\u0275elementStart(35, "option", 14);
+      \u0275\u0275text(36, "CareerBuilder (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(37, "option", 15);
+      \u0275\u0275text(38, "Craigslist (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(39, "option", 16);
+      \u0275\u0275text(40, "Dice (Applied)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(41, "option", 17);
+      \u0275\u0275text(42, "Dice (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(43, "option", 18);
+      \u0275\u0275text(44, "Indeed (Applied)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(45, "option", 19);
+      \u0275\u0275text(46, "Indeed (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(47, "option", 20);
+      \u0275\u0275text(48, "Internships.com (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(49, "option", 21);
+      \u0275\u0275text(50, "LinkedIn (email-sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(51, "option", 22);
+      \u0275\u0275text(52, "LinkedIn (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(53, "option", 23);
+      \u0275\u0275text(54, "LinkedIn (Response)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(55, "option", 24);
+      \u0275\u0275text(56, "LinkedIn (Applied)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(57, "option", 25);
+      \u0275\u0275text(58, "Monster (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(59, "option", 26);
+      \u0275\u0275text(60, "Nexxt Hiring (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(61, "option", 27);
+      \u0275\u0275text(62, "Purple briefcase (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(63, "option", 28);
+      \u0275\u0275text(64, "Referral");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(65, "option", 29);
+      \u0275\u0275text(66, "Resume Book (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(67, "option", 30);
+      \u0275\u0275text(68, "Resume library (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(69, "option", 31);
+      \u0275\u0275text(70, "Snap Recruit (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(71, "option", 32);
+      \u0275\u0275text(72, "SmartRecruiters (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(73, "option", 33);
+      \u0275\u0275text(74, "Stack Overflow (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(75, "option", 34);
+      \u0275\u0275text(76, "Symplicity (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(77, "option", 35);
+      \u0275\u0275text(78, "WayUp (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(79, "option", 36);
+      \u0275\u0275text(80, "Zillion Resumes (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(81, "option", 37);
+      \u0275\u0275text(82, "Handshake (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(83, "option", 38);
+      \u0275\u0275text(84, "Other Job Boards (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(85, "option", 39);
+      \u0275\u0275text(86, "College Job Posting (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(87, "option", 40);
+      \u0275\u0275text(88, "Handshake (Applied)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(89, "option", 41);
+      \u0275\u0275text(90, "Campus Event (Applied)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(91, "option", 42);
+      \u0275\u0275text(92, "Campus Recruitment (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(93, "option", 43);
+      \u0275\u0275text(94, "Monster (Applied)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(95, "option", 44);
+      \u0275\u0275text(96, "Hiretual (Applied)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(97, "option", 45);
+      \u0275\u0275text(98, "Hiretual (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(99, "option", 46);
+      \u0275\u0275text(100, "SignalHire (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(101, "option", 47);
+      \u0275\u0275text(102, "Simplyhired (Applied)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(103, "option", 48);
+      \u0275\u0275text(104, "ZipRecruiter (Sourced)");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(105, "option", 49);
+      \u0275\u0275text(106, "Other");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(31, "select", 11)(32, "option", 12);
-      \u0275\u0275text(33, "Select...");
+      \u0275\u0275template(107, RecruitmentFormComponent_div_107_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(34, "option", 13);
-      \u0275\u0275text(35, "CareerBuilder (Sourced)");
+      \u0275\u0275template(108, RecruitmentFormComponent_div_108_Template, 6, 0, "div", 50);
+      \u0275\u0275elementStart(109, "div", 1)(110, "label", 2);
+      \u0275\u0275text(111, " Mobile Number:");
+      \u0275\u0275elementStart(112, "span", 3);
+      \u0275\u0275text(113, "*");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(36, "option", 14);
-      \u0275\u0275text(37, "Craigslist (Sourced)");
+      \u0275\u0275text(114, " (Country Code not required) ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(38, "option", 15);
-      \u0275\u0275text(39, "Dice (Applied)");
+      \u0275\u0275element(115, "input", 51);
+      \u0275\u0275template(116, RecruitmentFormComponent_div_116_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(40, "option", 16);
-      \u0275\u0275text(41, "Dice (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(42, "option", 17);
-      \u0275\u0275text(43, "Indeed (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(44, "option", 18);
-      \u0275\u0275text(45, "Indeed (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(46, "option", 19);
-      \u0275\u0275text(47, "Internships.com (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(48, "option", 20);
-      \u0275\u0275text(49, "LinkedIn (email-sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(50, "option", 21);
-      \u0275\u0275text(51, "LinkedIn (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(52, "option", 22);
-      \u0275\u0275text(53, "LinkedIn (Response)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(54, "option", 23);
-      \u0275\u0275text(55, "LinkedIn (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(56, "option", 24);
-      \u0275\u0275text(57, "Monster (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(58, "option", 25);
-      \u0275\u0275text(59, "Nexxt Hiring (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(60, "option", 26);
-      \u0275\u0275text(61, "Purple briefcase (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(62, "option", 27);
-      \u0275\u0275text(63, "Referral");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(64, "option", 28);
-      \u0275\u0275text(65, "Resume Book (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(66, "option", 29);
-      \u0275\u0275text(67, "Resume library (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(68, "option", 30);
-      \u0275\u0275text(69, "Snap Recruit (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(70, "option", 31);
-      \u0275\u0275text(71, "SmartRecruiters (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(72, "option", 32);
-      \u0275\u0275text(73, "Stack Overflow (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(74, "option", 33);
-      \u0275\u0275text(75, "Symplicity (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(76, "option", 34);
-      \u0275\u0275text(77, "WayUp (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(78, "option", 35);
-      \u0275\u0275text(79, "Zillion Resumes (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(80, "option", 36);
-      \u0275\u0275text(81, "Handshake (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(82, "option", 37);
-      \u0275\u0275text(83, "Other Job Boards (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(84, "option", 38);
-      \u0275\u0275text(85, "College Job Posting (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(86, "option", 39);
-      \u0275\u0275text(87, "Handshake (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(88, "option", 40);
-      \u0275\u0275text(89, "Campus Event (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(90, "option", 41);
-      \u0275\u0275text(91, "Campus Recruitment (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(92, "option", 42);
-      \u0275\u0275text(93, "Monster (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(94, "option", 43);
-      \u0275\u0275text(95, "Hiretual (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(96, "option", 44);
-      \u0275\u0275text(97, "Hiretual (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(98, "option", 45);
-      \u0275\u0275text(99, "SignalHire (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(100, "option", 46);
-      \u0275\u0275text(101, "Simplyhired (Applied)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(102, "option", 47);
-      \u0275\u0275text(103, "ZipRecruiter (Sourced)");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(104, "option", 48);
-      \u0275\u0275text(105, "Other");
+      \u0275\u0275elementStart(117, "div", 1)(118, "label", 2);
+      \u0275\u0275text(119, " Email Address:");
+      \u0275\u0275elementStart(120, "span", 3);
+      \u0275\u0275text(121, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(106, RecruitmentFormComponent_div_106_Template, 2, 0, "div", 8);
+      \u0275\u0275element(122, "input", 52);
+      \u0275\u0275template(123, RecruitmentFormComponent_div_123_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(107, RecruitmentFormComponent_div_107_Template, 6, 0, "div", 49);
-      \u0275\u0275elementStart(108, "div", 1)(109, "label", 2);
-      \u0275\u0275text(110, " Mobile Number:");
-      \u0275\u0275elementStart(111, "span", 3);
-      \u0275\u0275text(112, "*");
-      \u0275\u0275elementEnd();
-      \u0275\u0275text(113, " (Country Code not required) ");
-      \u0275\u0275elementEnd();
-      \u0275\u0275element(114, "input", 50);
-      \u0275\u0275template(115, RecruitmentFormComponent_div_115_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(116, "div", 1)(117, "label", 2);
-      \u0275\u0275text(118, " Email Address:");
-      \u0275\u0275elementStart(119, "span", 3);
-      \u0275\u0275text(120, "*");
+      \u0275\u0275elementStart(124, "div", 1)(125, "label", 2);
+      \u0275\u0275text(126, " Operating Country:");
+      \u0275\u0275elementStart(127, "span", 3);
+      \u0275\u0275text(128, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275element(121, "input", 51);
-      \u0275\u0275template(122, RecruitmentFormComponent_div_122_Template, 2, 0, "div", 8);
+      \u0275\u0275elementStart(129, "select", 53)(130, "option", 13);
+      \u0275\u0275text(131, "Select...");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(123, "div", 1)(124, "label", 2);
-      \u0275\u0275text(125, " Operating Country:");
-      \u0275\u0275elementStart(126, "span", 3);
-      \u0275\u0275text(127, "*");
+      \u0275\u0275elementStart(132, "option", 54);
+      \u0275\u0275text(133, "United States");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(134, "option", 55);
+      \u0275\u0275text(135, "Mexico");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(136, "option", 56);
+      \u0275\u0275text(137, "Canada");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(138, "option", 57);
+      \u0275\u0275text(139, "United Kingdom");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(128, "select", 52)(129, "option", 12);
-      \u0275\u0275text(130, "Select...");
+      \u0275\u0275template(140, RecruitmentFormComponent_div_140_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(131, "option", 53);
-      \u0275\u0275text(132, "United States");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(133, "option", 54);
-      \u0275\u0275text(134, "Mexico");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(135, "option", 55);
-      \u0275\u0275text(136, "Canada");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(137, "option", 56);
-      \u0275\u0275text(138, "United Kingdom");
+      \u0275\u0275template(141, RecruitmentFormComponent_div_141_Template, 10, 2, "div", 50)(142, RecruitmentFormComponent_div_142_Template, 6, 3, "div", 50);
+      \u0275\u0275elementStart(143, "div", 1)(144, "label", 2);
+      \u0275\u0275text(145, " Major:");
+      \u0275\u0275elementStart(146, "span", 3);
+      \u0275\u0275text(147, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(139, RecruitmentFormComponent_div_139_Template, 2, 0, "div", 8);
-      \u0275\u0275elementEnd();
-      \u0275\u0275template(140, RecruitmentFormComponent_div_140_Template, 10, 2, "div", 49)(141, RecruitmentFormComponent_div_141_Template, 6, 3, "div", 49);
-      \u0275\u0275elementStart(142, "div", 1)(143, "label", 2);
-      \u0275\u0275text(144, " Major:");
-      \u0275\u0275elementStart(145, "span", 3);
-      \u0275\u0275text(146, "*");
-      \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(147, "div", 57)(148, "input", 58);
-      \u0275\u0275listener("input", function RecruitmentFormComponent_Template_input_input_148_listener($event) {
+      \u0275\u0275elementStart(148, "div", 58)(149, "input", 59);
+      \u0275\u0275listener("input", function RecruitmentFormComponent_Template_input_input_149_listener($event) {
         return ctx.filterMajors($event);
-      })("focus", function RecruitmentFormComponent_Template_input_focus_148_listener() {
+      })("focus", function RecruitmentFormComponent_Template_input_focus_149_listener() {
         return ctx.focusedControl["major"] = true;
-      })("blur", function RecruitmentFormComponent_Template_input_blur_148_listener($event) {
+      })("blur", function RecruitmentFormComponent_Template_input_blur_149_listener($event) {
         return ctx.setFocusedControl($event, "major", false);
       });
       \u0275\u0275elementEnd();
-      \u0275\u0275template(149, RecruitmentFormComponent_div_149_Template, 2, 1, "div", 59);
+      \u0275\u0275template(150, RecruitmentFormComponent_div_150_Template, 2, 1, "div", 60);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(150, RecruitmentFormComponent_div_150_Template, 2, 0, "div", 8);
+      \u0275\u0275template(151, RecruitmentFormComponent_div_151_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(151, "div", 1)(152, "label", 2);
-      \u0275\u0275text(153, " Graduation Date:");
-      \u0275\u0275elementStart(154, "span", 3);
-      \u0275\u0275text(155, "*");
+      \u0275\u0275elementStart(152, "div", 1)(153, "label", 2);
+      \u0275\u0275text(154, " Graduation Date:");
+      \u0275\u0275elementStart(155, "span", 3);
+      \u0275\u0275text(156, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275element(156, "input", 60);
-      \u0275\u0275template(157, RecruitmentFormComponent_div_157_Template, 2, 0, "div", 8);
+      \u0275\u0275element(157, "input", 61);
+      \u0275\u0275template(158, RecruitmentFormComponent_div_158_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(158, "div", 1)(159, "label", 2);
-      \u0275\u0275text(160, " Work Authorization:");
-      \u0275\u0275elementStart(161, "span", 3);
-      \u0275\u0275text(162, "*");
+      \u0275\u0275elementStart(159, "div", 1)(160, "label", 2);
+      \u0275\u0275text(161, " Work Authorization:");
+      \u0275\u0275elementStart(162, "span", 3);
+      \u0275\u0275text(163, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(163, "select", 61)(164, "option", 12);
-      \u0275\u0275text(165, "Select...");
+      \u0275\u0275elementStart(164, "select", 62)(165, "option", 13);
+      \u0275\u0275text(166, "Select...");
       \u0275\u0275elementEnd();
-      \u0275\u0275template(166, RecruitmentFormComponent_option_166_Template, 2, 2, "option", 62);
+      \u0275\u0275template(167, RecruitmentFormComponent_option_167_Template, 2, 2, "option", 63);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(167, RecruitmentFormComponent_div_167_Template, 2, 0, "div", 8);
+      \u0275\u0275template(168, RecruitmentFormComponent_div_168_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(168, "div", 1)(169, "label", 2);
-      \u0275\u0275text(170, " School:");
-      \u0275\u0275elementStart(171, "span", 3);
-      \u0275\u0275text(172, "*");
+      \u0275\u0275elementStart(169, "div", 1)(170, "label", 2);
+      \u0275\u0275text(171, " School:");
+      \u0275\u0275elementStart(172, "span", 3);
+      \u0275\u0275text(173, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(173, "div", 57)(174, "input", 63);
-      \u0275\u0275listener("input", function RecruitmentFormComponent_Template_input_input_174_listener($event) {
+      \u0275\u0275elementStart(174, "div", 58)(175, "input", 64);
+      \u0275\u0275listener("input", function RecruitmentFormComponent_Template_input_input_175_listener($event) {
         return ctx.filterSchools($event);
-      })("focus", function RecruitmentFormComponent_Template_input_focus_174_listener() {
+      })("focus", function RecruitmentFormComponent_Template_input_focus_175_listener() {
         return ctx.focusedControl["school"] = true;
-      })("blur", function RecruitmentFormComponent_Template_input_blur_174_listener($event) {
+      })("blur", function RecruitmentFormComponent_Template_input_blur_175_listener($event) {
         return ctx.setFocusedControl($event, "school", false);
       });
       \u0275\u0275elementEnd();
-      \u0275\u0275template(175, RecruitmentFormComponent_div_175_Template, 2, 1, "div", 59);
+      \u0275\u0275template(176, RecruitmentFormComponent_div_176_Template, 2, 1, "div", 60);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(176, RecruitmentFormComponent_div_176_Template, 2, 0, "div", 8);
+      \u0275\u0275template(177, RecruitmentFormComponent_div_177_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(177, "div", 1)(178, "label", 2);
-      \u0275\u0275text(179, " Education Level:");
-      \u0275\u0275elementStart(180, "span", 3);
-      \u0275\u0275text(181, "*");
+      \u0275\u0275elementStart(178, "div", 1)(179, "label", 2);
+      \u0275\u0275text(180, " Education Level:");
+      \u0275\u0275elementStart(181, "span", 3);
+      \u0275\u0275text(182, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(182, "select", 64)(183, "option", 12);
-      \u0275\u0275text(184, "Select...");
+      \u0275\u0275elementStart(183, "select", 65)(184, "option", 13);
+      \u0275\u0275text(185, "Select...");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(185, "option", 65);
-      \u0275\u0275text(186, "Bachelor's Degree");
+      \u0275\u0275elementStart(186, "option", 66);
+      \u0275\u0275text(187, "Bachelor's Degree");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(187, "option", 66);
-      \u0275\u0275text(188, "Master's Degree");
+      \u0275\u0275elementStart(188, "option", 67);
+      \u0275\u0275text(189, "Master's Degree");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(189, "option", 67);
-      \u0275\u0275text(190, "Associate's Degree");
+      \u0275\u0275elementStart(190, "option", 68);
+      \u0275\u0275text(191, "Associate's Degree");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(191, "option", 68);
-      \u0275\u0275text(192, "High School");
+      \u0275\u0275elementStart(192, "option", 69);
+      \u0275\u0275text(193, "High School");
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(193, RecruitmentFormComponent_div_193_Template, 2, 0, "div", 8);
+      \u0275\u0275template(194, RecruitmentFormComponent_div_194_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(194, "div", 1)(195, "label", 2);
-      \u0275\u0275text(196, " Sourced By: ");
+      \u0275\u0275elementStart(195, "div", 1)(196, "label", 2);
+      \u0275\u0275text(197, " Sourced By: ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(197, "select", 69)(198, "option", 12);
-      \u0275\u0275text(199, "Select...");
+      \u0275\u0275elementStart(198, "select", 70)(199, "option", 13);
+      \u0275\u0275text(200, "Select...");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(200, "option", 70);
-      \u0275\u0275text(201, "Bianca Robles");
+      \u0275\u0275elementStart(201, "option", 71);
+      \u0275\u0275text(202, "Bianca Robles");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(202, "option", 71);
-      \u0275\u0275text(203, "Edward Hulse");
+      \u0275\u0275elementStart(203, "option", 72);
+      \u0275\u0275text(204, "Edward Hulse");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(204, "option", 72);
-      \u0275\u0275text(205, "Erik Schultz");
+      \u0275\u0275elementStart(205, "option", 73);
+      \u0275\u0275text(206, "Erik Schultz");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(206, "option", 73);
-      \u0275\u0275text(207, "Syed Aasif");
+      \u0275\u0275elementStart(207, "option", 74);
+      \u0275\u0275text(208, "Syed Aasif");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(208, "option", 74);
-      \u0275\u0275text(209, "Sanjeev Sudhan");
+      \u0275\u0275elementStart(209, "option", 75);
+      \u0275\u0275text(210, "Sanjeev Sudhan");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(210, "option", 75);
-      \u0275\u0275text(211, "Catherine Marty");
+      \u0275\u0275elementStart(211, "option", 76);
+      \u0275\u0275text(212, "Catherine Marty");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(212, "option", 76);
-      \u0275\u0275text(213, "Caroline Brooks");
+      \u0275\u0275elementStart(213, "option", 77);
+      \u0275\u0275text(214, "Caroline Brooks");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(214, "option", 77);
-      \u0275\u0275text(215, "Michael Knight");
+      \u0275\u0275elementStart(215, "option", 78);
+      \u0275\u0275text(216, "Michael Knight");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(216, "option", 78);
-      \u0275\u0275text(217, "Delivery Recruiter");
+      \u0275\u0275elementStart(217, "option", 79);
+      \u0275\u0275text(218, "Delivery Recruiter");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(218, "option", 79);
-      \u0275\u0275text(219, "Vendor");
+      \u0275\u0275elementStart(219, "option", 80);
+      \u0275\u0275text(220, "Vendor");
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(220, RecruitmentFormComponent_div_220_Template, 2, 0, "div", 8);
+      \u0275\u0275template(221, RecruitmentFormComponent_div_221_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(221, "div", 1)(222, "label", 2);
-      \u0275\u0275text(223, " State:");
-      \u0275\u0275elementStart(224, "span", 3);
-      \u0275\u0275text(225, "*");
+      \u0275\u0275elementStart(222, "div", 1)(223, "label", 2);
+      \u0275\u0275text(224, " State:");
+      \u0275\u0275elementStart(225, "span", 3);
+      \u0275\u0275text(226, "*");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(226, "select", 80)(227, "option", 12);
-      \u0275\u0275text(228, "Select...");
+      \u0275\u0275elementStart(227, "select", 81)(228, "option", 13);
+      \u0275\u0275text(229, "Select...");
       \u0275\u0275elementEnd();
-      \u0275\u0275template(229, RecruitmentFormComponent_option_229_Template, 2, 2, "option", 62);
+      \u0275\u0275template(230, RecruitmentFormComponent_option_230_Template, 2, 2, "option", 63);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(230, RecruitmentFormComponent_div_230_Template, 2, 0, "div", 8);
+      \u0275\u0275template(231, RecruitmentFormComponent_div_231_Template, 2, 0, "div", 9);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(231, "div", 1)(232, "label", 2);
-      \u0275\u0275text(233, " Recruiter: ");
+      \u0275\u0275elementStart(232, "div", 1)(233, "label", 2);
+      \u0275\u0275text(234, " Recruiter: ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(234, "select", 81)(235, "option", 12);
-      \u0275\u0275text(236, "Select...");
+      \u0275\u0275elementStart(235, "select", 82)(236, "option", 13);
+      \u0275\u0275text(237, "Select...");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(237, "option", 82);
-      \u0275\u0275text(238, "Edward Hulse");
+      \u0275\u0275elementStart(238, "option", 83);
+      \u0275\u0275text(239, "Edward Hulse");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(239, "option", 83);
-      \u0275\u0275text(240, "Erik Schultz");
+      \u0275\u0275elementStart(240, "option", 84);
+      \u0275\u0275text(241, "Erik Schultz");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(241, "option", 84);
-      \u0275\u0275text(242, "Bianca Robles");
+      \u0275\u0275elementStart(242, "option", 85);
+      \u0275\u0275text(243, "Bianca Robles");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(243, "option", 85);
-      \u0275\u0275text(244, "Sanjeev Sudhan");
+      \u0275\u0275elementStart(244, "option", 86);
+      \u0275\u0275text(245, "Sanjeev Sudhan");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(245, "option", 86);
-      \u0275\u0275text(246, "Naveen Kumar");
+      \u0275\u0275elementStart(246, "option", 87);
+      \u0275\u0275text(247, "Naveen Kumar");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(247, "option", 87);
-      \u0275\u0275text(248, "Delivery Recruiter");
+      \u0275\u0275elementStart(248, "option", 88);
+      \u0275\u0275text(249, "Delivery Recruiter");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(249, "option", 88);
-      \u0275\u0275text(250, "Vendor");
+      \u0275\u0275elementStart(250, "option", 89);
+      \u0275\u0275text(251, "Vendor");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(251, "div", 89)(252, "label", 2);
-      \u0275\u0275text(253, "Veteran:");
+      \u0275\u0275elementStart(252, "div", 90)(253, "label", 2);
+      \u0275\u0275text(254, "Veteran:");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(254, "span", 90)(255, "div", 91);
-      \u0275\u0275element(256, "input", 92);
-      \u0275\u0275elementStart(257, "label", 93);
-      \u0275\u0275text(258, "No");
+      \u0275\u0275elementStart(255, "span", 91)(256, "div", 92);
+      \u0275\u0275element(257, "input", 93);
+      \u0275\u0275elementStart(258, "label", 94);
+      \u0275\u0275text(259, "No");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(259, "div", 91);
-      \u0275\u0275element(260, "input", 94);
-      \u0275\u0275elementStart(261, "label", 95);
-      \u0275\u0275text(262, "Yes");
+      \u0275\u0275elementStart(260, "div", 92);
+      \u0275\u0275element(261, "input", 95);
+      \u0275\u0275elementStart(262, "label", 96);
+      \u0275\u0275text(263, "Yes");
       \u0275\u0275elementEnd()()()();
-      \u0275\u0275elementStart(263, "button", 96);
-      \u0275\u0275text(264);
+      \u0275\u0275elementStart(264, "button", 97);
+      \u0275\u0275text(265);
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
-      let tmp_3_0;
       let tmp_4_0;
       let tmp_5_0;
       let tmp_6_0;
-      let tmp_8_0;
+      let tmp_7_0;
       let tmp_9_0;
       let tmp_10_0;
-      let tmp_14_0;
+      let tmp_11_0;
       let tmp_15_0;
       let tmp_16_0;
-      let tmp_18_0;
-      let tmp_20_0;
+      let tmp_17_0;
+      let tmp_19_0;
       let tmp_21_0;
       let tmp_22_0;
       let tmp_23_0;
-      let tmp_25_0;
+      let tmp_24_0;
+      let tmp_26_0;
       \u0275\u0275property("formGroup", ctx.form);
-      \u0275\u0275advance(7);
-      \u0275\u0275property("disabled", ctx.resumeUploading);
-      \u0275\u0275advance(3);
+      \u0275\u0275advance(9);
+      \u0275\u0275property("src", ctx.currentUploadImage, \u0275\u0275sanitizeUrl);
+      \u0275\u0275advance();
       \u0275\u0275textInterpolate1("", ctx.resumeDocumentName || "Computer", " ");
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_3_0 = ctx.form.get("resumeURL")) == null ? null : tmp_3_0.touched) && ((tmp_3_0 = ctx.form.get("resumeURL")) == null ? null : tmp_3_0.invalid));
+      \u0275\u0275property("disabled", ctx.resumeUploading);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ((tmp_4_0 = ctx.form.get("resumeURL")) == null ? null : tmp_4_0.touched) && ((tmp_4_0 = ctx.form.get("resumeURL")) == null ? null : tmp_4_0.invalid));
       \u0275\u0275advance(7);
-      \u0275\u0275property("ngIf", ((tmp_4_0 = ctx.form.get("firstName")) == null ? null : tmp_4_0.touched) && ((tmp_4_0 = ctx.form.get("firstName")) == null ? null : tmp_4_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_5_0 = ctx.form.get("firstName")) == null ? null : tmp_5_0.touched) && ((tmp_5_0 = ctx.form.get("firstName")) == null ? null : tmp_5_0.invalid));
       \u0275\u0275advance(7);
-      \u0275\u0275property("ngIf", ((tmp_5_0 = ctx.form.get("lastName")) == null ? null : tmp_5_0.touched) && ((tmp_5_0 = ctx.form.get("lastName")) == null ? null : tmp_5_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_6_0 = ctx.form.get("lastName")) == null ? null : tmp_6_0.touched) && ((tmp_6_0 = ctx.form.get("lastName")) == null ? null : tmp_6_0.invalid));
       \u0275\u0275advance(81);
-      \u0275\u0275property("ngIf", ((tmp_6_0 = ctx.form.get("personSource")) == null ? null : tmp_6_0.touched) && ((tmp_6_0 = ctx.form.get("personSource")) == null ? null : tmp_6_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_7_0 = ctx.form.get("personSource")) == null ? null : tmp_7_0.touched) && ((tmp_7_0 = ctx.form.get("personSource")) == null ? null : tmp_7_0.invalid));
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.showOtherLeadSource);
       \u0275\u0275advance(8);
-      \u0275\u0275property("ngIf", ((tmp_8_0 = ctx.form.get("phone")) == null ? null : tmp_8_0.touched) && ((tmp_8_0 = ctx.form.get("phone")) == null ? null : tmp_8_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_9_0 = ctx.form.get("phone")) == null ? null : tmp_9_0.touched) && ((tmp_9_0 = ctx.form.get("phone")) == null ? null : tmp_9_0.invalid));
       \u0275\u0275advance(7);
-      \u0275\u0275property("ngIf", ((tmp_9_0 = ctx.form.get("email")) == null ? null : tmp_9_0.touched) && ((tmp_9_0 = ctx.form.get("email")) == null ? null : tmp_9_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_10_0 = ctx.form.get("email")) == null ? null : tmp_10_0.touched) && ((tmp_10_0 = ctx.form.get("email")) == null ? null : tmp_10_0.invalid));
       \u0275\u0275advance(17);
-      \u0275\u0275property("ngIf", ((tmp_10_0 = ctx.form.get("country")) == null ? null : tmp_10_0.touched) && ((tmp_10_0 = ctx.form.get("country")) == null ? null : tmp_10_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_11_0 = ctx.form.get("country")) == null ? null : tmp_11_0.touched) && ((tmp_11_0 = ctx.form.get("country")) == null ? null : tmp_11_0.invalid));
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.marketingPrograms.length > 0);
       \u0275\u0275advance();
@@ -41576,35 +41595,35 @@ var RecruitmentFormComponent = class _RecruitmentFormComponent {
       \u0275\u0275advance(7);
       \u0275\u0275property("formControlName", "major");
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.focusedControl.major && ((tmp_14_0 = ctx.form.get("major")) == null ? null : tmp_14_0.value == null ? null : tmp_14_0.value.trim()));
+      \u0275\u0275property("ngIf", ctx.focusedControl.major && ((tmp_15_0 = ctx.form.get("major")) == null ? null : tmp_15_0.value == null ? null : tmp_15_0.value.trim()));
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_15_0 = ctx.form.get("major")) == null ? null : tmp_15_0.touched) && ((tmp_15_0 = ctx.form.get("major")) == null ? null : tmp_15_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_16_0 = ctx.form.get("major")) == null ? null : tmp_16_0.touched) && ((tmp_16_0 = ctx.form.get("major")) == null ? null : tmp_16_0.invalid));
       \u0275\u0275advance(7);
-      \u0275\u0275property("ngIf", ((tmp_16_0 = ctx.form.get("graduationDate")) == null ? null : tmp_16_0.touched) && ((tmp_16_0 = ctx.form.get("graduationDate")) == null ? null : tmp_16_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_17_0 = ctx.form.get("graduationDate")) == null ? null : tmp_17_0.touched) && ((tmp_17_0 = ctx.form.get("graduationDate")) == null ? null : tmp_17_0.invalid));
       \u0275\u0275advance(9);
       \u0275\u0275property("ngForOf", ctx.workAuthorizationValues);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_18_0 = ctx.form.get("workAuthorization")) == null ? null : tmp_18_0.touched) && ((tmp_18_0 = ctx.form.get("workAuthorization")) == null ? null : tmp_18_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_19_0 = ctx.form.get("workAuthorization")) == null ? null : tmp_19_0.touched) && ((tmp_19_0 = ctx.form.get("workAuthorization")) == null ? null : tmp_19_0.invalid));
       \u0275\u0275advance(7);
       \u0275\u0275property("formControlName", "school");
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.focusedControl.school && ((tmp_20_0 = ctx.form.get("school")) == null ? null : tmp_20_0.value == null ? null : tmp_20_0.value.trim()));
+      \u0275\u0275property("ngIf", ctx.focusedControl.school && ((tmp_21_0 = ctx.form.get("school")) == null ? null : tmp_21_0.value == null ? null : tmp_21_0.value.trim()));
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_21_0 = ctx.form.get("school")) == null ? null : tmp_21_0.touched) && ((tmp_21_0 = ctx.form.get("school")) == null ? null : tmp_21_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_22_0 = ctx.form.get("school")) == null ? null : tmp_22_0.touched) && ((tmp_22_0 = ctx.form.get("school")) == null ? null : tmp_22_0.invalid));
       \u0275\u0275advance(17);
-      \u0275\u0275property("ngIf", ((tmp_22_0 = ctx.form.get("levelOfEducation")) == null ? null : tmp_22_0.touched) && ((tmp_22_0 = ctx.form.get("levelOfEducation")) == null ? null : tmp_22_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_23_0 = ctx.form.get("levelOfEducation")) == null ? null : tmp_23_0.touched) && ((tmp_23_0 = ctx.form.get("levelOfEducation")) == null ? null : tmp_23_0.invalid));
       \u0275\u0275advance(27);
-      \u0275\u0275property("ngIf", ((tmp_23_0 = ctx.form.get("sourcedBy")) == null ? null : tmp_23_0.touched) && ((tmp_23_0 = ctx.form.get("sourcedBy")) == null ? null : tmp_23_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_24_0 = ctx.form.get("sourcedBy")) == null ? null : tmp_24_0.touched) && ((tmp_24_0 = ctx.form.get("sourcedBy")) == null ? null : tmp_24_0.invalid));
       \u0275\u0275advance(9);
       \u0275\u0275property("ngForOf", ctx.states);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ((tmp_25_0 = ctx.form.get("state")) == null ? null : tmp_25_0.touched) && ((tmp_25_0 = ctx.form.get("state")) == null ? null : tmp_25_0.invalid));
+      \u0275\u0275property("ngIf", ((tmp_26_0 = ctx.form.get("state")) == null ? null : tmp_26_0.touched) && ((tmp_26_0 = ctx.form.get("state")) == null ? null : tmp_26_0.invalid));
       \u0275\u0275advance(33);
       \u0275\u0275property("disabled", ctx.resumeUploading);
       \u0275\u0275advance();
       \u0275\u0275textInterpolate1(" ", ctx.resumeUploading ? "Uploading..." : "Submit", " ");
     }
-  }, dependencies: [NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, MaxLengthValidator, FormGroupDirective, FormControlName, NoWhitespaceDirective], styles: ["\n\n.form-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n}\n.form-group[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n}\n.required[_ngcontent-%COMP%] {\n  color: #ff0000;\n  margin-right: 4px;\n}\n.autocomplete-container[_ngcontent-%COMP%] {\n  position: relative;\n  display: inline-block;\n  width: 99.4%;\n}\n.autocomplete-container[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.autocomplete-items[_ngcontent-%COMP%] {\n  position: absolute;\n  border-radius: 7px;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\n  background: #fff;\n  z-index: 2;\n  max-height: 300px;\n  overflow: auto;\n  padding: 10px;\n  width: 99%;\n  cursor: pointer;\n  color: #161616;\n}\n.autocomplete-item[_ngcontent-%COMP%]:hover, \n.autocomplete-item.active[_ngcontent-%COMP%] {\n  background-color: #eee;\n}\nbutton[_ngcontent-%COMP%]:disabled {\n  cursor: not-allowed;\n}\noption[_ngcontent-%COMP%] {\n  color: black;\n}\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\ninput[type=date][_ngcontent-%COMP%]::-webkit-calendar-picker-indicator {\n  filter: invert(1);\n}\n.legend-container[_ngcontent-%COMP%] {\n  position: relative;\n}\n.form-file-input[_ngcontent-%COMP%] {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  cursor: pointer;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  height: 40px;\n  text-align: center;\n  line-height: 40px;\n  cursor: pointer;\n  border-radius: 7px;\n  border: 1px solid white;\n  color: white;\n  margin-bottom: 0px;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: white;\n  color: black;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}"] });
+  }, dependencies: [NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, MaxLengthValidator, FormGroupDirective, FormControlName, NoWhitespaceDirective], styles: ["\n\n.form-section[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n}\n.sourcing-form-wrapper[_ngcontent-%COMP%] {\n  gap: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.form-group[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n}\n.required[_ngcontent-%COMP%] {\n  color: #ff0000;\n  margin-right: 4px;\n}\n.autocomplete-container[_ngcontent-%COMP%] {\n  position: relative;\n  display: inline-block;\n  width: 100%;\n}\n.autocomplete-container[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.autocomplete-items[_ngcontent-%COMP%] {\n  position: absolute;\n  border-radius: 7px;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\n  background: #fff;\n  z-index: 2;\n  max-height: 300px;\n  overflow: auto;\n  padding: 10px;\n  width: 99%;\n  cursor: pointer;\n  color: #161616;\n}\n.autocomplete-item[_ngcontent-%COMP%]:hover, \n.autocomplete-item.active[_ngcontent-%COMP%] {\n  background-color: #eee;\n}\nbutton[_ngcontent-%COMP%]:disabled {\n  cursor: not-allowed;\n}\noption[_ngcontent-%COMP%] {\n  color: black;\n}\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\n.legend-container[_ngcontent-%COMP%] {\n  position: relative;\n}\n.form-file-input[_ngcontent-%COMP%] {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  cursor: pointer;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 16px;\n  display: inline-block;\n  width: 100%;\n  min-height: 40px;\n  text-align: center;\n  line-height: 30px;\n  cursor: pointer;\n  border-radius: 24px;\n  border: 1px solid rgba(1, 22, 53, 0.6);\n  color: rgba(1, 22, 53, 0.6);\n  margin-bottom: 0px;\n  align-content: center;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: #FF7014;\n  color: white;\n  border: none;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n  margin-bottom: 10px;\n}\ninput[type=file][_ngcontent-%COMP%] {\n  display: none;\n}\n.upload-container[_ngcontent-%COMP%] {\n  padding: 1px;\n  background-color: #F8FAFE;\n}\n.upload-container[_ngcontent-%COMP%]:hover {\n  background:\n    linear-gradient(\n      -20deg,\n      #A100FE,\n      #FF7014);\n}\n.upload-container.upload-container-active[_ngcontent-%COMP%] {\n  background:\n    linear-gradient(\n      -20deg,\n      #A100FE,\n      #FF7014);\n}\n.form-field[_ngcontent-%COMP%] {\n  border-radius: 4px !important;\n}"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(RecruitmentFormComponent, { className: "RecruitmentFormComponent" });

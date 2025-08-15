@@ -838,7 +838,7 @@ export const ENV_VAR = isStaging
     FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/3b5603b0-22d1-4884-90ea-f2f4cad233cb/webflowleadtrigger",
     RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
     GTM_SITE_KEY: "6LfKZ30rAAAAAGJGv-p_A_o72UsJSn4WCGNZbHOB",
-    URL: "https://revature-dev.webflow.io",
+    URL: "https://revature-v3.webflow.io",
     ENV: "staging",
   }
   : {
