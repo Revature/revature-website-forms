@@ -273,6 +273,12 @@ option {
     ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
         border: none !important;
     }
+
+    @media screen and (max-width: 500px) {
+        ::ng-deep .multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
+            margin-top: 4px !important;
+        }
+    }
 }
 
 .custom-dropdown {
