@@ -19,10 +19,21 @@ export class B2bFormComponent implements AfterViewInit {
   @Input('showyourmessage') public showYourMessage: boolean = false;
   @Input('downloadmessage') public downloadMessage: string = "Let's Talk";
   @Input('ishorizontalform') public isHorizontalForm: boolean = false;
+  @Input('showpartnership') public showPartnership: boolean = true;
 
   form: FormGroup;
   loading = false;
   showSubmitButton = true;
+
+  dropdownStates: any = {
+    partnershipType: false
+  };
+
+  partnershipTypes = [
+    { value: 'university', label: 'University' },
+    { value: 'technology', label: 'Technology' },
+    { value: 'alliance', label: 'Alliance' }
+  ];
 
   private readonly CONSUMER_EMAIL_TLDS = [
     "@gmail.",
@@ -79,6 +90,9 @@ export class B2bFormComponent implements AfterViewInit {
       this.form.addControl('yourMessage', this.fb.control('', Validators.required));
     }
 
+    if (this.showPartnership) {
+      this.form.addControl('partnershipType', this.fb.control('', Validators.required));
+    }
   }
 
   private validateEmail(control: any): { [key: string]: boolean } | null {
@@ -118,6 +132,49 @@ export class B2bFormComponent implements AfterViewInit {
 
   recaptchaSuccessCallback(response: any): void {
     this.form.get('validCaptacha')?.setValue(response ? true : false);
+  }
+
+  toggleDropdown(dropdownName: string): void {
+    this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
+    Object.keys(this.dropdownStates).forEach((key) => {
+      if (key !== dropdownName) {
+        this.dropdownStates[key] = false;
+      }
+    });
+  }
+
+  selectDropdownValue(
+    formControlName: string,
+    item: any,
+    event: Event,
+    dropdownName: string
+  ): void {
+    event.stopPropagation();
+    this.form.get(formControlName)?.setValue(item.value);
+    this.dropdownStates[dropdownName] = false;
+  }
+
+  getSelectedOption(formControlName: string, optionsArray: any[]): any {
+    const selectedValue = this.form.get(formControlName)?.value;
+    return optionsArray.find((option) => option.value === selectedValue);
+  }
+
+  getDropdownOptions(dropdownType: string): any[] {
+    switch (dropdownType) {
+      case 'partnershipTypes':
+        return this.partnershipTypes;
+      default:
+        return [];
+    }
+  }
+
+  getDropdownPlaceholder(dropdownType: string): string {
+    switch (dropdownType) {
+      case 'partnershipTypes':
+        return 'Select Partnership Type';
+      default:
+        return 'Select an option';
+    }
   }
 
   async onSubmit(): Promise<void> {
@@ -267,6 +324,16 @@ export class B2bFormComponent implements AfterViewInit {
   @HostListener('window:resize')
   onResize() {
     this.isExtendedForm ? this.resizeCaptcha() : '';
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.custom-dropdown')) {
+      Object.keys(this.dropdownStates).forEach((key) => {
+        this.dropdownStates[key] = false;
+      });
+    }
   }
 
   ngAfterViewInit() {
