@@ -8,6 +8,10 @@
     }
 }
 
+form {
+    display: grid;
+}
+
 .autocomplete-items {
     position: absolute;
     border-radius: 7px;
@@ -364,4 +368,11 @@ option {
         background-color: #FF7014;
         color: white;
     }
+}
+
+re-captcha {
+    display: block;
+    width: 100%;
+    max-width: 304px;
+    overflow: hidden;
 }

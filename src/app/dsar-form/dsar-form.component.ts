@@ -411,19 +411,18 @@ export class DsarFormComponent implements AfterViewInit {
   }
 
   private resizeCaptcha(): void {
-    const width = window.innerWidth;
-    const recaptchaContainer = document.querySelector('.g-recaptcha');
+    const reCaptchaElement = document.getElementsByTagName('re-captcha')[0];
 
-    if (recaptchaContainer) {
-      if (width < 400) {
-        const scale = width / 400;
-        const transformOrigin = 'left top';
-        (recaptchaContainer as HTMLElement).style.transform = `scale(${scale})`;
-        (recaptchaContainer as HTMLElement).style.transformOrigin =
-          transformOrigin;
-      } else {
-        (recaptchaContainer as HTMLElement).style.transform = 'scale(1)';
-      }
+    const captchaElem = reCaptchaElement?.getElementsByTagName('div')[0] as HTMLElement;
+    if (!captchaElem) return;
+
+    const captchaWidth = captchaElem?.offsetWidth;
+    const parentWidth = reCaptchaElement?.parentElement?.offsetWidth;
+
+    if (captchaWidth && parentWidth) {
+      const scale = parentWidth / captchaWidth;
+      captchaElem.style.transform = `scale(${scale < 1 ? scale : 1})`;
+      captchaElem.style.transformOrigin = '0 0';
     }
   }
 }
