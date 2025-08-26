@@ -40008,11 +40008,11 @@ var B2bFormComponent = class _B2bFormComponent {
   pdfName = "Revature_file";
   downloadBtnId = "survey_download";
   isExternalURL = false;
-  isExtendedForm = true;
+  isExtendedForm = false;
   showYourMessage = false;
   downloadMessage = "Let's Talk";
   isHorizontalForm = false;
-  showPartnership = true;
+  showPartnership = false;
   form;
   loading = false;
   showSubmitButton = true;
