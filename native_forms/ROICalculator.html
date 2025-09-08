@@ -8,7 +8,7 @@
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    padding: 0;
+    padding: 32px;
 
     .inputs {
       padding: 16px 16px;
@@ -56,11 +56,13 @@
       display: block;
       margin: 5px 0 15px;
       cursor: pointer;
+      font-size:18px;
     }
     .slider-range {
       display: flex;
       justify-content: space-between;
       margin-top: 5px;
+      font-size: 14px;
     }
     input[type="range"] {
       width: 100%;
@@ -131,7 +133,7 @@
     .conservative-value {
       color: #ff7014;
       font-size: 24px;
-      font-weight: 600;
+      font-weight: 700;
     }
     .advisor-btn {
       width: 100%;
@@ -187,6 +189,11 @@
       display: flex;
       flex-direction: column;
     }
+
+    .rev_opt_text{
+      font-size:18px;
+    }
+    
     .toggle-description {
       margin-top: 5px;
     }
@@ -201,6 +208,7 @@
   @media (max-width: 992px) {
     .roi-calculator-container {
       grid-template-columns: 1fr 1fr;
+
     }
     .impact {
       grid-column: span 2;
@@ -210,6 +218,7 @@
   @media (max-width: 768px) {
     .roi-calculator-container {
       grid-template-columns: 1fr;
+      padding: 0px;
     }
     .impact {
       grid-column: span 1;
@@ -276,21 +285,21 @@
   </div>
   <div class="results">
     <div class="result-card">
-      <div class="result-title rev_text_body/large font-w-semibold">Optimize Talent Planning</div>
+      <div class="result-title rev_text_body/large rev_opt_text font-w-semibold">Optimize Talent Planning</div>
       <div class="result-desc">
         Find the right talent, on time, within budget.
       </div>
       <div class="result-value" id="talentPlanningValue">$800,000</div>
     </div>
     <div class="result-card">
-      <div class="result-title rev_text_body/large font-w-semibold">Accelerate time to fill</div>
+      <div class="result-title rev_text_body/large rev_opt_text font-w-semibold">Accelerate time to fill</div>
       <div class="result-desc">
         Surface qualified talent faster to fill open roles.
       </div>
       <div class="result-value" id="timeToFillValue">$356,000</div>
     </div>
     <div class="result-card">
-      <div class="result-title rev_text_body/large font-w-semibold">Reduce attrition</div>
+      <div class="result-title rev_text_body/large rev_opt_text font-w-semibold">Reduce attrition</div>
       <div class="result-desc">
         Reduce unwanted turnover in your organization.
       </div>
@@ -309,7 +318,7 @@
           <span class="toggle-slider"></span>
         </label>
         <div class="toggle-text">
-          <span class="rev_text_body/large font-w-semibold">Revature's Optimistic Results</span>
+          <span class="rev_text_body/large rev_opt_text font-w-semibold">Revature's Optimistic Results</span>
           <span class="toggle-description">
             See the full range of your potential impact.
           </span>
