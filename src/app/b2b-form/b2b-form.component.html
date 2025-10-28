@@ -59,7 +59,7 @@
     <div class="one-grid-container" *ngIf="showYourMessage">
         <fieldset class="form-fieldset">
             <textarea noWhitespace class="b2b-form-field b2b-form-textarea" formControlName="yourMessage"
-                placeholder="Your Message" rows="4" maxlength="500"></textarea>
+                placeholder="Your Message" rows="3" maxlength="500"></textarea>
             <span class="b2b-error-message"
                 [class.visible]="form.get('yourMessage')?.invalid && form.get('yourMessage')?.touched">
                 Your Message is required

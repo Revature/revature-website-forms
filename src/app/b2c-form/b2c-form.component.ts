@@ -452,6 +452,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
       // Education Fields (Dynamic based on country and current student selection)
       levelOfEducation: ['', [Validators.required]],
+      collegeName: [''],
       branch: [''],
       major: [''],
       majorID: [''],
@@ -487,7 +488,8 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       validCaptacha: [''],
 
       // India-Specific Fields
-      majorGrade: ['', [Validators.pattern('^.{1,3}$')]], // Score in Degree (in %)
+      majorGrade: ['', [Validators.pattern('^.{1,3}$')]], // Score in UG Degree (in %)
+      mastersGrade: ['', [Validators.pattern('^.{1,3}$')]], // Score in PG Degree (in %)
       '12thGrade': ['', [Validators.pattern('^.{1,3}$')]], // Score in 12th Board exam (in %)
       '10thGrade': ['', [Validators.pattern('^.{1,3}$')]], // Score in 10th Board exam (in %)
 
@@ -568,6 +570,10 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
     this.form.get('majorGrade')?.valueChanges.subscribe((value) => {
       this.handleIndiaGradeChange(value, 'majorGrade');
+    });
+
+    this.form.get('mastersGrade')?.valueChanges.subscribe((value) => {
+      this.handleIndiaGradeChange(value, 'mastersGrade');
     });
 
     this.form.get('12thGrade')?.valueChanges.subscribe((value) => {
@@ -796,15 +802,11 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
     this.form.get('workAuthorization')?.setValue('');
     if (country === 'India') {
-      this.form
-        .get('majorGrade')
-        ?.setValidators([Validators.required, Validators.pattern('^.{1,3}$')]);
-      this.form
-        .get('12thGrade')
-        ?.setValidators([Validators.required, Validators.pattern('^.{1,3}$')]);
-      this.form
-        .get('10thGrade')
-        ?.setValidators([Validators.required, Validators.pattern('^.{1,3}$')]);
+      this.form.get('majorGrade')?.setValidators([Validators.required, Validators.pattern('^.{1,3}$')]);
+      this.form.get('mastersGrade')?.setValidators([Validators.pattern('^.{1,3}$')]);
+      this.form.get('12thGrade')?.setValidators([Validators.required, Validators.pattern('^.{1,3}$')]);
+      this.form .get('10thGrade')?.setValidators([Validators.required, Validators.pattern('^.{1,3}$')]);
+      this.form.get('collegeName')?.setValidators([Validators.required]);
       this.form.get('workAuthorization')?.clearValidators();
 
       this.form.get('hasCertifications')?.setValidators([Validators.required]);
@@ -814,8 +816,10 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     } else {
       this.form.get('workAuthorization')?.setValidators([Validators.required]);
       this.form.get('majorGrade')?.clearValidators();
+      this.form.get('mastersGrade')?.clearValidators();
       this.form.get('12thGrade')?.clearValidators();
       this.form.get('10thGrade')?.clearValidators();
+      this.form.get('collegeName')?.clearValidators();
 
       this.form.get('hasCertifications')?.clearValidators();
       this.form.get('hasInternships')?.clearValidators();
@@ -823,8 +827,10 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('gender')?.clearValidators();
 
       this.form.get('majorGrade')?.setValue('');
+      this.form.get('mastersGrade')?.setValue('');
       this.form.get('12thGrade')?.setValue('');
       this.form.get('10thGrade')?.setValue('');
+      this.form.get('collegeName')?.setValue('');
 
       this.form.get('hasCertifications')?.setValue('');
       this.form.get('hasInternships')?.setValue('');
@@ -832,12 +838,12 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('gender')?.setValue('');
     }
 
-    this.form
-      .get('workAuthorization')
-      ?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('workAuthorization')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('majorGrade')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('mastersGrade')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('12thGrade')?.updateValueAndValidity({ emitEvent: false });
     this.form.get('10thGrade')?.updateValueAndValidity({ emitEvent: false });
+    this.form.get('collegeName')?.updateValueAndValidity({ emitEvent: false });
 
     this.form
       .get('hasCertifications')
@@ -855,6 +861,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     this.handleCurrentStudentChange(this.form.value.currentStudent);
     this.updateOtherDegreeValidation();
   }
+  
   private handleCurrentStudentChange(currentStudent: string): void {
     this.calculateGraduationYears(currentStudent);
 
@@ -866,6 +873,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     this.form.get('school')?.setValue('');
     this.form.get('schoolID')?.setValue('');
     this.form.get('branch')?.setValue('');
+    this.form.get('collegeName')?.setValue('');
 
     const country = this.form.get('country')?.value;
     this.form.get('levelOfEducation')?.setValidators([Validators.required]);
@@ -1584,6 +1592,16 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     }
     this.form.get('branch')?.updateValueAndValidity();
     this.updateOtherDegreeValidation();
+
+    if (this.form.get('country')?.value === 'India') {
+      if (this.showMastersGradeField()) {
+        this.form.get('mastersGrade')?.setValidators([Validators.required, Validators.pattern('^.{1,3}$')]);
+      } else {
+        this.form.get('mastersGrade')?.clearValidators();
+        this.form.get('mastersGrade')?.setValue('');
+      }
+      this.form.get('mastersGrade')?.updateValueAndValidity({ emitEvent: false });
+    }
   }
 
   showBranchField(): boolean {
@@ -1598,6 +1616,11 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       'Bachelor of Science',
       'Master of Science',
     ].includes(degree);
+  }
+
+  showMastersGradeField(): boolean {
+    const degree = this.form.get('levelOfEducation')?.value;
+    return degree.includes('Master');
   }
 
   getBranchesArray(): any[] {

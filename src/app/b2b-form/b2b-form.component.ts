@@ -18,7 +18,7 @@ export class B2bFormComponent implements AfterViewInit {
   @Input('isextendedform') public isExtendedForm: boolean = false;
   @Input('showyourmessage') public showYourMessage: boolean = false;
   @Input('downloadmessage') public downloadMessage: string = "Let's Talk";
-  @Input('ishorizontalform') public isHorizontalForm: boolean = false;
+  @Input('ishorizontalform') public isHorizontalForm: boolean = true;
   @Input('showpartnership') public showPartnership: boolean = false;
 
   form: FormGroup;

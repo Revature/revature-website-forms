@@ -576,6 +576,16 @@
                 </fieldset>
             </div>
             
+            <fieldset class="one-grid-container">
+                <legend class="form-label">College Name</legend>
+                <input noWhitespace maxlength="100" class="form-field common-field" type="text" formControlName="collegeName" 
+                    placeholder="Enter College Name">
+                <span class="b2c-error-message common-error-message"
+                    *ngIf="form.get('collegeName')?.invalid && form.get('collegeName')?.touched">
+                        College name is required
+                </span>
+            </fieldset>
+            
             <!-- Other Degree/Branch Field (for High School or Unlisted Branch) -->
             <fieldset class="one-grid-container" *ngIf="form.get('levelOfEducation')?.value === 'High School' || form.get('branch')?.value === 'a0A0P00001ZJyCLUA1'">
                 <legend class="form-label">{{ form.get('levelOfEducation')?.value === 'High School' ? 'Specify Other Degree' : 'Specify Branch' }}</legend>
@@ -760,14 +770,30 @@
     <!-- India-Specific Fields -->
     <ng-container *ngIf="form.get('country')?.value === 'India'">
         <div class="one-grid-container">
+            <!-- Masters Grade Field (only for Masters degrees) -->
+            <fieldset class="form-fieldset" *ngIf="showMastersGradeField()">
+                <legend class="form-label">Score in PG Degree (in %)</legend>
+                <input noWhitespace class="form-field education-field common-field" formControlName="mastersGrade" type="text" maxlength="3"
+                    placeholder="PG Degree Score in %">
+                <span class="b2c-error-message education-error-message common-error-message"
+                    *ngIf="form.get('mastersGrade')?.invalid && form.get('mastersGrade')?.touched">
+                    <span *ngIf="form.get('mastersGrade')?.errors?.['required']">
+                        PG degree score is required.
+                    </span>
+                    <span *ngIf="form.get('mastersGrade')?.errors?.['pattern']">
+                        Score must be a valid number
+                    </span>
+                </span>
+            </fieldset>
+            
             <fieldset class="form-fieldset">
-                <legend class="form-label">Score in Degree (in %)</legend>
+                <legend class="form-label">Score in UG Degree (in %)</legend>
                 <input noWhitespace class="form-field education-field common-field" formControlName="majorGrade" type="text" maxlength="3"
-                    placeholder="Degree Score in %">
+                    placeholder="UG Degree Score in %">
                 <span class="b2c-error-message education-error-message common-error-message"
                     *ngIf="form.get('majorGrade')?.invalid && form.get('majorGrade')?.touched">
                     <span *ngIf="form.get('majorGrade')?.errors?.['required']">
-                        Degree score is required.
+                        UG degree score is required.
                     </span>
                     <span *ngIf="form.get('majorGrade')?.errors?.['pattern']">
                         Score must be a valid number
