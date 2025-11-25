@@ -75,6 +75,7 @@ export class B2bFormComponent implements AfterViewInit {
       jobTitle: ['', Validators.required],
       companyName: ['', Validators.required],
       email: ['', [Validators.required, this.validateEmail.bind(this), this.businessEmailValidator.bind(this)]],
+      howDidYouKnowAboutRevature: ['', Validators.required],
       validCaptacha: ['']
     });
 
@@ -189,6 +190,7 @@ export class B2bFormComponent implements AfterViewInit {
           this.form.get('validCaptacha')?.setValue(false);
         }
       }
+      this.scrollToFirstError();
       return;
     }
     if (this.isExtendedForm) {
@@ -360,5 +362,24 @@ export class B2bFormComponent implements AfterViewInit {
       captchaElem.style.transform = `scale(${scale < 1 ? scale : 1})`;
       captchaElem.style.transformOrigin = '0 0';
     }
+  }
+
+  private scrollToFirstError(): void {
+    setTimeout(() => {
+      const allErrorElements = document.querySelectorAll('.b2b-error-message');
+      let errorElement;
+
+      for (let i = 0; i < allErrorElements.length; i++) {
+        const element = allErrorElements[i] as HTMLElement;
+        if (element.offsetParent !== null) {
+          errorElement = element;
+          break;
+        }
+      }
+
+      if (errorElement) {
+        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
   }
 }

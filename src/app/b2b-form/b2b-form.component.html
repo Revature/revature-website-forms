@@ -56,6 +56,17 @@
         </fieldset>
     </div>
 
+    <div class="one-grid-container">
+        <fieldset class="form-fieldset">
+            <input maxlength="200" noWhitespace class="b2b-form-field" type="text" formControlName="howDidYouKnowAboutRevature"
+                placeholder="How did you come to know about Revature?">
+            <span class="b2b-error-message"
+                [class.visible]="form.get('howDidYouKnowAboutRevature')?.invalid && form.get('howDidYouKnowAboutRevature')?.touched">
+                This field is required
+            </span>
+        </fieldset>
+    </div>
+
     <div class="one-grid-container" *ngIf="showYourMessage">
         <fieldset class="form-fieldset">
             <textarea noWhitespace class="b2b-form-field b2b-form-textarea" formControlName="yourMessage"
