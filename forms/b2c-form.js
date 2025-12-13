@@ -40383,12 +40383,12 @@ var MEXICO_STATE_VALUES = [
   "Yucatan",
   "Zacatecas"
 ];
-var isStaging = window.location.hostname.includes("webflow.io") || window.location.hostname.includes("localhost");
+var isStaging = window.location.hostname.includes("webflow.io") || window.location.hostname.includes("localhost") || window.location.hostname.includes("staging");
 var ENV_VAR = isStaging ? {
   FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/3b5603b0-22d1-4884-90ea-f2f4cad233cb/webflowleadtrigger",
   RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
-  GTM_SITE_KEY: "6LfKZ30rAAAAAGJGv-p_A_o72UsJSn4WCGNZbHOB",
-  URL: "https://revature-v3.webflow.io",
+  GTM_SITE_KEY: window.location.hostname.includes("staging") ? "6LcSglgqAAAAAHhuq6vBM6MzbjNnheGj-l1lS-lO" : "6LfKZ30rAAAAAGJGv-p_A_o72UsJSn4WCGNZbHOB",
+  URL: window.location.hostname.includes("staging") ? "https://staging3.revature.com" : "https://revature-v3.webflow.io",
   ENV: "staging"
 } : {
   FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/8aa3e26d-f754-4b76-92d4-fd755c4c7c9e/webflowleadtrigger",
@@ -42514,34 +42514,11 @@ function B2cFormComponent_div_34_ng_container_4_fieldset_13_Template(rf, ctx) {
     \u0275\u0275property("ngIf", ((tmp_8_0 = ctx_r0.form.get("branch")) == null ? null : tmp_8_0.invalid) && ((tmp_8_0 = ctx_r0.form.get("branch")) == null ? null : tmp_8_0.touched));
   }
 }
-function B2cFormComponent_div_34_ng_container_4_span_18_span_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " College name is required ");
-    \u0275\u0275elementEnd();
-  }
-}
-function B2cFormComponent_div_34_ng_container_4_span_18_span_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " College name must not exceed 100 characters ");
-    \u0275\u0275elementEnd();
-  }
-}
 function B2cFormComponent_div_34_ng_container_4_span_18_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 52);
-    \u0275\u0275template(1, B2cFormComponent_div_34_ng_container_4_span_18_span_1_Template, 2, 0, "span", 17)(2, B2cFormComponent_div_34_ng_container_4_span_18_span_2_Template, 2, 0, "span", 17);
+    \u0275\u0275text(1, " College name is required ");
     \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    let tmp_3_0;
-    let tmp_4_0;
-    const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_3_0 = ctx_r0.form.get("collegeName")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["required"]);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngIf", (tmp_4_0 = ctx_r0.form.get("collegeName")) == null ? null : tmp_4_0.errors == null ? null : tmp_4_0.errors["maxlength"]);
   }
 }
 function B2cFormComponent_div_34_ng_container_4_fieldset_19_span_4_Template(rf, ctx) {
@@ -42602,7 +42579,7 @@ function B2cFormComponent_div_34_ng_container_4_Template(rf, ctx) {
     \u0275\u0275text(16, "College Name");
     \u0275\u0275elementEnd();
     \u0275\u0275element(17, "input", 108);
-    \u0275\u0275template(18, B2cFormComponent_div_34_ng_container_4_span_18_Template, 3, 2, "span", 5);
+    \u0275\u0275template(18, B2cFormComponent_div_34_ng_container_4_span_18_Template, 2, 0, "span", 5);
     \u0275\u0275elementEnd();
     \u0275\u0275template(19, B2cFormComponent_div_34_ng_container_4_fieldset_19_Template, 5, 3, "fieldset", 30);
     \u0275\u0275elementContainerEnd();

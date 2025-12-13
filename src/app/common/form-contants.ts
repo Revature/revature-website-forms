@@ -838,14 +838,14 @@ export const WORK_AUTH_VALUES = ["U.S. Citizen",
   "Other",
   "Yes"]
 
-const isStaging = window.location.hostname.includes("webflow.io") || window.location.hostname.includes("localhost");
+const isStaging = window.location.hostname.includes("webflow.io") || window.location.hostname.includes("localhost") || window.location.hostname.includes("staging");
 
 export const ENV_VAR = isStaging
   ? {
     FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/3b5603b0-22d1-4884-90ea-f2f4cad233cb/webflowleadtrigger",
     RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
-    GTM_SITE_KEY: "6LfKZ30rAAAAAGJGv-p_A_o72UsJSn4WCGNZbHOB",
-    URL: "https://revature-v3.webflow.io",
+    GTM_SITE_KEY: window.location.hostname.includes("staging") ? "6LcSglgqAAAAAHhuq6vBM6MzbjNnheGj-l1lS-lO" : "6LfKZ30rAAAAAGJGv-p_A_o72UsJSn4WCGNZbHOB",
+    URL: window.location.hostname.includes("staging") ? "https://staging3.revature.com" : "https://revature-v3.webflow.io",
     ENV: "staging",
   }
   : {
