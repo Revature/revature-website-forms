@@ -109,6 +109,14 @@ export class RecruitmentFormComponent {
         this.form.get('otherLeadSource')?.clearValidators();
       }
       this.form.get('otherLeadSource')?.updateValueAndValidity();
+
+      if (value === 'LinkedIn (email-sourced)') {
+        this.form.get('phone')?.clearValidators();
+        this.form.get('phone')?.setValidators([Validators.pattern('^[0-9]{10}$')]);
+      } else {
+        this.form.get('phone')?.setValidators([Validators.required, Validators.pattern('^[0-9]{10}$')]);
+      }
+      this.form.get('phone')?.updateValueAndValidity();
     });
 
     this.form.get('country')?.valueChanges.subscribe(value => {

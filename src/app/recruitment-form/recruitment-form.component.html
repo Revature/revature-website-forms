@@ -95,7 +95,7 @@
 
     <div class="form-group">
         <label class="form-label">
-            Mobile Number:<span class="required">*</span> (Country Code not required)
+            Mobile Number:<span class="required" *ngIf="form.get('personSource')?.value !== 'LinkedIn (email-sourced)'">*</span> (Country Code not required)
         </label>
         <input noWhitespace class="form-field" formControlName="phone" type="tel" maxlength="10" placeholder="Mobile Number">
         <div *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid" class="form-error-message">
