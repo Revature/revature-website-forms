@@ -352,13 +352,15 @@ export class RecruitmentFormComponent {
     }
 
     const phone = this.form.get('phone')?.value;
-    switch (this.form.get('country')?.value) {
-      case "Mexico":
-        this.form.get('phone')?.setValue("+52" + phone);
-        break;
-      case "United Kingdom":
-        this.form.get('phone')?.setValue("+44" + phone);
-        break;
+    if (phone.trim()) {
+      switch (this.form.get('country')?.value) {
+        case 'Mexico':
+          this.form.get('phone')?.setValue('+52' + phone);
+          break;
+        case 'United Kingdom':
+          this.form.get('phone')?.setValue('+44' + phone);
+          break;
+      }
     }
 
     try {

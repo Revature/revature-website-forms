@@ -40232,10 +40232,12 @@ var SourcingFormComponent = class _SourcingFormComponent {
         return;
       }
       const phone = this.form.get("phone")?.value;
-      switch (this.form.get("country")?.value) {
-        case "Mexico":
-          this.form.get("phone")?.setValue("+52" + phone);
-          break;
+      if (phone.trim()) {
+        switch (this.form.get("country")?.value) {
+          case "Mexico":
+            this.form.get("phone")?.setValue("+52" + phone);
+            break;
+        }
       }
       try {
         const params = new HttpParams({ fromObject: this.form.value });
