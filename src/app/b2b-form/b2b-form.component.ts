@@ -38,6 +38,7 @@ export class B2bFormComponent implements AfterViewInit {
   private readonly CONSUMER_EMAIL_TLDS = [
     "@gmail.",
     "@yahoo.",
+    "@yahoo.co.",
     "@hotmail.",
     "@live.",
     "@aol.",
@@ -55,7 +56,30 @@ export class B2bFormComponent implements AfterViewInit {
     "@freenet.",
     "@1&1.",
     "@icloud.",
-    "@gmx."
+    "@gmx.",
+    "@zohomail.",
+    "@protonmail.",
+    "@pm.",
+    "@yandex.",
+    "@fastmail.",
+    "@hey.",
+    "@rediffmail.",
+    "@rediff.",
+    "@in.",
+    "@sify.",
+    "@vsnl.",
+    "@mailinator.",
+    "@guerrillamail.",
+    "@10minutemail.",
+    "@temp-mail.",
+    "@tempmailo.",
+    "@throwawaymail.",
+    "@dispostable.",
+    "@maildrop.",
+    "@getnada.",
+    "@yopmail.",
+    "@sharklasers.",
+    "@trashmail."
   ];
 
   constructor(

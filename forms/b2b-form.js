@@ -40027,6 +40027,7 @@ var B2bFormComponent = class _B2bFormComponent {
   CONSUMER_EMAIL_TLDS = [
     "@gmail.",
     "@yahoo.",
+    "@yahoo.co.",
     "@hotmail.",
     "@live.",
     "@aol.",
@@ -40044,7 +40045,30 @@ var B2bFormComponent = class _B2bFormComponent {
     "@freenet.",
     "@1&1.",
     "@icloud.",
-    "@gmx."
+    "@gmx.",
+    "@zohomail.",
+    "@protonmail.",
+    "@pm.",
+    "@yandex.",
+    "@fastmail.",
+    "@hey.",
+    "@rediffmail.",
+    "@rediff.",
+    "@in.",
+    "@sify.",
+    "@vsnl.",
+    "@mailinator.",
+    "@guerrillamail.",
+    "@10minutemail.",
+    "@temp-mail.",
+    "@tempmailo.",
+    "@throwawaymail.",
+    "@dispostable.",
+    "@maildrop.",
+    "@getnada.",
+    "@yopmail.",
+    "@sharklasers.",
+    "@trashmail."
   ];
   ngOnInit() {
     this.initForm();
