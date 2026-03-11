@@ -56,7 +56,7 @@
         </fieldset>
     </div>
 
-    <div class="one-grid-container">
+    <div class="one-grid-container" *ngIf="showHowDidYouHear">
         <fieldset class="form-fieldset">
             <input maxlength="200" noWhitespace class="b2b-form-field" type="text" formControlName="howDidYouKnowAboutRevature"
                 placeholder="How did you hear about Revature?">
@@ -74,6 +74,25 @@
             <span class="b2b-error-message"
                 [class.visible]="form.get('yourMessage')?.invalid && form.get('yourMessage')?.touched">
                 Your Message is required
+            </span>
+        </fieldset>
+    </div>
+
+    <div class="one-grid-container" *ngIf="showFdeTimeframe">
+        <fieldset class="form-fieldset">
+            <p class="fde-timeframe-question">When do you need Forward Deployment Engineers (FDEs)?</p>
+            <div class="fde-timeframe-options">
+                <button type="button" class="fde-timeframe-option b2b-form-field"
+                    *ngFor="let option of fdeTimeframeOptions"
+                    [class.selected]="form.get('fdeTimeframe')?.value === option.value"
+                    [class.error]="form.get('fdeTimeframe')?.invalid && form.get('fdeTimeframe')?.touched"
+                    (click)="selectFdeTimeframe(option.value)">
+                    {{ option.label }}
+                </button>
+            </div>
+            <span class="b2b-error-message"
+                [class.visible]="form.get('fdeTimeframe')?.invalid && form.get('fdeTimeframe')?.touched">
+                This field is required
             </span>
         </fieldset>
     </div>

@@ -20,6 +20,8 @@ export class B2bFormComponent implements AfterViewInit {
   @Input('downloadmessage') public downloadMessage: string = "Let's Talk";
   @Input('ishorizontalform') public isHorizontalForm: boolean = true;
   @Input('showpartnership') public showPartnership: boolean = false;
+  @Input('showhowdidyouhear') public showHowDidYouHearInput: any = true;
+  @Input('showfdetimeframe') public showFdeTimeframeInput: any = false;
 
   form: FormGroup;
   loading = false;
@@ -33,6 +35,12 @@ export class B2bFormComponent implements AfterViewInit {
     { value: 'university', label: 'University' },
     { value: 'technology', label: 'Technology' },
     { value: 'alliance', label: 'Alliance' }
+  ];
+
+  fdeTimeframeOptions = [
+    { value: 'under-3-months', label: '<3 months' },
+    { value: '3-6-months', label: '3-6 months' },
+    { value: '6-9-months', label: '6-9 months' }
   ];
 
   private readonly CONSUMER_EMAIL_TLDS = [
@@ -88,6 +96,24 @@ export class B2bFormComponent implements AfterViewInit {
     private sharedService: SharedService
   ) { }
 
+  private normalizeBoolean(value: any, defaultValue: boolean): boolean {
+    if (value === undefined || value === null || value === '') {
+      return defaultValue;
+    }
+    if (typeof value === 'string') {
+      return value.toLowerCase() === 'true';
+    }
+    return !!value;
+  }
+
+  get showHowDidYouHear(): boolean {
+    return this.normalizeBoolean(this.showHowDidYouHearInput, true);
+  }
+
+  get showFdeTimeframe(): boolean {
+    return this.normalizeBoolean(this.showFdeTimeframeInput, false);
+  }
+
   ngOnInit(): void {
     this.initForm();
   }
@@ -99,7 +125,7 @@ export class B2bFormComponent implements AfterViewInit {
       jobTitle: ['', Validators.required],
       companyName: ['', Validators.required],
       email: ['', [Validators.required, this.validateEmail.bind(this), this.businessEmailValidator.bind(this)]],
-      howDidYouKnowAboutRevature: ['', Validators.required],
+      howDidYouKnowAboutRevature: ['', this.showHowDidYouHear ? Validators.required : []],
       validCaptacha: ['']
     });
 
@@ -117,6 +143,10 @@ export class B2bFormComponent implements AfterViewInit {
 
     if (this.showPartnership) {
       this.form.addControl('partnershipType', this.fb.control('', Validators.required));
+    }
+
+    if (this.showFdeTimeframe) {
+      this.form.addControl('fdeTimeframe', this.fb.control('', Validators.required));
     }
   }
 
@@ -177,6 +207,10 @@ export class B2bFormComponent implements AfterViewInit {
     event.stopPropagation();
     this.form.get(formControlName)?.setValue(item.value);
     this.dropdownStates[dropdownName] = false;
+  }
+
+  selectFdeTimeframe(value: string): void {
+    this.form.get('fdeTimeframe')?.setValue(value);
   }
 
   getSelectedOption(formControlName: string, optionsArray: any[]): any {
