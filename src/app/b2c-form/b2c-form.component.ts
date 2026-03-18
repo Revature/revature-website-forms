@@ -15,6 +15,9 @@ declare const Dropbox: any;
 export class B2cFormComponent implements AfterViewInit, OnInit {
   @Input('isfederalworker') public isFederalWorker: boolean = false;
   @Input('thankyouextensionurl') public thankyouExtensionUrl: string = '';
+  @Input('showprofessionexperience') public showProfessionalExperienceInput: any = false;
+  @Input('showstudentandfederalblocks') public showStudentAndFederalBlocksInput: any = true;
+  @Input('showprogrammingexperience') public showProgrammingExperienceInput: any = true;
 
   form: FormGroup;
 
@@ -58,7 +61,26 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     graduationYear: false,
     programmingExperience: false,
     disabilityType: false,
+    yearsOfProfessionalExperience: false,
   };
+
+  private normalizeBoolean(value: any, defaultValue: boolean): boolean {
+    if (value === undefined || value === null || value === '') return defaultValue;
+    if (typeof value === 'string') return value.toLowerCase() === 'true';
+    return !!value;
+  }
+
+  get showProfessionalExperience(): boolean {
+    return this.normalizeBoolean(this.showProfessionalExperienceInput, false);
+  }
+
+  get showStudentAndFederalBlocks(): boolean {
+    return this.normalizeBoolean(this.showStudentAndFederalBlocksInput, true);
+  }
+
+  get showProgrammingExperience(): boolean {
+    return this.normalizeBoolean(this.showProgrammingExperienceInput, true);
+  }
 
   countries = [
     { value: 'United States', label: 'United States' },
@@ -423,6 +445,32 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('securityClearance')?.valueChanges.subscribe((value) => {
         this.handleSecurityClearanceChange(value);
       });
+    }
+
+    if (this.showProfessionalExperience && this.form && !this.form.get('yearsOfProfessionalExperience')) {
+      this.form.addControl(
+        'yearsOfProfessionalExperience',
+        this.fb.control('', Validators.required)
+      );
+    }
+
+    // If student/federal blocks are hidden (e.g. FD Careers page),
+    // make sure currentStudent doesn't block submit and education logic is consistent.
+    if (!this.showStudentAndFederalBlocks && this.form) {
+      const currentStudentControl = this.form.get('currentStudent');
+      currentStudentControl?.clearValidators();
+      currentStudentControl?.setValue('no');
+      currentStudentControl?.updateValueAndValidity({ emitEvent: false });
+
+      this.handleCurrentStudentChange('no');
+    }
+
+    if (!this.showProgrammingExperience && this.form) {
+      this.form.get('programmingExperience')?.clearValidators();
+      this.form.get('programmingExperience')?.setValue('');
+      this.form
+        .get('programmingExperience')
+        ?.updateValueAndValidity({ emitEvent: false });
     }
   }
 

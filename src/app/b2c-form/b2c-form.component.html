@@ -307,7 +307,7 @@
         </ng-container>
     </div>
 
-    <fieldset class="two-grid-container" *ngIf="isFederalWorker">
+    <fieldset class="two-grid-container" *ngIf="isFederalWorker && showStudentAndFederalBlocks">
         <legend class="form-label">Are You A Displaced Federal or Government Worker?</legend>
         <div class="custom-radio">
             <input type="radio" formControlName="displacedWorker" value="no" id="noDisplacedWorker">
@@ -374,7 +374,7 @@
     </ng-container>
 
     <!-- Current Student -->
-    <fieldset id="currentStudentRadioButtons" class="two-grid-container" *ngIf="!isFederalWorker">
+    <fieldset id="currentStudentRadioButtons" class="two-grid-container" *ngIf="!isFederalWorker && showStudentAndFederalBlocks">
         <legend class="form-label">Are You Currently a Student?</legend>
         <div class="custom-radio">
             <input type="radio" formControlName="currentStudent" value="no" id="no">
@@ -683,7 +683,7 @@
     </fieldset>
 
     <!-- Programming Experience -->
-    <fieldset class="one-grid-container">
+    <fieldset class="one-grid-container" *ngIf="showProgrammingExperience">
         <legend class="form-label">How many years of programming experience?</legend>
         <div class="custom-dropdown">
             <button type="button" 
@@ -708,6 +708,49 @@
         <span class="b2c-error-message common-error-message"
             *ngIf="form.get('programmingExperience')?.invalid && form.get('programmingExperience')?.touched">
             Experience is required
+        </span>
+    </fieldset>
+
+    <!-- Professional Experience (optional, controlled by parent flag) -->
+    <fieldset class="one-grid-container" *ngIf="showProfessionalExperience">
+        <legend class="form-label">How many years of professional experience?</legend>
+        <div class="custom-dropdown">
+            <button type="button"
+                    class="custom-dropdown-button form-field"
+                    [class.error]="form.get('yearsOfProfessionalExperience')?.invalid && form.get('yearsOfProfessionalExperience')?.touched"
+                    (click)="toggleDropdown('yearsOfProfessionalExperience')">
+                <span class="dropdown-text"
+                      [class.placeholder]="!form.get('yearsOfProfessionalExperience')?.value">
+                    {{
+                      form.get('yearsOfProfessionalExperience')?.value === '3-4' ? '3–4 years' :
+                      form.get('yearsOfProfessionalExperience')?.value === '4-5' ? '4–5 years' :
+                      form.get('yearsOfProfessionalExperience')?.value === '5-plus' ? '5+ years' :
+                      'Select years of professional experience'
+                    }}
+                </span>
+                <span class="dropdown-arrow" [class.open]="dropdownStates.yearsOfProfessionalExperience">▼</span>
+            </button>
+            <div class="custom-dropdown-items" *ngIf="dropdownStates.yearsOfProfessionalExperience">
+                <div class="custom-dropdown-item"
+                     [class.selected]="form.get('yearsOfProfessionalExperience')?.value === '3-4'"
+                     (click)="form.get('yearsOfProfessionalExperience')?.setValue('3-4'); dropdownStates.yearsOfProfessionalExperience = false;">
+                    3–4 years
+                </div>
+                <div class="custom-dropdown-item"
+                     [class.selected]="form.get('yearsOfProfessionalExperience')?.value === '4-5'"
+                     (click)="form.get('yearsOfProfessionalExperience')?.setValue('4-5'); dropdownStates.yearsOfProfessionalExperience = false;">
+                    4–5 years
+                </div>
+                <div class="custom-dropdown-item"
+                     [class.selected]="form.get('yearsOfProfessionalExperience')?.value === '5-plus'"
+                     (click)="form.get('yearsOfProfessionalExperience')?.setValue('5-plus'); dropdownStates.yearsOfProfessionalExperience = false;">
+                    5+ years
+                </div>
+            </div>
+        </div>
+        <span class="b2c-error-message"
+            *ngIf="form.get('yearsOfProfessionalExperience')?.invalid && form.get('yearsOfProfessionalExperience')?.touched">
+            Please select an option
         </span>
     </fieldset>
 
