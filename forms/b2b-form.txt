@@ -40056,13 +40056,15 @@ function B2bFormComponent_div_34_Template(rf, ctx) {
   }
 }
 var B2bFormComponent = class _B2bFormComponent {
-  constructor(fb, http, sharedService) {
+  constructor(fb, http, sharedService, hostEl) {
     this.fb = fb;
     this.http = http;
     this.sharedService = sharedService;
+    this.hostEl = hostEl;
   }
   actionUrl = "";
   thankyouExtensionUrl = "";
+  openThankYouInNewTabInput = false;
   pdfName = "Revature_file";
   downloadBtnId = "survey_download";
   isExternalURL = false;
@@ -40149,6 +40151,9 @@ var B2bFormComponent = class _B2bFormComponent {
   }
   get showFdeTimeframe() {
     return this.normalizeBoolean(this.showFdeTimeframeInput, false);
+  }
+  get openThankYouInNewTab() {
+    return this.normalizeBoolean(this.openThankYouInNewTabInput, false);
   }
   ngOnInit() {
     this.initForm();
@@ -40327,6 +40332,7 @@ var B2bFormComponent = class _B2bFormComponent {
         } else if (!this.isExtendedForm) {
           console.error("Action URL not provided");
         }
+        this.emitSubmittedEvent();
         this.navigateToThankYouPage(formDataObject.firstName);
       } catch (error) {
         console.error("Error submitting form data:", error);
@@ -40361,7 +40367,21 @@ var B2bFormComponent = class _B2bFormComponent {
     });
   }
   navigateToThankYouPage(firstName) {
-    window.location.href = `/thank-you/${this.thankyouExtensionUrl}?name=${btoa(firstName)}`;
+    const url = `/thank-you/${this.thankyouExtensionUrl}?name=${btoa(firstName)}`;
+    if (this.openThankYouInNewTab) {
+      window.open(url, "_blank", "noopener,noreferrer");
+      return;
+    }
+    window.location.href = url;
+  }
+  emitSubmittedEvent() {
+    try {
+      this.hostEl?.nativeElement?.dispatchEvent(new CustomEvent("b2b:submitted", {
+        bubbles: true,
+        composed: true
+      }));
+    } catch {
+    }
   }
   getQueryParams() {
     const queryParams = new URLSearchParams(window.location.search);
@@ -40431,7 +40451,7 @@ var B2bFormComponent = class _B2bFormComponent {
     }, 100);
   }
   static \u0275fac = function B2bFormComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _B2bFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(SharedService));
+    return new (__ngFactoryType__ || _B2bFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(SharedService), \u0275\u0275directiveInject(ElementRef));
   };
   static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _B2bFormComponent, selectors: [["app-b2b-form"]], hostBindings: function B2bFormComponent_HostBindings(rf, ctx) {
     if (rf & 1) {
@@ -40441,7 +40461,7 @@ var B2bFormComponent = class _B2bFormComponent {
         return ctx.onDocumentClick($event);
       }, false, \u0275\u0275resolveDocument);
     }
-  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"], isHorizontalForm: [0, "ishorizontalform", "isHorizontalForm"], showPartnership: [0, "showpartnership", "showPartnership"], showHowDidYouHearInput: [0, "showhowdidyouhear", "showHowDidYouHearInput"], showFdeTimeframeInput: [0, "showfdetimeframe", "showFdeTimeframeInput"] }, decls: 35, vars: 23, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], [3, "ngClass"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], [1, "one-grid-container"], ["maxlength", "200", "noWhitespace", "", "type", "text", "formControlName", "howDidYouKnowAboutRevature", "placeholder", "How did you hear about Revature?", 1, "b2b-form-field"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "3", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [1, "fde-timeframe-question"], [1, "fde-timeframe-options"], ["type", "button", "class", "fde-timeframe-option b2b-form-field", 3, "selected", "error", "click", 4, "ngFor", "ngForOf"], ["type", "button", 1, "fde-timeframe-option", "b2b-form-field", 3, "click"], [1, "custom-dropdown"], ["type", "button", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [1, "dropdown-text"], [1, "dropdown-arrow"], ["class", "custom-dropdown-items", 4, "ngIf"], [1, "custom-dropdown-items"], ["class", "custom-dropdown-item", 3, "selected", "click", 4, "ngFor", "ngForOf"], [1, "custom-dropdown-item", 3, "click"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
+  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], openThankYouInNewTabInput: [0, "openthankyouinnewtab", "openThankYouInNewTabInput"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"], isHorizontalForm: [0, "ishorizontalform", "isHorizontalForm"], showPartnership: [0, "showpartnership", "showPartnership"], showHowDidYouHearInput: [0, "showhowdidyouhear", "showHowDidYouHearInput"], showFdeTimeframeInput: [0, "showfdetimeframe", "showFdeTimeframeInput"] }, decls: 35, vars: 23, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], [3, "ngClass"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], [1, "one-grid-container"], ["maxlength", "200", "noWhitespace", "", "type", "text", "formControlName", "howDidYouKnowAboutRevature", "placeholder", "How did you hear about Revature?", 1, "b2b-form-field"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "3", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [1, "fde-timeframe-question"], [1, "fde-timeframe-options"], ["type", "button", "class", "fde-timeframe-option b2b-form-field", 3, "selected", "error", "click", 4, "ngFor", "ngForOf"], ["type", "button", 1, "fde-timeframe-option", "b2b-form-field", 3, "click"], [1, "custom-dropdown"], ["type", "button", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [1, "dropdown-text"], [1, "dropdown-arrow"], ["class", "custom-dropdown-items", 4, "ngIf"], [1, "custom-dropdown-items"], ["class", "custom-dropdown-item", 3, "selected", "click", 4, "ngFor", "ngForOf"], [1, "custom-dropdown-item", 3, "click"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function B2bFormComponent_Template_form_ngSubmit_0_listener() {

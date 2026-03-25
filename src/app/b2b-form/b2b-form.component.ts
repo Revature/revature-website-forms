@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, HostListener, Input } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ENV_VAR } from '../common/form-contants';
 import { SharedService } from '../common/shared.service';
@@ -12,6 +12,7 @@ import { SharedService } from '../common/shared.service';
 export class B2bFormComponent implements AfterViewInit {
   @Input('actionurl') public actionUrl: string = '';
   @Input('thankyouextensionurl') public thankyouExtensionUrl: string = '';
+  @Input('openthankyouinnewtab') public openThankYouInNewTabInput: any = false;
   @Input('pdfname') public pdfName: string = 'Revature_file';
   @Input('downloadbtnid') public downloadBtnId: string = 'survey_download';
   @Input('isexternalurl') public isExternalURL: boolean = false;
@@ -93,7 +94,8 @@ export class B2bFormComponent implements AfterViewInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private hostEl: ElementRef<HTMLElement>
   ) { }
 
   private normalizeBoolean(value: any, defaultValue: boolean): boolean {
@@ -112,6 +114,10 @@ export class B2bFormComponent implements AfterViewInit {
 
   get showFdeTimeframe(): boolean {
     return this.normalizeBoolean(this.showFdeTimeframeInput, false);
+  }
+
+  get openThankYouInNewTab(): boolean {
+    return this.normalizeBoolean(this.openThankYouInNewTabInput, false);
   }
 
   ngOnInit(): void {
@@ -319,6 +325,7 @@ export class B2bFormComponent implements AfterViewInit {
       } else if (!this.isExtendedForm) {
         console.error('Action URL not provided');
       }
+      this.emitSubmittedEvent();
       this.navigateToThankYouPage(formDataObject.firstName);
     } catch (error) {
       console.error('Error submitting form data:', error);
@@ -355,7 +362,23 @@ export class B2bFormComponent implements AfterViewInit {
   }
 
   navigateToThankYouPage(firstName: string): void {
-    window.location.href = `/thank-you/${this.thankyouExtensionUrl}?name=${btoa(firstName)}`;
+    const url = `/thank-you/${this.thankyouExtensionUrl}?name=${btoa(firstName)}`;
+    if (this.openThankYouInNewTab) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    window.location.href = url;
+  }
+
+  private emitSubmittedEvent(): void {
+    try {
+      this.hostEl?.nativeElement?.dispatchEvent(new CustomEvent('b2b:submitted', {
+        bubbles: true,
+        composed: true
+      }));
+    } catch {
+      // no-op
+    }
   }
 
   getQueryParams(): any {
