@@ -314,6 +314,7 @@ export class B2bFormComponent implements AfterViewInit {
       const response: any = await this.http.get(apiUrlWithParams).toPromise();
       if (response?.status === "ok") {
         console.log('Form data submitted successfully');
+        this.resetFormFields();
       } else {
         console.error('Error submitting form data');
       }
@@ -334,6 +335,20 @@ export class B2bFormComponent implements AfterViewInit {
     } finally {
       this.loading = false;
       this.showSubmitButton = true;
+    }
+  }
+
+  private resetFormFields(): void {
+    this.form.reset();
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+
+    Object.keys(this.dropdownStates).forEach((key) => {
+      this.dropdownStates[key] = false;
+    });
+
+    if (this.isExtendedForm && typeof grecaptcha !== 'undefined') {
+      grecaptcha.reset();
     }
   }
 

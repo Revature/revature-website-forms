@@ -18,6 +18,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   @Input('showprofessionexperience') public showProfessionalExperienceInput: any = false;
   @Input('showstudentandfederalblocks') public showStudentAndFederalBlocksInput: any = true;
   @Input('showprogrammingexperience') public showProgrammingExperienceInput: any = true;
+  @Input('downloadmessage') public submitButtonText: string = 'Submit';
 
   form: FormGroup;
 
