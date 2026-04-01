@@ -22,6 +22,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   @Input('showinternshipquestion') public showInternshipQuestionInput: any = true;
   @Input('showmessagefield') public showMessageFieldInput: any = false;
   @Input('submitbtnid') public submitBtnId: string = 'b2c-submit-button';
+  @Input('downloadmessage') public submitButtonText: string = 'Submit';
 
   form: FormGroup;
 

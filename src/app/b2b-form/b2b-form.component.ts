@@ -314,6 +314,7 @@ export class B2bFormComponent implements AfterViewInit {
       const response: any = await this.http.get(apiUrlWithParams).toPromise();
       if (response?.status === "ok") {
         console.log('Form data submitted successfully');
+        this.resetFormFields();
       } else {
         console.error('Error submitting form data');
       }
@@ -334,6 +335,20 @@ export class B2bFormComponent implements AfterViewInit {
     } finally {
       this.loading = false;
       this.showSubmitButton = true;
+    }
+  }
+
+  private resetFormFields(): void {
+    this.form.reset();
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+
+    Object.keys(this.dropdownStates).forEach((key) => {
+      this.dropdownStates[key] = false;
+    });
+
+    if (this.isExtendedForm && typeof grecaptcha !== 'undefined') {
+      grecaptcha.reset();
     }
   }
 
@@ -447,20 +462,30 @@ export class B2bFormComponent implements AfterViewInit {
 
   private scrollToFirstError(): void {
     setTimeout(() => {
-      const allErrorElements = document.querySelectorAll('.b2b-error-message');
-      let errorElement;
+      const root = this.hostEl.nativeElement;
+      if (!root) return;
 
-      for (let i = 0; i < allErrorElements.length; i++) {
-        const element = allErrorElements[i] as HTMLElement;
-        if (element.offsetParent !== null) {
-          errorElement = element;
-          break;
-        }
+      const visibleError = root.querySelector(
+        '.b2b-error-message.visible'
+      ) as HTMLElement | null;
+      if (visibleError) {
+        visibleError.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'nearest',
+        });
+        return;
       }
 
-      if (errorElement) {
-        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      const firstInvalid = root.querySelector(
+        'input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched, select.ng-invalid.ng-touched'
+      ) as HTMLElement | null;
+      firstInvalid?.focus({ preventScroll: true });
+      firstInvalid?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest',
+      });
     }, 100);
   }
 }
