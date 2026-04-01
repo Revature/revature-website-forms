@@ -47,6 +47,11 @@ form {
     line-height: 14px;
 }
 
+.message-textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
 .two-grid-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

@@ -600,7 +600,7 @@
 
         <!-- Graduation Date Fields (for current students) -->
         <ng-container
-            *ngIf="form.get('currentStudent')?.value === 'yes' || (form.get('currentStudent')?.value && form.get('country')?.value === 'India')">
+            *ngIf="showGraduationFields && (form.get('currentStudent')?.value === 'yes' || (form.get('currentStudent')?.value && form.get('country')?.value === 'India'))">
             <legend class="form-label">{{ form.get('currentStudent')?.value === 'yes' ? 'Expected Graduation Date' :
                 'Graduation Date' }}</legend>
             <div class="two-grid-container">
@@ -919,7 +919,7 @@
         </ng-container>
 
         <!-- Internships Section -->
-        <fieldset class="two-grid-container">
+        <fieldset class="two-grid-container" *ngIf="showInternshipQuestion">
             <legend class="form-label">Have you completed any internships?</legend>
             <div class="custom-radio">
                 <input type="radio" formControlName="hasInternships" value="no" id="noInternships">
@@ -936,7 +936,7 @@
         </fieldset>
 
         <!-- Internship Details (conditional) -->
-        <ng-container *ngIf="form.get('hasInternships')?.value === 'yes'">
+        <ng-container *ngIf="showInternshipQuestion && form.get('hasInternships')?.value === 'yes'">
             <legend class="form-label">If yes, please provide details about your internship(s):</legend>
             
             <div formArrayName="internships">
@@ -1124,6 +1124,17 @@
         </span>
     </fieldset>
 
+    <fieldset class="one-grid-container" *ngIf="showMessageField">
+        <legend class="form-label">Your Message</legend>
+        <textarea
+            noWhitespace
+            class="form-field common-field message-textarea"
+            formControlName="candidateMessage"
+            rows="4"
+            maxlength="2500"
+            placeholder="Write your message here"></textarea>
+    </fieldset>
+
     <!-- Resume Upload -->
     <fieldset class="two-grid-container">
         <legend class="form-label">Upload Your Resume</legend>
@@ -1192,6 +1203,13 @@
     </div>
 
     <!-- Submit Button -->
-    <button type="submit" class="b2c-form-button" *ngIf="showSubmitButton">Submit</button>
+    <button
+        type="submit"
+        class="b2c-form-button"
+        *ngIf="showSubmitButton"
+        [id]="submitBtnId"
+        [attr.name]="submitBtnId">
+        Submit
+    </button>
     <div id="loadSpinner" class="spinner" *ngIf="loading"></div>
 </form>

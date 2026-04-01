@@ -18,6 +18,10 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   @Input('showprofessionexperience') public showProfessionalExperienceInput: any = false;
   @Input('showstudentandfederalblocks') public showStudentAndFederalBlocksInput: any = true;
   @Input('showprogrammingexperience') public showProgrammingExperienceInput: any = true;
+  @Input('showgraduationfields') public showGraduationFieldsInput: any = true;
+  @Input('showinternshipquestion') public showInternshipQuestionInput: any = true;
+  @Input('showmessagefield') public showMessageFieldInput: any = false;
+  @Input('submitbtnid') public submitBtnId: string = 'b2c-submit-button';
 
   form: FormGroup;
 
@@ -80,6 +84,18 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
   get showProgrammingExperience(): boolean {
     return this.normalizeBoolean(this.showProgrammingExperienceInput, true);
+  }
+
+  get showGraduationFields(): boolean {
+    return this.normalizeBoolean(this.showGraduationFieldsInput, true);
+  }
+
+  get showInternshipQuestion(): boolean {
+    return this.normalizeBoolean(this.showInternshipQuestionInput, true);
+  }
+
+  get showMessageField(): boolean {
+    return this.normalizeBoolean(this.showMessageFieldInput, false);
   }
 
   countries = [
@@ -472,6 +488,22 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
         .get('programmingExperience')
         ?.updateValueAndValidity({ emitEvent: false });
     }
+
+    if (!this.showGraduationFields && this.form) {
+      this.form.get('graduationMonth')?.clearValidators();
+      this.form.get('graduationYear')?.clearValidators();
+      this.form.get('graduationMonth')?.setValue('');
+      this.form.get('graduationYear')?.setValue('');
+      this.form.get('graduationMonth')?.updateValueAndValidity({ emitEvent: false });
+      this.form.get('graduationYear')?.updateValueAndValidity({ emitEvent: false });
+    }
+
+    if (!this.showInternshipQuestion && this.form) {
+      this.form.get('hasInternships')?.clearValidators();
+      this.form.get('hasInternships')?.setValue('');
+      this.form.get('hasInternships')?.updateValueAndValidity({ emitEvent: false });
+      this.handleInternshipsChange('no');
+    }
   }
 
   private initForm(): void {
@@ -556,6 +588,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       gender: [''],
       language: [[]],
       languageOthers: [''],
+      candidateMessage: [''],
     });
 
     this.form.get('phone')?.valueChanges.subscribe((value) => {
@@ -858,7 +891,11 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('workAuthorization')?.clearValidators();
 
       this.form.get('hasCertifications')?.setValidators([Validators.required]);
-      this.form.get('hasInternships')?.setValidators([Validators.required]);
+      if (this.showInternshipQuestion) {
+        this.form.get('hasInternships')?.setValidators([Validators.required]);
+      } else {
+        this.form.get('hasInternships')?.clearValidators();
+      }
       this.form.get('disability')?.setValidators([Validators.required]);
       this.form.get('gender')?.setValidators([Validators.required]);
     } else {
@@ -938,7 +975,10 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('school')?.clearValidators();
       this.form.get('branch')?.clearValidators();
     }
-    if (currentStudent === 'yes' || (currentStudent && country === 'India')) {
+    if (
+      this.showGraduationFields &&
+      (currentStudent === 'yes' || (currentStudent && country === 'India'))
+    ) {
       this.form.get('graduationMonth')?.setValidators([Validators.required]);
       this.form.get('graduationYear')?.setValidators([Validators.required]);
     } else {
