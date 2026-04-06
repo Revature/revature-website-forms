@@ -1209,7 +1209,7 @@
         *ngIf="showSubmitButton"
         [id]="submitBtnId"
         [attr.name]="submitBtnId">
-        {{downloadMessage || 'Submit'}}
+        {{submitButtonText || 'Submit'}}
     </button>
     <div id="loadSpinner" class="spinner" *ngIf="loading"></div>
 </form>

@@ -40270,6 +40270,7 @@ var B2bFormComponent = class _B2bFormComponent {
       if (this.isExtendedForm) {
         if (!this.form.get("validCaptacha")?.value) {
           this.form.get("validCaptacha")?.setValue(false);
+          this.scrollToFirstError();
           return;
         }
       }
@@ -40321,6 +40322,7 @@ var B2bFormComponent = class _B2bFormComponent {
         const response = yield this.http.get(apiUrlWithParams).toPromise();
         if (response?.status === "ok") {
           console.log("Form data submitted successfully");
+          this.resetFormFields();
         } else {
           console.error("Error submitting form data");
         }
@@ -40343,6 +40345,17 @@ var B2bFormComponent = class _B2bFormComponent {
         this.showSubmitButton = true;
       }
     });
+  }
+  resetFormFields() {
+    this.form.reset();
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+    Object.keys(this.dropdownStates).forEach((key) => {
+      this.dropdownStates[key] = false;
+    });
+    if (this.isExtendedForm && typeof grecaptcha !== "undefined") {
+      grecaptcha.reset();
+    }
   }
   downloadPdf(actionUrl, pdfName) {
     return __async(this, null, function* () {
@@ -40436,19 +40449,36 @@ var B2bFormComponent = class _B2bFormComponent {
   }
   scrollToFirstError() {
     setTimeout(() => {
-      const allErrorElements = document.querySelectorAll(".b2b-error-message");
-      let errorElement;
-      for (let i = 0; i < allErrorElements.length; i++) {
-        const element = allErrorElements[i];
-        if (element.offsetParent !== null) {
-          errorElement = element;
-          break;
+      const root = this.hostEl.nativeElement;
+      if (!root)
+        return;
+      const invalidControlName = Object.keys(this.form.controls).find((controlName) => this.form.get(controlName)?.invalid);
+      let target = null;
+      if (invalidControlName) {
+        switch (invalidControlName) {
+          case "partnershipType":
+            target = root.querySelector(".custom-dropdown-button");
+            break;
+          case "fdeTimeframe":
+            target = root.querySelector(".fde-timeframe-options");
+            break;
+          default:
+            target = root.querySelector(`[formControlName="${invalidControlName}"]`);
+            break;
         }
+      } else if (this.isExtendedForm && !this.form.get("validCaptacha")?.value) {
+        target = root.querySelector("re-captcha");
       }
-      if (errorElement) {
-        errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    }, 100);
+      if (!target)
+        return;
+      const focusTarget = target.matches("input, textarea, select, button") ? target : target.querySelector("input, textarea, select, button");
+      focusTarget?.focus({ preventScroll: true });
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest"
+      });
+    }, 80);
   }
   static \u0275fac = function B2bFormComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _B2bFormComponent)(\u0275\u0275directiveInject(FormBuilder), \u0275\u0275directiveInject(HttpClient), \u0275\u0275directiveInject(SharedService), \u0275\u0275directiveInject(ElementRef));

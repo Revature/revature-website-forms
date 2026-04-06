@@ -260,6 +260,7 @@ export class B2bFormComponent implements AfterViewInit {
     if (this.isExtendedForm) {
       if (!this.form.get('validCaptacha')?.value) {
         this.form.get('validCaptacha')?.setValue(false);
+        this.scrollToFirstError();
         return;
       }
     }
@@ -465,27 +466,40 @@ export class B2bFormComponent implements AfterViewInit {
       const root = this.hostEl.nativeElement;
       if (!root) return;
 
-      const visibleError = root.querySelector(
-        '.b2b-error-message.visible'
-      ) as HTMLElement | null;
-      if (visibleError) {
-        visibleError.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'nearest',
-        });
-        return;
+      const invalidControlName = Object.keys(this.form.controls).find(
+        (controlName) => this.form.get(controlName)?.invalid
+      );
+
+      let target: HTMLElement | null = null;
+
+      if (invalidControlName) {
+        switch (invalidControlName) {
+          case 'partnershipType':
+            target = root.querySelector('.custom-dropdown-button') as HTMLElement | null;
+            break;
+          case 'fdeTimeframe':
+            target = root.querySelector('.fde-timeframe-options') as HTMLElement | null;
+            break;
+          default:
+            target = root.querySelector(`[formControlName="${invalidControlName}"]`) as HTMLElement | null;
+            break;
+        }
+      } else if (this.isExtendedForm && !this.form.get('validCaptacha')?.value) {
+        target = root.querySelector('re-captcha') as HTMLElement | null;
       }
 
-      const firstInvalid = root.querySelector(
-        'input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched, select.ng-invalid.ng-touched'
-      ) as HTMLElement | null;
-      firstInvalid?.focus({ preventScroll: true });
-      firstInvalid?.scrollIntoView({
+      if (!target) return;
+
+      const focusTarget = target.matches('input, textarea, select, button')
+        ? target
+        : (target.querySelector('input, textarea, select, button') as HTMLElement | null);
+
+      focusTarget?.focus({ preventScroll: true });
+      target.scrollIntoView({
         behavior: 'smooth',
-        block: 'nearest',
+        block: 'center',
         inline: 'nearest',
       });
-    }, 100);
+    }, 80);
   }
 }
