@@ -44,6 +44,20 @@ export class B2bFormComponent implements AfterViewInit {
     { value: '6-9-months', label: '6-9 months' }
   ];
 
+  howDidYouHearOptions = [
+    { value: 'Referral', label: 'Referral' },
+    { value: 'Event / Conference', label: 'Event / Conference' },
+    { value: 'Webinar / Podcast', label: 'Webinar / Podcast' },
+    { value: 'LinkedIn', label: 'LinkedIn' },
+    { value: 'Social Media (Other)', label: 'Social Media (Other)' },
+    { value: 'Google Search', label: 'Google Search' },
+    { value: 'AI Chat Tools (ChatGPT, Copilot, Gemini, etc.)', label: 'AI Chat Tools (ChatGPT, Copilot, Gemini, etc.)' },
+    { value: 'Press / Media', label: 'Press / Media' },
+    { value: 'Revature Outreach', label: 'Revature Outreach' },
+    { value: 'Existing Client / Partner', label: 'Existing Client / Partner' },
+    { value: 'Other', label: 'Other' }
+  ];
+
   private readonly CONSUMER_EMAIL_TLDS = [
     "@gmail.",
     "@yahoo.",

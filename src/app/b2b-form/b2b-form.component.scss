@@ -279,3 +279,11 @@ re-captcha {
     max-width: 304px;
     overflow: hidden;
 }
+
+select.b2b-form-field.select-placeholder {
+    color: rgba(1, 22, 53, 0.4);
+}
+
+select.b2b-form-field option {
+    color: #011635;
+}

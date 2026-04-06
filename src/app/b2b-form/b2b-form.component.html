@@ -58,8 +58,14 @@
 
     <div class="one-grid-container" *ngIf="showHowDidYouHear">
         <fieldset class="form-fieldset">
-            <input maxlength="200" noWhitespace class="b2b-form-field" type="text" formControlName="howDidYouKnowAboutRevature"
-                placeholder="How did you hear about Revature?">
+            <select class="b2b-form-field"
+                [class.select-placeholder]="!form.get('howDidYouKnowAboutRevature')?.value"
+                formControlName="howDidYouKnowAboutRevature">
+                <option value="" disabled selected hidden>How did you hear about Revature?</option>
+                <option *ngFor="let option of howDidYouHearOptions" [value]="option.value">
+                    {{ option.label }}
+                </option>
+            </select>
             <span class="b2b-error-message"
                 [class.visible]="form.get('howDidYouKnowAboutRevature')?.invalid && form.get('howDidYouKnowAboutRevature')?.touched">
                 This field is required
