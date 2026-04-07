@@ -39867,46 +39867,84 @@ function B2bFormComponent_fieldset_26_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", ((tmp_2_0 = ctx_r0.form.get("phone")) == null ? null : tmp_2_0.errors == null ? null : tmp_2_0.errors["required"]) ? "Phone is required." : "Phone number is not valid.", " ");
   }
 }
-function B2bFormComponent_div_27_option_5_Template(rf, ctx) {
+function B2bFormComponent_div_27_div_8_div_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 21);
+    const _r3 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 25);
+    \u0275\u0275listener("click", function B2bFormComponent_div_27_div_8_div_1_Template_div_click_0_listener($event) {
+      const option_r4 = \u0275\u0275restoreView(_r3).$implicit;
+      const ctx_r0 = \u0275\u0275nextContext(3);
+      return \u0275\u0275resetView(ctx_r0.selectDropdownValue("howDidYouKnowAboutRevature", option_r4, $event, "howDidYouKnowAboutRevature"));
+    });
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const option_r2 = ctx.$implicit;
-    \u0275\u0275property("value", option_r2.value);
+    let tmp_4_0;
+    const option_r4 = ctx.$implicit;
+    const ctx_r0 = \u0275\u0275nextContext(3);
+    \u0275\u0275classProp("selected", ((tmp_4_0 = ctx_r0.form.get("howDidYouKnowAboutRevature")) == null ? null : tmp_4_0.value) === option_r4.value);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", option_r2.label, " ");
+    \u0275\u0275textInterpolate1(" ", option_r4.label, " ");
+  }
+}
+function B2bFormComponent_div_27_div_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 23);
+    \u0275\u0275template(1, B2bFormComponent_div_27_div_8_div_1_Template, 2, 3, "div", 24);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngForOf", ctx_r0.getDropdownOptions("howDidYouHear"));
   }
 }
 function B2bFormComponent_div_27_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2)(2, "select", 18)(3, "option", 19);
-    \u0275\u0275text(4, "How did you hear about Revature?");
+    const _r2 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2)(2, "div", 18)(3, "button", 19);
+    \u0275\u0275listener("click", function B2bFormComponent_div_27_Template_button_click_3_listener() {
+      \u0275\u0275restoreView(_r2);
+      const ctx_r0 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r0.toggleDropdown("howDidYouKnowAboutRevature"));
+    });
+    \u0275\u0275elementStart(4, "span", 20);
+    \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275template(5, B2bFormComponent_div_27_option_5_Template, 2, 2, "option", 20);
+    \u0275\u0275elementStart(6, "span", 21);
+    \u0275\u0275text(7, "\u25BC");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275template(8, B2bFormComponent_div_27_div_8_Template, 2, 1, "div", 22);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span", 4);
-    \u0275\u0275text(7, " This field is required ");
+    \u0275\u0275elementStart(9, "span", 4);
+    \u0275\u0275text(10, " This field is required ");
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
-    let tmp_1_0;
+    let tmp_2_0;
     let tmp_3_0;
+    let tmp_4_0;
+    let tmp_7_0;
     const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance(2);
-    \u0275\u0275classProp("select-placeholder", !((tmp_1_0 = ctx_r0.form.get("howDidYouKnowAboutRevature")) == null ? null : tmp_1_0.value));
     \u0275\u0275advance(3);
-    \u0275\u0275property("ngForOf", ctx_r0.howDidYouHearOptions);
+    \u0275\u0275classProp("open", ctx_r0.dropdownStates.howDidYouKnowAboutRevature)("error", ((tmp_2_0 = ctx_r0.form.get("howDidYouKnowAboutRevature")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("howDidYouKnowAboutRevature")) == null ? null : tmp_2_0.touched));
     \u0275\u0275advance();
-    \u0275\u0275classProp("visible", ((tmp_3_0 = ctx_r0.form.get("howDidYouKnowAboutRevature")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx_r0.form.get("howDidYouKnowAboutRevature")) == null ? null : tmp_3_0.touched));
+    \u0275\u0275classProp("placeholder", !((tmp_3_0 = ctx_r0.form.get("howDidYouKnowAboutRevature")) == null ? null : tmp_3_0.value));
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ((tmp_4_0 = ctx_r0.getSelectedOption("howDidYouKnowAboutRevature", ctx_r0.getDropdownOptions("howDidYouHear"))) == null ? null : tmp_4_0.label) || ctx_r0.getDropdownPlaceholder("howDidYouHear"), " ");
+    \u0275\u0275advance();
+    \u0275\u0275classProp("open", ctx_r0.dropdownStates.howDidYouKnowAboutRevature);
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngIf", ctx_r0.dropdownStates.howDidYouKnowAboutRevature);
+    \u0275\u0275advance();
+    \u0275\u0275classProp("visible", ((tmp_7_0 = ctx_r0.form.get("howDidYouKnowAboutRevature")) == null ? null : tmp_7_0.invalid) && ((tmp_7_0 = ctx_r0.form.get("howDidYouKnowAboutRevature")) == null ? null : tmp_7_0.touched));
   }
 }
 function B2bFormComponent_div_28_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2);
-    \u0275\u0275element(2, "textarea", 22);
+    \u0275\u0275element(2, "textarea", 26);
     \u0275\u0275elementStart(3, "span", 4);
     \u0275\u0275text(4, " Your Message is required ");
     \u0275\u0275elementEnd()()();
@@ -39920,12 +39958,12 @@ function B2bFormComponent_div_28_Template(rf, ctx) {
 }
 function B2bFormComponent_div_29_button_5_Template(rf, ctx) {
   if (rf & 1) {
-    const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 26);
+    const _r5 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 30);
     \u0275\u0275listener("click", function B2bFormComponent_div_29_button_5_Template_button_click_0_listener() {
-      const option_r4 = \u0275\u0275restoreView(_r3).$implicit;
+      const option_r6 = \u0275\u0275restoreView(_r5).$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r0.selectFdeTimeframe(option_r4.value));
+      return \u0275\u0275resetView(ctx_r0.selectFdeTimeframe(option_r6.value));
     });
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
@@ -39933,20 +39971,20 @@ function B2bFormComponent_div_29_button_5_Template(rf, ctx) {
   if (rf & 2) {
     let tmp_3_0;
     let tmp_4_0;
-    const option_r4 = ctx.$implicit;
+    const option_r6 = ctx.$implicit;
     const ctx_r0 = \u0275\u0275nextContext(2);
-    \u0275\u0275classProp("selected", ((tmp_3_0 = ctx_r0.form.get("fdeTimeframe")) == null ? null : tmp_3_0.value) === option_r4.value)("error", ((tmp_4_0 = ctx_r0.form.get("fdeTimeframe")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx_r0.form.get("fdeTimeframe")) == null ? null : tmp_4_0.touched));
+    \u0275\u0275classProp("selected", ((tmp_3_0 = ctx_r0.form.get("fdeTimeframe")) == null ? null : tmp_3_0.value) === option_r6.value)("error", ((tmp_4_0 = ctx_r0.form.get("fdeTimeframe")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx_r0.form.get("fdeTimeframe")) == null ? null : tmp_4_0.touched));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", option_r4.label, " ");
+    \u0275\u0275textInterpolate1(" ", option_r6.label, " ");
   }
 }
 function B2bFormComponent_div_29_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2)(2, "p", 23);
+    \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2)(2, "p", 27);
     \u0275\u0275text(3, "When do you need Forward Deployment Engineers (FDEs)?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 24);
-    \u0275\u0275template(5, B2bFormComponent_div_29_button_5_Template, 2, 5, "button", 25);
+    \u0275\u0275elementStart(4, "div", 28);
+    \u0275\u0275template(5, B2bFormComponent_div_29_button_5_Template, 2, 5, "button", 29);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(6, "span", 4);
     \u0275\u0275text(7, " This field is required ");
@@ -39963,29 +40001,29 @@ function B2bFormComponent_div_29_Template(rf, ctx) {
 }
 function B2bFormComponent_div_30_div_8_div_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 34);
+    const _r8 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 25);
     \u0275\u0275listener("click", function B2bFormComponent_div_30_div_8_div_1_Template_div_click_0_listener($event) {
-      const type_r7 = \u0275\u0275restoreView(_r6).$implicit;
+      const type_r9 = \u0275\u0275restoreView(_r8).$implicit;
       const ctx_r0 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r0.selectDropdownValue("partnershipType", type_r7, $event, "partnershipType"));
+      return \u0275\u0275resetView(ctx_r0.selectDropdownValue("partnershipType", type_r9, $event, "partnershipType"));
     });
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     let tmp_4_0;
-    const type_r7 = ctx.$implicit;
+    const type_r9 = ctx.$implicit;
     const ctx_r0 = \u0275\u0275nextContext(3);
-    \u0275\u0275classProp("selected", ((tmp_4_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_4_0.value) === type_r7.value);
+    \u0275\u0275classProp("selected", ((tmp_4_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_4_0.value) === type_r9.value);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", type_r7.label, " ");
+    \u0275\u0275textInterpolate1(" ", type_r9.label, " ");
   }
 }
 function B2bFormComponent_div_30_div_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 32);
-    \u0275\u0275template(1, B2bFormComponent_div_30_div_8_div_1_Template, 2, 3, "div", 33);
+    \u0275\u0275elementStart(0, "div", 23);
+    \u0275\u0275template(1, B2bFormComponent_div_30_div_8_div_1_Template, 2, 3, "div", 24);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -39996,52 +40034,52 @@ function B2bFormComponent_div_30_div_8_Template(rf, ctx) {
 }
 function B2bFormComponent_div_30_Template(rf, ctx) {
   if (rf & 1) {
-    const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2)(2, "div", 27)(3, "button", 28);
+    const _r7 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2)(2, "div", 18)(3, "button", 31);
     \u0275\u0275listener("click", function B2bFormComponent_div_30_Template_button_click_3_listener() {
-      \u0275\u0275restoreView(_r5);
+      \u0275\u0275restoreView(_r7);
       const ctx_r0 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r0.toggleDropdown("partnershipType"));
     });
-    \u0275\u0275elementStart(4, "span", 29);
+    \u0275\u0275elementStart(4, "span", 20);
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span", 30);
+    \u0275\u0275elementStart(6, "span", 21);
     \u0275\u0275text(7, "\u25BC");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(8, B2bFormComponent_div_30_div_8_Template, 2, 1, "div", 31);
+    \u0275\u0275template(8, B2bFormComponent_div_30_div_8_Template, 2, 1, "div", 22);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(9, "span", 4);
     \u0275\u0275text(10, " Partnership Type is required ");
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
-    let tmp_1_0;
     let tmp_2_0;
     let tmp_3_0;
-    let tmp_6_0;
+    let tmp_4_0;
+    let tmp_7_0;
     const ctx_r0 = \u0275\u0275nextContext();
     \u0275\u0275advance(3);
-    \u0275\u0275classProp("error", ((tmp_1_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_1_0.touched));
+    \u0275\u0275classProp("open", ctx_r0.dropdownStates.partnershipType)("error", ((tmp_2_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_2_0.touched));
     \u0275\u0275advance();
-    \u0275\u0275classProp("placeholder", !((tmp_2_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_2_0.value));
+    \u0275\u0275classProp("placeholder", !((tmp_3_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_3_0.value));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ((tmp_3_0 = ctx_r0.getSelectedOption("partnershipType", ctx_r0.getDropdownOptions("partnershipTypes"))) == null ? null : tmp_3_0.label) || ctx_r0.getDropdownPlaceholder("partnershipTypes"), " ");
+    \u0275\u0275textInterpolate1(" ", ((tmp_4_0 = ctx_r0.getSelectedOption("partnershipType", ctx_r0.getDropdownOptions("partnershipTypes"))) == null ? null : tmp_4_0.label) || ctx_r0.getDropdownPlaceholder("partnershipTypes"), " ");
     \u0275\u0275advance();
     \u0275\u0275classProp("open", ctx_r0.dropdownStates.partnershipType);
     \u0275\u0275advance(2);
     \u0275\u0275property("ngIf", ctx_r0.dropdownStates.partnershipType);
     \u0275\u0275advance();
-    \u0275\u0275classProp("visible", ((tmp_6_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_6_0.invalid) && ((tmp_6_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_6_0.touched));
+    \u0275\u0275classProp("visible", ((tmp_7_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_7_0.invalid) && ((tmp_7_0 = ctx_r0.form.get("partnershipType")) == null ? null : tmp_7_0.touched));
   }
 }
 function B2bFormComponent_ng_container_31_Template(rf, ctx) {
   if (rf & 1) {
-    const _r8 = \u0275\u0275getCurrentView();
+    const _r10 = \u0275\u0275getCurrentView();
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "re-captcha", 35);
+    \u0275\u0275elementStart(1, "re-captcha", 32);
     \u0275\u0275listener("resolved", function B2bFormComponent_ng_container_31_Template_re_captcha_resolved_1_listener($event) {
-      \u0275\u0275restoreView(_r8);
+      \u0275\u0275restoreView(_r10);
       const ctx_r0 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r0.recaptchaSuccessCallback($event));
     });
@@ -40060,7 +40098,7 @@ function B2bFormComponent_ng_container_31_Template(rf, ctx) {
 }
 function B2bFormComponent_button_33_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "button", 36);
+    \u0275\u0275elementStart(0, "button", 33);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -40073,7 +40111,7 @@ function B2bFormComponent_button_33_Template(rf, ctx) {
 }
 function B2bFormComponent_div_34_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "div", 37);
+    \u0275\u0275element(0, "div", 34);
   }
 }
 var B2bFormComponent = class _B2bFormComponent {
@@ -40100,7 +40138,8 @@ var B2bFormComponent = class _B2bFormComponent {
   loading = false;
   showSubmitButton = true;
   dropdownStates = {
-    partnershipType: false
+    partnershipType: false,
+    howDidYouKnowAboutRevature: false
   };
   partnershipTypes = [
     { value: "university", label: "University" },
@@ -40274,6 +40313,8 @@ var B2bFormComponent = class _B2bFormComponent {
     switch (dropdownType) {
       case "partnershipTypes":
         return this.partnershipTypes;
+      case "howDidYouHear":
+        return this.howDidYouHearOptions;
       default:
         return [];
     }
@@ -40282,6 +40323,8 @@ var B2bFormComponent = class _B2bFormComponent {
     switch (dropdownType) {
       case "partnershipTypes":
         return "Select Partnership Type";
+      case "howDidYouHear":
+        return "How did you hear about Revature?";
       default:
         return "Select an option";
     }
@@ -40491,7 +40534,10 @@ var B2bFormComponent = class _B2bFormComponent {
       if (invalidControlName) {
         switch (invalidControlName) {
           case "partnershipType":
-            target = root.querySelector(".custom-dropdown-button");
+            target = root.querySelector('[data-b2b-dropdown="partnershipType"]');
+            break;
+          case "howDidYouKnowAboutRevature":
+            target = root.querySelector('[data-b2b-dropdown="howDidYouKnowAboutRevature"]');
             break;
           case "fdeTimeframe":
             target = root.querySelector(".fde-timeframe-options");
@@ -40525,7 +40571,7 @@ var B2bFormComponent = class _B2bFormComponent {
         return ctx.onDocumentClick($event);
       }, false, \u0275\u0275resolveDocument);
     }
-  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], openThankYouInNewTabInput: [0, "openthankyouinnewtab", "openThankYouInNewTabInput"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"], isHorizontalForm: [0, "ishorizontalform", "isHorizontalForm"], showPartnership: [0, "showpartnership", "showPartnership"], showHowDidYouHearInput: [0, "showhowdidyouhear", "showHowDidYouHearInput"], showFdeTimeframeInput: [0, "showfdetimeframe", "showFdeTimeframeInput"] }, decls: 35, vars: 23, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], [3, "ngClass"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], [1, "one-grid-container"], ["formControlName", "howDidYouKnowAboutRevature", 1, "b2b-form-field"], ["value", "", "disabled", "", "selected", "", "hidden", ""], [3, "value", 4, "ngFor", "ngForOf"], [3, "value"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "3", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [1, "fde-timeframe-question"], [1, "fde-timeframe-options"], ["type", "button", "class", "fde-timeframe-option b2b-form-field", 3, "selected", "error", "click", 4, "ngFor", "ngForOf"], ["type", "button", 1, "fde-timeframe-option", "b2b-form-field", 3, "click"], [1, "custom-dropdown"], ["type", "button", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [1, "dropdown-text"], [1, "dropdown-arrow"], ["class", "custom-dropdown-items", 4, "ngIf"], [1, "custom-dropdown-items"], ["class", "custom-dropdown-item", 3, "selected", "click", 4, "ngFor", "ngForOf"], [1, "custom-dropdown-item", 3, "click"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
+  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], openThankYouInNewTabInput: [0, "openthankyouinnewtab", "openThankYouInNewTabInput"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"], isHorizontalForm: [0, "ishorizontalform", "isHorizontalForm"], showPartnership: [0, "showpartnership", "showPartnership"], showHowDidYouHearInput: [0, "showhowdidyouhear", "showHowDidYouHearInput"], showFdeTimeframeInput: [0, "showfdetimeframe", "showFdeTimeframeInput"] }, decls: 35, vars: 23, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], [3, "ngClass"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], [1, "one-grid-container"], [1, "custom-dropdown"], ["type", "button", "data-b2b-dropdown", "howDidYouKnowAboutRevature", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [1, "dropdown-text"], [1, "dropdown-arrow"], ["class", "custom-dropdown-items", 4, "ngIf"], [1, "custom-dropdown-items"], ["class", "custom-dropdown-item", 3, "selected", "click", 4, "ngFor", "ngForOf"], [1, "custom-dropdown-item", 3, "click"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "3", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [1, "fde-timeframe-question"], [1, "fde-timeframe-options"], ["type", "button", "class", "fde-timeframe-option b2b-form-field", 3, "selected", "error", "click", 4, "ngFor", "ngForOf"], ["type", "button", 1, "fde-timeframe-option", "b2b-form-field", 3, "click"], ["type", "button", "data-b2b-dropdown", "partnershipType", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function B2bFormComponent_Template_form_ngSubmit_0_listener() {
@@ -40558,7 +40604,7 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275elementEnd()();
       \u0275\u0275template(26, B2bFormComponent_fieldset_26_Template, 4, 3, "fieldset", 11);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(27, B2bFormComponent_div_27_Template, 8, 5, "div", 12)(28, B2bFormComponent_div_28_Template, 5, 2, "div", 12)(29, B2bFormComponent_div_29_Template, 8, 3, "div", 12)(30, B2bFormComponent_div_30_Template, 11, 10, "div", 12)(31, B2bFormComponent_ng_container_31_Template, 4, 2, "ng-container", 10);
+      \u0275\u0275template(27, B2bFormComponent_div_27_Template, 11, 12, "div", 12)(28, B2bFormComponent_div_28_Template, 5, 2, "div", 12)(29, B2bFormComponent_div_29_Template, 8, 3, "div", 12)(30, B2bFormComponent_div_30_Template, 11, 12, "div", 12)(31, B2bFormComponent_ng_container_31_Template, 4, 2, "ng-container", 10);
       \u0275\u0275elementStart(32, "div", 13);
       \u0275\u0275template(33, B2bFormComponent_button_33_Template, 2, 2, "button", 14)(34, B2bFormComponent_div_34_Template, 1, 0, "div", 15);
       \u0275\u0275elementEnd()();
@@ -40608,7 +40654,7 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.loading);
     }
-  }, dependencies: [NgClass, NgForOf, NgIf, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, MinLengthValidator, MaxLengthValidator, FormGroupDirective, FormControlName, RecaptchaComponent, NoWhitespaceDirective], styles: ['\n\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\nform[_ngcontent-%COMP%] {\n  display: grid;\n}\ntextarea[_ngcontent-%COMP%] {\n  resize: none;\n}\n.b2b-error-message[_ngcontent-%COMP%] {\n  text-align: left;\n  line-height: 14px;\n  display: block;\n  visibility: hidden;\n}\n.b2b-error-message.visible[_ngcontent-%COMP%] {\n  visibility: visible;\n}\n.form-button-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n@media screen and (max-width: 900px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n  }\n}\n.fde-timeframe-question[_ngcontent-%COMP%] {\n  margin: 0 0 16px 0;\n  font-family: Inter, sans-serif;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 150%;\n  letter-spacing: 0;\n  color: #fff;\n  text-align: left;\n}\n.fde-timeframe-options[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n}\n.fde-timeframe-option[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 100px;\n  height: 37px;\n  padding: 8px 24px;\n  font-family: Inter, sans-serif;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 150%;\n  letter-spacing: 0;\n  text-align: center;\n  cursor: pointer;\n  border-radius: 36px;\n  border: 1px solid rgba(1, 22, 53, 0.2);\n  background-color: #fff;\n  color: #6b7280;\n  transition:\n    background-color 0.2s ease,\n    border-color 0.2s ease,\n    color 0.2s ease;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  box-sizing: border-box;\n}\n.fde-timeframe-option[_ngcontent-%COMP%]:hover {\n  border-color: rgba(1, 22, 53, 0.35);\n  color: #374151;\n}\n.fde-timeframe-option.selected[_ngcontent-%COMP%] {\n  background-color: #F1D9FF;\n  border-color: #F1D9FF;\n  color: #011635;\n}\n.fde-timeframe-option.error[_ngcontent-%COMP%] {\n  border-color: #dc3545;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  cursor: pointer;\n  background-color: #EBF1F4;\n  border-radius: 10px;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: #00183C;\n  color: #fff;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n  margin-left: 0;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}\n.custom-dropdown[_ngcontent-%COMP%] {\n  position: relative;\n  display: inline-block;\n  width: 100%;\n}\n.custom-dropdown-button[_ngcontent-%COMP%] {\n  background-color: white;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  text-align: left;\n  transition: border-color 0.2s ease;\n}\n.custom-dropdown-button[_ngcontent-%COMP%]:hover {\n  border-color: #011635;\n}\n.custom-dropdown-button[_ngcontent-%COMP%]:focus {\n  outline: none;\n  border-color: #FF7014;\n  box-shadow: 0 0 0 2px rgba(255, 112, 20, 0.2);\n}\n.custom-dropdown-button.error[_ngcontent-%COMP%] {\n  border-color: #dc3545;\n}\n.custom-dropdown-button[_ngcontent-%COMP%]   .dropdown-text[_ngcontent-%COMP%] {\n  flex: 1;\n  color: #011635;\n  font-size: 14px;\n}\n.custom-dropdown-button[_ngcontent-%COMP%]   .dropdown-text.placeholder[_ngcontent-%COMP%] {\n  color: rgba(1, 22, 53, 0.4);\n}\n.custom-dropdown-button[_ngcontent-%COMP%]   .dropdown-arrow[_ngcontent-%COMP%] {\n  color: rgba(1, 22, 53, 0.6);\n  font-size: 12px;\n  transition: transform 0.2s ease;\n}\n.custom-dropdown-button[_ngcontent-%COMP%]   .dropdown-arrow.open[_ngcontent-%COMP%] {\n  transform: rotate(180deg);\n}\n.custom-dropdown-items[_ngcontent-%COMP%] {\n  text-align: start;\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  border-radius: 7px;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\n  background: #fff;\n  z-index: 1000;\n  max-height: 300px;\n  overflow: auto;\n  margin-top: 4px;\n  border: 1px solid rgba(1, 22, 53, 0.6);\n}\n.custom-dropdown-item[_ngcontent-%COMP%] {\n  padding: 10px 12px;\n  cursor: pointer;\n  color: #161616;\n  transition: background-color 0.2s ease;\n  border-bottom: 1px solid #f0f0f0;\n}\n.custom-dropdown-item[_ngcontent-%COMP%]:last-child {\n  border-bottom: none;\n}\n.custom-dropdown-item[_ngcontent-%COMP%]:hover {\n  background-color: #f8f9fa;\n}\n.custom-dropdown-item.selected[_ngcontent-%COMP%] {\n  background-color: #FF7014;\n  color: white;\n}\nre-captcha[_ngcontent-%COMP%] {\n  display: block;\n  width: 100%;\n  max-width: 304px;\n  overflow: hidden;\n}\nselect.b2b-form-field.select-placeholder[_ngcontent-%COMP%] {\n  color: rgba(1, 22, 53, 0.4);\n}\nselect.b2b-form-field[_ngcontent-%COMP%]   option[_ngcontent-%COMP%] {\n  color: #011635;\n}'] });
+  }, dependencies: [NgClass, NgForOf, NgIf, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, MinLengthValidator, MaxLengthValidator, FormGroupDirective, FormControlName, RecaptchaComponent, NoWhitespaceDirective], styles: ['\n\n.grecaptcha-badge[_ngcontent-%COMP%] {\n  position: relative !important;\n  margin-bottom: 20px !important;\n  right: auto !important;\n}\nform[_ngcontent-%COMP%] {\n  display: grid;\n}\ninput.b2b-form-field[_ngcontent-%COMP%], \ntextarea.b2b-form-field[_ngcontent-%COMP%], \n.custom-dropdown-button.b2b-form-field[_ngcontent-%COMP%] {\n  width: 100%;\n  box-sizing: border-box;\n  background-color: #fff;\n  border: 1px solid rgba(1, 22, 53, 0.6);\n  border-radius: 28px;\n  padding: 12px 20px;\n  font-family: inherit;\n  font-size: 14px;\n  line-height: 1.4;\n  color: #011635;\n  min-height: 48px;\n}\ntextarea.b2b-form-field[_ngcontent-%COMP%] {\n  min-height: 6.5rem;\n  border-radius: 24px;\n}\ninput.b2b-form-field[_ngcontent-%COMP%]::placeholder, \ntextarea.b2b-form-field[_ngcontent-%COMP%]::placeholder {\n  color: rgba(1, 22, 53, 0.4);\n}\ninput.b2b-form-field[_ngcontent-%COMP%]:focus, \ntextarea.b2b-form-field[_ngcontent-%COMP%]:focus {\n  outline: none;\n  border-color: #FF7014;\n  box-shadow: 0 0 0 2px rgba(255, 112, 20, 0.2);\n}\ntextarea[_ngcontent-%COMP%] {\n  resize: none;\n}\n.b2b-error-message[_ngcontent-%COMP%] {\n  text-align: left;\n  line-height: 14px;\n  display: block;\n  visibility: hidden;\n}\n.b2b-error-message.visible[_ngcontent-%COMP%] {\n  visibility: visible;\n}\n.form-button-wrapper[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n}\n.two-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n.one-grid-container[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(1, 1fr);\n  grid-column-gap: 25px;\n  grid-row-gap: 5px;\n}\n@media screen and (max-width: 900px) {\n  .two-grid-container[_ngcontent-%COMP%] {\n    display: grid;\n    grid-template-columns: repeat(1, 1fr);\n    grid-column-gap: 20px;\n    grid-row-gap: 5px;\n  }\n}\n.fde-timeframe-question[_ngcontent-%COMP%] {\n  margin: 0 0 16px 0;\n  font-family: Inter, sans-serif;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 150%;\n  letter-spacing: 0;\n  color: #fff;\n  text-align: left;\n}\n.fde-timeframe-options[_ngcontent-%COMP%] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 8px;\n}\n.fde-timeframe-option[_ngcontent-%COMP%] {\n  flex: 1;\n  min-width: 100px;\n  height: 37px;\n  padding: 8px 24px;\n  font-family: Inter, sans-serif;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 150%;\n  letter-spacing: 0;\n  text-align: center;\n  cursor: pointer;\n  border-radius: 36px;\n  border: 1px solid rgba(1, 22, 53, 0.2);\n  background-color: #fff;\n  color: #6b7280;\n  transition:\n    background-color 0.2s ease,\n    border-color 0.2s ease,\n    color 0.2s ease;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  box-sizing: border-box;\n}\n.fde-timeframe-option[_ngcontent-%COMP%]:hover {\n  border-color: rgba(1, 22, 53, 0.35);\n  color: #374151;\n}\n.fde-timeframe-option.selected[_ngcontent-%COMP%] {\n  background-color: #F1D9FF;\n  border-color: #F1D9FF;\n  color: #011635;\n}\n.fde-timeframe-option.error[_ngcontent-%COMP%] {\n  border-color: #dc3545;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%] {\n  display: none;\n}\n.custom-radio[_ngcontent-%COMP%]   label[_ngcontent-%COMP%] {\n  font-size: 18px;\n  display: inline-block;\n  width: 100%;\n  height: 60px;\n  text-align: center;\n  line-height: 60px;\n  cursor: pointer;\n  background-color: #EBF1F4;\n  border-radius: 10px;\n}\n.custom-radio[_ngcontent-%COMP%]   input[type=radio][_ngcontent-%COMP%]:checked    + label[_ngcontent-%COMP%] {\n  background-color: #00183C;\n  color: #fff;\n}\n.file-upload-container[_ngcontent-%COMP%] {\n  display: inline-block;\n  position: relative;\n  width: 100%;\n  aspect-ratio: 1/1;\n  background-color: #EBF1F4;\n  transition: background-color 0.1s ease-in-out;\n  border-radius: 10px;\n  overflow: hidden;\n  cursor: pointer;\n}\n.file-upload-container[_ngcontent-%COMP%]   input[type=file][_ngcontent-%COMP%] {\n  position: absolute;\n  visibility: hidden;\n}\n.file-upload-label[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  height: 100%;\n}\n.file-upload-container[_ngcontent-%COMP%]:hover {\n  background-color: #D7E6EE;\n}\n@keyframes _ngcontent-%COMP%_spinner {\n  to {\n    transform: rotate(360deg);\n  }\n}\n#loadSpinner[_ngcontent-%COMP%] {\n  position: relative;\n  width: 50px;\n  height: 50px;\n  margin-top: 10px;\n  margin-left: 0;\n}\n.spinner[_ngcontent-%COMP%]:before {\n  content: "";\n  box-sizing: border-box;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 20px;\n  margin-top: -10px;\n  margin-left: -10px;\n  border-radius: 50%;\n  border: 2px solid #ccc;\n  border-top-color: #fff;\n  animation: _ngcontent-%COMP%_spinner 0.6s linear infinite;\n}\n.custom-dropdown[_ngcontent-%COMP%] {\n  position: relative;\n  display: inline-block;\n  width: 100%;\n}\n.custom-dropdown-button[_ngcontent-%COMP%] {\n  background-color: white;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  text-align: left;\n  transition: border-color 0.2s ease;\n}\n.custom-dropdown-button[_ngcontent-%COMP%]:hover {\n  border-color: #011635;\n}\n.custom-dropdown-button[_ngcontent-%COMP%]:focus, \n.custom-dropdown-button.open[_ngcontent-%COMP%] {\n  outline: none;\n  border-color: #FF7014;\n  box-shadow: 0 0 0 2px rgba(255, 112, 20, 0.2);\n}\n.custom-dropdown-button.error[_ngcontent-%COMP%] {\n  border-color: #dc3545;\n}\n.custom-dropdown-button[_ngcontent-%COMP%]   .dropdown-text[_ngcontent-%COMP%] {\n  flex: 1;\n  color: #011635;\n  font-size: 14px;\n}\n.custom-dropdown-button[_ngcontent-%COMP%]   .dropdown-text.placeholder[_ngcontent-%COMP%] {\n  color: rgba(1, 22, 53, 0.4);\n}\n.custom-dropdown-button[_ngcontent-%COMP%]   .dropdown-arrow[_ngcontent-%COMP%] {\n  color: rgba(1, 22, 53, 0.6);\n  font-size: 12px;\n  transition: transform 0.2s ease;\n}\n.custom-dropdown-button[_ngcontent-%COMP%]   .dropdown-arrow.open[_ngcontent-%COMP%] {\n  transform: rotate(180deg);\n}\n.custom-dropdown-items[_ngcontent-%COMP%] {\n  text-align: start;\n  position: absolute;\n  top: 100%;\n  left: 0;\n  right: 0;\n  border-radius: 7px;\n  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\n  background: #fff;\n  z-index: 1000;\n  max-height: 300px;\n  overflow: auto;\n  margin-top: 4px;\n  border: 1px solid rgba(1, 22, 53, 0.6);\n}\n.custom-dropdown-item[_ngcontent-%COMP%] {\n  padding: 10px 12px;\n  cursor: pointer;\n  color: #161616;\n  transition: background-color 0.2s ease;\n  border-bottom: 1px solid #f0f0f0;\n}\n.custom-dropdown-item[_ngcontent-%COMP%]:last-child {\n  border-bottom: none;\n}\n.custom-dropdown-item[_ngcontent-%COMP%]:hover {\n  background-color: #f8f9fa;\n}\n.custom-dropdown-item.selected[_ngcontent-%COMP%] {\n  background-color: #FF7014;\n  color: white;\n}\nre-captcha[_ngcontent-%COMP%] {\n  display: block;\n  width: 100%;\n  max-width: 304px;\n  overflow: hidden;\n}'] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(B2bFormComponent, { className: "B2bFormComponent", filePath: "src\\app\\b2b-form\\b2b-form.component.ts", lineNumber: 12 });

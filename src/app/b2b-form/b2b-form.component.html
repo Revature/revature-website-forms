@@ -58,14 +58,28 @@
 
     <div class="one-grid-container" *ngIf="showHowDidYouHear">
         <fieldset class="form-fieldset">
-            <select class="b2b-form-field"
-                [class.select-placeholder]="!form.get('howDidYouKnowAboutRevature')?.value"
-                formControlName="howDidYouKnowAboutRevature">
-                <option value="" disabled selected hidden>How did you hear about Revature?</option>
-                <option *ngFor="let option of howDidYouHearOptions" [value]="option.value">
-                    {{ option.label }}
-                </option>
-            </select>
+            <div class="custom-dropdown">
+                <button type="button"
+                    data-b2b-dropdown="howDidYouKnowAboutRevature"
+                    class="custom-dropdown-button b2b-form-field"
+                    [class.open]="dropdownStates.howDidYouKnowAboutRevature"
+                    [class.error]="form.get('howDidYouKnowAboutRevature')?.invalid && form.get('howDidYouKnowAboutRevature')?.touched"
+                    (click)="toggleDropdown('howDidYouKnowAboutRevature')">
+                    <span class="dropdown-text"
+                        [class.placeholder]="!form.get('howDidYouKnowAboutRevature')?.value">
+                        {{ getSelectedOption('howDidYouKnowAboutRevature', getDropdownOptions('howDidYouHear'))?.label || getDropdownPlaceholder('howDidYouHear') }}
+                    </span>
+                    <span class="dropdown-arrow" [class.open]="dropdownStates.howDidYouKnowAboutRevature">▼</span>
+                </button>
+                <div class="custom-dropdown-items" *ngIf="dropdownStates.howDidYouKnowAboutRevature">
+                    <div *ngFor="let option of getDropdownOptions('howDidYouHear')"
+                        class="custom-dropdown-item"
+                        [class.selected]="form.get('howDidYouKnowAboutRevature')?.value === option.value"
+                        (click)="selectDropdownValue('howDidYouKnowAboutRevature', option, $event, 'howDidYouKnowAboutRevature')">
+                        {{ option.label }}
+                    </div>
+                </div>
+            </div>
             <span class="b2b-error-message"
                 [class.visible]="form.get('howDidYouKnowAboutRevature')?.invalid && form.get('howDidYouKnowAboutRevature')?.touched">
                 This field is required
@@ -106,8 +120,10 @@
     <div class="one-grid-container" *ngIf="showPartnership">
         <fieldset class="form-fieldset">
             <div class="custom-dropdown">
-                <button type="button" 
+                <button type="button"
+                        data-b2b-dropdown="partnershipType"
                         class="custom-dropdown-button b2b-form-field"
+                        [class.open]="dropdownStates.partnershipType"
                         [class.error]="form.get('partnershipType')?.invalid && form.get('partnershipType')?.touched"
                         (click)="toggleDropdown('partnershipType')">
                     <span class="dropdown-text" 

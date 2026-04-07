@@ -29,7 +29,8 @@ export class B2bFormComponent implements AfterViewInit {
   showSubmitButton = true;
 
   dropdownStates: any = {
-    partnershipType: false
+    partnershipType: false,
+    howDidYouKnowAboutRevature: false
   };
 
   partnershipTypes = [
@@ -242,6 +243,8 @@ export class B2bFormComponent implements AfterViewInit {
     switch (dropdownType) {
       case 'partnershipTypes':
         return this.partnershipTypes;
+      case 'howDidYouHear':
+        return this.howDidYouHearOptions;
       default:
         return [];
     }
@@ -251,6 +254,8 @@ export class B2bFormComponent implements AfterViewInit {
     switch (dropdownType) {
       case 'partnershipTypes':
         return 'Select Partnership Type';
+      case 'howDidYouHear':
+        return 'How did you hear about Revature?';
       default:
         return 'Select an option';
     }
@@ -489,7 +494,10 @@ export class B2bFormComponent implements AfterViewInit {
       if (invalidControlName) {
         switch (invalidControlName) {
           case 'partnershipType':
-            target = root.querySelector('.custom-dropdown-button') as HTMLElement | null;
+            target = root.querySelector('[data-b2b-dropdown="partnershipType"]') as HTMLElement | null;
+            break;
+          case 'howDidYouKnowAboutRevature':
+            target = root.querySelector('[data-b2b-dropdown="howDidYouKnowAboutRevature"]') as HTMLElement | null;
             break;
           case 'fdeTimeframe':
             target = root.querySelector('.fde-timeframe-options') as HTMLElement | null;
