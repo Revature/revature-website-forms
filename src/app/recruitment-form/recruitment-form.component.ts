@@ -166,7 +166,7 @@ export class RecruitmentFormComponent {
     switch (country) {
       case 'United States':
         this.workAuthorizationValues = ["U.S. Citizen", "Green Card", "Permanent Resident", "EAD", "H1B", "OPT", "CPT", "F1", "L1", "H4", "TN", "DACA", "Other", "Yes"];
-        this.marketingPrograms = ['SPC_Cont_Spec_NoExp', 'SPC_Experienced_Hire', 'General-Entry Level'];
+        this.marketingPrograms = ['SPC_Cont_Spec_NoExp', 'SPC_Experienced_Hire', 'General-Entry Level', 'FDE_Program'];
         this.states = US_STATE_VALUES;
         this.schools = US_SCHOOLS;
         break;

@@ -625,6 +625,7 @@ export const MEXICO_SCHOOLS: any[] = [
 
 export const US_MARKETING_VALUES = [
   "General-Entry Level",
+  "FDE_Program",
   "SPC_Experienced_Hire",
   "SPC_Auto_Engineer",
   "SPC_INCTX",
