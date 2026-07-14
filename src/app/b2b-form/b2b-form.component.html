@@ -32,7 +32,7 @@
                 [placeholder]="companyNamePlaceholder">
             <span class="b2b-error-message"
                 [class.visible]="form.get('companyName')?.invalid && form.get('companyName')?.touched">
-                Company Name is required
+                {{companyNameErrorMessage}}
             </span>
         </fieldset>
     </div>

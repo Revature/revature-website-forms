@@ -24,6 +24,7 @@ export class B2bFormComponent implements AfterViewInit {
   @Input('showhowdidyouhear') public showHowDidYouHearInput: any = true;
   @Input('showfdetimeframe') public showFdeTimeframeInput: any = false;
   @Input('companynameplaceholder') public companyNamePlaceholder: string = 'Company Name';
+  @Input('companynameerrormessage') public companyNameErrorMessage: string = 'Company Name is required';
   @Input('emailplaceholder') public emailPlaceholder: string = 'Business Email';
   @Input('phoneplaceholder') public phonePlaceholder: string = 'Business Phone';
 
