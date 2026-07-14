@@ -39858,13 +39858,15 @@ function B2bFormComponent_fieldset_26_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    let tmp_1_0;
     let tmp_2_0;
+    let tmp_3_0;
     const ctx_r0 = \u0275\u0275nextContext();
-    \u0275\u0275advance(2);
-    \u0275\u0275classProp("visible", ((tmp_1_0 = ctx_r0.form.get("phone")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx_r0.form.get("phone")) == null ? null : tmp_1_0.touched));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ((tmp_2_0 = ctx_r0.form.get("phone")) == null ? null : tmp_2_0.errors == null ? null : tmp_2_0.errors["required"]) ? "Phone is required." : "Phone number is not valid.", " ");
+    \u0275\u0275property("placeholder", ctx_r0.phonePlaceholder);
+    \u0275\u0275advance();
+    \u0275\u0275classProp("visible", ((tmp_2_0 = ctx_r0.form.get("phone")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx_r0.form.get("phone")) == null ? null : tmp_2_0.touched));
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", ((tmp_3_0 = ctx_r0.form.get("phone")) == null ? null : tmp_3_0.errors == null ? null : tmp_3_0.errors["required"]) ? "Phone is required." : "Phone number is not valid.", " ");
   }
 }
 function B2bFormComponent_div_27_div_8_div_1_Template(rf, ctx) {
@@ -40134,6 +40136,9 @@ var B2bFormComponent = class _B2bFormComponent {
   showPartnership = false;
   showHowDidYouHearInput = true;
   showFdeTimeframeInput = false;
+  companyNamePlaceholder = "Company Name";
+  emailPlaceholder = "Business Email";
+  phonePlaceholder = "Business Phone";
   form;
   loading = false;
   showSubmitButton = true;
@@ -40571,7 +40576,7 @@ var B2bFormComponent = class _B2bFormComponent {
         return ctx.onDocumentClick($event);
       }, false, \u0275\u0275resolveDocument);
     }
-  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], openThankYouInNewTabInput: [0, "openthankyouinnewtab", "openThankYouInNewTabInput"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"], isHorizontalForm: [0, "ishorizontalform", "isHorizontalForm"], showPartnership: [0, "showpartnership", "showPartnership"], showHowDidYouHearInput: [0, "showhowdidyouhear", "showHowDidYouHearInput"], showFdeTimeframeInput: [0, "showfdetimeframe", "showFdeTimeframeInput"] }, decls: 35, vars: 23, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", "placeholder", "Company Name", 1, "b2b-form-field"], [3, "ngClass"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", "placeholder", "Business Email", 1, "b2b-form-field"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "placeholder", "Business Phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field"], [1, "one-grid-container"], [1, "custom-dropdown"], ["type", "button", "data-b2b-dropdown", "howDidYouKnowAboutRevature", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [1, "dropdown-text"], [1, "dropdown-arrow"], ["class", "custom-dropdown-items", 4, "ngIf"], [1, "custom-dropdown-items"], ["class", "custom-dropdown-item", 3, "selected", "click", 4, "ngFor", "ngForOf"], [1, "custom-dropdown-item", 3, "click"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "3", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [1, "fde-timeframe-question"], [1, "fde-timeframe-options"], ["type", "button", "class", "fde-timeframe-option b2b-form-field", 3, "selected", "error", "click", 4, "ngFor", "ngForOf"], ["type", "button", 1, "fde-timeframe-option", "b2b-form-field", 3, "click"], ["type", "button", "data-b2b-dropdown", "partnershipType", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
+  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], openThankYouInNewTabInput: [0, "openthankyouinnewtab", "openThankYouInNewTabInput"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"], isHorizontalForm: [0, "ishorizontalform", "isHorizontalForm"], showPartnership: [0, "showpartnership", "showPartnership"], showHowDidYouHearInput: [0, "showhowdidyouhear", "showHowDidYouHearInput"], showFdeTimeframeInput: [0, "showfdetimeframe", "showFdeTimeframeInput"], companyNamePlaceholder: [0, "companynameplaceholder", "companyNamePlaceholder"], emailPlaceholder: [0, "emailplaceholder", "emailPlaceholder"], phonePlaceholder: [0, "phoneplaceholder", "phonePlaceholder"] }, decls: 35, vars: 25, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", 1, "b2b-form-field", 3, "placeholder"], [3, "ngClass"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", 1, "b2b-form-field", 3, "placeholder"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field", 3, "placeholder"], [1, "one-grid-container"], [1, "custom-dropdown"], ["type", "button", "data-b2b-dropdown", "howDidYouKnowAboutRevature", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [1, "dropdown-text"], [1, "dropdown-arrow"], ["class", "custom-dropdown-items", 4, "ngIf"], [1, "custom-dropdown-items"], ["class", "custom-dropdown-item", 3, "selected", "click", 4, "ngFor", "ngForOf"], [1, "custom-dropdown-item", 3, "click"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "3", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [1, "fde-timeframe-question"], [1, "fde-timeframe-options"], ["type", "button", "class", "fde-timeframe-option b2b-form-field", 3, "selected", "error", "click", 4, "ngFor", "ngForOf"], ["type", "button", 1, "fde-timeframe-option", "b2b-form-field", 3, "click"], ["type", "button", "data-b2b-dropdown", "partnershipType", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function B2bFormComponent_Template_form_ngSubmit_0_listener() {
@@ -40602,7 +40607,7 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275elementStart(22, "span", 4);
       \u0275\u0275template(23, B2bFormComponent_span_23_Template, 2, 0, "span", 10)(24, B2bFormComponent_span_24_Template, 2, 0, "span", 10)(25, B2bFormComponent_span_25_Template, 2, 0, "span", 10);
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(26, B2bFormComponent_fieldset_26_Template, 4, 3, "fieldset", 11);
+      \u0275\u0275template(26, B2bFormComponent_fieldset_26_Template, 4, 4, "fieldset", 11);
       \u0275\u0275elementEnd();
       \u0275\u0275template(27, B2bFormComponent_div_27_Template, 11, 12, "div", 12)(28, B2bFormComponent_div_28_Template, 5, 2, "div", 12)(29, B2bFormComponent_div_29_Template, 8, 3, "div", 12)(30, B2bFormComponent_div_30_Template, 11, 12, "div", 12)(31, B2bFormComponent_ng_container_31_Template, 4, 2, "ng-container", 10);
       \u0275\u0275elementStart(32, "div", 13);
@@ -40613,11 +40618,11 @@ var B2bFormComponent = class _B2bFormComponent {
       let tmp_1_0;
       let tmp_2_0;
       let tmp_3_0;
-      let tmp_4_0;
-      let tmp_6_0;
-      let tmp_7_0;
+      let tmp_5_0;
       let tmp_8_0;
       let tmp_9_0;
+      let tmp_10_0;
+      let tmp_11_0;
       \u0275\u0275property("formGroup", ctx.form);
       \u0275\u0275advance(4);
       \u0275\u0275classProp("visible", ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.touched));
@@ -40625,18 +40630,22 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275classProp("visible", ((tmp_2_0 = ctx.form.get("lastName")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx.form.get("lastName")) == null ? null : tmp_2_0.touched));
       \u0275\u0275advance(5);
       \u0275\u0275classProp("visible", ((tmp_3_0 = ctx.form.get("jobTitle")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx.form.get("jobTitle")) == null ? null : tmp_3_0.touched));
-      \u0275\u0275advance(4);
-      \u0275\u0275classProp("visible", ((tmp_4_0 = ctx.form.get("companyName")) == null ? null : tmp_4_0.invalid) && ((tmp_4_0 = ctx.form.get("companyName")) == null ? null : tmp_4_0.touched));
+      \u0275\u0275advance(3);
+      \u0275\u0275property("placeholder", ctx.companyNamePlaceholder);
+      \u0275\u0275advance();
+      \u0275\u0275classProp("visible", ((tmp_5_0 = ctx.form.get("companyName")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx.form.get("companyName")) == null ? null : tmp_5_0.touched));
       \u0275\u0275advance(2);
       \u0275\u0275property("ngClass", ctx.isHorizontalForm && ctx.isExtendedForm ? "two-grid-container" : "one-grid-container");
-      \u0275\u0275advance(3);
-      \u0275\u0275classProp("visible", ((tmp_6_0 = ctx.form.get("email")) == null ? null : tmp_6_0.invalid) && ((tmp_6_0 = ctx.form.get("email")) == null ? null : tmp_6_0.touched));
+      \u0275\u0275advance(2);
+      \u0275\u0275property("placeholder", ctx.emailPlaceholder);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_7_0 = ctx.form.get("email")) == null ? null : tmp_7_0.errors == null ? null : tmp_7_0.errors["required"]);
+      \u0275\u0275classProp("visible", ((tmp_8_0 = ctx.form.get("email")) == null ? null : tmp_8_0.invalid) && ((tmp_8_0 = ctx.form.get("email")) == null ? null : tmp_8_0.touched));
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_8_0 = ctx.form.get("email")) == null ? null : tmp_8_0.errors == null ? null : tmp_8_0.errors["invalidEmail"]);
+      \u0275\u0275property("ngIf", (tmp_9_0 = ctx.form.get("email")) == null ? null : tmp_9_0.errors == null ? null : tmp_9_0.errors["required"]);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_9_0 = ctx.form.get("email")) == null ? null : tmp_9_0.errors == null ? null : tmp_9_0.errors["businessEmail"]);
+      \u0275\u0275property("ngIf", (tmp_10_0 = ctx.form.get("email")) == null ? null : tmp_10_0.errors == null ? null : tmp_10_0.errors["invalidEmail"]);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", (tmp_11_0 = ctx.form.get("email")) == null ? null : tmp_11_0.errors == null ? null : tmp_11_0.errors["businessEmail"]);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.isExtendedForm);
       \u0275\u0275advance();

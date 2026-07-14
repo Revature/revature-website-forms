@@ -23,6 +23,9 @@ export class B2bFormComponent implements AfterViewInit {
   @Input('showpartnership') public showPartnership: boolean = false;
   @Input('showhowdidyouhear') public showHowDidYouHearInput: any = true;
   @Input('showfdetimeframe') public showFdeTimeframeInput: any = false;
+  @Input('companynameplaceholder') public companyNamePlaceholder: string = 'Company Name';
+  @Input('emailplaceholder') public emailPlaceholder: string = 'Business Email';
+  @Input('phoneplaceholder') public phonePlaceholder: string = 'Business Phone';
 
   form: FormGroup;
   loading = false;
