@@ -677,7 +677,8 @@ export const US_MARKETING_VALUES = [
   "SPC_Citi_HBCU",
   "SPC_Berkeley_Heights_2023",
   "SPC_Nebraska",
-  "SPC_Business Analyst"
+  "SPC_Business Analyst",
+  "SPC_AML_Analyst_KPMG"
 ];
 
 export const US_STATE_VALUES = [
