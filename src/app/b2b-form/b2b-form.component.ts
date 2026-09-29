@@ -27,6 +27,9 @@ export class B2bFormComponent implements AfterViewInit {
   @Input('companynameerrormessage') public companyNameErrorMessage: string = 'Company Name is required';
   @Input('emailplaceholder') public emailPlaceholder: string = 'Business Email';
   @Input('phoneplaceholder') public phonePlaceholder: string = 'Business Phone';
+  @Input('phonerequired') public phoneRequiredInput: any = false;
+  @Input('phoneerrormessage') public phoneErrorMessage: string = 'Phone is required.';
+  @Input('phoneinvalidmessage') public phoneInvalidMessage: string = 'Phone number is not valid.';
 
   form: FormGroup;
   loading = false;
@@ -139,6 +142,10 @@ export class B2bFormComponent implements AfterViewInit {
     return this.normalizeBoolean(this.openThankYouInNewTabInput, false);
   }
 
+  get phoneRequired(): boolean {
+    return this.normalizeBoolean(this.phoneRequiredInput, false);
+  }
+
   ngOnInit(): void {
     this.initForm();
   }
@@ -155,7 +162,10 @@ export class B2bFormComponent implements AfterViewInit {
     });
 
     if (this.isExtendedForm) {
-      this.form.addControl('phone', this.fb.control('', [this.phoneValidator]));
+      const phoneValidators = this.phoneRequired
+        ? [Validators.required, this.phoneValidator]
+        : [this.phoneValidator];
+      this.form.addControl('phone', this.fb.control('', phoneValidators));
 
       this.form.get('phone')?.valueChanges.subscribe((value) => {
         this.formatPhoneNumber(value);

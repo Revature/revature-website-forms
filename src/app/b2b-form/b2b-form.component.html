@@ -51,7 +51,7 @@
             <input noWhitespace class="b2b-form-field" type="tel" formControlName="phone" [placeholder]="phonePlaceholder"
                 maxlength="14" minlength="6">
             <span class="b2b-error-message" [class.visible]="form.get('phone')?.invalid && form.get('phone')?.touched">
-                {{form.get('phone')?.errors?.['required'] ? 'Phone is required.' : 'Phone number is not valid.'}}
+                {{form.get('phone')?.errors?.['required'] ? phoneErrorMessage : phoneInvalidMessage}}
             </span>
         </fieldset>
     </div>
