@@ -51,8 +51,110 @@
         </fieldset>
     </div>
 
+    <!-- AML Analyst variant: divider between contact details and screening -->
+    <hr class="section-divider" *ngIf="isAmlVariant">
+
+    <!-- AML Analyst variant: screening questions (this page only) -->
+    <ng-container *ngIf="isAmlVariant">
+        <fieldset class="two-grid-container">
+            <legend class="form-label">Do you have a bachelor's degree or higher?</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="bachelorsDegree" value="Yes" id="amlDegreeYes">
+                <label for="amlDegreeYes">Yes</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="bachelorsDegree" value="No" id="amlDegreeNo">
+                <label for="amlDegreeNo">No</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('bachelorsDegree')?.invalid && form.get('bachelorsDegree')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
+
+        <fieldset class="two-grid-container">
+            <legend class="form-label">Are you legally authorized to work in the United States without the need for
+                current or future sponsorship?</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="workAuthorization" value="yes" id="amlWorkAuthYes">
+                <label for="amlWorkAuthYes">Yes</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="workAuthorization" value="no" id="amlWorkAuthNo">
+                <label for="amlWorkAuthNo">No</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('workAuthorization')?.invalid && form.get('workAuthorization')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
+
+        <fieldset class="two-grid-container">
+            <legend class="form-label">Are you available to begin full-time paid training on December 21, 2026?</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="availableDec212026" value="Yes" id="amlAvailableYes">
+                <label for="amlAvailableYes">Yes</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="availableDec212026" value="No" id="amlAvailableNo">
+                <label for="amlAvailableNo">No</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('availableDec212026')?.invalid && form.get('availableDec212026')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
+
+        <fieldset class="one-grid-container">
+            <legend class="form-label">Are you willing to relocate to Orlando, Florida after remote training?</legend>
+            <div class="custom-radio">
+                <input type="radio" formControlName="willingToRelocate" value="Yes" id="amlRelocateYes">
+                <label for="amlRelocateYes">Willing to relocate to Orlando, Florida after remote training.</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="willingToRelocate" value="Already Local" id="amlRelocateLocal">
+                <label for="amlRelocateLocal">I already live in the Orlando area</label>
+            </div>
+            <div class="custom-radio">
+                <input type="radio" formControlName="willingToRelocate" value="No" id="amlRelocateNo">
+                <label for="amlRelocateNo">No</label>
+            </div>
+            <span class="b2c-error-message"
+                *ngIf="form.get('willingToRelocate')?.invalid && form.get('willingToRelocate')?.touched">
+                Please select an option
+            </span>
+        </fieldset>
+
+        <fieldset class="one-grid-container">
+            <legend class="form-label">What state do you currently live in?</legend>
+            <div class="custom-dropdown">
+                <button type="button"
+                        class="custom-dropdown-button form-field"
+                        [class.error]="form.get('state')?.invalid && form.get('state')?.touched"
+                        (click)="toggleDropdown('state')">
+                    <span class="dropdown-text" [class.placeholder]="!form.get('state')?.value">
+                        {{ getSelectedOption('state', getDropdownOptions('amlStates'))?.label || getDropdownPlaceholder('amlStates') }}
+                    </span>
+                    <span class="dropdown-arrow" [class.open]="dropdownStates.state">&#9660;</span>
+                </button>
+                <div class="custom-dropdown-items" *ngIf="dropdownStates.state">
+                    <div *ngFor="let option of getDropdownOptions('amlStates')"
+                         class="custom-dropdown-item"
+                         [class.selected]="form.get('state')?.value === option.value"
+                         (click)="selectDropdownValue('state', option, $event, 'state')">
+                        {{ option.label }}
+                    </div>
+                </div>
+            </div>
+            <span class="b2c-error-message common-error-message"
+                *ngIf="form.get('state')?.invalid && form.get('state')?.touched">
+                Please select your state
+            </span>
+        </fieldset>
+    </ng-container>
+
     <!-- Country -->
-    <fieldset class="one-grid-container">
+    <fieldset class="one-grid-container" *ngIf="!isAmlVariant">
         <legend class="form-label">Country</legend>
         <div class="custom-dropdown">
             <button type="button" 
@@ -81,7 +183,7 @@
     </fieldset>
 
     <!-- Location Fields (Dynamic based on country selection) -->
-    <div id="locationFields" *ngIf="form.get('country')?.value">
+    <div id="locationFields" *ngIf="form.get('country')?.value && !isAmlVariant">
         <ng-container *ngIf="form.get('country')?.value === 'United States'">
             <span class="one-grid-container">
                 <fieldset class="form-fieldset">
@@ -374,7 +476,7 @@
     </ng-container>
 
     <!-- Current Student -->
-    <fieldset id="currentStudentRadioButtons" class="two-grid-container" *ngIf="!isFederalWorker && showStudentAndFederalBlocks">
+    <fieldset id="currentStudentRadioButtons" class="two-grid-container" *ngIf="!isFederalWorker && showStudentAndFederalBlocks && !isAmlVariant">
         <legend class="form-label">Are You Currently a Student?</legend>
         <div class="custom-radio">
             <input type="radio" formControlName="currentStudent" value="no" id="no">
@@ -662,7 +764,7 @@
     </div>
 
     <!-- Willingness to Relocate -->
-    <fieldset class="one-grid-container">
+    <fieldset class="one-grid-container" *ngIf="!isAmlVariant">
         <legend class="form-label">Willingness to Relocate</legend>
         <div class="custom-radio">
             <input type="radio" formControlName="willingToRelocate" value="Yes" id="absolutely">
@@ -683,7 +785,7 @@
     </fieldset>
 
     <!-- Programming Experience -->
-    <fieldset class="one-grid-container" *ngIf="showProgrammingExperience">
+    <fieldset class="one-grid-container" *ngIf="showProgrammingExperience && !isAmlVariant">
         <legend class="form-label">How many years of programming experience?</legend>
         <div class="custom-dropdown">
             <button type="button" 
@@ -755,7 +857,7 @@
     </fieldset>
 
     <!-- Work Authorization Field -->
-    <fieldset class="two-grid-container" *ngIf="form.get('country')?.value !== 'India'">
+    <fieldset class="two-grid-container" *ngIf="form.get('country')?.value !== 'India' && !isAmlVariant">
         <legend class="form-label">Are you legally authorized to work in the country of the position for which you are
             applying?</legend>
         <div class="custom-radio">
@@ -1101,7 +1203,7 @@
         </fieldset>
     </ng-container>
 
-    <fieldset class="one-grid-container rev-multi-select">
+    <fieldset class="one-grid-container rev-multi-select" *ngIf="!isAmlVariant">
         <legend class="form-label">What language(s) do you speak fluently?</legend>
         <ng-multiselect-dropdown
             [placeholder]="'Select language(s)'"
@@ -1115,7 +1217,7 @@
         </span>
     </fieldset>
 
-    <fieldset class="one-grid-container" *ngIf="form.get('language')?.value.includes('Others')">
+    <fieldset class="one-grid-container" *ngIf="!isAmlVariant && form.get('language')?.value.includes('Others')">
         <legend class="form-label">Please specify your language:</legend>
         <input noWhitespace type="text" maxlength="40" class="form-field common-field" formControlName="languageOthers" placeholder="Please describe your language">
         <span class="b2c-error-message common-error-message"
@@ -1137,7 +1239,7 @@
 
     <!-- Resume Upload -->
     <fieldset class="two-grid-container">
-        <legend class="form-label">Upload Your Resume</legend>
+        <legend class="form-label">{{ isAmlVariant ? 'Upload Your Resume (optional)' : 'Upload Your Resume' }}</legend>
         <div class="upload-container" 
              [class.upload-container-active]="isUploadMethodActive('computer')"
              (mouseenter)="onUploadHover('computer')" 
@@ -1165,6 +1267,10 @@
         </div>
     </fieldset>
 
+    <div style="margin-top: 0.5rem; font-size: 16px; font-weight: 400;" *ngIf="isAmlVariant">
+        A resume is optional. You can submit your application without one and send it to us later.
+    </div>
+
     <!-- Error and Success Messages -->
     <span class="b2c-error-message" *ngIf="fileError">{{ fileError }}</span>
     <span class="resume-success" *ngIf="fileSuccess">{{ fileSuccess }}</span>
@@ -1186,7 +1292,7 @@
             Submitting this form constitutes your express written consent to receive emails, texts, and phone messages 
             from Revature at the phone number(s) and e-mail address provided in this form for work-related opportunities.
         </div>
-        <div style="display: flex; align-items: flex-start;">
+        <div style="display: flex; align-items: flex-start;" *ngIf="!isAmlVariant">
             <input style="margin-top: 6px; margin-right: 6px;" type="checkbox" formControlName="dataConsent" id="dataConsent">
             <label style="font-weight: unset;display: unset; font-weight: 400;">
                 (Optional) Select this checkbox if you would like Revature to share your contact 

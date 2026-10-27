@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, AfterViewInit, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { ENV_VAR, MAJORS, US_SCHOOLS, MEXICO_STATE_VALUES, MEXICO_SCHOOLS } from '../common/form-contants';
+import { ENV_VAR, MAJORS, US_SCHOOLS, MEXICO_STATE_VALUES, MEXICO_SCHOOLS, US_STATE_VALUES } from '../common/form-contants';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { SharedService } from '../common/shared.service';
 
@@ -23,6 +23,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   @Input('showmessagefield') public showMessageFieldInput: any = false;
   @Input('submitbtnid') public submitBtnId: string = 'b2c-submit-button';
   @Input('downloadmessage') public submitButtonText: string = 'Submit';
+  @Input('formvariant') public formVariant: string = '';
 
   form: FormGroup;
 
@@ -53,6 +54,9 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     major: false,
   };
   schools = US_SCHOOLS;
+  // Plain state names. Salesforce derives the two-letter code from this,
+  // and every other Revature form already sends the name in the same shape.
+  amlStates = US_STATE_VALUES.map((state) => ({ value: state, label: state }));
 
   dropdownStates: any = {
     country: false,
@@ -97,6 +101,12 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
 
   get showMessageField(): boolean {
     return this.normalizeBoolean(this.showMessageFieldInput, false);
+  }
+
+  // AML Analyst page variant. Absent/blank on every other embed, so all other
+  // b2c pages keep their existing fields, validators and payload untouched.
+  get isAmlVariant(): boolean {
+    return (this.formVariant || '').trim().toLowerCase() === 'aml';
   }
 
   countries = [
@@ -505,6 +515,58 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       this.form.get('hasInternships')?.updateValueAndValidity({ emitEvent: false });
       this.handleInternshipsChange('no');
     }
+
+    if (this.isAmlVariant && this.form) {
+      this.applyAmlVariant();
+    }
+  }
+
+  // Controls the AML variant actually asks for. Everything else keeps its
+  // control (so it still submits, empty) but loses its validators.
+  private static readonly AML_REQUIRED_CONTROLS = [
+    'firstName',
+    'lastName',
+    'email',
+    'phone',
+    'bachelorsDegree',
+    'workAuthorization',
+    'willingToRelocate',
+    'availableDec212026',
+    'state',
+  ];
+
+  private applyAmlVariant(): void {
+    // US-only role. Setting the country explicitly (rather than leaving it
+    // blank) keeps the US phone mask, maxlength and 10-digit rule correct and
+    // stops the blank-country Canadian degree list from rendering.
+    this.form.get('country')?.setValue('United States');
+
+    // Hidden, but still submitted empty so existing Salesforce reports keep
+    // receiving the key. Never disable() these - Angular drops disabled
+    // controls from form.value, which would remove the key entirely.
+    this.form.get('currentStudent')?.setValue('');
+    this.form.get('programmingExperience')?.setValue('');
+
+    // The two genuinely new questions. Added only for this variant so every
+    // other b2c embed's payload stays byte-for-byte the same.
+    this.form.addControl('bachelorsDegree', this.fb.control(''));
+    this.form.addControl('availableDec212026', this.fb.control(''));
+
+    // Allowlist sweep. The form has ~40 controls whose validators are set from
+    // several interlocking handlers; clearing them one by one invites an
+    // invisible required validator that blocks submit forever.
+    Object.keys(this.form.controls).forEach((name) => {
+      const control = this.form.get(name);
+      if (!control) return;
+      if (B2cFormComponent.AML_REQUIRED_CONTROLS.includes(name)) return;
+      control.clearValidators();
+      control.updateValueAndValidity({ emitEvent: false });
+    });
+
+    ['bachelorsDegree', 'availableDec212026', 'state'].forEach((name) => {
+      this.form.get(name)?.setValidators([Validators.required]);
+      this.form.get(name)?.updateValueAndValidity({ emitEvent: false });
+    });
   }
 
   private initForm(): void {
@@ -1024,6 +1086,20 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
   }
 
   private handleWorkAuthorizationChange(workAuthorization: string): void {
+    // The AML question already covers current and future sponsorship, so the
+    // two follow-ups must never appear or they would block submit.
+    if (this.isAmlVariant) {
+      this.showSponsorshipFields = false;
+      this.showFutureSponsorshipFields = false;
+      this.form.get('sponsorship')?.clearValidators();
+      this.form.get('sponsorship')?.setValue('', { emitEvent: false });
+      this.form.get('futureSponsorship')?.clearValidators();
+      this.form.get('futureSponsorship')?.setValue('', { emitEvent: false });
+      this.form.get('sponsorship')?.updateValueAndValidity({ emitEvent: false });
+      this.form.get('futureSponsorship')?.updateValueAndValidity({ emitEvent: false });
+      return;
+    }
+
     if (workAuthorization === 'yes') {
       this.showSponsorshipFields = true;
       this.form.get('sponsorship')?.setValidators([Validators.required]);
@@ -1230,6 +1306,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       if (
+        !this.isAmlVariant &&
         !this.form.get('computer_data')?.value &&
         !this.form.get('dropbox')?.value
       ) {
@@ -1244,6 +1321,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     }
 
     if (
+      !this.isAmlVariant &&
       !this.form.get('computer_data')?.value &&
       !this.form.get('dropbox')?.value
     ) {
@@ -1307,6 +1385,10 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     } else if (formData.dropbox) {
       const formDataObject = this.prepareFormData();
       await this.submitForm(formDataObject);
+    } else if (this.isAmlVariant) {
+      // Resume is optional on the AML page - submit without one.
+      const formDataObject = this.prepareFormData();
+      await this.submitForm(formDataObject);
     } else {
       this.fileError = 'Please upload a resume.';
       this.loading = false;
@@ -1349,7 +1431,14 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       );
     }
 
-    if (
+    if (this.isAmlVariant) {
+      // The single AML question already means authorized AND needing no
+      // current or future sponsorship, so map it straight through. The
+      // combination rule below would read the two hidden follow-ups as ''
+      // and force 'No' for every candidate.
+      formDataObject.workAuthorization =
+        formDataObject.workAuthorization === 'yes' ? 'Yes' : 'No';
+    } else if (
       ['United Kingdom', 'Canada', 'United States', 'Mexico'].includes(
         formDataObject.country
       )
@@ -1808,6 +1897,8 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
         return this.programmingExpOptions;
       case 'disabilityTypes':
         return this.disabilityTypesList;
+      case 'amlStates':
+        return this.amlStates;
       default:
         return [];
     }
@@ -1835,6 +1926,8 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
         return 'Select an option';
       case 'disabilityTypes':
         return 'Select disability type';
+      case 'amlStates':
+        return 'Select your state';
       default:
         return 'Select an option';
     }

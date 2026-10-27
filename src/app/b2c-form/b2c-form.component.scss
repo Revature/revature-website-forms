@@ -381,3 +381,12 @@ re-captcha {
     max-width: 304px;
     overflow: hidden;
 }
+
+// Separates the contact fields from the screening questions on the
+// AML Analyst variant. Component-scoped, so it cannot collide with the
+// host Webflow page CSS.
+.section-divider {
+    border: 0;
+    border-top: 1px solid #01163533;
+    margin: 28px 0 24px;
+}

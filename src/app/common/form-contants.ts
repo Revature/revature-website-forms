@@ -862,4 +862,3 @@ export const ENV_VAR = isStaging
     URL: "https://revature.com",
     ENV: "production",
   };
-
