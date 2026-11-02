@@ -75,6 +75,10 @@
         <fieldset class="two-grid-container">
             <legend class="form-label">Are you legally authorized to work in the United States without the need for
                 current or future sponsorship?</legend>
+            <div class="field-note">
+                <span class="field-note-label">Note:</span> This role does not offer visa sponsorship at any point.
+                Answer no if your ability to work in the US now or in the future depends on an employer sponsoring a visa.
+            </div>
             <div class="custom-radio">
                 <input type="radio" formControlName="workAuthorization" value="yes" id="amlWorkAuthYes">
                 <label for="amlWorkAuthYes">Yes</label>
@@ -125,7 +129,10 @@
             </span>
         </fieldset>
 
-        <fieldset class="one-grid-container">
+        <!-- Location: State (left) and City (right), half width each -->
+        <legend class="form-label">Location</legend>
+        <div class="two-grid-container">
+        <fieldset class="form-fieldset">
             <legend class="form-label">What state do you currently live in?</legend>
             <div class="custom-dropdown">
                 <button type="button"
@@ -151,6 +158,15 @@
                 Please select your state
             </span>
         </fieldset>
+        <fieldset class="form-fieldset">
+            <legend class="form-label">City</legend>
+            <input noWhitespace maxlength="40" class="form-field common-field" type="text" formControlName="city" placeholder="City">
+            <span class="b2c-error-message common-error-message"
+                *ngIf="form.get('city')?.invalid && form.get('city')?.touched">
+                City is required
+            </span>
+        </fieldset>
+        </div>
     </ng-container>
 
     <!-- Country -->

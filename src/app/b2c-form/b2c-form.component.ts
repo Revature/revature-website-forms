@@ -533,6 +533,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
     'willingToRelocate',
     'availableDec212026',
     'state',
+    'city',
   ];
 
   private applyAmlVariant(): void {
@@ -563,7 +564,7 @@ export class B2cFormComponent implements AfterViewInit, OnInit {
       control.updateValueAndValidity({ emitEvent: false });
     });
 
-    ['bachelorsDegree', 'availableDec212026', 'state'].forEach((name) => {
+    ['bachelorsDegree', 'availableDec212026', 'state', 'city'].forEach((name) => {
       this.form.get(name)?.setValidators([Validators.required]);
       this.form.get(name)?.updateValueAndValidity({ emitEvent: false });
     });

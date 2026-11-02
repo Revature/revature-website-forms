@@ -39785,7 +39785,7 @@ var ENV_VAR = isStaging ? {
   URL: window.location.hostname.includes("staging") ? "https://staging3.revature.com" : "https://revature-v3.webflow.io",
   ENV: "staging"
 } : {
-  FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/8aa3e26d-f754-4b76-92d4-fd755c4c7c9e/webflowleadtrigger",
+  FORM_API_ENDPOINT: "https://workflows.revatureengineering.com/webhook/workato/webflow-lead-gen",
   RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
   GTM_SITE_KEY: "6LcSglgqAAAAAHhuq6vBM6MzbjNnheGj-l1lS-lO",
   URL: "https://revature.com",
