@@ -41749,7 +41749,7 @@ function B2cFormComponent_ng_container_20_Template(rf, ctx) {
     \u0275\u0275template(28, B2cFormComponent_ng_container_20_span_28_Template, 2, 0, "span", 24);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(29, "fieldset", 2)(30, "legend", 1);
-    \u0275\u0275text(31, "Are you available to begin full-time paid training on December 21, 2026?");
+    \u0275\u0275text(31, "Are you available to begin full-time paid training on December 28, 2026?");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(32, "div", 40);
     \u0275\u0275element(33, "input", 51);
