@@ -30,6 +30,11 @@ export class B2bFormComponent implements AfterViewInit {
   @Input('phonerequired') public phoneRequiredInput: any = false;
   @Input('phoneerrormessage') public phoneErrorMessage: string = 'Phone is required.';
   @Input('phoneinvalidmessage') public phoneInvalidMessage: string = 'Phone number is not valid.';
+  @Input('stackedfields') public stackedFieldsInput: any = false;
+  @Input('formname') public formName: string = '';
+  @Input('showcaptcha') public showCaptchaInput: any = true;
+  // Fallback UTM source when the page URL has no ?utm_source=
+  @Input('utmsource') public utmSourceDefault: string = '';
 
   form: FormGroup;
   loading = false;
@@ -146,6 +151,15 @@ export class B2bFormComponent implements AfterViewInit {
     return this.normalizeBoolean(this.phoneRequiredInput, false);
   }
 
+  get stackedFields(): boolean {
+    return this.normalizeBoolean(this.stackedFieldsInput, false);
+  }
+
+  // reCAPTCHA comes with the extended form unless showcaptcha="false" is set.
+  get captchaEnabled(): boolean {
+    return !!this.isExtendedForm && this.normalizeBoolean(this.showCaptchaInput, true);
+  }
+
   ngOnInit(): void {
     this.initForm();
   }
@@ -211,9 +225,10 @@ export class B2bFormComponent implements AfterViewInit {
     return phoneRegExp.test(phone) ? null : { invalidPhone: true };
   }
 
-  private formatPhoneNumber(phone: string): void {
+  private formatPhoneNumber(phone: string | null): void {
     const phoneControl = this.form.get('phone');
-    if (!phoneControl) return;
+    // form.reset() emits null; nothing to format then.
+    if (!phoneControl || phone == null) return;
 
     let formattedPhone = phone.replace(/\D/g, '');
 
@@ -282,7 +297,7 @@ export class B2bFormComponent implements AfterViewInit {
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      if (this.isExtendedForm) {
+      if (this.captchaEnabled) {
         if (!this.form.get('validCaptacha')?.value) {
           this.form.get('validCaptacha')?.setValue(false);
         }
@@ -290,7 +305,7 @@ export class B2bFormComponent implements AfterViewInit {
       this.scrollToFirstError();
       return;
     }
-    if (this.isExtendedForm) {
+    if (this.captchaEnabled) {
       if (!this.form.get('validCaptacha')?.value) {
         this.form.get('validCaptacha')?.setValue(false);
         this.scrollToFirstError();
@@ -321,7 +336,7 @@ export class B2bFormComponent implements AfterViewInit {
       uTMCampaign: standardizedQuery.utm_campaign || "",
       uTMContent: standardizedQuery.utm_content || "",
       uTMMedium: standardizedQuery.utm_medium || "",
-      uTMSource: standardizedQuery.utm_source || "",
+      uTMSource: standardizedQuery.utm_source || this.utmSourceDefault || "",
       uTMSchoolID: standardizedQuery.utm_schoolid || "",
       referrerURL: document.referrer || "Direct",
       uTMReferrerName: standardizedQuery.utm_referrername || "",
@@ -335,6 +350,10 @@ export class B2bFormComponent implements AfterViewInit {
       ...formDataObject,
       leadType: "Business"
     };
+
+    if (this.formName) {
+      formDataObject.formName = this.formName;
+    }
 
     delete formDataObject["g-recaptcha-response"];
     return formDataObject
@@ -381,7 +400,7 @@ export class B2bFormComponent implements AfterViewInit {
       this.dropdownStates[key] = false;
     });
 
-    if (this.isExtendedForm && typeof grecaptcha !== 'undefined') {
+    if (this.captchaEnabled && typeof grecaptcha !== 'undefined') {
       grecaptcha.reset();
     }
   }
@@ -455,7 +474,7 @@ export class B2bFormComponent implements AfterViewInit {
 
   @HostListener('window:resize')
   onResize() {
-    this.isExtendedForm ? this.resizeCaptcha() : '';
+    this.captchaEnabled ? this.resizeCaptcha() : '';
   }
 
   @HostListener('document:click', ['$event'])
@@ -470,7 +489,7 @@ export class B2bFormComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      if (typeof grecaptcha !== 'undefined' && this.isExtendedForm) {
+      if (typeof grecaptcha !== 'undefined' && this.captchaEnabled) {
         grecaptcha.ready(() => {
           this.resizeCaptcha();
         });
@@ -520,7 +539,7 @@ export class B2bFormComponent implements AfterViewInit {
             target = root.querySelector(`[formControlName="${invalidControlName}"]`) as HTMLElement | null;
             break;
         }
-      } else if (this.isExtendedForm && !this.form.get('validCaptacha')?.value) {
+      } else if (this.captchaEnabled && !this.form.get('validCaptacha')?.value) {
         target = root.querySelector('re-captcha') as HTMLElement | null;
       }
 

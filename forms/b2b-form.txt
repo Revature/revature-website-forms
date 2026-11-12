@@ -1,3 +1,6 @@
+(function () {
+if (window.__revatureB2bFormLoaded) { return; }
+window.__revatureB2bFormLoaded = true;
 // node_modules/zone.js/fesm2015/zone.js
 var global = globalThis;
 function __symbol__(name) {
@@ -39735,7 +39738,7 @@ var SharedModule = class _SharedModule {
 // src/app/common/form-contants.ts
 var isStaging = window.location.hostname.includes("webflow.io") || window.location.hostname.includes("localhost") || window.location.hostname.includes("staging");
 var ENV_VAR = isStaging ? {
-  FORM_API_ENDPOINT: "https://webhooks.workato.com/webhooks/rest/3b5603b0-22d1-4884-90ea-f2f4cad233cb/webflowleadtrigger",
+  FORM_API_ENDPOINT: "https://qa-workflows.revatureengineering.com/webhook/workato/webflow-lead-gen",
   RESUME_API_ENDPOINT: "https://8y1ub2vjek.execute-api.us-east-1.amazonaws.com/prod/ResumePush",
   GTM_SITE_KEY: window.location.hostname.includes("staging") ? "6LcSglgqAAAAAHhuq6vBM6MzbjNnheGj-l1lS-lO" : "6LfKZ30rAAAAAGJGv-p_A_o72UsJSn4WCGNZbHOB",
   URL: window.location.hostname.includes("staging") ? "https://staging3.revature.com" : "https://revature-v3.webflow.io",
@@ -39852,7 +39855,7 @@ function B2bFormComponent_span_25_Template(rf, ctx) {
 function B2bFormComponent_fieldset_26_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "fieldset", 2);
-    \u0275\u0275element(1, "input", 16);
+    \u0275\u0275element(1, "input", 15);
     \u0275\u0275elementStart(2, "span", 4);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd()();
@@ -39872,7 +39875,7 @@ function B2bFormComponent_fieldset_26_Template(rf, ctx) {
 function B2bFormComponent_div_27_div_8_div_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 25);
+    \u0275\u0275elementStart(0, "div", 24);
     \u0275\u0275listener("click", function B2bFormComponent_div_27_div_8_div_1_Template_div_click_0_listener($event) {
       const option_r4 = \u0275\u0275restoreView(_r3).$implicit;
       const ctx_r0 = \u0275\u0275nextContext(3);
@@ -39892,8 +39895,8 @@ function B2bFormComponent_div_27_div_8_div_1_Template(rf, ctx) {
 }
 function B2bFormComponent_div_27_div_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 23);
-    \u0275\u0275template(1, B2bFormComponent_div_27_div_8_div_1_Template, 2, 3, "div", 24);
+    \u0275\u0275elementStart(0, "div", 22);
+    \u0275\u0275template(1, B2bFormComponent_div_27_div_8_div_1_Template, 2, 3, "div", 23);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -39905,19 +39908,19 @@ function B2bFormComponent_div_27_div_8_Template(rf, ctx) {
 function B2bFormComponent_div_27_Template(rf, ctx) {
   if (rf & 1) {
     const _r2 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2)(2, "div", 18)(3, "button", 19);
+    \u0275\u0275elementStart(0, "div", 16)(1, "fieldset", 2)(2, "div", 17)(3, "button", 18);
     \u0275\u0275listener("click", function B2bFormComponent_div_27_Template_button_click_3_listener() {
       \u0275\u0275restoreView(_r2);
       const ctx_r0 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r0.toggleDropdown("howDidYouKnowAboutRevature"));
     });
-    \u0275\u0275elementStart(4, "span", 20);
+    \u0275\u0275elementStart(4, "span", 19);
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span", 21);
+    \u0275\u0275elementStart(6, "span", 20);
     \u0275\u0275text(7, "\u25BC");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(8, B2bFormComponent_div_27_div_8_Template, 2, 1, "div", 22);
+    \u0275\u0275template(8, B2bFormComponent_div_27_div_8_Template, 2, 1, "div", 21);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(9, "span", 4);
     \u0275\u0275text(10, " This field is required ");
@@ -39945,8 +39948,8 @@ function B2bFormComponent_div_27_Template(rf, ctx) {
 }
 function B2bFormComponent_div_28_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2);
-    \u0275\u0275element(2, "textarea", 26);
+    \u0275\u0275elementStart(0, "div", 16)(1, "fieldset", 2);
+    \u0275\u0275element(2, "textarea", 25);
     \u0275\u0275elementStart(3, "span", 4);
     \u0275\u0275text(4, " Your Message is required ");
     \u0275\u0275elementEnd()()();
@@ -39961,7 +39964,7 @@ function B2bFormComponent_div_28_Template(rf, ctx) {
 function B2bFormComponent_div_29_button_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 30);
+    \u0275\u0275elementStart(0, "button", 29);
     \u0275\u0275listener("click", function B2bFormComponent_div_29_button_5_Template_button_click_0_listener() {
       const option_r6 = \u0275\u0275restoreView(_r5).$implicit;
       const ctx_r0 = \u0275\u0275nextContext(2);
@@ -39982,11 +39985,11 @@ function B2bFormComponent_div_29_button_5_Template(rf, ctx) {
 }
 function B2bFormComponent_div_29_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2)(2, "p", 27);
+    \u0275\u0275elementStart(0, "div", 16)(1, "fieldset", 2)(2, "p", 26);
     \u0275\u0275text(3, "When do you need Forward Deployment Engineers (FDEs)?");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "div", 28);
-    \u0275\u0275template(5, B2bFormComponent_div_29_button_5_Template, 2, 5, "button", 29);
+    \u0275\u0275elementStart(4, "div", 27);
+    \u0275\u0275template(5, B2bFormComponent_div_29_button_5_Template, 2, 5, "button", 28);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(6, "span", 4);
     \u0275\u0275text(7, " This field is required ");
@@ -40004,7 +40007,7 @@ function B2bFormComponent_div_29_Template(rf, ctx) {
 function B2bFormComponent_div_30_div_8_div_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r8 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 25);
+    \u0275\u0275elementStart(0, "div", 24);
     \u0275\u0275listener("click", function B2bFormComponent_div_30_div_8_div_1_Template_div_click_0_listener($event) {
       const type_r9 = \u0275\u0275restoreView(_r8).$implicit;
       const ctx_r0 = \u0275\u0275nextContext(3);
@@ -40024,8 +40027,8 @@ function B2bFormComponent_div_30_div_8_div_1_Template(rf, ctx) {
 }
 function B2bFormComponent_div_30_div_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 23);
-    \u0275\u0275template(1, B2bFormComponent_div_30_div_8_div_1_Template, 2, 3, "div", 24);
+    \u0275\u0275elementStart(0, "div", 22);
+    \u0275\u0275template(1, B2bFormComponent_div_30_div_8_div_1_Template, 2, 3, "div", 23);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -40037,19 +40040,19 @@ function B2bFormComponent_div_30_div_8_Template(rf, ctx) {
 function B2bFormComponent_div_30_Template(rf, ctx) {
   if (rf & 1) {
     const _r7 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 17)(1, "fieldset", 2)(2, "div", 18)(3, "button", 31);
+    \u0275\u0275elementStart(0, "div", 16)(1, "fieldset", 2)(2, "div", 17)(3, "button", 30);
     \u0275\u0275listener("click", function B2bFormComponent_div_30_Template_button_click_3_listener() {
       \u0275\u0275restoreView(_r7);
       const ctx_r0 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r0.toggleDropdown("partnershipType"));
     });
-    \u0275\u0275elementStart(4, "span", 20);
+    \u0275\u0275elementStart(4, "span", 19);
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span", 21);
+    \u0275\u0275elementStart(6, "span", 20);
     \u0275\u0275text(7, "\u25BC");
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(8, B2bFormComponent_div_30_div_8_Template, 2, 1, "div", 22);
+    \u0275\u0275template(8, B2bFormComponent_div_30_div_8_Template, 2, 1, "div", 21);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(9, "span", 4);
     \u0275\u0275text(10, " Partnership Type is required ");
@@ -40079,7 +40082,7 @@ function B2bFormComponent_ng_container_31_Template(rf, ctx) {
   if (rf & 1) {
     const _r10 = \u0275\u0275getCurrentView();
     \u0275\u0275elementContainerStart(0);
-    \u0275\u0275elementStart(1, "re-captcha", 32);
+    \u0275\u0275elementStart(1, "re-captcha", 31);
     \u0275\u0275listener("resolved", function B2bFormComponent_ng_container_31_Template_re_captcha_resolved_1_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r0 = \u0275\u0275nextContext();
@@ -40100,7 +40103,7 @@ function B2bFormComponent_ng_container_31_Template(rf, ctx) {
 }
 function B2bFormComponent_button_33_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "button", 33);
+    \u0275\u0275elementStart(0, "button", 32);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -40113,7 +40116,7 @@ function B2bFormComponent_button_33_Template(rf, ctx) {
 }
 function B2bFormComponent_div_34_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "div", 34);
+    \u0275\u0275element(0, "div", 33);
   }
 }
 var B2bFormComponent = class _B2bFormComponent {
@@ -40143,6 +40146,11 @@ var B2bFormComponent = class _B2bFormComponent {
   phoneRequiredInput = false;
   phoneErrorMessage = "Phone is required.";
   phoneInvalidMessage = "Phone number is not valid.";
+  stackedFieldsInput = false;
+  formName = "";
+  showCaptchaInput = true;
+  // Fallback UTM source when the page URL has no ?utm_source=
+  utmSourceDefault = "";
   form;
   loading = false;
   showSubmitButton = true;
@@ -40240,6 +40248,13 @@ var B2bFormComponent = class _B2bFormComponent {
   get phoneRequired() {
     return this.normalizeBoolean(this.phoneRequiredInput, false);
   }
+  get stackedFields() {
+    return this.normalizeBoolean(this.stackedFieldsInput, false);
+  }
+  // reCAPTCHA comes with the extended form unless showcaptcha="false" is set.
+  get captchaEnabled() {
+    return !!this.isExtendedForm && this.normalizeBoolean(this.showCaptchaInput, true);
+  }
   ngOnInit() {
     this.initForm();
   }
@@ -40294,7 +40309,7 @@ var B2bFormComponent = class _B2bFormComponent {
   }
   formatPhoneNumber(phone) {
     const phoneControl = this.form.get("phone");
-    if (!phoneControl)
+    if (!phoneControl || phone == null)
       return;
     let formattedPhone = phone.replace(/\D/g, "");
     phoneControl.setValue(formattedPhone, { emitEvent: false });
@@ -40349,7 +40364,7 @@ var B2bFormComponent = class _B2bFormComponent {
       }
       if (this.form.invalid) {
         this.form.markAllAsTouched();
-        if (this.isExtendedForm) {
+        if (this.captchaEnabled) {
           if (!this.form.get("validCaptacha")?.value) {
             this.form.get("validCaptacha")?.setValue(false);
           }
@@ -40357,7 +40372,7 @@ var B2bFormComponent = class _B2bFormComponent {
         this.scrollToFirstError();
         return;
       }
-      if (this.isExtendedForm) {
+      if (this.captchaEnabled) {
         if (!this.form.get("validCaptacha")?.value) {
           this.form.get("validCaptacha")?.setValue(false);
           this.scrollToFirstError();
@@ -40386,7 +40401,7 @@ var B2bFormComponent = class _B2bFormComponent {
       uTMCampaign: standardizedQuery.utm_campaign || "",
       uTMContent: standardizedQuery.utm_content || "",
       uTMMedium: standardizedQuery.utm_medium || "",
-      uTMSource: standardizedQuery.utm_source || "",
+      uTMSource: standardizedQuery.utm_source || this.utmSourceDefault || "",
       uTMSchoolID: standardizedQuery.utm_schoolid || "",
       referrerURL: document.referrer || "Direct",
       uTMReferrerName: standardizedQuery.utm_referrername || "",
@@ -40400,6 +40415,9 @@ var B2bFormComponent = class _B2bFormComponent {
     }, formDataObject), {
       leadType: "Business"
     });
+    if (this.formName) {
+      formDataObject.formName = this.formName;
+    }
     delete formDataObject["g-recaptcha-response"];
     return formDataObject;
   }
@@ -40443,7 +40461,7 @@ var B2bFormComponent = class _B2bFormComponent {
     Object.keys(this.dropdownStates).forEach((key) => {
       this.dropdownStates[key] = false;
     });
-    if (this.isExtendedForm && typeof grecaptcha !== "undefined") {
+    if (this.captchaEnabled && typeof grecaptcha !== "undefined") {
       grecaptcha.reset();
     }
   }
@@ -40505,7 +40523,7 @@ var B2bFormComponent = class _B2bFormComponent {
     return Object.keys(data).map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key])).join("&");
   }
   onResize() {
-    this.isExtendedForm ? this.resizeCaptcha() : "";
+    this.captchaEnabled ? this.resizeCaptcha() : "";
   }
   onDocumentClick(event) {
     const target = event.target;
@@ -40517,7 +40535,7 @@ var B2bFormComponent = class _B2bFormComponent {
   }
   ngAfterViewInit() {
     setTimeout(() => {
-      if (typeof grecaptcha !== "undefined" && this.isExtendedForm) {
+      if (typeof grecaptcha !== "undefined" && this.captchaEnabled) {
         grecaptcha.ready(() => {
           this.resizeCaptcha();
         });
@@ -40559,7 +40577,7 @@ var B2bFormComponent = class _B2bFormComponent {
             target = root.querySelector(`[formControlName="${invalidControlName}"]`);
             break;
         }
-      } else if (this.isExtendedForm && !this.form.get("validCaptacha")?.value) {
+      } else if (this.captchaEnabled && !this.form.get("validCaptacha")?.value) {
         target = root.querySelector("re-captcha");
       }
       if (!target)
@@ -40584,7 +40602,7 @@ var B2bFormComponent = class _B2bFormComponent {
         return ctx.onDocumentClick($event);
       }, false, \u0275\u0275resolveDocument);
     }
-  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], openThankYouInNewTabInput: [0, "openthankyouinnewtab", "openThankYouInNewTabInput"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"], isHorizontalForm: [0, "ishorizontalform", "isHorizontalForm"], showPartnership: [0, "showpartnership", "showPartnership"], showHowDidYouHearInput: [0, "showhowdidyouhear", "showHowDidYouHearInput"], showFdeTimeframeInput: [0, "showfdetimeframe", "showFdeTimeframeInput"], companyNamePlaceholder: [0, "companynameplaceholder", "companyNamePlaceholder"], companyNameErrorMessage: [0, "companynameerrormessage", "companyNameErrorMessage"], emailPlaceholder: [0, "emailplaceholder", "emailPlaceholder"], phonePlaceholder: [0, "phoneplaceholder", "phonePlaceholder"], phoneRequiredInput: [0, "phonerequired", "phoneRequiredInput"], phoneErrorMessage: [0, "phoneerrormessage", "phoneErrorMessage"], phoneInvalidMessage: [0, "phoneinvalidmessage", "phoneInvalidMessage"] }, decls: 35, vars: 26, consts: [[3, "ngSubmit", "formGroup"], [1, "two-grid-container"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", 1, "b2b-form-field", 3, "placeholder"], [3, "ngClass"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", 1, "b2b-form-field", 3, "placeholder"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field", 3, "placeholder"], [1, "one-grid-container"], [1, "custom-dropdown"], ["type", "button", "data-b2b-dropdown", "howDidYouKnowAboutRevature", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [1, "dropdown-text"], [1, "dropdown-arrow"], ["class", "custom-dropdown-items", 4, "ngIf"], [1, "custom-dropdown-items"], ["class", "custom-dropdown-item", 3, "selected", "click", 4, "ngFor", "ngForOf"], [1, "custom-dropdown-item", 3, "click"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "3", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [1, "fde-timeframe-question"], [1, "fde-timeframe-options"], ["type", "button", "class", "fde-timeframe-option b2b-form-field", 3, "selected", "error", "click", 4, "ngFor", "ngForOf"], ["type", "button", 1, "fde-timeframe-option", "b2b-form-field", 3, "click"], ["type", "button", "data-b2b-dropdown", "partnershipType", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
+  }, inputs: { actionUrl: [0, "actionurl", "actionUrl"], thankyouExtensionUrl: [0, "thankyouextensionurl", "thankyouExtensionUrl"], openThankYouInNewTabInput: [0, "openthankyouinnewtab", "openThankYouInNewTabInput"], pdfName: [0, "pdfname", "pdfName"], downloadBtnId: [0, "downloadbtnid", "downloadBtnId"], isExternalURL: [0, "isexternalurl", "isExternalURL"], isExtendedForm: [0, "isextendedform", "isExtendedForm"], showYourMessage: [0, "showyourmessage", "showYourMessage"], downloadMessage: [0, "downloadmessage", "downloadMessage"], isHorizontalForm: [0, "ishorizontalform", "isHorizontalForm"], showPartnership: [0, "showpartnership", "showPartnership"], showHowDidYouHearInput: [0, "showhowdidyouhear", "showHowDidYouHearInput"], showFdeTimeframeInput: [0, "showfdetimeframe", "showFdeTimeframeInput"], companyNamePlaceholder: [0, "companynameplaceholder", "companyNamePlaceholder"], companyNameErrorMessage: [0, "companynameerrormessage", "companyNameErrorMessage"], emailPlaceholder: [0, "emailplaceholder", "emailPlaceholder"], phonePlaceholder: [0, "phoneplaceholder", "phonePlaceholder"], phoneRequiredInput: [0, "phonerequired", "phoneRequiredInput"], phoneErrorMessage: [0, "phoneerrormessage", "phoneErrorMessage"], phoneInvalidMessage: [0, "phoneinvalidmessage", "phoneInvalidMessage"], stackedFieldsInput: [0, "stackedfields", "stackedFieldsInput"], formName: [0, "formname", "formName"], showCaptchaInput: [0, "showcaptcha", "showCaptchaInput"], utmSourceDefault: [0, "utmsource", "utmSourceDefault"] }, decls: 35, vars: 28, consts: [[3, "ngSubmit", "formGroup"], [3, "ngClass"], [1, "form-fieldset"], ["maxlength", "40", "noWhitespace", "", "type", "text", "formControlName", "firstName", "placeholder", "First Name", 1, "b2b-form-field"], [1, "b2b-error-message"], ["maxlength", "80", "noWhitespace", "", "type", "text", "formControlName", "lastName", "placeholder", "Last Name", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "jobTitle", "placeholder", "Job Title", 1, "b2b-form-field"], ["maxlength", "100", "noWhitespace", "", "type", "text", "formControlName", "companyName", 1, "b2b-form-field", 3, "placeholder"], ["maxlength", "80", "noWhitespace", "", "type", "email", "formControlName", "email", 1, "b2b-form-field", 3, "placeholder"], [4, "ngIf"], ["class", "form-fieldset", 4, "ngIf"], ["class", "one-grid-container", 4, "ngIf"], [1, "form-button-wrapper"], ["type", "submit", "class", "form-button", 3, "id", 4, "ngIf"], ["id", "loadSpinner", "class", "spinner", 4, "ngIf"], ["noWhitespace", "", "type", "tel", "formControlName", "phone", "maxlength", "14", "minlength", "6", 1, "b2b-form-field", 3, "placeholder"], [1, "one-grid-container"], [1, "custom-dropdown"], ["type", "button", "data-b2b-dropdown", "howDidYouKnowAboutRevature", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [1, "dropdown-text"], [1, "dropdown-arrow"], ["class", "custom-dropdown-items", 4, "ngIf"], [1, "custom-dropdown-items"], ["class", "custom-dropdown-item", 3, "selected", "click", 4, "ngFor", "ngForOf"], [1, "custom-dropdown-item", 3, "click"], ["noWhitespace", "", "formControlName", "yourMessage", "placeholder", "Your Message", "rows", "3", "maxlength", "500", 1, "b2b-form-field", "b2b-form-textarea"], [1, "fde-timeframe-question"], [1, "fde-timeframe-options"], ["type", "button", "class", "fde-timeframe-option b2b-form-field", 3, "selected", "error", "click", 4, "ngFor", "ngForOf"], ["type", "button", 1, "fde-timeframe-option", "b2b-form-field", 3, "click"], ["type", "button", "data-b2b-dropdown", "partnershipType", 1, "custom-dropdown-button", "b2b-form-field", 3, "click"], [3, "resolved"], ["type", "submit", 1, "form-button", 3, "id"], ["id", "loadSpinner", 1, "spinner"]], template: function B2bFormComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", 0);
       \u0275\u0275listener("ngSubmit", function B2bFormComponent_Template_form_ngSubmit_0_listener() {
@@ -40610,52 +40628,56 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275elementStart(17, "span", 4);
       \u0275\u0275text(18);
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(19, "div", 8)(20, "fieldset", 2);
-      \u0275\u0275element(21, "input", 9);
+      \u0275\u0275elementStart(19, "div", 1)(20, "fieldset", 2);
+      \u0275\u0275element(21, "input", 8);
       \u0275\u0275elementStart(22, "span", 4);
-      \u0275\u0275template(23, B2bFormComponent_span_23_Template, 2, 0, "span", 10)(24, B2bFormComponent_span_24_Template, 2, 0, "span", 10)(25, B2bFormComponent_span_25_Template, 2, 0, "span", 10);
+      \u0275\u0275template(23, B2bFormComponent_span_23_Template, 2, 0, "span", 9)(24, B2bFormComponent_span_24_Template, 2, 0, "span", 9)(25, B2bFormComponent_span_25_Template, 2, 0, "span", 9);
       \u0275\u0275elementEnd()();
-      \u0275\u0275template(26, B2bFormComponent_fieldset_26_Template, 4, 4, "fieldset", 11);
+      \u0275\u0275template(26, B2bFormComponent_fieldset_26_Template, 4, 4, "fieldset", 10);
       \u0275\u0275elementEnd();
-      \u0275\u0275template(27, B2bFormComponent_div_27_Template, 11, 12, "div", 12)(28, B2bFormComponent_div_28_Template, 5, 2, "div", 12)(29, B2bFormComponent_div_29_Template, 8, 3, "div", 12)(30, B2bFormComponent_div_30_Template, 11, 12, "div", 12)(31, B2bFormComponent_ng_container_31_Template, 4, 2, "ng-container", 10);
-      \u0275\u0275elementStart(32, "div", 13);
-      \u0275\u0275template(33, B2bFormComponent_button_33_Template, 2, 2, "button", 14)(34, B2bFormComponent_div_34_Template, 1, 0, "div", 15);
+      \u0275\u0275template(27, B2bFormComponent_div_27_Template, 11, 12, "div", 11)(28, B2bFormComponent_div_28_Template, 5, 2, "div", 11)(29, B2bFormComponent_div_29_Template, 8, 3, "div", 11)(30, B2bFormComponent_div_30_Template, 11, 12, "div", 11)(31, B2bFormComponent_ng_container_31_Template, 4, 2, "ng-container", 9);
+      \u0275\u0275elementStart(32, "div", 12);
+      \u0275\u0275template(33, B2bFormComponent_button_33_Template, 2, 2, "button", 13)(34, B2bFormComponent_div_34_Template, 1, 0, "div", 14);
       \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
-      let tmp_1_0;
       let tmp_2_0;
       let tmp_3_0;
       let tmp_5_0;
-      let tmp_9_0;
-      let tmp_10_0;
+      let tmp_7_0;
       let tmp_11_0;
       let tmp_12_0;
+      let tmp_13_0;
+      let tmp_14_0;
       \u0275\u0275property("formGroup", ctx.form);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngClass", ctx.stackedFields ? "one-grid-container" : "two-grid-container");
+      \u0275\u0275advance(3);
+      \u0275\u0275classProp("visible", ((tmp_2_0 = ctx.form.get("firstName")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx.form.get("firstName")) == null ? null : tmp_2_0.touched));
       \u0275\u0275advance(4);
-      \u0275\u0275classProp("visible", ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.invalid) && ((tmp_1_0 = ctx.form.get("firstName")) == null ? null : tmp_1_0.touched));
-      \u0275\u0275advance(4);
-      \u0275\u0275classProp("visible", ((tmp_2_0 = ctx.form.get("lastName")) == null ? null : tmp_2_0.invalid) && ((tmp_2_0 = ctx.form.get("lastName")) == null ? null : tmp_2_0.touched));
-      \u0275\u0275advance(5);
-      \u0275\u0275classProp("visible", ((tmp_3_0 = ctx.form.get("jobTitle")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx.form.get("jobTitle")) == null ? null : tmp_3_0.touched));
+      \u0275\u0275classProp("visible", ((tmp_3_0 = ctx.form.get("lastName")) == null ? null : tmp_3_0.invalid) && ((tmp_3_0 = ctx.form.get("lastName")) == null ? null : tmp_3_0.touched));
+      \u0275\u0275advance(2);
+      \u0275\u0275property("ngClass", ctx.stackedFields ? "one-grid-container" : "two-grid-container");
+      \u0275\u0275advance(3);
+      \u0275\u0275classProp("visible", ((tmp_5_0 = ctx.form.get("jobTitle")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx.form.get("jobTitle")) == null ? null : tmp_5_0.touched));
       \u0275\u0275advance(3);
       \u0275\u0275property("placeholder", ctx.companyNamePlaceholder);
       \u0275\u0275advance();
-      \u0275\u0275classProp("visible", ((tmp_5_0 = ctx.form.get("companyName")) == null ? null : tmp_5_0.invalid) && ((tmp_5_0 = ctx.form.get("companyName")) == null ? null : tmp_5_0.touched));
+      \u0275\u0275classProp("visible", ((tmp_7_0 = ctx.form.get("companyName")) == null ? null : tmp_7_0.invalid) && ((tmp_7_0 = ctx.form.get("companyName")) == null ? null : tmp_7_0.touched));
       \u0275\u0275advance();
       \u0275\u0275textInterpolate1(" ", ctx.companyNameErrorMessage, " ");
       \u0275\u0275advance();
-      \u0275\u0275property("ngClass", ctx.isHorizontalForm && ctx.isExtendedForm ? "two-grid-container" : "one-grid-container");
+      \u0275\u0275property("ngClass", ctx.isHorizontalForm && ctx.isExtendedForm && !ctx.stackedFields ? "two-grid-container" : "one-grid-container");
       \u0275\u0275advance(2);
       \u0275\u0275property("placeholder", ctx.emailPlaceholder);
       \u0275\u0275advance();
-      \u0275\u0275classProp("visible", ((tmp_9_0 = ctx.form.get("email")) == null ? null : tmp_9_0.invalid) && ((tmp_9_0 = ctx.form.get("email")) == null ? null : tmp_9_0.touched));
+      \u0275\u0275classProp("visible", ((tmp_11_0 = ctx.form.get("email")) == null ? null : tmp_11_0.invalid) && ((tmp_11_0 = ctx.form.get("email")) == null ? null : tmp_11_0.touched));
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_10_0 = ctx.form.get("email")) == null ? null : tmp_10_0.errors == null ? null : tmp_10_0.errors["required"]);
+      \u0275\u0275property("ngIf", (tmp_12_0 = ctx.form.get("email")) == null ? null : tmp_12_0.errors == null ? null : tmp_12_0.errors["required"]);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_11_0 = ctx.form.get("email")) == null ? null : tmp_11_0.errors == null ? null : tmp_11_0.errors["invalidEmail"]);
+      \u0275\u0275property("ngIf", (tmp_13_0 = ctx.form.get("email")) == null ? null : tmp_13_0.errors == null ? null : tmp_13_0.errors["invalidEmail"]);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", (tmp_12_0 = ctx.form.get("email")) == null ? null : tmp_12_0.errors == null ? null : tmp_12_0.errors["businessEmail"]);
+      \u0275\u0275property("ngIf", (tmp_14_0 = ctx.form.get("email")) == null ? null : tmp_14_0.errors == null ? null : tmp_14_0.errors["businessEmail"]);
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.isExtendedForm);
       \u0275\u0275advance();
@@ -40667,7 +40689,7 @@ var B2bFormComponent = class _B2bFormComponent {
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.showPartnership);
       \u0275\u0275advance();
-      \u0275\u0275property("ngIf", ctx.isExtendedForm);
+      \u0275\u0275property("ngIf", ctx.captchaEnabled);
       \u0275\u0275advance(2);
       \u0275\u0275property("ngIf", ctx.showSubmitButton);
       \u0275\u0275advance();
@@ -40714,3 +40736,5 @@ var b2bFormModule = class _b2bFormModule {
 platformBrowser().bootstrapModule(b2bFormModule, {
   ngZoneEventCoalescing: true
 }).catch((err) => console.error(err));
+
+})();

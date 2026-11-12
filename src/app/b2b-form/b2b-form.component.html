@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="two-grid-container">
+    <div [ngClass]="stackedFields ? 'one-grid-container' : 'two-grid-container'">
         <fieldset class="form-fieldset">
             <input maxlength="40" noWhitespace class="b2b-form-field" type="text" formControlName="firstName"
                 placeholder="First Name">
@@ -18,7 +18,7 @@
         </fieldset>
     </div>
 
-    <div class="two-grid-container">
+    <div [ngClass]="stackedFields ? 'one-grid-container' : 'two-grid-container'">
         <fieldset class="form-fieldset">
             <input maxlength="100" noWhitespace class="b2b-form-field" type="text" formControlName="jobTitle"
                 placeholder="Job Title">
@@ -37,7 +37,7 @@
         </fieldset>
     </div>
 
-    <div [ngClass]="isHorizontalForm && isExtendedForm ? 'two-grid-container' : 'one-grid-container'">
+    <div [ngClass]="isHorizontalForm && isExtendedForm && !stackedFields ? 'two-grid-container' : 'one-grid-container'">
         <fieldset class="form-fieldset">
             <input maxlength="80" noWhitespace class="b2b-form-field" type="email" formControlName="email"
                 [placeholder]="emailPlaceholder">
@@ -149,7 +149,7 @@
     </div>
 
     <!-- reCAPTCHA -->
-    <ng-container *ngIf="isExtendedForm">
+    <ng-container *ngIf="captchaEnabled">
         <re-captcha (resolved)="recaptchaSuccessCallback($event)"></re-captcha>
         <div [class.visible]="form.get('validCaptacha')?.value === false" class="b2b-error-message">
             Please complete the reCAPTCHA to proceed.
